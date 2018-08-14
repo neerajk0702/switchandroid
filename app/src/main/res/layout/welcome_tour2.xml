@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/dimValue_16">
+
+        <TextView
+            android:id="@+id/tourText1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimValue_20"
+            android:gravity="center"
+            android:text="Create Your Listing"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimTextSize_25" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimValue_20"
+            android:gravity="center"
+            android:text="It’s Free And Easy To Create A Listing On Switch. Describe Your Space, How Many Guests You Can Accommodate, And Add Photos And Details. Our Pricing Tool Can Recommend Competitive Rates, But What You Charge Is Always Up To You."
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimTextSize_14" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/dimValue_16"
+        android:layout_marginRight="@dimen/dimValue_16">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/step2" />
+    </LinearLayout>
+</LinearLayout>

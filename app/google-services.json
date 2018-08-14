@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "311356489056",
+    "firebase_url": "https://switch-14162.firebaseio.com",
+    "project_id": "switch-14162",
+    "storage_bucket": "switch-14162.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:311356489056:android:ab49f72e9784a54f",
+        "android_client_info": {
+          "package_name": "com.kredivation.switchland"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "311356489056-msb3si6b23q8jtrtdusl4irs6asgokn5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kredivation.switchland",
+            "certificate_hash": "cbc0feed379908c8ac5827843ec2f3f69c8881a2"
+          }
+        },
+        {
+          "client_id": "311356489056-82k5ea8tqa5vgor38kaf95kmgnijpsgd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhclv4J0zciXtJsaSSurR457aGj0hVm3o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "311356489056-82k5ea8tqa5vgor38kaf95kmgnijpsgd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10dp"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="My Profile"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/_16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10dp"
+                android:text="Tell us a little about you and your travel preferences to complete your listing and help match you with other members"
+                android:textColor="@color/secondary_text"
+                android:textSize="@dimen/dimTextSize_14" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Type of traveller"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/_14dp" />
+
+                <Spinner
+                    android:id="@+id/Typeoftravellerspinner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:popupBackground="@color/white" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_10dp"
+                    android:background="@color/divider" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20dp"
+                android:text="Dream destinations"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/_14dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10dp"
+                android:text="Let other members know where you would love to visit, you can choose up to five destinations anywhere in the world."
+                android:textColor="@color/secondary_text"
+                android:textSize="@dimen/dimTextSize_14" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10dp">
+
+                <EditText
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="What dream destination would you like to visit?"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/_14dp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_20dp"
+                android:layout_marginRight="@dimen/_20dp"
+                android:layout_marginTop="@dimen/_10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/signup"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40dp"
+                    android:background="@drawable/button_login"
+                    android:elevation="@dimen/_10dp"
+                    android:gravity="center"
+                    android:text="add"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14dp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20dp"
+                android:text="Profile image"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/_14dp" />
+
+            <ImageView
+                android:id="@+id/profileImage"
+                android:layout_width="@dimen/_150dp"
+                android:layout_height="@dimen/_150dp"
+                android:layout_marginTop="@dimen/_15dp"
+                android:src="@mipmap/placeholder" />
+
+            <Button
+                android:id="@+id/upload"
+                android:layout_width="@dimen/_150dp"
+                android:layout_height="@dimen/_40dp"
+                android:background="@drawable/button_login"
+                android:elevation="@dimen/_10dp"
+                android:gravity="center"
+                android:paddingBottom="@dimen/_10dp"
+                android:paddingTop="@dimen/_10dp"
+                android:layout_marginTop="@dimen/_20dp"
+                android:text="upload"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_60dp" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#fff"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#fff"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/previous"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="left|center"
+                android:padding="10dp"
+                android:text="Previous"
+                android:textColor="@color/colorPrimary"
+                android:textSize="22sp" />
+
+            <LinearLayout
+                android:id="@+id/nextLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:gravity="right"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="right|center"
+                    android:paddingBottom="16dp"
+                    android:paddingTop="16dp"
+                    android:text="Next"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/nextIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Ne"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="22sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/done"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingBottom="16dp"
+                android:paddingRight="20dp"
+                android:paddingTop="16dp"
+                android:text="Confirm"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

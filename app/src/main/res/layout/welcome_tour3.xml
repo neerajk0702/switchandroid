@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="#fff"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/dimValue_16">
+
+        <TextView android:id="@+id/tourText1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Welcome Guest"
+            android:layout_marginTop="@dimen/dimValue_20"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimTextSize_25" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Get To Know Guests Before Arrival By Messaging Them On Our Platform. Most Hosts Clean The Spaces Guests Can Use, And Provide Essentials Like Clean Sheets, Towels, And Toilet Paper. You Can Greet Guests In Person With A Key Or Just Send Them A Door Code."
+            android:layout_marginTop="@dimen/dimValue_20"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimTextSize_14" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/dimValue_16"
+        android:layout_marginRight="@dimen/dimValue_16">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/step3" />
+    </LinearLayout>
+</LinearLayout>

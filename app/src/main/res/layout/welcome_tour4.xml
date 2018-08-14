@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimValue_16"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tourText1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimValue_20"
+            android:gravity="center"
+            android:text="Get Paid"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimTextSize_25" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimValue_20"
+            android:gravity="center"
+            android:text="Switch’s Secure Payment System Means You Never Have To Deal With Money Directly. Guests Are Charged Before Arrival, And You Are Paid Automatically After Check In, Minus A 3% Service Fee. You Can Be Paid Via PayPal, Direct Deposit, Or International Money Wire, Amongst Other Ways."
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimTextSize_14" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/dimValue_16"
+        android:layout_marginRight="@dimen/dimValue_16">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/step4" />
+    </LinearLayout>
+</LinearLayout>

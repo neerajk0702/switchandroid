@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activityMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/filtercolor"
+    android:clipToPadding="false"
+    android:orientation="vertical">
+
+    <com.kredivation.switchland.fragment.likepagelib.KoldaMain
+        android:id="@+id/koloda"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:elevation="1dp"
+        android:layout_marginBottom="@dimen/_5dp"
+        app:koloda_card_layout="@layout/item_koloda" />
+
+    <LinearLayout
+        android:id="@+id/buttonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/_10dp"
+        android:layout_marginTop="@dimen/_14dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/dislike"
+            android:layout_width="@dimen/_40dp"
+            android:layout_height="@dimen/_45dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:padding="@dimen/_5dp"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:src="@drawable/ic_dislike_thumb" />
+
+
+        <Button
+            android:id="@+id/skip"
+            android:layout_width="@dimen/_40dp"
+            android:layout_height="@dimen/_40dp"
+            android:padding="@dimen/_5dp"
+            android:text="Skip"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_12dp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/like"
+            android:layout_width="@dimen/_40dp"
+            android:layout_height="@dimen/_45dp"
+            android:layout_gravity="center"
+            android:padding="@dimen/_5dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:src="@drawable/ic_like" />
+
+    </LinearLayout>
+
+</LinearLayout>
