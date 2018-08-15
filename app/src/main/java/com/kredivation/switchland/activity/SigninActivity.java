@@ -207,7 +207,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                                 Boolean flag = false;
                                 SwitchDBHelper switchDBHelper = new SwitchDBHelper(SigninActivity.this);
                                 switchDBHelper.deleteAllRows("userInfo");
-                                switchDBHelper.upsertUserInfoData(serviceData.getData());
+                                switchDBHelper.upsertUserInfoData(serviceData.getData(), serviceData.getIs_home_available());
                                 flag = true;
                                 return flag;
                             }
@@ -216,18 +216,24 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                             protected void onPostExecute(Boolean flag) {
                                 super.onPostExecute(flag);
                                 if (flag) {
-                                    Utility.showToast(SigninActivity.this,"Login Success");
-                                    Intent intent = new Intent(SigninActivity.this, DashboardActivity.class);
+                                    Utility.showToast(SigninActivity.this, "Login Success");
+                                    Intent intent;
+                                    if (serviceData.getIs_home_available() == 1) {
+                                        intent = new Intent(SigninActivity.this, MainActivity.class);
+                                    } else {
+                                        intent = new Intent(SigninActivity.this, CreateFirstTimePostActivity.class);
+                                    }
+
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                 }
                             }
                         }.execute();
                     } else {
-                        Utility.showToast(SigninActivity.this,serviceData.getMsg());
+                        Utility.showToast(SigninActivity.this, serviceData.getMsg());
                     }
                 } else {
-                    Utility.showToast(SigninActivity.this,serviceData.getMsg());
+                    Utility.showToast(SigninActivity.this, serviceData.getMsg());
                 }
             }
         }

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".activity.SettingActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.NoActionBar.AppBarOverlay"
+            android:visibility="visible">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="ic"
+                        android:textColor="#fff"
+                        android:textSize="@dimen/dimTextSize_18"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Setting"
+                        android:textColor="#fff"
+                        android:textSize="@dimen/dimTextSize_18" />
+                </LinearLayout>
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/app_bar"
+            android:orientation="vertical">
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/dimValue_4"
+                app:cardElevation="@dimen/dimValue_5"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:id="@+id/changepassLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|left"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/_5dp"
+                    android:paddingTop="@dimen/_5dp">
+
+                    <TextView
+                        android:layout_width="@dimen/size_30px"
+                        android:layout_height="@dimen/size_30px"
+                        android:layout_marginLeft="@dimen/_10dp"
+                        android:background="@drawable/password" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Change Password"
+                        android:layout_marginLeft="@dimen/_10dp"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="@dimen/_12dp" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/dimValue_4"
+                app:cardElevation="@dimen/dimValue_5"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:id="@+id/filterLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|left"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/_5dp"
+                    android:paddingTop="@dimen/_5dp">
+
+                    <TextView
+                        android:layout_width="@dimen/size_30px"
+                        android:layout_height="@dimen/size_30px"
+                        android:layout_marginLeft="@dimen/_10dp"
+                        android:background="@drawable/ic_filter_search" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Filter"
+                        android:layout_marginLeft="@dimen/_10dp"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="@dimen/_12dp" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/dimValue_4"
+                app:cardElevation="@dimen/dimValue_5"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Invite Friends"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="@dimen/_12dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_5dp"
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:text="Help and Support"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="@dimen/_12dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_5dp"
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:text="How it works"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="@dimen/_12dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_5dp"
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:text="Policies"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="@dimen/_12dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_5dp"
+                        android:text="Terms and condition"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="@dimen/_12dp" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/dimValue_4"
+                app:cardElevation="@dimen/dimValue_5"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:id="@+id/logoutLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|left"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/_5dp"
+                    android:paddingTop="@dimen/_5dp">
+                    <TextView
+                        android:layout_width="@dimen/size_30px"
+                        android:layout_height="@dimen/size_30px"
+                        android:layout_marginLeft="@dimen/_10dp"
+                        android:background="@drawable/ic_logout" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Logout"
+                        android:layout_marginLeft="@dimen/_10dp"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="@dimen/_12dp" />
+
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

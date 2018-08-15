@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -20,11 +21,13 @@ import com.kredivation.switchland.utilities.CompatibilityUtility;
 import com.kredivation.switchland.utilities.FontManager;
 
 public class MyProfileFilterActivity extends AppCompatActivity {
-
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile_filter);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         chechPortaitAndLandSacpe();//chech Portait And LandSacpe Orientation
         initView();
     }
@@ -53,7 +56,15 @@ public class MyProfileFilterActivity extends AppCompatActivity {
         TextView endIcon = (TextView) findViewById(R.id.endIcon);
         endIcon.setTypeface(materialdesignicons_font);
         endIcon.setText(Html.fromHtml("&#xf0ed;"));
-
+        TextView back = (TextView) toolbar.findViewById(R.id.back);
+        back.setTypeface(materialdesignicons_font);
+        back.setText(Html.fromHtml("&#xf30d;"));
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         SeekBar seekBar = (SeekBar)findViewById(R.id.seekBar2);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){

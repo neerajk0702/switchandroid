@@ -35,6 +35,7 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
+
     <application
         android:name=".framework.AppController"
         android:allowBackup="true"
@@ -65,17 +66,28 @@
         <activity
             android:name=".activity.DashboardActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.MyProfileFilterActivity"></activity>
+        <activity android:name=".activity.MyProfileFilterActivity" />
 
         <!-- Goolge API Key -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBhclv4J0zciXtJsaSSurR457aGj0hVm3o" />
-        <activity android:name=".activity.ForgotPasswordActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity
+            android:name=".activity.ForgotPasswordActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.AppTourActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.CreateFirstTimePostActivity"
+            android:label="Create Post" />
+        <activity android:name=".activity.SettingActivity" />
+        <activity android:name=".activity.ChangePasswordActivity" />
+        <activity android:name=".activity.EditProfileActivity"></activity>
     </application>
 
 </manifest>

@@ -1,7 +1,15 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+     <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+         &lt;!&ndash; Customize your theme here. &ndash;&gt;
+         <item name="colorPrimary">@color/colorPrimary</item>
+         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+         <item name="colorAccent">@color/colorAccent</item>
+     </style>-->
+    <!-- Base application theme. -->
+    <!-- changing it to no actionbar -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -19,6 +27,7 @@
 
 
     <style name="AppTheme.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
@@ -51,6 +60,7 @@
         <item name="android:topBright">@android:color/transparent</item>
         <item name="android:topDark">@android:color/transparent</item>
     </style>
+
     <style name="altaProgressBar" parent="Theme.AppCompat.Light">
         <item name="colorAccent">@color/colorAccent</item>
     </style>
@@ -68,10 +78,12 @@
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">1</item>
     </style>
+
     <style name="errorIndicatorStyle">
         <item name="android:windowEnterAnimation">@anim/scale</item>
         <item name="android:windowExitAnimation">@anim/scale_close</item>
     </style>
+
     <style name="ScaleFromCenter">
         <item name="android:windowEnterAnimation">@anim/scale_from_center</item>
         <item name="android:windowExitAnimation">@anim/collapse_to_center</item>

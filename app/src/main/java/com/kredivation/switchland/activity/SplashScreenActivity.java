@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -14,9 +15,19 @@ import android.view.Window;
 import android.view.WindowManager;
 
 
+import com.google.gson.Gson;
 import com.kredivation.switchland.R;
+import com.kredivation.switchland.database.SwitchDBHelper;
+import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
+import com.kredivation.switchland.framework.ServiceCaller;
+import com.kredivation.switchland.model.ServiceContentData;
+import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.CompatibilityUtility;
 import com.kredivation.switchland.utilities.Contants;
+import com.kredivation.switchland.utilities.Utility;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -36,8 +47,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_splash_screen);
         chechPortaitAndLandSacpe();//chech Portait And LandSacpe Orientation
-
-        waitForLogin(); //wait for 3 seconds
+        getMsterData();
+        // waitForLogin(); //wait for 3 seconds
 
     }
 
@@ -79,7 +90,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }*/
-                Intent intent = new Intent(SplashScreenActivity.this, DashboardActivity.class);
+                Intent intent = new Intent(SplashScreenActivity.this, CreateFirstTimePostActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
@@ -100,4 +111,70 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
     }
 
+    private void getMsterData() {
+        if (Utility.isOnline(SplashScreenActivity.this)) {
+            final ASTProgressBar dotDialog = new ASTProgressBar(SplashScreenActivity.this);
+            dotDialog.show();
+            String serviceURL = Contants.BASE_URL + Contants.Getdata;
+            JSONObject object = new JSONObject();
+            try {
+                object.put("api_key", Contants.API_KEY);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            ServiceCaller serviceCaller = new ServiceCaller(SplashScreenActivity.this);
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "MasterData", new IAsyncWorkCompletedCallback() {
+                @Override
+                public void onDone(String result, boolean isComplete) {
+                    if (isComplete) {
+                        parseLoginServiceData(result);
+                    } else {
+                        Utility.alertForErrorMessage(Contants.Error, SplashScreenActivity.this);
+                    }
+                    if (dotDialog.isShowing()) {
+                        dotDialog.dismiss();
+                    }
+                }
+            });
+        } else {
+            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, SplashScreenActivity.this);//off line msg....
+        }
+    }
+
+    public void parseLoginServiceData(String result) {
+        if (result != null) {
+            final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
+            if (serviceData != null) {
+                if (serviceData.isSuccess()) {
+                    if (serviceData.getData() != null) {
+                        new AsyncTask<Void, Void, Boolean>() {
+                            @Override
+                            protected Boolean doInBackground(Void... voids) {
+                                Boolean flag = false;
+                                SwitchDBHelper switchDBHelper = new SwitchDBHelper(SplashScreenActivity.this);
+                                switchDBHelper.deleteAllRows("MasterData");
+                                switchDBHelper.insertMasterData(serviceData);
+                                flag = true;
+                                return flag;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Boolean flag) {
+                                super.onPostExecute(flag);
+                                if (flag) {
+                                    Intent intent = new Intent(SplashScreenActivity.this, AppTourActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                }
+                            }
+                        }.execute();
+                    } else {
+                        Utility.showToast(SplashScreenActivity.this, serviceData.getMsg());
+                    }
+                } else {
+                    Utility.showToast(SplashScreenActivity.this, serviceData.getMsg());
+                }
+            }
+        }
+    }
 }

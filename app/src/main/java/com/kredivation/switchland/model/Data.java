@@ -31,8 +31,6 @@ public class Data {
 
     private String last_name;
 
-    private String gender;
-
     private String otp;
 
     public String getCreated_date ()
@@ -185,16 +183,6 @@ public class Data {
         this.last_name = last_name;
     }
 
-    public String getGender ()
-    {
-        return gender;
-    }
-
-    public void setGender (String gender)
-    {
-        this.gender = gender;
-    }
-
     public String getOtp ()
     {
         return otp;
@@ -205,10 +193,208 @@ public class Data {
         this.otp = otp;
     }
 
+    private House_rules[] house_rules;
+
+    private Pets_allowed[] pets_allowed;
+
+    private Bathrooms[] bathrooms;
+
+    private Sleeps[] sleeps;
+
+    private Security[] security;
+
+    private Bedrooms[] bedrooms;
+
+    private Type_of_property[] type_of_property;
+
+    private Country[] country;
+    private City[] city;
+
+    private Religion[] religion;
+
+    private Type_of_traveller[] type_of_traveller;
+
+    private Family[] family;
+
+    private Month[] month;
+
+    private Home_style[] home_style;
+
+    private Features[] features;
+
+    private Year[] year;
+
+    public House_rules[] getHouse_rules ()
+    {
+        return house_rules;
+    }
+
+    public void setHouse_rules (House_rules[] house_rules)
+    {
+        this.house_rules = house_rules;
+    }
+
+    public Pets_allowed[] getPets_allowed ()
+    {
+        return pets_allowed;
+    }
+
+    public void setPets_allowed (Pets_allowed[] pets_allowed)
+    {
+        this.pets_allowed = pets_allowed;
+    }
+
+    public Bathrooms[] getBathrooms ()
+    {
+        return bathrooms;
+    }
+
+    public void setBathrooms (Bathrooms[] bathrooms)
+    {
+        this.bathrooms = bathrooms;
+    }
+
+    public Sleeps[] getSleeps ()
+    {
+        return sleeps;
+    }
+
+    public void setSleeps (Sleeps[] sleeps)
+    {
+        this.sleeps = sleeps;
+    }
+
+    public Security[] getSecurity ()
+    {
+        return security;
+    }
+
+    public void setSecurity (Security[] security)
+    {
+        this.security = security;
+    }
+
+    public Bedrooms[] getBedrooms ()
+    {
+        return bedrooms;
+    }
+
+    public void setBedrooms (Bedrooms[] bedrooms)
+    {
+        this.bedrooms = bedrooms;
+    }
+
+    public Type_of_property[] getType_of_property ()
+    {
+        return type_of_property;
+    }
+
+    public void setType_of_property (Type_of_property[] type_of_property)
+    {
+        this.type_of_property = type_of_property;
+    }
+
+    public Country[] getCountry ()
+    {
+        return country;
+    }
+
+    public void setCountry (Country[] country)
+    {
+        this.country = country;
+    }
+
+    public Religion[] getReligion ()
+    {
+        return religion;
+    }
+
+    public void setReligion (Religion[] religion)
+    {
+        this.religion = religion;
+    }
+
+    public Type_of_traveller[] getType_of_traveller ()
+    {
+        return type_of_traveller;
+    }
+
+    public void setType_of_traveller (Type_of_traveller[] type_of_traveller)
+    {
+        this.type_of_traveller = type_of_traveller;
+    }
+
+    public Family[] getFamily ()
+    {
+        return family;
+    }
+
+    public void setFamily (Family[] family)
+    {
+        this.family = family;
+    }
+
+    public Month[] getMonth ()
+    {
+        return month;
+    }
+
+    public void setMonth (Month[] month)
+    {
+        this.month = month;
+    }
+
+    public Home_style[] getHome_style ()
+    {
+        return home_style;
+    }
+
+    public void setHome_style (Home_style[] home_style)
+    {
+        this.home_style = home_style;
+    }
+
+    public Features[] getFeatures ()
+    {
+        return features;
+    }
+
+    public void setFeatures (Features[] features)
+    {
+        this.features = features;
+    }
+
+    public Year[] getYear ()
+    {
+        return year;
+    }
+
+    public void setYear (Year[] year)
+    {
+        this.year = year;
+    }
+private int is_home_available;
+
+    public int getIs_home_available() {
+        return is_home_available;
+    }
+
+    public void setIs_home_available(int is_home_available) {
+        this.is_home_available = is_home_available;
+    }
+
+    public City[] getCity() {
+        return city;
+    }
+
+    public void setCity(City[] city) {
+        this.city = city;
+    }
+
     @Override
     public String toString()
     {
-        return "ClassPojo [created_date = "+created_date+", role_id = "+role_id+", status = "+status+", user_type = "+user_type+", profile_image = "+profile_image+", is_verify = "+is_verify+", last_login = "+last_login+", id = "+id+", first_name = "+first_name+", username = "+username+", updated_date = "+updated_date+", mobile_number = "+mobile_number+", added_by = "+added_by+", email = "+email+", last_name = "+last_name+", gender = "+gender+", otp = "+otp+"]";
+        return "ClassPojo [created_date = "+created_date+", role_id = "+role_id+", status = "+status+", user_type = "+user_type+", profile_image = "+profile_image+", is_verify = "+is_verify+", last_login = "+last_login+", id = "+id+", first_name = "+first_name+", username = "+username+", updated_date = "+updated_date+", mobile_number = "+mobile_number+", added_by = "+added_by+", email = "+email+", last_name = "+last_name+", otp = "+otp+"]";
     }
 }
 

@@ -797,6 +797,7 @@ public class Utility {
             return colorId;
         }
     }
+
     /**
      * Sets Background {@link Drawable} to any given view. Checks for the SDK
      * version and calls the appropriate method. This method is made to handle
@@ -817,12 +818,14 @@ public class Utility {
         setBackground(null, v);
     }
 
-    public static void setBackground(Context context,@DrawableRes int resId, View v) {
-        setBackground(getDrawable(context,resId), v);
+    public static void setBackground(Context context, @DrawableRes int resId, View v) {
+        setBackground(getDrawable(context, resId), v);
     }
-    public static Drawable getDrawable(Context context,@DrawableRes int drawableResId) {
+
+    public static Drawable getDrawable(Context context, @DrawableRes int drawableResId) {
         return ContextCompat.getDrawable(context, drawableResId);
     }
+
     @SuppressWarnings("deprecation")
     private static void setBackgroundOld(View view, Drawable drawable) {
         view.setBackgroundDrawable(drawable);
@@ -832,12 +835,14 @@ public class Utility {
     private static void setBackgroundNew(View view, Drawable drawable) {
         view.setBackground(drawable);
     }
-    public static void setBackground(Context context,View v, @ColorRes int bgColor, @ColorRes int strokeColor, int strokeWidth, float[] radii, ASTEnum shape) {
-        GradientDrawable drawable = getShape(getColor(context,bgColor), getColor(context,strokeColor), strokeWidth, radii, shape);
+
+    public static void setBackground(Context context, View v, @ColorRes int bgColor, @ColorRes int strokeColor, int strokeWidth, float[] radii, ASTEnum shape) {
+        GradientDrawable drawable = getShape(getColor(context, bgColor), getColor(context, strokeColor), strokeWidth, radii, shape);
         setBackground(drawable, v);
     }
-    public static void setBackgroundOval(Context context,View v, @ColorRes int bgColor, @ColorRes int strokeColor, int strokeWidth) {
-        GradientDrawable drawable = getOvalShape(getColor(context,bgColor), getColor(context,strokeColor), strokeWidth);
+
+    public static void setBackgroundOval(Context context, View v, @ColorRes int bgColor, @ColorRes int strokeColor, int strokeWidth) {
+        GradientDrawable drawable = getOvalShape(getColor(context, bgColor), getColor(context, strokeColor), strokeWidth);
         setBackground(drawable, v);
     }
 
@@ -846,8 +851,8 @@ public class Utility {
         setBackground(drawable, v);
     }
 
-    public static void setBackgroundRing(Context context,View v, @ColorRes int bgColor, @ColorRes int strokeColor, int strokeWidth) {
-        GradientDrawable drawable = getRingShape(getColor(context,bgColor), getColor(context,strokeColor), strokeWidth);
+    public static void setBackgroundRing(Context context, View v, @ColorRes int bgColor, @ColorRes int strokeColor, int strokeWidth) {
+        GradientDrawable drawable = getRingShape(getColor(context, bgColor), getColor(context, strokeColor), strokeWidth);
         setBackground(drawable, v);
     }
 
@@ -935,4 +940,24 @@ public class Utility {
         inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
 
+    public static void setFirstTimePost(Context context, boolean fflag) {
+        try {
+            SharedPreferences prefs = context.getSharedPreferences("FirstTimePostPreferences", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("FirstTime", fflag);
+            editor.commit();
+        } catch (Exception e) {
+            // should never happen
+            //   throw new RuntimeException("Could not get language: " + e);
+        }
+    }
+
+    public static boolean geFirstTimePost(Context context) {
+        boolean fflag = false;
+        SharedPreferences prefs = context.getSharedPreferences("FirstTimePostPreferences", Context.MODE_PRIVATE);
+        if (prefs != null) {
+            fflag = prefs.getBoolean("FirstTime", false);
+        }
+        return fflag;
+    }
 }

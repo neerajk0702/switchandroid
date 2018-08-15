@@ -13,7 +13,10 @@ import android.widget.TextView;
 
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.adapters.AppTourPagerAdapter;
+import com.kredivation.switchland.database.SwitchDBHelper;
+import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.utilities.CompatibilityUtility;
+import com.kredivation.switchland.utilities.Utility;
 
 import java.util.ArrayList;
 
@@ -61,7 +64,7 @@ public class AppTourActivity extends AppCompatActivity implements ViewPager.OnPa
         tourImageList.add(R.layout.welcome_tour2);
         tourImageList.add(R.layout.welcome_tour3);
         tourImageList.add(R.layout.welcome_tour4);
-        mAdapter = new AppTourPagerAdapter(AppTourActivity.this, tourImageList,CheckOrientation);
+        mAdapter = new AppTourPagerAdapter(AppTourActivity.this, tourImageList, CheckOrientation);
         viewPager.setAdapter(mAdapter);
         viewPager.setCurrentItem(0);
         viewPager.addOnPageChangeListener(this);
@@ -105,9 +108,37 @@ public class AppTourActivity extends AppCompatActivity implements ViewPager.OnPa
 
     //navigate to screen
     private void navigate() {
-        Intent intent = new Intent(AppTourActivity.this, SigninActivity.class);
-       // intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        SwitchDBHelper switchDBHelper = new SwitchDBHelper(AppTourActivity.this);
+        ArrayList<Data> userData = switchDBHelper.getAllUserInfoList();
+        boolean sflag = false;
+        if (userData != null && userData.size() > 0) {
+            if (Utility.geFirstTimePost(AppTourActivity.this)) {
+                Intent intent = new Intent(AppTourActivity.this, MainActivity.class);
+                startActivity(intent);
+            } else {
+                for (Data data : userData) {
+                    if (data.getIs_home_available() == 1) {
+                        sflag = true;
+                        Utility.setFirstTimePost(AppTourActivity.this, true);
+                    } else {
+                        sflag = false;
+                        Utility.setFirstTimePost(AppTourActivity.this, false);
+                    }
+                }
+                Intent intent;
+                if (sflag) {
+                    intent = new Intent(AppTourActivity.this, MainActivity.class);
+                } else {
+                    intent = new Intent(AppTourActivity.this, CreateFirstTimePostActivity.class);
+                }
+                // intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+
+        } else {
+            Intent intent = new Intent(AppTourActivity.this, SigninActivity.class);
+            startActivity(intent);
+        }
 
     }
 

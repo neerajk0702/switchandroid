@@ -2,7 +2,7 @@ package com.kredivation.switchland.model;
 
 public class ServiceContentData {
     private int responseCode;
-
+private int id;
     private int error;
 
     private Data data;
@@ -10,36 +10,30 @@ public class ServiceContentData {
     private String service;
 
     private String msg;
-
+    private int is_home_available;
     private boolean success;
 
-    public Data getData ()
-    {
+    public Data getData() {
         return data;
     }
 
-    public void setData (Data data)
-    {
+    public void setData(Data data) {
         this.data = data;
     }
 
-    public String getService ()
-    {
+    public String getService() {
         return service;
     }
 
-    public void setService (String service)
-    {
+    public void setService(String service) {
         this.service = service;
     }
 
-    public String getMsg ()
-    {
+    public String getMsg() {
         return msg;
     }
 
-    public void setMsg (String msg)
-    {
+    public void setMsg(String msg) {
         this.msg = msg;
     }
 
@@ -67,9 +61,24 @@ public class ServiceContentData {
         this.success = success;
     }
 
+    public int getIs_home_available() {
+        return is_home_available;
+    }
+
+    public void setIs_home_available(int is_home_available) {
+        this.is_home_available = is_home_available;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
-    public String toString()
-    {
-        return "ClassPojo [responseCode = "+responseCode+", error = "+error+", data = "+data+", service = "+service+", msg = "+msg+", success = "+success+"]";
+    public String toString() {
+        return "ClassPojo [responseCode = " + responseCode + ", error = " + error + ", data = " + data + ", service = " + service + ", msg = " + msg + ", success = " + success + "]";
     }
 }
