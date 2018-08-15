@@ -82,10 +82,45 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/addHomeLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/homeIcon"
+                    android:layout_width="@dimen/size_30px"
+                    android:layout_height="@dimen/size_30px"
+                    android:background="@drawable/ic_house" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5dp"
+                    android:text="Add Home"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="@dimen/_12dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/divider" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/settingLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.4"
+                android:layout_weight="0.3"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -106,9 +141,8 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="0.2"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -118,10 +152,11 @@
                     android:background="@color/divider" />
             </LinearLayout>
 
-            <LinearLayout android:id="@+id/editLayout"
+            <LinearLayout
+                android:id="@+id/editLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.4"
+                android:layout_weight="0.3"
                 android:gravity="center"
                 android:orientation="vertical">
 

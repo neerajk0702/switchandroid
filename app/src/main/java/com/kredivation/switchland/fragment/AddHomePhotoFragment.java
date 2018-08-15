@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -119,8 +120,8 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
         previous.setOnClickListener(this);
         LinearLayout nextLayout = (LinearLayout) view.findViewById(R.id.nextLayout);
         nextLayout.setOnClickListener(this);
-        ImageView addphoto = view.findViewById(R.id.addphoto);
-        addphoto.setOnClickListener(this);
+        FloatingActionButton addimg = view.findViewById(R.id.addimg);
+        addimg.setOnClickListener(this);
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(false);
@@ -141,7 +142,7 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
             case R.id.previous:
                 saveScreenData(false, false);
                 break;
-            case R.id.addphoto:
+            case R.id.addimg:
                 selectImage();
                 break;
         }

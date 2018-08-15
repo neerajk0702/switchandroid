@@ -9,6 +9,7 @@
         android:smallScreens="true"
         android:xlargeScreens="true" />
     <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -87,7 +88,8 @@
             android:label="Create Post" />
         <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.ChangePasswordActivity" />
-        <activity android:name=".activity.EditProfileActivity"></activity>
+        <activity android:name=".activity.EditProfileActivity" />
+        <activity android:name=".activity.AddHomeActivity"></activity>
     </application>
 
 </manifest>

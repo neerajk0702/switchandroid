@@ -15,9 +15,9 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="height" value="512" />
-                            <entry key="outputName" value="ic_filter_search" />
+                            <entry key="outputName" value="ic_plus" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\Neeraj\Downloads\filter.svg" />
+                            <entry key="sourceFile" value="C:\Users\Neeraj\Downloads\plus.svg" />
                             <entry key="width" value="512" />
                           </map>
                         </option>

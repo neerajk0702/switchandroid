@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kredivation.switchland.R;
+import com.kredivation.switchland.activity.AddHomeActivity;
 import com.kredivation.switchland.activity.AppTourActivity;
 import com.kredivation.switchland.activity.ChangePasswordActivity;
 import com.kredivation.switchland.activity.EditProfileActivity;
@@ -78,7 +79,7 @@ public class MyProfileFragment extends Fragment implements TabLayout.OnTabSelect
     private TabLayout tabLayout;
     private Context context;
     private View view;
-    LinearLayout settingLayout,editLayout;
+    LinearLayout settingLayout, editLayout, addHomeLayout;
     private String userId;
     ImageView proImage;
     private TextView name, email, phone;
@@ -117,8 +118,10 @@ public class MyProfileFragment extends Fragment implements TabLayout.OnTabSelect
         //setupTabIcons();
         settingLayout = view.findViewById(R.id.settingLayout);
         settingLayout.setOnClickListener(this);
-        editLayout= view.findViewById(R.id.editLayout);
+        editLayout = view.findViewById(R.id.editLayout);
         editLayout.setOnClickListener(this);
+        addHomeLayout = view.findViewById(R.id.addHomeLayout);
+        addHomeLayout.setOnClickListener(this);
         getUserdata();
     }
 
@@ -166,6 +169,10 @@ public class MyProfileFragment extends Fragment implements TabLayout.OnTabSelect
             case R.id.editLayout:
                 Intent editintent = new Intent(context, EditProfileActivity.class);
                 startActivity(editintent);
+                break;
+            case R.id.addHomeLayout:
+                Intent homeintent = new Intent(context, AddHomeActivity.class);
+                startActivity(homeintent);
                 break;
         }
     }
