@@ -23,4 +23,6 @@ public class Contants {
     public static String Getdata = "getdata";
     public static String Addhome = "addhome";
     public static String ChangePassword = "changePassword";
+    public static String Userinfo = "userinfo";
+    public static String Updateprofile = "updateprofile";
 }

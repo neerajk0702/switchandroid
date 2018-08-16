@@ -18,7 +18,21 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.kredivation.switchland.R;
+import com.kredivation.switchland.activity.EditProfileActivity;
 import com.kredivation.switchland.adapters.AddHomePagerAdapter;
+import com.kredivation.switchland.database.SwitchDBHelper;
+import com.kredivation.switchland.model.Bathrooms;
+import com.kredivation.switchland.model.Bedrooms;
+import com.kredivation.switchland.model.Data;
+import com.kredivation.switchland.model.Family;
+import com.kredivation.switchland.model.Genderarray;
+import com.kredivation.switchland.model.Home_style;
+import com.kredivation.switchland.model.Pets_allowed;
+import com.kredivation.switchland.model.Religion;
+import com.kredivation.switchland.model.Security;
+import com.kredivation.switchland.model.ServiceContentData;
+import com.kredivation.switchland.model.Sleeps;
+import com.kredivation.switchland.model.Type_of_property;
 import com.kredivation.switchland.utilities.FontManager;
 
 /**
@@ -100,15 +114,33 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
         previous.setOnClickListener(this);
         LinearLayout nextLayout = (LinearLayout) view.findViewById(R.id.nextLayout);
         nextLayout.setOnClickListener(this);
+
+        SwitchDBHelper switchDBHelper = new SwitchDBHelper(context);
+        ServiceContentData sData = switchDBHelper.getMasterData();
+        if (sData != null) {
+            if (sData.getData() != null) {
+                Data MData = sData.getData();
+                Security[] securities = MData.getSecurity();
+                Home_style[] home_stylef = MData.getHome_style();
+                Bedrooms[] bedrooms = MData.getBedrooms();
+                Bathrooms[] bathrooms = MData.getBathrooms();
+                Sleeps[] sleeps = MData.getSleeps();
+                Type_of_property[] type_of_properties = MData.getType_of_property();
+                Pets_allowed[] pets_allowed = MData.getPets_allowed();
+                Family[] family = MData.getFamily();
+                Genderarray[] genderarray = MData.getGenderarray();
+                Religion[] religion = MData.getReligion();
+            }
+        }
         setSpinerValue();
     }
 
     private void setSpinerValue() {
 
         String home_array[] = {"City Pad", "By the sea", "Ski chalet"};
-        final String bedrooom_array[] = {"1", "2", "3", "4", "5","6", "7", "8", "9", "10"};
+        final String bedrooom_array[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
         final String bathroom_array[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
-        final String sleep_array[] = {"1", "2", "3", "4", "5","6", "7", "8", "9", "10"};
+        final String sleep_array[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
         final String type_array[] = {"Main Home", "Vacation Home", "Time Share"};
         final String pet_array[] = {"I don't Mind", "Pet Friendly", "No Pet"};
         final String family_array[] = {"Bring the kids ", "Just for grown-ups"};
@@ -142,6 +174,7 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
                 break;
         }
     }
+
     private void saveScreenData(boolean NextPreviousFlag, boolean DoneFlag) {
         Intent intent = new Intent("ViewPageChange");
         intent.putExtra("NextPreviousFlag", NextPreviousFlag);

@@ -2,7 +2,7 @@ package com.kredivation.switchland.model;
 
 public class ServiceContentData {
     private int responseCode;
-private int id;
+    private int id;
     private int error;
 
     private Data data;
@@ -76,6 +76,7 @@ private int id;
     public void setId(int id) {
         this.id = id;
     }
+
 
     @Override
     public String toString() {

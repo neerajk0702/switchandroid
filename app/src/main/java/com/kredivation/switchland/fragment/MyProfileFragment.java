@@ -134,7 +134,7 @@ public class MyProfileFragment extends Fragment implements TabLayout.OnTabSelect
                 name.setText(data.getFirst_name() + " " + data.getLast_name());
                 email.setText(data.getEmail());
                 phone.setText(data.getMobile_number());
-                Picasso.with(context).load(data.getProfile_image()).placeholder(R.drawable.pimage).resize(80, 80).into(proImage);
+                Picasso.with(context).load(data.getProfile_image()).placeholder(R.drawable.userimage).resize(80, 80).into(proImage);
             }
         }
     }

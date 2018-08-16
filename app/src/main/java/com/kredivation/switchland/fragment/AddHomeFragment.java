@@ -52,9 +52,11 @@ public class AddHomeFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     private View view;
     private Context context;
     ViewPager mPager;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +75,7 @@ public class AddHomeFragment extends Fragment {
         init();
         return view;
     }
+
     private void init() {
         AddHomePagerAdapter mAdapter = new AddHomePagerAdapter(getActivity().getSupportFragmentManager());
         mPager = (ViewPager) view.findViewById(R.id.viewPager_itemList);

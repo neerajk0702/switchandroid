@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
 import com.kredivation.switchland.framework.ServiceCaller;
+import com.kredivation.switchland.model.ContentData;
 import com.kredivation.switchland.model.ServiceContentData;
 import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.CompatibilityUtility;
@@ -113,7 +114,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             email_layout.setError("No Spaces Allowed");
             requestFocus(email);
             return false;
-        } else if (emailStr.matches(emailRegex)) {
+        } else if (!emailStr.matches(emailRegex)) {
             email_layout.setError("Please Enter Valid Email Id");
             requestFocus(email);
             return false;
@@ -186,7 +187,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 @Override
                 public void onDone(String result, boolean isComplete) {
                     if (isComplete) {
-                        final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
+                        final ContentData serviceData = new Gson().fromJson(result, ContentData.class);
                         if (serviceData != null) {
                             if (serviceData.isSuccess()) {
                                 Utility.showToast(SignUpActivity.this,serviceData.getMsg());

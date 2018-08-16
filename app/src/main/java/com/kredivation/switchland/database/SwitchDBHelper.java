@@ -24,7 +24,7 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_userInfo_TABLE = "CREATE TABLE userInfo(id TEXT,first_name TEXT, last_name TEXT,email TEXT,username TEXT,mobile_number TEXT,gender TEXT,status TEXT,is_verify TEXT,user_type TEXT,profile_image TEXT,is_home_available INTEGER)";
+        String CREATE_userInfo_TABLE = "CREATE TABLE userInfo(id TEXT,first_name TEXT, last_name TEXT,email TEXT,username TEXT,mobile_number TEXT,gender TEXT,status TEXT,is_verify TEXT,user_type TEXT,profile_image TEXT,is_home_available INTEGER,full_name TEXT,address_line_1 TEXT,address_line_2 TEXT,zipcode TEXT,country_id TEXT,city_id TEXT)";
         db.execSQL(CREATE_userInfo_TABLE);
         String CREATE_MasterData_TABLE = "CREATE TABLE MasterData(id INTEGER,masterData TEXT)";
         db.execSQL(CREATE_MasterData_TABLE);
@@ -78,12 +78,18 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
         ob.setEmail(cursor.getString(3));
         ob.setUsername(cursor.getString(4));
         ob.setMobile_number(cursor.getString(5));
-        //ob.setGender(cursor.getString(6));
+        ob.setGender(cursor.getString(6));
         ob.setStatus(cursor.getString(7));
         ob.setIs_verify(cursor.getString(8));
         ob.setUser_type(cursor.getString(9));
         ob.setProfile_image(cursor.getString(10));
         ob.setIs_home_available(cursor.getInt(11));
+        ob.setFull_name(cursor.getString(12));
+        ob.setAddress_line_1(cursor.getString(13));
+        ob.setAddress_line_2(cursor.getString(14));
+        ob.setZipcode(cursor.getString(15));
+        ob.setCountry_id(cursor.getString(16));
+        ob.setCity_id(cursor.getString(17));
     }
 
     public boolean insertUserInfoData(Data ob, int is_home_available) {
@@ -111,17 +117,55 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
 
     public void populateUserInfoValueData(ContentValues values, Data ob, int is_home_available) {
         values.put("id", ob.getId());
-        values.put("first_name", ob.getFirst_name());
-        values.put("last_name", ob.getLast_name());
-        values.put("email", ob.getEmail());
-        values.put("username", ob.getUsername());
-        values.put("mobile_number", ob.getMobile_number());
-        values.put("gender", "0");//ob.getGender()
-        values.put("status", ob.getStatus());
-        values.put("is_verify", ob.getIs_verify());
-        values.put("user_type", ob.getUser_type());
-        values.put("profile_image", ob.getProfile_image());
+        if (ob.getFirst_name() != null && !ob.getFirst_name().equals("")) {
+            values.put("first_name", ob.getFirst_name());
+        }
+        if (ob.getLast_name() != null && !ob.getLast_name().equals("")) {
+            values.put("last_name", ob.getLast_name());
+        }
+        if (ob.getEmail() != null && !ob.getEmail().equals("")) {
+            values.put("email", ob.getEmail());
+        }
+        if (ob.getUsername() != null && !ob.getUsername().equals("")) {
+            values.put("username", ob.getUsername());
+        }
+        if (ob.getMobile_number() != null && !ob.getMobile_number().equals("")) {
+            values.put("mobile_number", ob.getMobile_number());
+        }
+        if (ob.getGender() != null && !ob.getGender().equals("")) {
+            values.put("gender", ob.getGender());//
+        }
+        if (ob.getStatus() != null && !ob.getStatus().equals("")) {
+            values.put("status", ob.getStatus());
+        }
+        if (ob.getIs_verify() != null && !ob.getIs_verify().equals("")) {
+            values.put("is_verify", ob.getIs_verify());
+        }
+        if (ob.getUser_type() != null && !ob.getUser_type().equals("")) {
+            values.put("user_type", ob.getUser_type());
+        }
+        if (ob.getProfile_image() != null && !ob.getProfile_image().equals("")) {
+            values.put("profile_image", ob.getProfile_image());
+        }
         values.put("is_home_available", is_home_available);
+        if (ob.getFull_name() != null && !ob.getFull_name().equals("")) {
+            values.put("full_name", ob.getFull_name());
+        }
+        if (ob.getAddress_line_1() != null && !ob.getAddress_line_1().equals("")) {
+            values.put("address_line_1", ob.getAddress_line_1());
+        }
+        if (ob.getAddress_line_2() != null && !ob.getAddress_line_2().equals("")) {
+            values.put("address_line_2", ob.getAddress_line_2());
+        }
+        if (ob.getZipcode() != null && !ob.getZipcode().equals("")) {
+            values.put("zipcode", ob.getZipcode());
+        }
+        if (ob.getCountry_id() != null && !ob.getCountry_id().equals("")) {
+            values.put("country_id", ob.getCountry_id());
+        }
+        if (ob.getCity_id() != null && !ob.getCity_id().equals("")) {
+            values.put("city_id", ob.getCity_id());
+        }
     }
 
     public ArrayList<Data> getAllUserInfoList() {
