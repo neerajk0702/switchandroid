@@ -34,6 +34,23 @@
                 android:textColor="@color/secondary_text"
                 android:textSize="@dimen/dimTextSize_16" />
 
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_hno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10dp">
+
+                <EditText
+                    android:id="@+id/hno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="House Number"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/dimTextSize_12" />
+            </android.support.design.widget.TextInputLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,13 +58,13 @@
                 android:orientation="horizontal">
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_phone"
+                    android:id="@+id/input_layout_zip"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7">
 
                     <EditText
-                        android:id="@+id/title"
+                        android:id="@+id/zipCode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Enter your zip code or street address to begin"
@@ -65,7 +82,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/signup"
+                        android:id="@+id/lookUp"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_40px"
                         android:background="@drawable/button_login"
@@ -95,11 +112,12 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/dimTextSize_14" />
 
-                <LinearLayout android:id="@+id/addressLayout"
+                <LinearLayout
+                    android:id="@+id/addressLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -169,13 +187,13 @@
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_layout_Zipcode"
+                        android:id="@+id/input_layout_enterZipcode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10dp">
 
                         <EditText
-                            android:id="@+id/zipcode"
+                            android:id="@+id/enterzipcode"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Zipcode"

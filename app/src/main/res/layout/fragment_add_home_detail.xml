@@ -27,7 +27,7 @@
                 android:textSize="@dimen/dimTextSize_18" />
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_phone"
+                android:id="@+id/input_layout_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimValue_10">
@@ -44,7 +44,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_mobile"
+                android:id="@+id/input_layout_des"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimValue_10">
@@ -77,207 +77,36 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
-                    <LinearLayout
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/features_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimValue_10"
-                        android:orientation="horizontal">
-
-                        <CheckBox
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="GARDEN"
-                            android:textSize="@dimen/dimTextSize_12" />
-
-                        <CheckBox
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="BALCONY" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimValue_10"
-                        android:orientation="horizontal">
-
-                        <CheckBox
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="POOL"
-                            android:textSize="@dimen/dimTextSize_12" />
-
-                        <CheckBox
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="CLEANER" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimValue_10"
-                        android:orientation="horizontal">
-
-                        <CheckBox
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="WIFI"
-                            android:textSize="@dimen/dimTextSize_12" />
-
-                        <CheckBox
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="CABLE TV" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimValue_10"
-                        android:orientation="horizontal">
-
-                        <CheckBox
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="GYM"
-                            android:textSize="@dimen/dimTextSize_12" />
-
-                        <CheckBox
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="AIR CONDITIONING" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimValue_10"
-                        android:orientation="horizontal">
-
-                        <CheckBox
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="EQUIPPED FOR KIDS"
-                            android:textSize="@dimen/dimTextSize_12" />
-
-                        <CheckBox
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="CAR OPTIONAL" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimValue_10"
-                        android:orientation="horizontal">
-
-                        <CheckBox
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="CENTRAL HEATING"
-                            android:textSize="@dimen/dimTextSize_12" />
-
-                        <CheckBox
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="DISH WASHER" />
-
-                    </LinearLayout>
+                        android:background="@color/white" />
                 </LinearLayout>
             </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimValue_20"
-            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="House Rules"
-                android:textColor="@color/primary_text"
-                android:textSize="@dimen/dimTextSize_14" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimValue_10"
-                android:orientation="horizontal">
+                android:layout_marginTop="@dimen/dimValue_20"
+                android:orientation="vertical">
 
-                <CheckBox
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="NO SMOKING"
-                    android:textSize="@dimen/dimTextSize_12" />
+                    android:text="House Rules"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/dimTextSize_14" />
 
-                <CheckBox
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rules_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="NOT SUITABLE FOR PETS" />
-
+                    android:layout_marginTop="@dimen/dimValue_10"
+                    android:background="@color/white" />
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimValue_10"
-                android:orientation="horizontal">
 
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="NO PARTIES OR EVENTS"
-                    android:textSize="@dimen/dimTextSize_12" />
-
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="NOT SAFE OR SUITABLE FOR CHILDREN (0-12 YEARS)" />
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimValue_10"
-                android:orientation="horizontal">
-
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="CHECK-IN IS ANYTIME AFTER 2PM"
-                    android:textSize="@dimen/dimTextSize_12" />
-
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="CHECK OUT BY 12PM (NOON)" />
-
-            </LinearLayout>
-        </LinearLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_60px" />

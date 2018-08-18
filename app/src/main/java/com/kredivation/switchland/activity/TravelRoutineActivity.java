@@ -2,42 +2,39 @@ package com.kredivation.switchland.activity;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.framework.FileUploaderHelper;
-import com.kredivation.switchland.model.Bedrooms;
+import com.kredivation.switchland.model.ChatData;
 import com.kredivation.switchland.model.City;
 import com.kredivation.switchland.model.Country;
 import com.kredivation.switchland.model.Data;
+import com.kredivation.switchland.model.Features;
+import com.kredivation.switchland.model.House_rules;
 import com.kredivation.switchland.model.ServiceContentData;
-import com.kredivation.switchland.model.Sleeps;
 import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.CompatibilityUtility;
 import com.kredivation.switchland.utilities.Contants;
 import com.kredivation.switchland.utilities.FontManager;
 import com.kredivation.switchland.utilities.Utility;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -45,45 +42,49 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
-public class CreateFirstTimePostActivity extends AppCompatActivity implements View.OnClickListener {
-
+public class TravelRoutineActivity extends AppCompatActivity implements View.OnClickListener {
+    private Toolbar toolbar;
 
     Typeface materialdesignicons_font;
     TextView etYear, enddate;
     LinearLayout dateLayout, endDateLayout;
-    private Spinner noOfBedSpinner, noOfGuestSpinner, citySpinner, countrySpinner;
-    private TextInputLayout des_layout, hno_layout, title_layout;
-    private EditText description, hno, title;
-    private String descriptionStr, hnoStr, titleStr, startDateStr, enddateStr;
+    private Spinner citySpinner, countrySpinner;
+    private String startDateStr, enddateStr;
     private Button submit;
     TextView edateIcon;
     private City[] city;
     private Country[] country;
-    private Bedrooms[] bedroom;
-    private Sleeps[] sleeps;
-    String[] sleepsList;
-    String[] bedList;
     String[] countryList;
     String[] cityList;
     private String cityID = "";
     private String countryID = "";
     private String userId;
-    private int noBed = 0;
-    private int nosleep = 0;
-    private Toolbar toolbar;
+
+
+    String homestyleId, securitId, genderId, religionId, familyId, petsId, typeOfPropertiesId;
+    int sleepsid, bathroomsId, bedroomsId;
+    String titleStr, aboutHomeStr;
+    List<House_rules> saveRuleList;
+    List<Features> saveFeatureList;
+    String addressStr, landmarkStr, zipCodeStr, enterzipcodeStr, saveCountryId, saveCityId, Hno;
+    ArrayList<ChatData> homePhotoList;
+    String profileimgStr, travleIdStr, dreamStr;
+    String monthId, yearId, cvvStr, Cardno, CardNameStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_create_first_time_post);
+        setContentView(R.layout.activity_travel_routine);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if (CompatibilityUtility.isTablet(CreateFirstTimePostActivity.this)) {
+        if (CompatibilityUtility.isTablet(TravelRoutineActivity.this)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -91,10 +92,9 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
         init();
     }
 
-
     private void init() {
         TextView dateIcon = findViewById(R.id.dateIcon);
-        materialdesignicons_font = FontManager.getFontTypefaceMaterialDesignIcons(CreateFirstTimePostActivity.this, "fonts/materialdesignicons-webfont.otf");
+        materialdesignicons_font = FontManager.getFontTypefaceMaterialDesignIcons(TravelRoutineActivity.this, "fonts/materialdesignicons-webfont.otf");
         dateIcon.setTypeface(materialdesignicons_font);
         dateIcon.setText(Html.fromHtml("&#xf0ed;"));
         etYear = findViewById(R.id.etYear);
@@ -106,22 +106,12 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
         edateIcon.setText(Html.fromHtml("&#xf0ed;"));
         enddate = findViewById(R.id.enddate);
         endDateLayout = findViewById(R.id.dateLayout);
-        noOfBedSpinner = findViewById(R.id.noOfBedSpinner);
-        noOfGuestSpinner = findViewById(R.id.noOfGuestSpinner);
         citySpinner = findViewById(R.id.citySpinner);
         countrySpinner = findViewById(R.id.countrySpinner);
-
-        des_layout = findViewById(R.id.des_layout);
-        hno_layout = findViewById(R.id.hno_layout);
-        title_layout = findViewById(R.id.title_layout);
-        description = findViewById(R.id.description);
-        hno = findViewById(R.id.hno);
-        title = findViewById(R.id.title);
         submit = findViewById(R.id.submit);
         dateLayout.setOnClickListener(this);
         edateIcon.setOnClickListener(this);
         submit.setOnClickListener(this);
-
         TextView back = (TextView) toolbar.findViewById(R.id.back);
         back.setTypeface(materialdesignicons_font);
         back.setText(Html.fromHtml("&#xf30d;"));
@@ -131,11 +121,12 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
                 finish();
             }
         });
-        setValue();
+        setUiData();
+        getAllHomeDataFromSharePre();
     }
 
-    private void setValue() {
-        SwitchDBHelper switchDBHelper = new SwitchDBHelper(CreateFirstTimePostActivity.this);
+    private void setUiData() {
+        SwitchDBHelper switchDBHelper = new SwitchDBHelper(TravelRoutineActivity.this);
         ArrayList<Data> userData = switchDBHelper.getAllUserInfoList();
         if (userData != null) {
             for (Data data : userData) {
@@ -146,56 +137,13 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
         if (sData != null) {
             if (sData.getData() != null) {
                 final Data MData = sData.getData();
-                bedroom = MData.getBedrooms();
-                if (bedroom != null) {
-                    bedList = new String[bedroom.length];
-                    for (int i = 0; i < bedroom.length; i++) {
-                        bedList[i] = String.valueOf(bedroom[i].getName());
-                    }
-                    ArrayAdapter<String> bankAdapter = new ArrayAdapter<String>(CreateFirstTimePostActivity.this, R.layout.spinner_row, bedList);
-                    noOfBedSpinner.setAdapter(bankAdapter);
-                    ArrayAdapter<String> sleepAdapter = new ArrayAdapter<String>(CreateFirstTimePostActivity.this, R.layout.spinner_row, bedList);
-                    noOfGuestSpinner.setAdapter(sleepAdapter);
-                }
-                noOfBedSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        noBed = bedroom[position].getId();
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
-                sleeps = MData.getSleeps();
-                if (sleeps != null) {
-                    sleepsList = new String[sleeps.length];
-                    for (int i = 0; i < sleeps.length; i++) {
-                        sleepsList[i] = String.valueOf(sleeps[i].getName());
-                    }
-                    ArrayAdapter<String> sleepAdapter = new ArrayAdapter<String>(CreateFirstTimePostActivity.this, R.layout.spinner_row, sleepsList);
-                    noOfGuestSpinner.setAdapter(sleepAdapter);
-                }
-                noOfGuestSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        nosleep = sleeps[position].getId();
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
-
                 country = MData.getCountry();
                 if (country != null) {
                     countryList = new String[country.length];
                     for (int i = 0; i < country.length; i++) {
                         countryList[i] = String.valueOf(country[i].getName());
                     }
-                    ArrayAdapter<String> countryAdapter = new ArrayAdapter<String>(CreateFirstTimePostActivity.this, R.layout.spinner_row, countryList);
+                    ArrayAdapter<String> countryAdapter = new ArrayAdapter<String>(TravelRoutineActivity.this, R.layout.spinner_row, countryList);
                     countrySpinner.setAdapter(countryAdapter);
                     countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
@@ -210,7 +158,7 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
                                     }
                                 }
                                 if (cityList != null && cityList.length > 0) {
-                                    ArrayAdapter<String> cityAdapter = new ArrayAdapter<String>(CreateFirstTimePostActivity.this, R.layout.spinner_row, cityList);
+                                    ArrayAdapter<String> cityAdapter = new ArrayAdapter<String>(TravelRoutineActivity.this, R.layout.spinner_row, cityList);
                                     citySpinner.setAdapter(cityAdapter);
                                 }
                             }
@@ -256,7 +204,7 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
                 // datemilisec = myCalendar.getTimeInMillis();
             }
         };
-        final DatePickerDialog pickerDialog = new DatePickerDialog(CreateFirstTimePostActivity.this, date, myCalendar
+        final DatePickerDialog pickerDialog = new DatePickerDialog(TravelRoutineActivity.this, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH));
         pickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
@@ -286,7 +234,7 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
                 // datemilisec = myCalendar.getTimeInMillis();
             }
         };
-        final DatePickerDialog pickerDialog = new DatePickerDialog(CreateFirstTimePostActivity.this, date, myCalendar
+        final DatePickerDialog pickerDialog = new DatePickerDialog(TravelRoutineActivity.this, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH));
         pickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
@@ -313,54 +261,22 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
 
     // ----validation -----
     private boolean isValidate() {
-        String emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
-        titleStr = title.getText().toString();
-        hnoStr = hno.getText().toString();
         startDateStr = etYear.getText().toString();
         enddateStr = enddate.getText().toString();
-        descriptionStr = description.getText().toString();
-        if (titleStr.length() == 0) {
-            title_layout.setError("Please Enter Title");
-            requestFocus(title);
-            return false;
-        } else if (hnoStr.length() == 0) {
-            hno_layout.setError("Please Enter House No");
-            requestFocus(hno);
-            return false;
-        } else if (descriptionStr.length() == 0) {
-            des_layout.setError("Please Enter Description");
-            requestFocus(description);
-            return false;
-        } else if (!isDateValid(startDateStr)) {
-            Utility.showToast(CreateFirstTimePostActivity.this, "Please select Start Date!");
+        if (!isDateValid(startDateStr)) {
+            Utility.showToast(TravelRoutineActivity.this, "Please select Start Date!");
             return false;
         } else if (!isDateValid(enddateStr)) {
-            Utility.showToast(CreateFirstTimePostActivity.this, "Please select End Date!");
+            Utility.showToast(TravelRoutineActivity.this, "Please select End Date!");
             return false;
         } else if (countryID.equals("") && countryID.equals("0")) {
-            Utility.showToast(CreateFirstTimePostActivity.this, "Please select County!");
+            Utility.showToast(TravelRoutineActivity.this, "Please select County!");
             return false;
         } else if (cityID.equals("")) {
-            Utility.showToast(CreateFirstTimePostActivity.this, "Please select City!");
+            Utility.showToast(TravelRoutineActivity.this, "Please select City!");
             return false;
-        } else if (noBed == 0) {
-            Utility.showToast(CreateFirstTimePostActivity.this, "Please select No Of Beds!");
-            return false;
-        } else if (nosleep == 0) {
-            Utility.showToast(CreateFirstTimePostActivity.this, "Please select No of Guests!");
-            return false;
-        } else {
-            title_layout.setErrorEnabled(false);
-            hno_layout.setErrorEnabled(false);
-            des_layout.setErrorEnabled(false);
         }
         return true;
-    }
-
-    private void requestFocus(View view) {
-        if (view.requestFocus()) {
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        }
     }
 
     @Override
@@ -374,46 +290,138 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
                 break;
             case R.id.submit:
                 if (isValidate()) {
-                    addHomeServer();
+                    //addHomeServer();
                 }
                 break;
         }
     }
 
-    public void addHomeServer() {
-        if (Utility.isOnline(CreateFirstTimePostActivity.this)) {
-            final ASTProgressBar progressBar = new ASTProgressBar(CreateFirstTimePostActivity.this);
+    //get all save home data
+    private void getAllHomeDataFromSharePre() {
+        SharedPreferences prefs = getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
+        if (prefs != null) {
+            //------home Overview screen----------
+            homestyleId = prefs.getString("homestyleStr", "");
+            securitId = prefs.getString("securitStr", "");
+            genderId = prefs.getString("genderStr", "");
+            religionId = prefs.getString("religionStr", "");
+            familyId = prefs.getString("familyStr", "");
+            petsId = prefs.getString("petsStr", "");
+            typeOfPropertiesId = prefs.getString("typeOfPropertiesStr", "");
+            sleepsid = prefs.getInt("sleepsStr", 0);
+            bathroomsId = prefs.getInt("bathroomsStr", 0);
+            bedroomsId = prefs.getInt("bedroomsStr", 0);
+
+            //-----------home detail screen----------
+            titleStr = prefs.getString("Title", "");
+            aboutHomeStr = prefs.getString("AboutHome", "");
+            String RuleStr = prefs.getString("RuleStr", "");
+            String FeatureStr = prefs.getString("FeatureStr", "");
+            if (RuleStr != null && !RuleStr.equals("")) {
+                saveRuleList = new Gson().fromJson(RuleStr, new TypeToken<List<House_rules>>() {
+                }.getType());
+            }
+            if (FeatureStr != null && !FeatureStr.equals("")) {
+                saveFeatureList = new Gson().fromJson(FeatureStr, new TypeToken<List<Features>>() {
+                }.getType());
+            }
+            //--------------home Location screen-------------
+            addressStr = prefs.getString("Address", "");
+            landmarkStr = prefs.getString("LandMark", "");
+            zipCodeStr = prefs.getString("ZipCode", "");
+            enterzipcodeStr = prefs.getString("EnterZipcode", "");
+            saveCountryId = prefs.getString("CountryId", "");
+            saveCityId = prefs.getString("CityId", "");
+            Hno = prefs.getString("Hno", "");
+
+            //---------home photo screen-----
+            String homeStr = prefs.getString("HomeImage", "");
+            if (homeStr != null && !homeStr.equals("") && !homeStr.equals("[]")) {
+                homePhotoList = new Gson().fromJson(homeStr, new TypeToken<ArrayList<ChatData>>() {
+                }.getType());
+            }
+
+            //---------home my profile screen-------------
+            profileimgStr = prefs.getString("ProfileImage", "");
+            travleIdStr = prefs.getString("TravleId", "");
+            dreamStr = prefs.getString("DreamDetail", "");
+            // savetravelPos = prefs.getInt("savetravelPos", 0);
+
+            //----------home card detail----------
+            monthId = prefs.getString("monthId", "");
+            //monthPos = prefs.getInt("monthPos", 0);
+            yearId = prefs.getString("yearId", "");
+            // yearPos = prefs.getInt("yearPos", 0);
+            cvvStr = prefs.getString("CVV", "");
+            CardNameStr = prefs.getString("Name", "");
+            Cardno = prefs.getString("Cardno", "");
+        }
+    }
+
+   // profile_img  ,feature_id[],house_rule_id[],uploaded_image[]
+
+    private void setValueIntoPayload() {
+        HashMap<String, String> payloadList = new HashMap<String, String>();
+        payloadList.put("api_key", Contants.API_KEY);
+        payloadList.put("user_id", userId);
+        payloadList.put("title", titleStr);
+        payloadList.put("sort_description", aboutHomeStr);
+        payloadList.put("house_no", Hno);
+        payloadList.put("home_type", typeOfPropertiesId);
+        payloadList.put("bedrooms", String.valueOf(bedroomsId));
+        payloadList.put("bathrooms", String.valueOf(bathroomsId));
+        payloadList.put("sleeps", String.valueOf(sleepsid));
+        payloadList.put("property_type", typeOfPropertiesId);
+        payloadList.put("pets", petsId);
+        payloadList.put("family", familyId);
+        payloadList.put("location", addressStr);//need ask
+        payloadList.put("latitude", "20.7");
+        payloadList.put("longitude", "30.7");
+        payloadList.put("destinations", addressStr);
+        payloadList.put("traveller_type", travleIdStr);
+        payloadList.put("startdate", startDateStr);
+        payloadList.put("enddate", enddateStr);
+        payloadList.put("country", countryID);
+        payloadList.put("city", cityID);
+        payloadList.put("address1", Hno);
+        payloadList.put("address2", addressStr);
+        if (zipCodeStr != null && !zipCodeStr.equals("")) {
+            payloadList.put("zipcode", zipCodeStr);
+        }
+        if (enterzipcodeStr != null && !enterzipcodeStr.equals("")) {
+            payloadList.put("zipcode", enterzipcodeStr);
+        }
+        payloadList.put("gender", genderId);
+        payloadList.put("religion", religionId);
+        payloadList.put("landmark", landmarkStr);
+        payloadList.put("level_of_security", securitId);
+        payloadList.put("cardnumber", Cardno);
+        payloadList.put("nameoncard", CardNameStr);
+        payloadList.put("month", monthId);
+        payloadList.put("Year", yearId);
+        payloadList.put("Cvv", cvvStr);
+    }
+
+ /*   //save add home data into server
+    public void saveBatteryDataonServer() {
+        if (Utility.isOnline(TravelRoutineActivity.this)) {
+            final ASTProgressBar progressBar = new ASTProgressBar(TravelRoutineActivity.this);
             progressBar.show();
             String serviceURL = Contants.BASE_URL + Contants.Addhome;
-            HashMap<String, String> payloadList = new HashMap<String, String>();
-            payloadList.put("api_key", Contants.API_KEY);
-            payloadList.put("title", titleStr);
-            payloadList.put("sort_description", descriptionStr);
-            payloadList.put("house_no", hnoStr);
-            payloadList.put("user_id", userId);
-            payloadList.put("startdate", startDateStr);
-            payloadList.put("enddate", enddateStr);
-            payloadList.put("city", cityID);
-            payloadList.put("country", countryID);
-            payloadList.put("sleeps", String.valueOf(nosleep));
-            payloadList.put("bedrooms", String.valueOf(noBed));
             MultipartBody.Builder multipartBody = setMultipartBodyVaule();
-            FileUploaderHelper fileUploaderHelper = new FileUploaderHelper(CreateFirstTimePostActivity.this, payloadList, multipartBody, serviceURL) {
+
+            FileUploaderHelper fileUploaderHelper = new FileUploaderHelper(TravelRoutineActivity.this, payloadList, multipartBody, serviceURL) {
                 @Override
                 public void receiveData(String result) {
-                    if (result != null) {
-                        final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
-                        if (serviceData != null) {
-                            if (serviceData.isSuccess()) {
-                                Utility.showToast(CreateFirstTimePostActivity.this, serviceData.getMsg());
-                            } else {
-                                Utility.showToast(CreateFirstTimePostActivity.this, serviceData.getMsg());
-                            }
+                    final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
+                    if (serviceData != null) {
+                        if (serviceData.isSuccess()) {
+                            Utility.showToast(TravelRoutineActivity.this, serviceData.getMsg());
                         } else {
-                            Utility.showToast(CreateFirstTimePostActivity.this, "Server Side error!");
+                            Utility.showToast(TravelRoutineActivity.this, serviceData.getMsg());
                         }
                     } else {
-                        Utility.showToast(CreateFirstTimePostActivity.this, "Server Side error!");
+                        Utility.showToast(TravelRoutineActivity.this, "Server Side error!");
                     }
                     if (progressBar.isShowing()) {
                         progressBar.dismiss();
@@ -422,28 +430,25 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
             };
             fileUploaderHelper.execute();
         } else {
-            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, CreateFirstTimePostActivity.this);//off line msg....
+            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, TravelRoutineActivity.this);//off line msg....
         }
-
     }
 
-    //add pm install images into MultipartBody for send as multipart
+    //add images into MultipartBody for send as multipart
     private MultipartBody.Builder setMultipartBodyVaule() {
-        final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/jpg");
+        MediaType MEDIA_TYPE_PNG = MediaType.parse("image/jpg");
         MultipartBody.Builder multipartBody = new MultipartBody.Builder().setType(MultipartBody.FORM);
-      /*  if (equpImagList != null && equpImagList.size() > 0) {
-            for (SaveOffLineData data : equpImagList) {
-                if (data != null) {
-                    if (data.getImagePath() != null) {
-                        File inputFile = new File(data.getImagePath());
-                        if (inputFile.exists()) {
-                            multipartBody.addFormDataPart("PMInstalEqupImages", data.getImageName(), RequestBody.create(MEDIA_TYPE_PNG, inputFile));
-                        }
-                    }
-                }
-            }
+        if (batteryimgFile != null && batteryimgFile.exists()) {
+            multipartBody.addFormDataPart(batteryimgFile.getName(), batteryimgFile.getName(), RequestBody.create(MEDIA_TYPE_PNG, batteryimgFile));
         }
-*/
+        if (cellImgFile != null && cellImgFile.exists()) {
+            multipartBody.addFormDataPart(cellImgFile.getName(), cellImgFile.getName(), RequestBody.create(MEDIA_TYPE_PNG, cellImgFile));
+        }
+        if (sNoPlateImgImgFile != null && sNoPlateImgImgFile.exists()) {
+            multipartBody.addFormDataPart(sNoPlateImgImgFile.getName(), sNoPlateImgImgFile.getName(), RequestBody.create(MEDIA_TYPE_PNG, sNoPlateImgImgFile));
+        }
         return multipartBody;
     }
+*/
+
 }

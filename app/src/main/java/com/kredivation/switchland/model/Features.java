@@ -36,6 +36,15 @@ public class Features {
     {
         this.name = name;
     }
+private boolean isSelected=false;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
 
     @Override
     public String toString()

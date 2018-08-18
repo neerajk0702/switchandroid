@@ -12,8 +12,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.kredivation.switchland.R;
+import com.kredivation.switchland.activity.ChangePasswordActivity;
 import com.kredivation.switchland.adapters.AddHomePagerAdapter;
+import com.kredivation.switchland.database.SwitchDBHelper;
+import com.kredivation.switchland.framework.FileUploaderHelper;
+import com.kredivation.switchland.model.ContentData;
+import com.kredivation.switchland.model.Data;
+import com.kredivation.switchland.model.ServiceContentData;
+import com.kredivation.switchland.utilities.ASTProgressBar;
+import com.kredivation.switchland.utilities.Contants;
+import com.kredivation.switchland.utilities.Utility;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,6 +76,7 @@ public class AddHomeFragment extends Fragment {
     private Context context;
     ViewPager mPager;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +101,6 @@ public class AddHomeFragment extends Fragment {
         mPager = (ViewPager) view.findViewById(R.id.viewPager_itemList);
         mPager.setAdapter(mAdapter);
     }
-
     //for geting next previous click action
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -118,4 +137,5 @@ public class AddHomeFragment extends Fragment {
         }
         super.onDestroy();
     }
+
 }

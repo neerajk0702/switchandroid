@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.media.MediaScannerConnection;
@@ -29,10 +30,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.adapters.AddHomePhotoAdapter;
 import com.kredivation.switchland.adapters.ChatListAdapter;
 import com.kredivation.switchland.model.ChatData;
+import com.kredivation.switchland.model.Features;
+import com.kredivation.switchland.model.House_rules;
 import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.Contants;
 import com.kredivation.switchland.utilities.FontManager;
@@ -41,6 +46,7 @@ import com.kredivation.switchland.utilities.Utility;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -97,6 +103,7 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
     ASTProgressBar astProgressBar;
     ArrayList<ChatData> locationList;
     AddHomePhotoAdapter mAdapter;
+    RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -109,7 +116,7 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
     }
 
     private void init() {
-
+        locationList = new ArrayList<ChatData>();
         Typeface materialdesignicons_font = FontManager.getFontTypefaceMaterialDesignIcons(getActivity(), "fonts/materialdesignicons-webfont.otf");
         TextView nextIcon = (TextView) view.findViewById(R.id.nextIcon);
         nextIcon.setTypeface(materialdesignicons_font);
@@ -123,12 +130,24 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
         FloatingActionButton addimg = view.findViewById(R.id.addimg);
         addimg.setOnClickListener(this);
 
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(false);
         StaggeredGridLayoutManager gaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(gaggeredGridLayoutManager);
-        locationList = new ArrayList<ChatData>();
+        getSaveData();
 
+    }
+
+    //get data from pre
+    private void getSaveData() {
+        SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
+        if (prefs != null) {
+            String homeStr = prefs.getString("HomeImage", "");
+            if (homeStr != null && !homeStr.equals("") && !homeStr.equals("[]")) {
+                locationList = new Gson().fromJson(homeStr, new TypeToken<ArrayList<ChatData>>() {
+                }.getType());
+            }
+        }
         mAdapter = new AddHomePhotoAdapter(context, locationList);
         recyclerView.setAdapter(mAdapter);
     }
@@ -137,7 +156,11 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nextLayout:
-                saveScreenData(true, false);
+                if (locationList.size() > 0) {
+                    saveScreenData(true, false);
+                } else {
+                    Utility.showToast(context, "Please Select Home Images");
+                }
                 break;
             case R.id.previous:
                 saveScreenData(false, false);
@@ -148,7 +171,17 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
         }
     }
 
+    //save data
+    private void saveData() {
+        String homeList = new Gson().toJson(locationList);
+        SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("HomeImage", homeList);
+        editor.commit();
+    }
+
     private void saveScreenData(boolean NextPreviousFlag, boolean DoneFlag) {
+        saveData();
         Intent intent = new Intent("ViewPageChange");
         intent.putExtra("NextPreviousFlag", NextPreviousFlag);
         intent.putExtra("DoneFlag", DoneFlag);

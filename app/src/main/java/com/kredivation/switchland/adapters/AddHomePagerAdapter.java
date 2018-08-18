@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.kredivation.switchland.fragment.AddHomeCardDetailFragment;
 import com.kredivation.switchland.fragment.AddHomeDetailFragment;
 import com.kredivation.switchland.fragment.AddHomeLocationFragment;
 import com.kredivation.switchland.fragment.AddHomeMyProfileFragment;
@@ -11,7 +12,7 @@ import com.kredivation.switchland.fragment.AddHomeOverviewFragment;
 import com.kredivation.switchland.fragment.AddHomePhotoFragment;
 
 public class AddHomePagerAdapter extends FragmentStatePagerAdapter {
-    int mNumOfPage = 5;
+    int mNumOfPage = 6;
 
     public AddHomePagerAdapter(FragmentManager fm) {
         super(fm);
@@ -36,6 +37,9 @@ public class AddHomePagerAdapter extends FragmentStatePagerAdapter {
             case 4:
                 AddHomeMyProfileFragment tab5 = AddHomeMyProfileFragment.newInstance("", "");
                 return tab5;
+            case 5:
+                AddHomeCardDetailFragment tab6 = AddHomeCardDetailFragment.newInstance("", "");
+                return tab6;
             default:
                 return null;
         }
