@@ -38,6 +38,7 @@ import com.kredivation.switchland.model.Features;
 import com.kredivation.switchland.model.Genderarray;
 import com.kredivation.switchland.model.Home_style;
 import com.kredivation.switchland.model.House_rules;
+import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.Pets_allowed;
 import com.kredivation.switchland.model.Religion;
 import com.kredivation.switchland.model.Security;
@@ -109,6 +110,7 @@ public class AddHomeDetailFragment extends Fragment implements View.OnClickListe
     List<House_rules> ruleList;
     List<House_rules> saveRuleList;
     List<Features> saveFeatureList;
+    MyhomeArray MyHomedata;
 
     @Override
 
@@ -245,7 +247,7 @@ public class AddHomeDetailFragment extends Fragment implements View.OnClickListe
 
     //get data from pre
     private void getSaveData() {
-        SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
+       /* SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
         if (prefs != null) {
             String titleStr = prefs.getString("Title", "");
             String aboutHomeStr = prefs.getString("AboutHome", "");
@@ -260,6 +262,26 @@ public class AddHomeDetailFragment extends Fragment implements View.OnClickListe
             if (FeatureStr != null && !FeatureStr.equals("")) {
                 saveFeatureList = new Gson().fromJson(FeatureStr, new TypeToken<List<Features>>() {
                 }.getType());
+            }
+        }*/
+
+        SharedPreferences prefs = context.getSharedPreferences("HomeDetailPreferences", Context.MODE_PRIVATE);
+        if (prefs != null) {
+            if (prefs.getBoolean("HomeEdit", false)) {
+                String Myhome = prefs.getString("HomeDetail", "");
+                if (Myhome != null && !Myhome.equals("")) {
+                    MyHomedata = new Gson().fromJson(Myhome, new TypeToken<MyhomeArray>() {
+                    }.getType());
+
+                    if (MyHomedata != null) {//for home edit
+                        String titleStr = MyHomedata.getTitle();
+                        String aboutHomeStr = MyHomedata.getSort_description();
+                        saveRuleList = MyHomedata.getRuleList();
+                        saveFeatureList = MyHomedata.getFeaturelist();
+                        title.setText(titleStr);
+                        about.setText(aboutHomeStr);
+                    }
+                }
             }
         }
     }
@@ -321,7 +343,7 @@ public class AddHomeDetailFragment extends Fragment implements View.OnClickListe
 
     //save data
     private void saveData() {
-        String featureIdList = new Gson().toJson(Featurelist);
+      /*  String featureIdList = new Gson().toJson(Featurelist);
         String ruleIdList = new Gson().toJson(ruleList);
         SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -330,5 +352,14 @@ public class AddHomeDetailFragment extends Fragment implements View.OnClickListe
         editor.putString("Title", titleStr);
         editor.putString("AboutHome", aboutStr);
         editor.commit();
+*/
+        if (MyHomedata != null) {
+            MyHomedata.setTitle(titleStr);
+            MyHomedata.setSort_description(aboutStr);
+            MyHomedata.setFeaturelist(Featurelist);
+            MyHomedata.setRuleList(ruleList);
+            String homeStr = new Gson().toJson(MyHomedata);
+            Utility.setHomeDetail(context, homeStr,true);
+        }
     }
 }

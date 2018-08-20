@@ -40,6 +40,7 @@ import com.kredivation.switchland.model.Country;
 import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.model.Features;
 import com.kredivation.switchland.model.House_rules;
+import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.ServiceContentData;
 import com.kredivation.switchland.utilities.FontManager;
 import com.kredivation.switchland.utilities.Utility;
@@ -114,6 +115,7 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
     String saveCountryId;
     String saveCityId;
     int cityPos = 0;
+    MyhomeArray MyHomedata;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -232,7 +234,7 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
 
     //get data from pre
     private void getSaveData() {
-        SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
+       /* SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
         if (prefs != null) {
             addressStr = prefs.getString("Address", "");
             landmarkStr = prefs.getString("LandMark", "");
@@ -247,6 +249,33 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
             enterzipcode.setText(enterzipcodeStr);
             landmark.setText(landmarkStr);
 
+        }*/
+
+        SharedPreferences prefs = context.getSharedPreferences("HomeDetailPreferences", Context.MODE_PRIVATE);
+        if (prefs != null) {
+            if (prefs.getBoolean("HomeEdit", false)) {
+                String Myhome = prefs.getString("HomeDetail", "");
+                if (Myhome != null && !Myhome.equals("")) {
+                    MyHomedata = new Gson().fromJson(Myhome, new TypeToken<MyhomeArray>() {
+                    }.getType());
+
+                    if (MyHomedata != null) {//for home edit
+                        hnoStr = MyHomedata.getHouse_no();
+                        addressStr = MyHomedata.getAddress1();
+                        String address2 = MyHomedata.getAddress2();
+                        landmarkStr = MyHomedata.getLandmarks();
+                        enterzipcodeStr = MyHomedata.getZipcode();
+                        zipCodeStr = MyHomedata.getLocation();
+                        saveCountryId = MyHomedata.getCountry_id();
+                        saveCityId = MyHomedata.getCity_id();
+                        hno.setText(hnoStr);
+                        zipCode.setText(zipCodeStr);
+                        address.setText(addressStr + "," + address2);
+                        enterzipcode.setText(enterzipcodeStr);
+                        landmark.setText(landmarkStr);
+                    }
+                }
+            }
         }
     }
 
@@ -365,7 +394,7 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
 
     //save data
     private void saveData() {
-        SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
+      /*  SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("Address", addressStr);
         editor.putString("LandMark", landmarkStr);
@@ -374,6 +403,18 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
         editor.putString("CountryId", countryId);
         editor.putString("CityId", cityId);
         editor.putString("Hno", hnoStr);
-        editor.commit();
+        editor.commit();*/
+
+        if (MyHomedata != null) {
+            MyHomedata.setAddress1(addressStr);
+            MyHomedata.setHouse_no(hnoStr);
+            MyHomedata.setLandmarks(landmarkStr);
+            MyHomedata.setZipcode(enterzipcodeStr);
+            MyHomedata.setLocation(zipCodeStr);
+            MyHomedata.setCountry_id(countryId);
+            MyHomedata.setCity_id(cityId);
+            String homeStr = new Gson().toJson(MyHomedata);
+            Utility.setHomeDetail(context, homeStr, true);
+        }
     }
 }

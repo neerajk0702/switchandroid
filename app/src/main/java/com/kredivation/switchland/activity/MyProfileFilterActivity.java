@@ -8,20 +8,41 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kredivation.switchland.R;
+import com.kredivation.switchland.database.SwitchDBHelper;
+import com.kredivation.switchland.model.City;
+import com.kredivation.switchland.model.Country;
+import com.kredivation.switchland.model.Data;
+import com.kredivation.switchland.model.ServiceContentData;
 import com.kredivation.switchland.utilities.CompatibilityUtility;
 import com.kredivation.switchland.utilities.FontManager;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class MyProfileFilterActivity extends AppCompatActivity {
     private Toolbar toolbar;
+    private String userId;
+    private City[] city;
+    private Country[] country;
+    Spinner cityspinner, countryspinner;
+    String[] countryList;
+    String[] cityList;
+    private String cityId = "";
+    private String countryId = "";
+    ImageView profileImage;
+    TextView uNeme, uemail, phone, cityName, countryName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +52,7 @@ public class MyProfileFilterActivity extends AppCompatActivity {
         chechPortaitAndLandSacpe();//chech Portait And LandSacpe Orientation
         initView();
     }
+
     //chech Portait And LandSacpe Orientation
     public void chechPortaitAndLandSacpe() {
         if (CompatibilityUtility.isTablet(MyProfileFilterActivity.this)) {
@@ -42,6 +64,7 @@ public class MyProfileFilterActivity extends AppCompatActivity {
         }
 
     }
+
     private void initView() {
         Typeface materialdesignicons_font = FontManager.getFontTypefaceMaterialDesignIcons(this, "fonts/materialdesignicons-webfont.otf");
         TextView locationIcon = (TextView) findViewById(R.id.locationIcon);
@@ -65,7 +88,14 @@ public class MyProfileFilterActivity extends AppCompatActivity {
                 finish();
             }
         });
-        SeekBar seekBar = (SeekBar)findViewById(R.id.seekBar2);
+        profileImage = findViewById(R.id.profileImage);
+        uNeme = findViewById(R.id.uNeme);
+        uemail = findViewById(R.id.uemail);
+        phone = findViewById(R.id.phone);
+
+        cityName = findViewById(R.id.city);
+        countryName = findViewById(R.id.country);
+        /*SeekBar seekBar = (SeekBar)findViewById(R.id.seekBar2);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 
@@ -87,19 +117,84 @@ public class MyProfileFilterActivity extends AppCompatActivity {
                         "Seekbar touch stopped", Toast.LENGTH_SHORT).show();
             }
         });
+*/
+        cityspinner = (Spinner) findViewById(R.id.cityspinner);
+        countryspinner = (Spinner) findViewById(R.id.countryspinner);
+        getUserdata();
+        setcountry();
+    }
 
-        Spinner cityspinner = (Spinner) findViewById(R.id.cityspinner);
-        Spinner countryspinner = (Spinner) findViewById(R.id.countryspinner);
+    private void setcountry() {
+        SwitchDBHelper switchDBHelper = new SwitchDBHelper(MyProfileFilterActivity.this);
+        ServiceContentData sData = switchDBHelper.getMasterData();
+        if (sData != null) {
+            if (sData.getData() != null) {
+                final Data MData = sData.getData();
+                country = MData.getCountry();
+                if (country != null) {
+                    countryList = new String[country.length];
+                    for (int i = 0; i < country.length; i++) {
+                        countryList[i] = String.valueOf(country[i].getName());
+                    }
+                    ArrayAdapter<String> countryAdapter = new ArrayAdapter<String>(MyProfileFilterActivity.this, R.layout.spinner_row, countryList);
+                    countryspinner.setAdapter(countryAdapter);
+                    countryspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            countryId = country[position].getId();
+                            city = MData.getCity();
+                            if (city != null) {
+                                cityList = new String[city.length];
+                                for (int i = 0; i < city.length; i++) {
+                                    if (countryId.equals(city[i].getCountry_id())) {
+                                        cityList[i] = String.valueOf(city[i].getName());
+                                    }
+                                }
+                                if (cityList != null && cityList.length > 0) {
+                                    ArrayAdapter<String> cityAdapter = new ArrayAdapter<String>(MyProfileFilterActivity.this, R.layout.spinner_row, cityList);
+                                    cityspinner.setAdapter(cityAdapter);
+                                }
+                            }
+                        }
 
-        String country_array[] = {"Avon", "Bedfordshire","Berkshire","Buckinghamshire","Bristol","Cambridgeshire","Cheshire","Cleveland"};
-        String city_array[] = {"London", "Manchester", "Leeds","Birmingham","Liverpool"};
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
 
-        ArrayAdapter<String> postalAdapter = new ArrayAdapter<String>(this, R.layout.spinner_row, city_array);
-        cityspinner.setAdapter(postalAdapter);
-      //  postalspinner.setOnItemSelectedListener(new MyOnItemSelectedListener());
+                        }
+                    });
+                }
+                cityspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        if (countryId.equals(city[position].getCountry_id())) {
+                            cityId = city[position].getId();
+                        }
+                    }
 
-        ArrayAdapter<String> roladapter = new ArrayAdapter<String>(this, R.layout.spinner_row, country_array);
-        countryspinner.setAdapter(roladapter);
-        //rolspinner.setOnItemSelectedListener(new MyOnItemSelectedListener());
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+            }
+        }
+    }
+
+    private void getUserdata() {
+        SwitchDBHelper switchDBHelper = new SwitchDBHelper(MyProfileFilterActivity.this);
+        ArrayList<Data> userData = switchDBHelper.getAllUserInfoList();
+        if (userData != null && userData.size() > 0) {
+            for (Data data : userData) {
+                userId = data.getId();
+                if (data.getFull_name() != null && !data.getFirst_name().equals("")) {
+                    uNeme.setText(data.getFull_name());
+                } else {
+                    uNeme.setText(data.getFirst_name() + " " + data.getLast_name());
+                }
+                uemail.setText(data.getEmail());
+                phone.setText(data.getMobile_number());
+                Picasso.with(MyProfileFilterActivity.this).load(data.getProfile_image()).placeholder(R.drawable.userimage).resize(100, 100).into(profileImage);
+            }
+        }
     }
 }

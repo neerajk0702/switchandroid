@@ -21,6 +21,8 @@ import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
 import com.kredivation.switchland.framework.ServiceCaller;
 import com.kredivation.switchland.model.Data;
+import com.kredivation.switchland.model.MychoiceArray;
+import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.ServiceContentData;
 import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.CompatibilityUtility;
@@ -143,6 +145,9 @@ public class SplashScreenActivity extends AppCompatActivity {
                     if (isComplete) {
                         parseMasterServiceData(result);
                     } else {
+                        if (dotDialog.isShowing()) {
+                            dotDialog.dismiss();
+                        }
                         Utility.alertForErrorMessage(Contants.Error, SplashScreenActivity.this);
                     }
                 }
@@ -212,7 +217,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 @Override
                 public void onDone(String result, boolean isComplete) {
                     if (isComplete) {
-                        parseLoginServiceData(result);
+                        parseUserServiceData(result);
                     } else {
                         if (dotDialog.isShowing()) {
                             dotDialog.dismiss();
@@ -226,7 +231,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
     }
 
-    public void parseLoginServiceData(String result) {
+    public void parseUserServiceData(String result) {
         if (result != null) {
             final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
             if (serviceData != null) {
@@ -238,6 +243,80 @@ public class SplashScreenActivity extends AppCompatActivity {
                                 Boolean flag = false;
                                 SwitchDBHelper switchDBHelper = new SwitchDBHelper(SplashScreenActivity.this);
                                 switchDBHelper.upsertUserInfoData(serviceData.getData(), serviceData.getIs_home_available());
+                                flag = true;
+                                return flag;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Boolean flag) {
+                                super.onPostExecute(flag);
+                                if (flag) {
+                                    getMyHome();
+                                }
+                            }
+                        }.execute();
+                    }
+                }
+                if (dotDialog.isShowing()) {
+                    dotDialog.dismiss();
+                }
+            }
+        }
+    }
+
+    //get my home data
+    private void getMyHome() {
+        if (Utility.isOnline(SplashScreenActivity.this)) {
+          //  homeDialog = new ASTProgressBar(SplashScreenActivity.this);
+            JSONObject object = new JSONObject();
+            try {
+                object.put("api_key", Contants.API_KEY);
+                object.put("user_id", userId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String serviceURL = Contants.BASE_URL + Contants.MyHome;
+
+            ServiceCaller serviceCaller = new ServiceCaller(SplashScreenActivity.this);
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "getMyHome", new IAsyncWorkCompletedCallback() {
+                @Override
+                public void onDone(String result, boolean isComplete) {
+                    if (isComplete) {
+                        parseHomeServiceData(result);
+                    } else {
+                        if (dotDialog.isShowing()) {
+                            dotDialog.dismiss();
+                        }
+                        Utility.alertForErrorMessage(Contants.Error, SplashScreenActivity.this);
+                    }
+                }
+            });
+        } else {
+            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, SplashScreenActivity.this);//off line msg....
+        }
+    }
+
+    public void parseHomeServiceData(String result) {
+        if (result != null) {
+            final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
+            if (serviceData != null) {
+                if (serviceData.isSuccess()) {
+                    if (serviceData.getData() != null) {
+                        new AsyncTask<Void, Void, Boolean>() {
+                            @Override
+                            protected Boolean doInBackground(Void... voids) {
+                                Boolean flag = false;
+                                SwitchDBHelper switchDBHelper = new SwitchDBHelper(SplashScreenActivity.this);
+                                switchDBHelper.deleteAllRows("Myhomedata");
+                                switchDBHelper.deleteAllRows("MychoiceData");
+                              //  switchDBHelper.deleteAllRows("LikedmychoiceData");
+                                for (MyhomeArray myhomeArray : serviceData.getData().getMyhomeArray()) {
+                                    switchDBHelper.insertMyhomedata(myhomeArray);
+                                }
+                                for (MychoiceArray mychoiceArray : serviceData.getData().getMychoiceArray()) {
+                                    switchDBHelper.inserMychoiceData(mychoiceArray);
+                                }
                                 flag = true;
                                 return flag;
                             }

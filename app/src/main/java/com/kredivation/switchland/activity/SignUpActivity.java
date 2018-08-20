@@ -187,7 +187,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 @Override
                 public void onDone(String result, boolean isComplete) {
                     if (isComplete) {
-                        final ContentData serviceData = new Gson().fromJson(result, ContentData.class);
+                        final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
                         if (serviceData != null) {
                             if (serviceData.isSuccess()) {
                                 Utility.showToast(SignUpActivity.this,serviceData.getMsg());

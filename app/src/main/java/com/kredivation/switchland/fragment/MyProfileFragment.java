@@ -3,6 +3,7 @@ package com.kredivation.switchland.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,17 +15,33 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.activity.AddHomeActivity;
 import com.kredivation.switchland.activity.AppTourActivity;
 import com.kredivation.switchland.activity.ChangePasswordActivity;
 import com.kredivation.switchland.activity.EditProfileActivity;
+import com.kredivation.switchland.activity.MainActivity;
+import com.kredivation.switchland.activity.MyChoicesActivity;
+import com.kredivation.switchland.activity.MyHomeActivity;
+import com.kredivation.switchland.activity.MyLikedChoicesActivity;
 import com.kredivation.switchland.activity.SettingActivity;
 import com.kredivation.switchland.activity.SplashScreenActivity;
+import com.kredivation.switchland.activity.TravelRoutineActivity;
 import com.kredivation.switchland.adapters.MainPagerAdapter;
 import com.kredivation.switchland.database.SwitchDBHelper;
+import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
+import com.kredivation.switchland.framework.ServiceCaller;
 import com.kredivation.switchland.model.Data;
+import com.kredivation.switchland.model.MychoiceArray;
+import com.kredivation.switchland.model.ServiceContentData;
+import com.kredivation.switchland.utilities.ASTProgressBar;
+import com.kredivation.switchland.utilities.Contants;
+import com.kredivation.switchland.utilities.Utility;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -34,7 +51,7 @@ import java.util.ArrayList;
  * Use the {@link MyProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MyProfileFragment extends Fragment implements TabLayout.OnTabSelectedListener, View.OnClickListener {
+public class MyProfileFragment extends Fragment implements  View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -76,14 +93,17 @@ public class MyProfileFragment extends Fragment implements TabLayout.OnTabSelect
         }
     }
 
-    private TabLayout tabLayout;
     private Context context;
     private View view;
     LinearLayout settingLayout, editLayout, addHomeLayout;
     private String userId;
     ImageView proImage;
     private TextView name, email, phone;
-
+    ASTProgressBar dotDialog;
+    String LikedmychoiceStr;
+    String MychoiceStr;
+    String MyhomeStr;
+TextView MyHome,Mychoices,Mylike;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -99,29 +119,19 @@ public class MyProfileFragment extends Fragment implements TabLayout.OnTabSelect
         name = view.findViewById(R.id.name);
         email = view.findViewById(R.id.email);
         phone = view.findViewById(R.id.phone);
-        tabLayout = view.findViewById(R.id.tabLayout);
-
-        tabLayout.addTab(tabLayout.newTab().setText("My Home"));
-        tabLayout.addTab(tabLayout.newTab().setText("My Choices"));
-        tabLayout.addTab(tabLayout.newTab().setText("Liked My Choices"));
-
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
-        //viewPager = view.findViewById(R.id.pager);
-        MainPagerAdapter adapter = new MainPagerAdapter(getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
-        // viewPager.setAdapter(adapter);
-        // viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        //Adding onTabSelectedListener to swipe views
-        tabLayout.setOnTabSelectedListener(this);
-        //TabLayout.Tab tab = tabLayout.getTabAt(1);
-        // tab.select();
-        //setupTabIcons();
         settingLayout = view.findViewById(R.id.settingLayout);
         settingLayout.setOnClickListener(this);
         editLayout = view.findViewById(R.id.editLayout);
         editLayout.setOnClickListener(this);
         addHomeLayout = view.findViewById(R.id.addHomeLayout);
         addHomeLayout.setOnClickListener(this);
+
+        MyHome = view.findViewById(R.id.MyHome);
+        MyHome.setOnClickListener(this);
+        Mychoices = view.findViewById(R.id.Mychoices);
+        Mychoices.setOnClickListener(this);
+        Mylike = view.findViewById(R.id.Mylike);
+        Mylike.setOnClickListener(this);
         getUserdata();
     }
 
@@ -138,27 +148,6 @@ public class MyProfileFragment extends Fragment implements TabLayout.OnTabSelect
             }
         }
     }
-   /* private void setupTabIcons() {
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_user);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_switchicon);
-        tabLayout.getTabAt(2).setIcon(R.drawable.ic_chat);
-    }*/
-
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-        // viewPager.setCurrentItem(tab.getPosition());
-    }
-
-    @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-
-    }
-
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -174,6 +163,19 @@ public class MyProfileFragment extends Fragment implements TabLayout.OnTabSelect
                 Intent homeintent = new Intent(context, AddHomeActivity.class);
                 startActivity(homeintent);
                 break;
+            case R.id.MyHome:
+                Intent myintent = new Intent(getContext(), MyHomeActivity.class);
+                startActivity(myintent);
+                break;
+            case R.id.Mychoices:
+                Intent choicesintent = new Intent(getContext(), MyChoicesActivity.class);
+                startActivity(choicesintent);
+                break;
+            case R.id.Mylike:
+                Intent likeintent = new Intent(getContext(), MyLikedChoicesActivity.class);
+                startActivity(likeintent);
+                break;
         }
     }
+
 }

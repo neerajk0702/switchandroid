@@ -5,7 +5,7 @@
     android:layout_gravity="center_horizontal"
     android:background="@android:color/transparent"
     android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
     <ProgressBar
         android:id="@+id/progressBar1"
@@ -18,11 +18,12 @@
     <TextView
         android:id="@+id/progressLabel"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:text="Please wait"
-        android:textColor="@color/colorPrimary"
+        android:layout_marginLeft="@dimen/_10dp"
+        android:text="Please wait..."
+        android:textColor="@color/black"
         android:visibility="gone" />
 
 </LinearLayout>

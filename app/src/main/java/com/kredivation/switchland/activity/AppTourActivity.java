@@ -114,10 +114,8 @@ public class AppTourActivity extends AppCompatActivity implements ViewPager.OnPa
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_next:
-
-                //  viewPager.setCurrentItem((viewPager.getCurrentItem() < dotsCount)
-                //   ? viewPager.getCurrentItem() + 1 : 0); //for next page show
-                navigate();
+                viewPager.setCurrentItem((viewPager.getCurrentItem() < dotsCount) ? viewPager.getCurrentItem() + 1 : 0); //for next page show
+                //  navigate();
                 break;
             case R.id.btn_finish:
                 navigate();
@@ -131,29 +129,21 @@ public class AppTourActivity extends AppCompatActivity implements ViewPager.OnPa
         ArrayList<Data> userData = switchDBHelper.getAllUserInfoList();
         boolean sflag = false;
         if (userData != null && userData.size() > 0) {
-            if (Utility.geFirstTimePost(AppTourActivity.this)) {
-                Intent intent = new Intent(AppTourActivity.this, MainActivity.class);
-                startActivity(intent);
-            } else {
-                for (Data data : userData) {
-                    if (data.getIs_home_available() == 1) {
-                        sflag = true;
-                        Utility.setFirstTimePost(AppTourActivity.this, true);
-                    } else {
-                        sflag = false;
-                        Utility.setFirstTimePost(AppTourActivity.this, false);
-                    }
-                }
-                Intent intent;
-                if (sflag) {
-                    intent = new Intent(AppTourActivity.this, MainActivity.class);
+            for (Data data : userData) {
+                if (data.getIs_home_available() == 1) {
+                    sflag = true;
                 } else {
-                    intent = new Intent(AppTourActivity.this, CreateFirstTimePostActivity.class);
+                    sflag = false;
                 }
-                // intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
             }
-
+            Intent intent;
+            if (sflag) {
+                intent = new Intent(AppTourActivity.this, MainActivity.class);
+            } else {
+                intent = new Intent(AppTourActivity.this, CreateFirstTimePostActivity.class);
+            }
+            // intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         } else {
             Intent intent = new Intent(AppTourActivity.this, SigninActivity.class);
             startActivity(intent);

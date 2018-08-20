@@ -8,7 +8,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.media.ExifInterface;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -38,13 +43,16 @@ import com.kredivation.switchland.adapters.ChatListAdapter;
 import com.kredivation.switchland.model.ChatData;
 import com.kredivation.switchland.model.Features;
 import com.kredivation.switchland.model.House_rules;
+import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.Contants;
 import com.kredivation.switchland.utilities.FontManager;
 import com.kredivation.switchland.utilities.Utility;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,6 +112,7 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
     ArrayList<ChatData> locationList;
     AddHomePhotoAdapter mAdapter;
     RecyclerView recyclerView;
+    MyhomeArray MyHomedata;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -140,16 +149,33 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
 
     //get data from pre
     private void getSaveData() {
-        SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
+       /* SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
         if (prefs != null) {
             String homeStr = prefs.getString("HomeImage", "");
             if (homeStr != null && !homeStr.equals("") && !homeStr.equals("[]")) {
                 locationList = new Gson().fromJson(homeStr, new TypeToken<ArrayList<ChatData>>() {
                 }.getType());
             }
+        }*/
+
+        SharedPreferences prefs = context.getSharedPreferences("HomeDetailPreferences", Context.MODE_PRIVATE);
+        if (prefs != null) {
+            if (prefs.getBoolean("HomeEdit", false)) {
+                String Myhome = prefs.getString("HomeDetail", "");
+                if (Myhome != null && !Myhome.equals("")) {
+                    MyHomedata = new Gson().fromJson(Myhome, new TypeToken<MyhomeArray>() {
+                    }.getType());
+
+                    if (MyHomedata != null) {//for home edit
+                        locationList = MyHomedata.getHomePhotoList();
+                    }
+                }
+            }
         }
-        mAdapter = new AddHomePhotoAdapter(context, locationList);
-        recyclerView.setAdapter(mAdapter);
+        if (locationList != null && locationList.size() > 0) {
+            mAdapter = new AddHomePhotoAdapter(context, locationList);
+            recyclerView.setAdapter(mAdapter);
+        }
     }
 
     @Override
@@ -173,11 +199,18 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
 
     //save data
     private void saveData() {
-        String homeList = new Gson().toJson(locationList);
+      /*  String homeList = new Gson().toJson(locationList);
         SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("HomeImage", homeList);
         editor.commit();
+*/
+
+        if (MyHomedata != null) {
+            MyHomedata.setHomePhotoList(locationList);
+            String homeStr = new Gson().toJson(MyHomedata);
+            Utility.setHomeDetail(context, homeStr, true);
+        }
     }
 
     private void saveScreenData(boolean NextPreviousFlag, boolean DoneFlag) {
@@ -333,4 +366,6 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
             astProgressBar.dismiss();
         }
     }
+
+
 }

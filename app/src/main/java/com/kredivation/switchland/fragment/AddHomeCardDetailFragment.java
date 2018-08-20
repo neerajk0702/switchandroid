@@ -21,6 +21,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.activity.AppTourActivity;
 import com.kredivation.switchland.activity.SplashScreenActivity;
@@ -33,6 +35,7 @@ import com.kredivation.switchland.model.Family;
 import com.kredivation.switchland.model.Genderarray;
 import com.kredivation.switchland.model.Home_style;
 import com.kredivation.switchland.model.Month;
+import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.Pets_allowed;
 import com.kredivation.switchland.model.Religion;
 import com.kredivation.switchland.model.Security;
@@ -105,7 +108,7 @@ public class AddHomeCardDetailFragment extends Fragment implements View.OnClickL
     EditText cvv, name, cardno;
     TextInputLayout input_layout_name, input_layout_cardno, input_layout_cvv;
     String cvvStr, nameStr, cardnoStr;
-
+    MyhomeArray MyHomedata;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -138,7 +141,7 @@ public class AddHomeCardDetailFragment extends Fragment implements View.OnClickL
 
     //get data from pre
     private void getSaveData() {
-        SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
+     /*   SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
         if (prefs != null) {
             monthId = prefs.getString("monthId", "");
             monthPos = prefs.getInt("monthPos", 0);
@@ -150,6 +153,26 @@ public class AddHomeCardDetailFragment extends Fragment implements View.OnClickL
             cvv.setText(cvvStr);
             name.setText(nameStr);
             cardno.setText(cardnoStr);
+        }*/
+
+        SharedPreferences prefs = context.getSharedPreferences("HomeDetailPreferences", Context.MODE_PRIVATE);
+        if (prefs != null) {
+            if (prefs.getBoolean("HomeEdit", false)) {
+                String Myhome = prefs.getString("HomeDetail", "");
+                if (Myhome != null && !Myhome.equals("")) {
+                    MyHomedata = new Gson().fromJson(Myhome, new TypeToken<MyhomeArray>() {
+                    }.getType());
+
+                   /* if (MyHomedata != null) {//for home edit
+                        String titleStr = MyHomedata.getTitle();
+                        String aboutHomeStr = MyHomedata.getSort_description();
+                        saveRuleList = MyHomedata.getRuleList();
+                        saveFeatureList = MyHomedata.getFeaturelist();
+                        title.setText(titleStr);
+                        about.setText(aboutHomeStr);
+                    }*/
+                }
+            }
         }
     }
     private void getAllDataFromDB() {
@@ -294,7 +317,7 @@ public class AddHomeCardDetailFragment extends Fragment implements View.OnClickL
 
     //save data
     private void saveData() {
-        SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
+       /* SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("monthId", monthId);
         editor.putInt("monthPos", monthPos);
@@ -303,6 +326,15 @@ public class AddHomeCardDetailFragment extends Fragment implements View.OnClickL
         editor.putString("CVV", cvvStr);
         editor.putString("Name", nameStr);
         editor.putString("Cardno", cardnoStr);
-        editor.commit();
+        editor.commit();*/
+
+        /*if (MyHomedata != null) {
+            MyHomedata.setTitle(titleStr);
+            MyHomedata.setSort_description(aboutStr);
+            MyHomedata.setFeaturelist(Featurelist);
+            MyHomedata.setRuleList(ruleList);
+            String homeStr = new Gson().toJson(MyHomedata);
+            Utility.setHomeDetail(context, homeStr,true);
+        }*/
     }
 }

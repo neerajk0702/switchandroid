@@ -90,7 +90,11 @@
         <activity android:name=".activity.ChangePasswordActivity" />
         <activity android:name=".activity.EditProfileActivity" />
         <activity android:name=".activity.AddHomeActivity" />
-        <activity android:name=".activity.TravelRoutineActivity"></activity>
+        <activity android:name=".activity.TravelRoutineActivity" />
+        <activity android:name=".activity.MyHomeActivity" />
+        <activity android:name=".activity.MyChoicesActivity" />
+        <activity android:name=".activity.MyLikedChoicesActivity" />
+        <activity android:name=".activity.HomeDetailActivity"></activity>
     </application>
 
 </manifest>

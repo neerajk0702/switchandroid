@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
@@ -34,11 +35,15 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.database.SwitchDBHelper;
+import com.kredivation.switchland.framework.FileUploaderHelper;
 import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
 import com.kredivation.switchland.framework.ServiceCaller;
+import com.kredivation.switchland.model.ChatData;
 import com.kredivation.switchland.model.City;
 import com.kredivation.switchland.model.Country;
 import com.kredivation.switchland.model.Data;
+import com.kredivation.switchland.model.Features;
+import com.kredivation.switchland.model.House_rules;
 import com.kredivation.switchland.model.ServiceContentData;
 import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.CompatibilityUtility;
@@ -53,6 +58,11 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private Toolbar toolbar;
@@ -72,6 +82,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     public final int REQUEST_CAMERA = 101;
     public final int SELECT_PHOTO = 102;
     private String userChoosenTask;
+    File imgFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -448,7 +459,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private Boolean addBitmapAsFile(final Bitmap bitmap, final String fileName) {
         final ASTProgressBar astProgressBar = new ASTProgressBar(EditProfileActivity.this);
         new AsyncTask<Void, Void, Boolean>() {
-            File imgFile;
+
 
             @Override
             protected void onPreExecute() {
@@ -497,11 +508,57 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 if (astProgressBar.isShowing()) {
                     astProgressBar.dismiss();
                 }
+                updateUserImg();
             }
         }.execute();
 
         return true;
     }
 
+    public void updateUserImg() {
+        if (Utility.isOnline(EditProfileActivity.this)) {
+            final ASTProgressBar progressBar = new ASTProgressBar(EditProfileActivity.this);
+            progressBar.show();
+            HashMap<String, String> payloadList = new HashMap<String, String>();
+            payloadList.put("api_key", Contants.API_KEY);
+            payloadList.put("user_id", userId);
+            String serviceURL = Contants.BASE_URL + Contants.UpdateUserImage;
+            MultipartBody.Builder multipartBody = setMultipartBodyVaule();
+
+            FileUploaderHelper fileUploaderHelper = new FileUploaderHelper(EditProfileActivity.this, payloadList, multipartBody, serviceURL) {
+                @Override
+                public void receiveData(String result) {
+                    final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
+                    if (serviceData != null) {
+                        if (serviceData.isSuccess()) {
+                            Utility.showToast(EditProfileActivity.this, serviceData.getMsg());
+                        } else {
+                            Utility.showToast(EditProfileActivity.this, serviceData.getMsg());
+                        }
+                    } else {
+                        Utility.showToast(EditProfileActivity.this, "Server Side error!");
+                    }
+                    if (progressBar.isShowing()) {
+                        progressBar.dismiss();
+                    }
+                }
+            };
+            fileUploaderHelper.execute();
+        } else {
+            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, EditProfileActivity.this);//off line msg....
+        }
+    }
+
+    //add images into MultipartBody for send as multipart
+    private MultipartBody.Builder setMultipartBodyVaule() {
+        MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
+        MultipartBody.Builder multipartBody = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        //image add
+        if (imgFile != null && imgFile.exists()) {
+            multipartBody.addFormDataPart("profie_pic", imgFile.getName(), RequestBody.create(MEDIA_TYPE_PNG, imgFile));
+        }
+
+        return multipartBody;
+    }
 
 }

@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kredivation.switchland.model.Data;
+import com.kredivation.switchland.model.MychoiceArray;
+import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.ServiceContentData;
 
 import java.util.ArrayList;
@@ -28,12 +30,21 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_userInfo_TABLE);
         String CREATE_MasterData_TABLE = "CREATE TABLE MasterData(id INTEGER,masterData TEXT)";
         db.execSQL(CREATE_MasterData_TABLE);
+
+        String CREATE_Myhomedata_TABLE = "CREATE TABLE Myhomedata(id TEXT,user_id TEXT,home_type TEXT,bedrooms TEXT,bathrooms TEXT,sleeps TEXT,property_type TEXT,pets TEXT,family_matters TEXT,title TEXT,sort_description TEXT,house_no TEXT,location TEXT,latitude TEXT,longitude TEXT,destinations TEXT,traveller_type TEXT,travelling_anywhere TEXT,profile_image TEXT,startdate TEXT,enddate TEXT,country_id TEXT,city_id TEXT,address1 TEXT,address2 TEXT,zipcode TEXT,gender TEXT,religion TEXT,landmarks TEXT,level_security TEXT,profile_completeness TEXT,status TEXT,added_date TEXT,updated_date TEXT)";
+        db.execSQL(CREATE_Myhomedata_TABLE);
+        String CREATE_MychoiceData_TABLE = "CREATE TABLE MychoiceData(home_id TEXT,title TEXT,sort_description TEXT,location TEXT,destinations TEXT,home_image TEXT,startdate TEXT,enddate TEXT,zipcode TEXT,user_id TEXT,full_name TEXT,country_name TEXT,city_name TEXT)";
+        db.execSQL(CREATE_MychoiceData_TABLE);
     }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("DROP TABLE IF EXISTS userInfo");
         db.execSQL("DROP TABLE IF EXISTS MasterData");
+        db.execSQL("DROP TABLE IF EXISTS Myhomedata");
+        db.execSQL("DROP TABLE IF EXISTS MychoiceData");
+        // db.execSQL("DROP TABLE IF EXISTS LikedmychoiceData");
         onCreate(db);
     }
 
@@ -238,4 +249,213 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
         values.put("masterData", mData);
     }
 
+    //---------Myhomedata data----
+    public boolean insertMyhomedata(MyhomeArray ob) {
+        ContentValues values = new ContentValues();
+        populateMyhomedataValue(values, ob);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        long i = db.insert("Myhomedata", null, values);
+        db.close();
+        return i > 0;
+    }
+
+    //populate user  list data
+    private void populateMyhomedata(Cursor cursor, MyhomeArray ob) {
+        ob.setId(cursor.getString(0));
+        ob.setUser_id(cursor.getString(1));
+        ob.setHome_type(cursor.getString(2));
+        ob.setBedrooms(cursor.getString(3));
+        ob.setBathrooms(cursor.getString(4));
+        ob.setSleeps(cursor.getString(5));
+        ob.setProperty_type(cursor.getString(6));
+        ob.setPets(cursor.getString(7));
+        ob.setFamily_matters(cursor.getString(8));
+        ob.setTitle(cursor.getString(9));
+        ob.setSort_description(cursor.getString(10));
+        ob.setHouse_no(cursor.getString(11));
+        ob.setLocation(cursor.getString(12));
+        ob.setLatitude(cursor.getString(13));
+        ob.setLongitude(cursor.getString(14));
+        ob.setDestinations(cursor.getString(15));
+        ob.setTraveller_type(cursor.getString(16));
+        ob.setTravelling_anywhere(cursor.getString(17));
+        ob.setProfile_image(cursor.getString(18));
+        ob.setStartdate(cursor.getString(19));
+        ob.setEnddate(cursor.getString(20));
+        ob.setCountry_id(cursor.getString(21));
+        ob.setCity_id(cursor.getString(22));
+        ob.setAddress1(cursor.getString(23));
+        ob.setAddress2(cursor.getString(24));
+        ob.setZipcode(cursor.getString(25));
+        ob.setGender(cursor.getString(26));
+        ob.setReligion(cursor.getString(27));
+        ob.setLandmarks(cursor.getString(28));
+        ob.setLevel_security(cursor.getString(29));
+        ob.setProfile_completeness(cursor.getString(30));
+        ob.setStatus(cursor.getString(31));
+        ob.setAdded_date(cursor.getString(32));
+        ob.setUpdated_date(cursor.getString(33));
+    }
+
+    public MyhomeArray getMyhomedata() {
+        String query = "Select * FROM Myhomedata ";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        MyhomeArray ob = new MyhomeArray();
+
+        if (cursor.moveToFirst()) {
+            cursor.moveToFirst();
+            populateMyhomedata(cursor, ob);
+            cursor.close();
+        } else {
+            ob = null;
+        }
+        db.close();
+        return ob;
+    }
+
+    public void populateMyhomedataValue(ContentValues values, MyhomeArray ob) {
+        values.put("id", ob.getId());
+        values.put("user_id", ob.getUser_id());
+        values.put("home_type", ob.getHome_type());
+        values.put("bedrooms", ob.getBedrooms());
+        values.put("bathrooms", ob.getBathrooms());
+        values.put("sleeps", ob.getSleeps());
+        values.put("property_type", ob.getProperty_type());
+        values.put("pets", ob.getPets());
+        values.put("family_matters", ob.getFamily_matters());
+        values.put("title", ob.getTitle());
+        values.put("sort_description", ob.getSort_description());
+        values.put("house_no", ob.getHouse_no());
+        values.put("location", ob.getLocation());
+        values.put("latitude", ob.getLatitude());
+        values.put("longitude", ob.getLongitude());
+        values.put("destinations", ob.getDestinations());
+        values.put("traveller_type", ob.getTraveller_type());
+        values.put("travelling_anywhere", ob.getTravelling_anywhere());
+        values.put("profile_image", ob.getProfile_image());
+        values.put("startdate", ob.getStartdate());
+        values.put("enddate", ob.getEnddate());
+        values.put("country_id", ob.getCountry_id());
+        values.put("city_id", ob.getCity_id());
+        values.put("address1", ob.getAddress1());
+        values.put("address2", ob.getAddress2());
+        values.put("zipcode", ob.getZipcode());
+        values.put("gender", ob.getGender());
+        values.put("religion", ob.getReligion());
+        values.put("landmarks", ob.getLandmarks());
+        values.put("level_security", ob.getLevel_security());
+        values.put("profile_completeness", ob.getProfile_completeness());
+        values.put("status", ob.getStatus());
+        values.put("added_date", ob.getAdded_date());
+        values.put("updated_date", ob.getUpdated_date());
+    }
+
+    public ArrayList<MyhomeArray> getAllMyhomedata() {
+        String query = "Select *  FROM Myhomedata ";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        ArrayList<MyhomeArray> list = new ArrayList<MyhomeArray>();
+
+        if (cursor.moveToFirst()) {
+            while (cursor.isAfterLast() == false) {
+                MyhomeArray ob = new MyhomeArray();
+                populateMyhomedata(cursor, ob);
+                list.add(ob);
+                cursor.moveToNext();
+            }
+        }
+        db.close();
+        return list;
+    }
+
+    //---------MychoiceData data----
+    public boolean inserMychoiceData(MychoiceArray mychoice) {
+        ContentValues values = new ContentValues();
+        populateMychoiceDataValue(values, mychoice);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        long i = db.insert("MychoiceData", null, values);
+        db.close();
+        return i > 0;
+    }
+
+    //populate MychoiceData  list data
+    private void populateMychoiceData(Cursor cursor, MychoiceArray ob) {
+        ob.setHome_id(cursor.getString(0));
+        ob.setTitle(cursor.getString(1));
+        ob.setSort_description(cursor.getString(2));
+        ob.setLocation(cursor.getString(3));
+        ob.setDestinations(cursor.getString(4));
+        ob.setHome_image(cursor.getString(5));
+        ob.setStartdate(cursor.getString(6));
+        ob.setEnddate(cursor.getString(7));
+        ob.setZipcode(cursor.getString(8));
+        ob.setUser_id(cursor.getString(9));
+        ob.setFull_name(cursor.getString(10));
+        ob.setCountry_name(cursor.getString(11));
+        ob.setCity_name(cursor.getString(12));
+    }
+
+    public MychoiceArray getMychoiceData() {
+        String query = "Select * FROM MychoiceData ";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        MychoiceArray ob = new MychoiceArray();
+
+        if (cursor.moveToFirst()) {
+            cursor.moveToFirst();
+            populateMychoiceData(cursor, ob);
+            cursor.close();
+        } else {
+            ob = null;
+        }
+        db.close();
+        return ob;
+    }
+
+    public void populateMychoiceDataValue(ContentValues values, MychoiceArray ob) {
+        values.put("home_id", ob.getHome_id());
+        values.put("title", ob.getTitle());
+        values.put("sort_description", ob.getSort_description());
+        values.put("location", ob.getLocation());
+        values.put("destinations", ob.getDestinations());
+        values.put("home_image", ob.getHome_image());
+        values.put("startdate", ob.getStartdate());
+        values.put("enddate", ob.getEnddate());
+        values.put("zipcode", ob.getZipcode());
+        values.put("user_id", ob.getUser_id());
+        values.put("full_name", ob.getFull_name());
+        values.put("country_name", ob.getCountry_name());
+        values.put("city_name", ob.getCity_name());
+    }
+
+    public ArrayList<MychoiceArray> getAllMychoiceData() {
+        String query = "Select *  FROM MychoiceData ";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        ArrayList<MychoiceArray> list = new ArrayList<MychoiceArray>();
+
+        if (cursor.moveToFirst()) {
+            while (cursor.isAfterLast() == false) {
+                MychoiceArray ob = new MychoiceArray();
+                populateMychoiceData(cursor, ob);
+                list.add(ob);
+                cursor.moveToNext();
+            }
+        }
+        db.close();
+        return list;
+    }
 }

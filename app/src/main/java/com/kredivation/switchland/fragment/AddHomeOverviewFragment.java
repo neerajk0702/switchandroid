@@ -19,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.activity.EditProfileActivity;
 import com.kredivation.switchland.activity.SigninActivity;
@@ -30,6 +32,7 @@ import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.model.Family;
 import com.kredivation.switchland.model.Genderarray;
 import com.kredivation.switchland.model.Home_style;
+import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.Pets_allowed;
 import com.kredivation.switchland.model.Religion;
 import com.kredivation.switchland.model.Security;
@@ -94,6 +97,7 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
     Family[] family;
     Genderarray[] genderarray;
     Religion[] religion;
+    MyhomeArray MyHomedata;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -395,7 +399,7 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
 
     //save all data
     public void saveData() {
-        try {
+       /* try {
             SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("homestyleStr", homestyleStr);
@@ -412,11 +416,51 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
         } catch (Exception e) {
             // should never happen
             //   throw new RuntimeException("Could not get language: " + e);
+        }*/
+        if (MyHomedata != null) {
+            MyHomedata.setHome_type(homestyleStr);
+            MyHomedata.setLevel_security(securitStr);
+            MyHomedata.setGender(genderStr);
+            MyHomedata.setReligion(religionStr);
+            MyHomedata.setFamily_matters(familyStr);
+            MyHomedata.setPets(petsStr);
+            MyHomedata.setProperty_type(typeOfPropertiesStr);
+            MyHomedata.setSleeps(String.valueOf(sleepsStr));
+            MyHomedata.setBathrooms(String.valueOf(bathroomsStr));
+            MyHomedata.setBedrooms(String.valueOf(bedroomsStr));
+            String homeStr = new Gson().toJson(MyHomedata);
+            Utility.setHomeDetail(context, homeStr,true);
         }
     }
 
     private void getSaveData() {
-        SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
+        SharedPreferences prefs = context.getSharedPreferences("HomeDetailPreferences", Context.MODE_PRIVATE);
+        if (prefs != null) {
+            if (prefs.getBoolean("HomeEdit", false)) {
+                String Myhome = prefs.getString("HomeDetail", "");
+                if (Myhome != null && !Myhome.equals("")) {
+                    MyHomedata = new Gson().fromJson(Myhome, new TypeToken<MyhomeArray>() {
+                    }.getType());
+
+                    if (MyHomedata != null) {//for home edit
+                        homestyleStr = MyHomedata.getHome_type();
+                        securitStr = MyHomedata.getLevel_security();
+                        genderStr = MyHomedata.getGender();
+                        religionStr = MyHomedata.getReligion();
+                        familyStr = MyHomedata.getFamily_matters();
+                        petsStr = MyHomedata.getPets();
+                        typeOfPropertiesStr = MyHomedata.getProperty_type();
+                        sleepsStr = Integer.parseInt(MyHomedata.getSleeps());
+                        bathroomsStr = Integer.parseInt(MyHomedata.getBathrooms());
+                        bedroomsStr = Integer.parseInt(MyHomedata.getBedrooms());
+                        setDefaultValue();
+                    }
+                }
+            }else{
+                MyHomedata=new MyhomeArray();
+            }
+        }
+       /* SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
         if (prefs != null) {
             homestyleStr = prefs.getString("homestyleStr", "");
             securitStr = prefs.getString("securitStr", "");
@@ -428,9 +472,10 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
             sleepsStr = prefs.getInt("sleepsStr", 0);
             bathroomsStr = prefs.getInt("bathroomsStr", 0);
             bedroomsStr = prefs.getInt("bedroomsStr", 0);
-            setDefaultValue();
         }
+*/
     }
+
     //set if value exist
     private void setDefaultValue() {
         for (int i = 0; i < homestylefList.length; i++) {
@@ -476,19 +521,19 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
             }
         }
         for (int i = 0; i < sleepsList.length; i++) {
-            if (sleepsStr==sleeps[i].getId()) {
+            if (sleepsStr == sleeps[i].getId()) {
                 Sleepspinner.setSelection(i);
                 break;
             }
         }
         for (int i = 0; i < bathroomsList.length; i++) {
-            if (bathroomsStr==bathrooms[i].getId()) {
+            if (bathroomsStr == bathrooms[i].getId()) {
                 bathroomsspinner.setSelection(i);
                 break;
             }
         }
         for (int i = 0; i < bedroomsList.length; i++) {
-            if (bedroomsStr==bedrooms[i].getId()) {
+            if (bedroomsStr == bedrooms[i].getId()) {
                 bedroomspinner.setSelection(i);
                 break;
             }

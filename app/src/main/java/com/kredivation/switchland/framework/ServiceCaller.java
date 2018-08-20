@@ -35,6 +35,7 @@ public class ServiceCaller {
 
     //call Commen Method ForCall Servier Data with json Object
     public void CallCommanServiceMethod(final String loginUrl, JSONObject jsonObject, final String methodNmae, final IAsyncWorkCompletedCallback workCompletedCallback) {
+        Log.d(Contants.LOG_TAG, methodNmae + "Payload********" + jsonObject.toString());
         new ServiceHelper().callService(loginUrl, jsonObject, new IServiceSuccessCallback() {
             @Override
             public void onDone(String doneWhatCode, String result, String error) {

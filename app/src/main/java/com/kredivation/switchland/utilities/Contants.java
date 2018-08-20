@@ -25,5 +25,8 @@ public class Contants {
     public static String ChangePassword = "changePassword";
     public static String Userinfo = "userinfo";
     public static String Updateprofile = "updateprofile";
-
+    public static String Getallhomes = "getallhomes";
+    public static String UpdateUserImage = "updateUserImage";
+    public static String MyHome = "homes";
+    public static String Homedetails = "homedetails";
 }

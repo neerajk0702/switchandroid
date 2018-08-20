@@ -960,4 +960,18 @@ public class Utility {
         }
         return fflag;
     }
+
+    public static void setHomeDetail(Context context, String home,boolean HomeEdit) {
+        try {
+            SharedPreferences prefs = context.getSharedPreferences("HomeDetailPreferences", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("HomeDetail", home);
+            editor.putBoolean("HomeEdit", HomeEdit);
+            editor.commit();
+        } catch (Exception e) {
+            // should never happen
+            //   throw new RuntimeException("Could not get language: " + e);
+        }
+    }
+
 }

@@ -82,6 +82,7 @@
                         android:orientation="horizontal">
 
                         <com.kredivation.switchland.utilities.CircleImageView
+                            android:id="@+id/profileImage"
                             android:layout_width="@dimen/size_100px"
                             android:layout_height="@dimen/size_100px"
                             android:src="@drawable/userimage" />
@@ -115,7 +116,7 @@
                             />
 
                         <TextView
-                            android:id="@+id/pNeme"
+                            android:id="@+id/phone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dimTextSize_5"
@@ -409,38 +410,6 @@
 
                     </LinearLayout>
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimValue_20"
-                    android:background="@color/white"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="SELECT RADIUS"
-                        android:textColor="@color/primary_text"
-                        android:textSize="@dimen/dimTextSize_14"
-                        android:textStyle="bold" />
-
-                    <SeekBar
-                        android:id="@+id/seekBar2"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/size_50px"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="@dimen/dimTextSize_7"
-                        android:max="100"
-                        android:progress="40"
-                        android:progressBackgroundTint="@color/divider"
-                        android:progressTint="@color/brown_color"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </LinearLayout>
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/size_40px" />

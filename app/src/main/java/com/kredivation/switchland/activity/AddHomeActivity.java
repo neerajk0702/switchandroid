@@ -16,6 +16,8 @@ import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.adapters.AddHomePagerAdapter;
 import com.kredivation.switchland.database.SwitchDBHelper;
@@ -25,6 +27,7 @@ import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.model.Family;
 import com.kredivation.switchland.model.Genderarray;
 import com.kredivation.switchland.model.Home_style;
+import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.Pets_allowed;
 import com.kredivation.switchland.model.Religion;
 import com.kredivation.switchland.model.Security;
@@ -34,6 +37,9 @@ import com.kredivation.switchland.model.Type_of_property;
 import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.CompatibilityUtility;
 import com.kredivation.switchland.utilities.FontManager;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AddHomeActivity extends AppCompatActivity {
     private Toolbar toolbar;

@@ -127,7 +127,7 @@
                                             android:padding="@dimen/dimValue_10"
                                             android:text=""
                                             android:textColor="@color/icons"
-                                            android:textSize="@dimen/dimTextSize_22"
+                                            android:textSize="@dimen/dimTextSize_25"
                                             app:layout_anchor="@+id/mainLayout"
                                             app:layout_anchorGravity="center_vertical|right" />
                                     </LinearLayout>

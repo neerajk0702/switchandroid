@@ -2,6 +2,7 @@ package com.kredivation.switchland.activity;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
@@ -36,6 +37,7 @@ import com.kredivation.switchland.utilities.Contants;
 import com.kredivation.switchland.utilities.FontManager;
 import com.kredivation.switchland.utilities.Utility;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -77,6 +79,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
     ArrayList<ChatData> homePhotoList;
     String profileimgStr, travleIdStr, dreamStr;
     String monthId, yearId, cvvStr, Cardno, CardNameStr;
+    HashMap<String, String> payloadList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +125,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
             }
         });
         setUiData();
-        getAllHomeDataFromSharePre();
+
     }
 
     private void setUiData() {
@@ -290,7 +293,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
                 break;
             case R.id.submit:
                 if (isValidate()) {
-                    //addHomeServer();
+                    addHomeServer();
                 }
                 break;
         }
@@ -356,18 +359,18 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
             CardNameStr = prefs.getString("Name", "");
             Cardno = prefs.getString("Cardno", "");
         }
+        setValueIntoPayload();
     }
 
-   // profile_img  ,feature_id[],house_rule_id[],uploaded_image[]
-
     private void setValueIntoPayload() {
-        HashMap<String, String> payloadList = new HashMap<String, String>();
+        payloadList = new HashMap<String, String>();
         payloadList.put("api_key", Contants.API_KEY);
+        payloadList.put("home_id", "");
         payloadList.put("user_id", userId);
         payloadList.put("title", titleStr);
         payloadList.put("sort_description", aboutHomeStr);
         payloadList.put("house_no", Hno);
-        payloadList.put("home_type", typeOfPropertiesId);
+        payloadList.put("home_type", homestyleId);
         payloadList.put("bedrooms", String.valueOf(bedroomsId));
         payloadList.put("bathrooms", String.valueOf(bathroomsId));
         payloadList.put("sleeps", String.valueOf(sleepsid));
@@ -377,7 +380,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
         payloadList.put("location", addressStr);//need ask
         payloadList.put("latitude", "20.7");
         payloadList.put("longitude", "30.7");
-        payloadList.put("destinations", addressStr);
+        payloadList.put("destinations", dreamStr);
         payloadList.put("traveller_type", travleIdStr);
         payloadList.put("startdate", startDateStr);
         payloadList.put("enddate", enddateStr);
@@ -402,12 +405,14 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
         payloadList.put("Cvv", cvvStr);
     }
 
- /*   //save add home data into server
-    public void saveBatteryDataonServer() {
+    //save add home data into server
+    public void addHomeServer() {
         if (Utility.isOnline(TravelRoutineActivity.this)) {
             final ASTProgressBar progressBar = new ASTProgressBar(TravelRoutineActivity.this);
             progressBar.show();
+
             String serviceURL = Contants.BASE_URL + Contants.Addhome;
+            getAllHomeDataFromSharePre();
             MultipartBody.Builder multipartBody = setMultipartBodyVaule();
 
             FileUploaderHelper fileUploaderHelper = new FileUploaderHelper(TravelRoutineActivity.this, payloadList, multipartBody, serviceURL) {
@@ -416,7 +421,12 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
                     final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
                     if (serviceData != null) {
                         if (serviceData.isSuccess()) {
+                            SharedPreferences prefs = getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
+                            prefs.edit().clear().commit();
                             Utility.showToast(TravelRoutineActivity.this, serviceData.getMsg());
+                            Intent intent = new Intent(TravelRoutineActivity.this, MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
                         } else {
                             Utility.showToast(TravelRoutineActivity.this, serviceData.getMsg());
                         }
@@ -434,21 +444,31 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
         }
     }
 
+
+    // profile_img  ,feature_id[],house_rule_id[],uploaded_image[]
     //add images into MultipartBody for send as multipart
     private MultipartBody.Builder setMultipartBodyVaule() {
-        MediaType MEDIA_TYPE_PNG = MediaType.parse("image/jpg");
+        MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
         MultipartBody.Builder multipartBody = new MultipartBody.Builder().setType(MultipartBody.FORM);
-        if (batteryimgFile != null && batteryimgFile.exists()) {
-            multipartBody.addFormDataPart(batteryimgFile.getName(), batteryimgFile.getName(), RequestBody.create(MEDIA_TYPE_PNG, batteryimgFile));
+        //for string add
+        for (Features features : saveFeatureList) {
+            multipartBody.addFormDataPart("feature_id[]", features.getId());
         }
-        if (cellImgFile != null && cellImgFile.exists()) {
-            multipartBody.addFormDataPart(cellImgFile.getName(), cellImgFile.getName(), RequestBody.create(MEDIA_TYPE_PNG, cellImgFile));
+        for (House_rules rules : saveRuleList) {
+            multipartBody.addFormDataPart("house_rule_id[]", rules.getId());
         }
-        if (sNoPlateImgImgFile != null && sNoPlateImgImgFile.exists()) {
-            multipartBody.addFormDataPart(sNoPlateImgImgFile.getName(), sNoPlateImgImgFile.getName(), RequestBody.create(MEDIA_TYPE_PNG, sNoPlateImgImgFile));
+        //image add
+        File profilefile = new File(profileimgStr);
+        if (profilefile != null && profilefile.exists()) {
+            multipartBody.addFormDataPart("profile_img", profilefile.getName(), RequestBody.create(MEDIA_TYPE_PNG, profilefile));
+        }
+        for (ChatData chatData : homePhotoList) {
+            File homeFile = chatData.getImageFile();
+            if (homeFile != null && homeFile.exists()) {
+                multipartBody.addFormDataPart("uploaded_image[]", homeFile.getName(), RequestBody.create(MEDIA_TYPE_PNG, homeFile));
+            }
         }
         return multipartBody;
     }
-*/
 
 }

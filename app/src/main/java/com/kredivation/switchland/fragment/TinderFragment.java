@@ -3,6 +3,7 @@ package com.kredivation.switchland.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,12 +16,25 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.google.gson.Gson;
 import com.kredivation.switchland.R;
+import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.fragment.likepagelib.KoldaListnerJava;
 import com.kredivation.switchland.fragment.likepagelib.KoldaMain;
 import com.kredivation.switchland.fragment.likepagelib.TinderCardAdapter;
+import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
+import com.kredivation.switchland.framework.ServiceCaller;
+import com.kredivation.switchland.model.Data;
+import com.kredivation.switchland.model.ServiceContentData;
+import com.kredivation.switchland.utilities.ASTProgressBar;
+import com.kredivation.switchland.utilities.Contants;
 import com.kredivation.switchland.utilities.Utility;
+import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -75,6 +89,8 @@ public class TinderFragment extends Fragment {
     private HashMap _$_findViewCache;
     Context context;
     private View view;
+    ASTProgressBar dotDialog;
+    private String userId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -103,6 +119,7 @@ public class TinderFragment extends Fragment {
         this.initializeDeck();
         this.fillData();
         this.setUpCLickListeners();
+        getUserdata();
     }
 
     private void initializeDeck() {
@@ -198,5 +215,93 @@ public class TinderFragment extends Fragment {
                 ((KoldaMain) view.findViewById(R.id.koloda)).onClickSkip();
             }
         });
+    }
+
+    private void getUserdata() {
+        SwitchDBHelper switchDBHelper = new SwitchDBHelper(context);
+        ArrayList<Data> userData = switchDBHelper.getAllUserInfoList();
+        if (userData != null && userData.size() > 0) {
+            for (Data data : userData) {
+                userId = data.getId();
+            }
+            //getAllHome();
+        }
+    }
+
+    private void getAllHome() {
+        if (Utility.isOnline(getContext())) {
+            dotDialog = new ASTProgressBar(getContext());
+            JSONObject object = new JSONObject();
+            try {
+                object.put("api_key", Contants.API_KEY);
+                object.put("user_id", userId);
+                object.put("startdate", userId);
+                object.put("enddate", userId);
+                object.put("country_id", userId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String serviceURL = Contants.BASE_URL + Contants.Getallhomes;
+
+            ServiceCaller serviceCaller = new ServiceCaller(getContext());
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "getMyHome", new IAsyncWorkCompletedCallback() {
+                @Override
+                public void onDone(String result, boolean isComplete) {
+                    if (isComplete) {
+                        parseAllHomeServiceData(result);
+                    } else {
+                        if (dotDialog.isShowing()) {
+                            dotDialog.dismiss();
+                        }
+                        Utility.alertForErrorMessage(Contants.Error, getContext());
+                    }
+                }
+            });
+        } else {
+            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, getContext());//off line msg....
+        }
+    }
+
+    public void parseAllHomeServiceData(String result) {
+        if (result != null) {
+            final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
+            if (serviceData != null) {
+                if (serviceData.isSuccess()) {
+                    if (serviceData.getData() != null) {
+                        new AsyncTask<Void, Void, Boolean>() {
+                            @Override
+                            protected Boolean doInBackground(Void... voids) {
+                                Boolean flag = false;
+                               /* SwitchDBHelper switchDBHelper = new SwitchDBHelper(MyHomeActivity.this);
+                                switchDBHelper.deleteAllRows("MasterData");
+                                switchDBHelper.deleteAllRows("MychoiceData");
+                                switchDBHelper.deleteAllRows("LikedmychoiceData");
+                                switchDBHelper.insertMyhomedata(serviceData.getData());
+                                for (MychoiceArray mychoiceArray : serviceData.getData().getMychoiceArray()) {
+                                    switchDBHelper.inserMychoiceData(mychoiceArray);
+                                }*/
+                                flag = true;
+                                return flag;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Boolean flag) {
+                                super.onPostExecute(flag);
+                                if (flag) {
+
+                                }
+                                if (dotDialog.isShowing()) {
+                                    dotDialog.dismiss();
+                                }
+                            }
+                        }.execute();
+                    }
+                }
+                if (dotDialog.isShowing()) {
+                    dotDialog.dismiss();
+                }
+            }
+        }
     }
 }

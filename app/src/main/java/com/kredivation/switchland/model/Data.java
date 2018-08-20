@@ -404,6 +404,36 @@ public class Data {
         this.gender = gender;
     }
 
+    private LikedmychoiceArray[] likedmychoiceArray;
+
+    private MyhomeArray[] myhomeArray;
+
+    private MychoiceArray[] mychoiceArray;
+
+    public LikedmychoiceArray[] getLikedmychoiceArray() {
+        return likedmychoiceArray;
+    }
+
+    public void setLikedmychoiceArray(LikedmychoiceArray[] likedmychoiceArray) {
+        this.likedmychoiceArray = likedmychoiceArray;
+    }
+
+    public MyhomeArray[] getMyhomeArray() {
+        return myhomeArray;
+    }
+
+    public void setMyhomeArray(MyhomeArray[] myhomeArray) {
+        this.myhomeArray = myhomeArray;
+    }
+
+    public MychoiceArray[] getMychoiceArray() {
+        return mychoiceArray;
+    }
+
+    public void setMychoiceArray(MychoiceArray[] mychoiceArray) {
+        this.mychoiceArray = mychoiceArray;
+    }
+
     @Override
     public String toString() {
         return "ClassPojo [created_date = " + created_date + ", role_id = " + role_id + ", status = " + status + ", user_type = " + user_type + ", profile_image = " + profile_image + ", is_verify = " + is_verify + ", last_login = " + last_login + ", id = " + id + ", first_name = " + first_name + ", username = " + username + ", updated_date = " + updated_date + ", mobile_number = " + mobile_number + ", added_by = " + added_by + ", email = " + email + ", last_name = " + last_name + ", otp = " + otp + "]";
