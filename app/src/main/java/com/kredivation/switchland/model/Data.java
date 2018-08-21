@@ -433,6 +433,30 @@ public class Data {
     public void setMychoiceArray(MychoiceArray[] mychoiceArray) {
         this.mychoiceArray = mychoiceArray;
     }
+    private Home_data[] home_data;
+
+    private Home_liked_disliked[] home_liked_disliked;
+
+    public Home_data[] getHome_data ()
+    {
+        return home_data;
+    }
+
+    public void setHome_data (Home_data[] home_data)
+    {
+        this.home_data = home_data;
+    }
+
+    public Home_liked_disliked[] getHome_liked_disliked ()
+    {
+        return home_liked_disliked;
+    }
+
+    public void setHome_liked_disliked (Home_liked_disliked[] home_liked_disliked)
+    {
+        this.home_liked_disliked = home_liked_disliked;
+    }
+
 
     @Override
     public String toString() {

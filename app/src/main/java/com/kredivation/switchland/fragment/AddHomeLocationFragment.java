@@ -39,6 +39,7 @@ import com.kredivation.switchland.model.City;
 import com.kredivation.switchland.model.Country;
 import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.model.Features;
+import com.kredivation.switchland.model.HomeDetails;
 import com.kredivation.switchland.model.House_rules;
 import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.ServiceContentData;
@@ -115,7 +116,7 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
     String saveCountryId;
     String saveCityId;
     int cityPos = 0;
-    MyhomeArray MyHomedata;
+    HomeDetails MyHomedata;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -256,7 +257,7 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
             if (prefs.getBoolean("HomeEdit", false)) {
                 String Myhome = prefs.getString("HomeDetail", "");
                 if (Myhome != null && !Myhome.equals("")) {
-                    MyHomedata = new Gson().fromJson(Myhome, new TypeToken<MyhomeArray>() {
+                    MyHomedata = new Gson().fromJson(Myhome, new TypeToken<HomeDetails>() {
                     }.getType());
 
                     if (MyHomedata != null) {//for home edit

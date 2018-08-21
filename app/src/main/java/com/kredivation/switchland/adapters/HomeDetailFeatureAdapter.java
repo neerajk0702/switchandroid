@@ -8,68 +8,51 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.kredivation.switchland.R;
-import com.kredivation.switchland.model.ChatData;
 import com.kredivation.switchland.model.Features;
 import com.kredivation.switchland.model.Home_features;
 import com.kredivation.switchland.utilities.FontManager;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeaturesAdapter extends RecyclerView.Adapter<FeaturesAdapter.MyViewHolder> {
+public class HomeDetailFeatureAdapter extends RecyclerView.Adapter<HomeDetailFeatureAdapter.MyViewHolder> {
 
-    ArrayList<Home_features> Featurelist;
+    List<Home_features> Featurelist;
     Context mContext;
     Typeface materialdesignicons_font;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         LinearLayout locationLayout;
-        CheckBox feature;
+        TextView title;
 
         public MyViewHolder(View view) {
             super(view);
-            feature = view.findViewById(R.id.feature);
+            title = view.findViewById(R.id.title);
         }
     }
 
 
-    public FeaturesAdapter(Context mContext,  ArrayList<Home_features> Featurelist) {
+    public HomeDetailFeatureAdapter(Context mContext, ArrayList<Home_features> Featurelist) {
         this.Featurelist = Featurelist;
         this.mContext = mContext;
-        materialdesignicons_font = FontManager.getFontTypefaceMaterialDesignIcons(mContext, "fonts/materialdesignicons-webfont.otf");
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.features_row, parent, false);
+                .inflate(R.layout.text_row, parent, false);
 
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        holder.feature.setText(Featurelist.get(position).getName());
-        if (Featurelist.get(position).isSelected()) {
-            holder.feature.setChecked(true);
-        } else {
-            holder.feature.setChecked(false);
-        }
-        holder.feature.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Featurelist.get(position).setSelected(true);
-                } else {
-                    Featurelist.get(position).setSelected(false);
-                }
-            }
-        });
+        holder.title.setText(Featurelist.get(position).getName());
+
     }
 
     @Override
@@ -77,4 +60,5 @@ public class FeaturesAdapter extends RecyclerView.Adapter<FeaturesAdapter.MyView
         return Featurelist.size();
     }
 }
+
 

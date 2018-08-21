@@ -31,6 +31,7 @@ import com.kredivation.switchland.model.Bedrooms;
 import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.model.Family;
 import com.kredivation.switchland.model.Genderarray;
+import com.kredivation.switchland.model.HomeDetails;
 import com.kredivation.switchland.model.Home_style;
 import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.Pets_allowed;
@@ -97,7 +98,7 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
     Family[] family;
     Genderarray[] genderarray;
     Religion[] religion;
-    MyhomeArray MyHomedata;
+    HomeDetails MyHomedata;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -429,7 +430,7 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
             MyHomedata.setBathrooms(String.valueOf(bathroomsStr));
             MyHomedata.setBedrooms(String.valueOf(bedroomsStr));
             String homeStr = new Gson().toJson(MyHomedata);
-            Utility.setHomeDetail(context, homeStr,true);
+            Utility.setHomeDetail(context, homeStr, true);
         }
     }
 
@@ -439,7 +440,7 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
             if (prefs.getBoolean("HomeEdit", false)) {
                 String Myhome = prefs.getString("HomeDetail", "");
                 if (Myhome != null && !Myhome.equals("")) {
-                    MyHomedata = new Gson().fromJson(Myhome, new TypeToken<MyhomeArray>() {
+                    MyHomedata = new Gson().fromJson(Myhome, new TypeToken<HomeDetails>() {
                     }.getType());
 
                     if (MyHomedata != null) {//for home edit
@@ -456,8 +457,8 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
                         setDefaultValue();
                     }
                 }
-            }else{
-                MyHomedata=new MyhomeArray();
+            } else {
+                MyHomedata = new HomeDetails();
             }
         }
        /* SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);

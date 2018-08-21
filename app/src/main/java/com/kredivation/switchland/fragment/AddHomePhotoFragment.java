@@ -42,6 +42,8 @@ import com.kredivation.switchland.adapters.AddHomePhotoAdapter;
 import com.kredivation.switchland.adapters.ChatListAdapter;
 import com.kredivation.switchland.model.ChatData;
 import com.kredivation.switchland.model.Features;
+import com.kredivation.switchland.model.HomeDetails;
+import com.kredivation.switchland.model.Homegallery;
 import com.kredivation.switchland.model.House_rules;
 import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.utilities.ASTProgressBar;
@@ -109,10 +111,10 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
     public final int SELECT_PHOTO = 102;
     private String userChoosenTask;
     ASTProgressBar astProgressBar;
-    ArrayList<ChatData> locationList;
+    ArrayList<Homegallery>  locationList;
     AddHomePhotoAdapter mAdapter;
     RecyclerView recyclerView;
-    MyhomeArray MyHomedata;
+    HomeDetails MyHomedata;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -125,7 +127,7 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
     }
 
     private void init() {
-        locationList = new ArrayList<ChatData>();
+        locationList = new ArrayList<Homegallery> ();
         Typeface materialdesignicons_font = FontManager.getFontTypefaceMaterialDesignIcons(getActivity(), "fonts/materialdesignicons-webfont.otf");
         TextView nextIcon = (TextView) view.findViewById(R.id.nextIcon);
         nextIcon.setTypeface(materialdesignicons_font);
@@ -163,11 +165,11 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
             if (prefs.getBoolean("HomeEdit", false)) {
                 String Myhome = prefs.getString("HomeDetail", "");
                 if (Myhome != null && !Myhome.equals("")) {
-                    MyHomedata = new Gson().fromJson(Myhome, new TypeToken<MyhomeArray>() {
+                    MyHomedata = new Gson().fromJson(Myhome, new TypeToken<HomeDetails>() {
                     }.getType());
 
                     if (MyHomedata != null) {//for home edit
-                        locationList = MyHomedata.getHomePhotoList();
+                        locationList = MyHomedata.getHomeImageList();
                     }
                 }
             }
@@ -207,7 +209,7 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
 */
 
         if (MyHomedata != null) {
-            MyHomedata.setHomePhotoList(locationList);
+            MyHomedata.setHomeImageList(locationList);
             String homeStr = new Gson().toJson(MyHomedata);
             Utility.setHomeDetail(context, homeStr, true);
         }
@@ -357,9 +359,9 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
 
     //set image into list and notify adapter
     private void setImageIntoList(File imgFile) {
-        ChatData chatData = new ChatData();
-        chatData.setImageFile(imgFile);
-        locationList.add(chatData);
+        Homegallery homegallery=new Homegallery();
+        homegallery.setPhoto(imgFile.getAbsolutePath());
+        locationList.add(homegallery);
         mAdapter.notifyDataSetChanged();
 
         if (astProgressBar.isShowing()) {

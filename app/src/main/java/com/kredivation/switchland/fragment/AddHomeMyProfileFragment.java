@@ -42,6 +42,7 @@ import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.model.ChatData;
 import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.model.Features;
+import com.kredivation.switchland.model.HomeDetails;
 import com.kredivation.switchland.model.House_rules;
 import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.ServiceContentData;
@@ -118,8 +119,7 @@ public class AddHomeMyProfileFragment extends Fragment implements View.OnClickLi
     String[] travleList;
     Type_of_traveller[] travel;
     String travleIdStr = "";
-    MyhomeArray MyHomedata;
-    String profileImageStr;
+    HomeDetails MyHomedata;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -224,19 +224,19 @@ public class AddHomeMyProfileFragment extends Fragment implements View.OnClickLi
             if (prefs.getBoolean("HomeEdit", false)) {
                 String Myhome = prefs.getString("HomeDetail", "");
                 if (Myhome != null && !Myhome.equals("")) {
-                    MyHomedata = new Gson().fromJson(Myhome, new TypeToken<MyhomeArray>() {
+                    MyHomedata = new Gson().fromJson(Myhome, new TypeToken<HomeDetails>() {
                     }.getType());
 
                     if (MyHomedata != null) {//for home editprofileImfLocal
                         dreamStr = MyHomedata.getDestinations();
                         dream.setText(dreamStr);
                         travleIdStr = MyHomedata.getTraveller_type();
-                        profileImageStr = MyHomedata.getProfile_image();//server side img
-                        imgFile = MyHomedata.getProfileImfLocal();
+                        String imgFileStr = MyHomedata.getProfile_image();
+                        imgFile=new File(imgFileStr);
                         if (imgFile != null && imgFile.exists()) {
                             Picasso.with(context).load(imgFile).placeholder(R.drawable.userimage).into(profileImage);
-                        } else {
-                            Picasso.with(context).load(profileImageStr).placeholder(R.drawable.userimage).into(profileImage);
+                        }else{
+                            Picasso.with(context).load(imgFileStr).placeholder(R.drawable.userimage).into(profileImage);
                         }
 
                     }
@@ -302,8 +302,9 @@ public class AddHomeMyProfileFragment extends Fragment implements View.OnClickLi
         editor.commit();*/
         if (MyHomedata != null) {
             MyHomedata.setTraveller_type(travleIdStr);
-            MyHomedata.setProfile_image(profileImageStr);
-            MyHomedata.setProfileImfLocal(imgFile);
+            if (imgFile != null && imgFile.exists()) {
+                MyHomedata.setProfile_image(imgFile.getAbsolutePath());
+            }
             MyHomedata.setDestinations(dreamStr);
             String homeStr = new Gson().toJson(MyHomedata);
             Utility.setHomeDetail(context, homeStr, true);

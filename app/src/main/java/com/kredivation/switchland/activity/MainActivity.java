@@ -2,8 +2,11 @@ package com.kredivation.switchland.activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.provider.Settings;
@@ -30,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     PermissionUtils permissionUtils;
     private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 1;
     private int REQUEST_CODE_GPS_PERMISSIONS = 2;
-
+    MainPagerAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
-        MainPagerAdapter adapter = new MainPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+         adapter = new MainPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         //Adding onTabSelectedListener to swipe views
@@ -219,4 +222,5 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
             e.printStackTrace();
         }
     }
+
 }

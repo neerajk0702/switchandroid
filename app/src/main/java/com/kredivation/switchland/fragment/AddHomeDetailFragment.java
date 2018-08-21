@@ -36,6 +36,9 @@ import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.model.Family;
 import com.kredivation.switchland.model.Features;
 import com.kredivation.switchland.model.Genderarray;
+import com.kredivation.switchland.model.HomeDetails;
+import com.kredivation.switchland.model.Home_features;
+import com.kredivation.switchland.model.Home_rules;
 import com.kredivation.switchland.model.Home_style;
 import com.kredivation.switchland.model.House_rules;
 import com.kredivation.switchland.model.MyhomeArray;
@@ -106,11 +109,11 @@ public class AddHomeDetailFragment extends Fragment implements View.OnClickListe
     private TextInputLayout input_layout_title, input_layout_des;
     private EditText title, about;
     private String titleStr, aboutStr;
-    List<Features> Featurelist;
-    List<House_rules> ruleList;
-    List<House_rules> saveRuleList;
-    List<Features> saveFeatureList;
-    MyhomeArray MyHomedata;
+    ArrayList<Home_features> Featurelist;
+    ArrayList<Home_rules> ruleList;
+    ArrayList<Home_rules> saveRuleList;
+    ArrayList<Home_features> saveFeatureList;
+    HomeDetails MyHomedata;
 
     @Override
 
@@ -163,18 +166,28 @@ public class AddHomeDetailFragment extends Fragment implements View.OnClickListe
                         House_rules[] house_rules = MData.getHouse_rules();
                         if (features != null) {
                             for (Features fer : features) {
+                                Home_features homeFeatures = new Home_features();
+                                homeFeatures.setId(fer.getId());
+                                homeFeatures.setName(fer.getName());
                                 if (checkedFeatureSelectedOrNot(fer)) {
-                                    fer.setSelected(true);
+                                    homeFeatures.setSelected(true);
+                                } else {
+                                    homeFeatures.setSelected(false);
                                 }
-                                Featurelist.add(fer);
+                                Featurelist.add(homeFeatures);
                             }
                         }
                         if (house_rules != null) {
                             for (House_rules rul : house_rules) {
+                                Home_rules home_rules = new Home_rules();
+                                home_rules.setId(rul.getId());
+                                home_rules.setName(rul.getName());
                                 if (checkedRuleSelectedOrNot(rul)) {
-                                    rul.setSelected(true);
+                                    home_rules.setSelected(true);
+                                } else {
+                                    home_rules.setSelected(false);
                                 }
-                                ruleList.add(rul);
+                                ruleList.add(home_rules);
                             }
                         }
                     }
@@ -198,12 +211,10 @@ public class AddHomeDetailFragment extends Fragment implements View.OnClickListe
     private boolean checkedFeatureSelectedOrNot(Features fer) {
         boolean selectFlag = false;
         if (saveFeatureList != null && saveFeatureList.size() > 0) {
-            for (Features savefe : saveFeatureList) {
+            for (Home_features savefe : saveFeatureList) {
                 if (savefe.getId().equals(fer.getId())) {
-                    if (savefe.isSelected()) {
-                        selectFlag = true;
-                        break;
-                    }
+                    selectFlag = true;
+                    break;
                 }
             }
         }
@@ -213,12 +224,10 @@ public class AddHomeDetailFragment extends Fragment implements View.OnClickListe
     private boolean checkedRuleSelectedOrNot(House_rules rul) {
         boolean selectFlag = false;
         if (saveRuleList != null && saveRuleList.size() > 0) {
-            for (House_rules savefe : saveRuleList) {
+            for (Home_rules savefe : saveRuleList) {
                 if (savefe.getId().equals(rul.getId())) {
-                    if (savefe.isSelected()) {
-                        selectFlag = true;
-                        break;
-                    }
+                    selectFlag = true;
+                    break;
                 }
             }
         }
@@ -231,7 +240,7 @@ public class AddHomeDetailFragment extends Fragment implements View.OnClickListe
         recyclerView.setNestedScrollingEnabled(false);
         StaggeredGridLayoutManager gaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(gaggeredGridLayoutManager);
-        FeaturesAdapter mAdapter = new FeaturesAdapter(context, Featurelist, saveFeatureList);
+        FeaturesAdapter mAdapter = new FeaturesAdapter(context, Featurelist);
         recyclerView.setAdapter(mAdapter);
 
 
@@ -240,7 +249,7 @@ public class AddHomeDetailFragment extends Fragment implements View.OnClickListe
         rulerecyclerView.setNestedScrollingEnabled(false);
         StaggeredGridLayoutManager rulegaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
         rulerecyclerView.setLayoutManager(rulegaggeredGridLayoutManager);
-        RulesAdapter ruleAdapter = new RulesAdapter(context, ruleList, saveRuleList);
+        RulesAdapter ruleAdapter = new RulesAdapter(context, ruleList);
         rulerecyclerView.setAdapter(ruleAdapter);
 
     }
@@ -270,14 +279,14 @@ public class AddHomeDetailFragment extends Fragment implements View.OnClickListe
             if (prefs.getBoolean("HomeEdit", false)) {
                 String Myhome = prefs.getString("HomeDetail", "");
                 if (Myhome != null && !Myhome.equals("")) {
-                    MyHomedata = new Gson().fromJson(Myhome, new TypeToken<MyhomeArray>() {
+                    MyHomedata = new Gson().fromJson(Myhome, new TypeToken<HomeDetails>() {
                     }.getType());
 
                     if (MyHomedata != null) {//for home edit
                         String titleStr = MyHomedata.getTitle();
                         String aboutHomeStr = MyHomedata.getSort_description();
-                        saveRuleList = MyHomedata.getRuleList();
-                        saveFeatureList = MyHomedata.getFeaturelist();
+                        saveRuleList = MyHomedata.getHouseRuleList();
+                        saveFeatureList = MyHomedata.getFeatureList();
                         title.setText(titleStr);
                         about.setText(aboutHomeStr);
                     }
@@ -356,10 +365,10 @@ public class AddHomeDetailFragment extends Fragment implements View.OnClickListe
         if (MyHomedata != null) {
             MyHomedata.setTitle(titleStr);
             MyHomedata.setSort_description(aboutStr);
-            MyHomedata.setFeaturelist(Featurelist);
-            MyHomedata.setRuleList(ruleList);
+            MyHomedata.setFeatureList(Featurelist);
+            MyHomedata.setHouseRuleList(ruleList);
             String homeStr = new Gson().toJson(MyHomedata);
-            Utility.setHomeDetail(context, homeStr,true);
+            Utility.setHomeDetail(context, homeStr, true);
         }
     }
 }

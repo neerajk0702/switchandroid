@@ -101,7 +101,8 @@ public class MyHomeAdapter extends RecyclerView.Adapter<MyHomeAdapter.MyViewHold
                /* MyhomeArray myHome = myHomeList.get(position);
                 String homeStr = new Gson().toJson(myHome);
                 Utility.setHomeDetail(mContext, homeStr, true);*/
-                homeintent.putExtra("HomeId",myHomeList.get(position).getId());
+                homeintent.putExtra("HomeId", myHomeList.get(position).getId());
+                homeintent.putExtra("EditFlage", true);
                 mContext.startActivity(homeintent);
             }
         });

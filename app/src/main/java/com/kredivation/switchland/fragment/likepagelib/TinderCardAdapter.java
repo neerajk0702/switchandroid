@@ -14,6 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.kredivation.switchland.R;
+import com.kredivation.switchland.model.Home_data;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -53,7 +54,7 @@ public class TinderCardAdapter extends BaseAdapter {
         } else {
             Object var10000 = convertView.getTag();
             if (var10000 == null) {
-               // throw new TypeCastException("null cannot be cast to non-null type com.kredivation.switchland.adapters.KolodaSampleAdapter.DataViewHolder");
+                // throw new TypeCastException("null cannot be cast to non-null type com.kredivation.switchland.adapters.KolodaSampleAdapter.DataViewHolder");
             }
 
             holder = (DataViewHolder) var10000;

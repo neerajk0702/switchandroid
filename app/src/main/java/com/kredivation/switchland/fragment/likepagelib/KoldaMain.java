@@ -199,12 +199,12 @@ public class KoldaMain extends FrameLayout {
 
     }
 
-    public final float getMaxCardWidth( View cardView) {
+    public final float getMaxCardWidth(View cardView) {
         Intrinsics.checkParameterIsNotNull(cardView, "cardView");
         return (float) cardView.getHeight() * (float) Math.tan(Math.toRadians((double) this.cardRotationDegrees));
     }
 
-    public final boolean canSwipe( View card) {
+    public final boolean canSwipe(View card) {
         Intrinsics.checkParameterIsNotNull(card, "card");
         Log.e("====>Swipe ", String.valueOf(this.swipeEnabled));
         Log.e("====>Active viewsempty ", String.valueOf(this.activeViews.isEmpty()));
@@ -414,7 +414,7 @@ public class KoldaMain extends FrameLayout {
         List var10000 = (List) destination$iv$iv;
     }
 
-    public KoldaMain( Context context) {
+    public KoldaMain(Context context) {
         this(context, (AttributeSet) null);
     }
 
@@ -438,7 +438,7 @@ public class KoldaMain extends FrameLayout {
         this.deckMap = var7;
         this.swipeEnabled = true;
         this.cardCallback = (CardCallback) (new CardCallback() {
-            public void onCardActionDown(int adapterPosition,  View card) {
+            public void onCardActionDown(int adapterPosition, View card) {
                 KoldaMain.this.activeViews.add(card);
             }
 
@@ -494,13 +494,13 @@ public class KoldaMain extends FrameLayout {
 
             }
 
-            public void onCardOffScreen(int adapterPosition,  View card) {
+            public void onCardOffScreen(int adapterPosition, View card) {
                 KoldaMain.this.dyingViews.remove(card);
                 KoldaMain.this.deckMap.remove(card);
                 KoldaMain.this.removeView(card);
             }
 
-            public void onCardSingleTap(int adapterPosition,  View card) {
+            public void onCardSingleTap(int adapterPosition, View card) {
                 KoldaListnerJava var10000 = KoldaMain.this.getKolodaListener();
                 if (var10000 != null) {
                     var10000.onCardSingleTap(adapterPosition);
@@ -508,7 +508,7 @@ public class KoldaMain extends FrameLayout {
 
             }
 
-            public void onCardDoubleTap(int adapterPosition,  View card) {
+            public void onCardDoubleTap(int adapterPosition, View card) {
                 KoldaListnerJava var10000 = KoldaMain.this.getKolodaListener();
                 if (var10000 != null) {
                     var10000.onCardDoubleTap(adapterPosition);
@@ -516,7 +516,7 @@ public class KoldaMain extends FrameLayout {
 
             }
 
-            public void onCardLongPress(int adapterPosition,  View card) {
+            public void onCardLongPress(int adapterPosition, View card) {
                 KoldaListnerJava var10000 = KoldaMain.this.getKolodaListener();
                 if (var10000 != null) {
                     var10000.onCardLongPress(adapterPosition);

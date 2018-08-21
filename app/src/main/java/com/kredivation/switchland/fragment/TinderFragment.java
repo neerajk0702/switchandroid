@@ -3,6 +3,7 @@ package com.kredivation.switchland.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +19,9 @@ import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.kredivation.switchland.R;
+import com.kredivation.switchland.activity.HomeDetailActivity;
+import com.kredivation.switchland.activity.MyChoicesActivity;
+import com.kredivation.switchland.adapters.HomeTinderCardAdapter;
 import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.fragment.likepagelib.KoldaListnerJava;
 import com.kredivation.switchland.fragment.likepagelib.KoldaMain;
@@ -25,6 +29,12 @@ import com.kredivation.switchland.fragment.likepagelib.TinderCardAdapter;
 import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
 import com.kredivation.switchland.framework.ServiceCaller;
 import com.kredivation.switchland.model.Data;
+import com.kredivation.switchland.model.Features;
+import com.kredivation.switchland.model.Home_data;
+import com.kredivation.switchland.model.Home_features;
+import com.kredivation.switchland.model.Home_liked_disliked;
+import com.kredivation.switchland.model.MychoiceArray;
+import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.ServiceContentData;
 import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.Contants;
@@ -86,11 +96,14 @@ public class TinderFragment extends Fragment {
     }
 
     private TinderCardAdapter adapter;
+    HomeTinderCardAdapter cardAdapter;
     private HashMap _$_findViewCache;
     Context context;
     private View view;
     ASTProgressBar dotDialog;
     private String userId;
+    String startDate, endDate, countryId;
+    ArrayList<Home_data> homeList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -186,9 +199,16 @@ public class TinderFragment extends Fragment {
                 R.drawable.e,
                 R.drawable.b,
                 R.drawable.d};
-        this.adapter = new TinderCardAdapter(getContext(), Arrays.asList(data));
-        ((KoldaMain) view.findViewById(R.id.koloda)).setAdapter((Adapter) this.adapter);
-        ((KoldaMain) view.findViewById(R.id.koloda)).setNeedCircleLoading(true);
+        setAdapterValue();
+    }
+
+    private void setAdapterValue() {
+        homeList = new ArrayList();
+        // this.adapter = new TinderCardAdapter(getContext(), Arrays.asList(data));
+        //((KoldaMain) view.findViewById(R.id.koloda)).setAdapter((Adapter) this.adapter);
+        cardAdapter = new HomeTinderCardAdapter(context, homeList);
+        ((KoldaMain) view.findViewById(R.id.koloda)).setAdapter(cardAdapter);
+        ((KoldaMain) view.findViewById(R.id.koloda)).setNeedCircleLoading(false);//for circle loading data after finish all card
     }
 
     private void setUpCLickListeners() {
@@ -201,11 +221,13 @@ public class TinderFragment extends Fragment {
         dislike.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
             public void onClick(View it) {
                 ((KoldaMain) view.findViewById(R.id.koloda)).onClickLeft();
+                getAllHome();
             }
         }));
         like.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
             public void onClick(View it) {
                 ((KoldaMain) view.findViewById(R.id.koloda)).onClickRight();
+                getAllHome();
             }
         }));
 
@@ -213,31 +235,40 @@ public class TinderFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ((KoldaMain) view.findViewById(R.id.koloda)).onClickSkip();
+                getAllHome();
             }
         });
     }
 
     private void getUserdata() {
         SwitchDBHelper switchDBHelper = new SwitchDBHelper(context);
+        ArrayList<MyhomeArray> myHomeList = switchDBHelper.getAllMyhomedata();
+        for (MyhomeArray myhomeArray : myHomeList) {
+            startDate = myhomeArray.getStartdate();
+            endDate = myhomeArray.getEnddate();
+            countryId = myhomeArray.getCountry_id();
+        }
+
         ArrayList<Data> userData = switchDBHelper.getAllUserInfoList();
         if (userData != null && userData.size() > 0) {
             for (Data data : userData) {
                 userId = data.getId();
             }
-            //getAllHome();
+            getAllHome();
         }
     }
 
     private void getAllHome() {
         if (Utility.isOnline(getContext())) {
             dotDialog = new ASTProgressBar(getContext());
+            dotDialog.show();
             JSONObject object = new JSONObject();
             try {
                 object.put("api_key", Contants.API_KEY);
                 object.put("user_id", userId);
-                object.put("startdate", userId);
-                object.put("enddate", userId);
-                object.put("country_id", userId);
+                object.put("startdate", startDate);
+                object.put("enddate", endDate);
+                object.put("country_id", countryId);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -273,14 +304,16 @@ public class TinderFragment extends Fragment {
                             @Override
                             protected Boolean doInBackground(Void... voids) {
                                 Boolean flag = false;
-                               /* SwitchDBHelper switchDBHelper = new SwitchDBHelper(MyHomeActivity.this);
-                                switchDBHelper.deleteAllRows("MasterData");
-                                switchDBHelper.deleteAllRows("MychoiceData");
-                                switchDBHelper.deleteAllRows("LikedmychoiceData");
-                                switchDBHelper.insertMyhomedata(serviceData.getData());
-                                for (MychoiceArray mychoiceArray : serviceData.getData().getMychoiceArray()) {
-                                    switchDBHelper.inserMychoiceData(mychoiceArray);
-                                }*/
+                                Home_data[] home_data = serviceData.getData().getHome_data();
+                                Home_liked_disliked[] home_liked_disliked = serviceData.getData().getHome_liked_disliked();
+                                if (home_data != null) {
+                                    for (Home_data homeData : home_data) {
+                                       /* if (!checkedHomeLikeOrNot(home_liked_disliked, homeData.getId())) {
+                                            homeList.add(homeData);
+                                        }*/
+                                        homeList.add(homeData);
+                                    }
+                                }
                                 flag = true;
                                 return flag;
                             }
@@ -289,7 +322,8 @@ public class TinderFragment extends Fragment {
                             protected void onPostExecute(Boolean flag) {
                                 super.onPostExecute(flag);
                                 if (flag) {
-
+                                    cardAdapter.notifyDataSetChanged();
+                                    //setAdapterValue();
                                 }
                                 if (dotDialog.isShowing()) {
                                     dotDialog.dismiss();
@@ -303,5 +337,25 @@ public class TinderFragment extends Fragment {
                 }
             }
         }
+    }
+
+    //check home like dislike or not
+    private boolean checkedHomeLikeOrNot(Home_liked_disliked[] home_liked_disliked, String homeId) {
+        boolean selectFlag = false;
+        if (home_liked_disliked != null && home_liked_disliked.length > 0) {
+            for (Home_liked_disliked likeHome : home_liked_disliked) {
+                if (likeHome.getHome_id().equals(homeId)) {
+                    selectFlag = true;
+                    break;
+                }
+            }
+        }
+        return selectFlag;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //cardAdapter.notifyDataSetChanged();
     }
 }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.model.ChatData;
+import com.kredivation.switchland.model.Homegallery;
 import com.kredivation.switchland.utilities.FontManager;
 import com.squareup.picasso.Picasso;
 
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 
 public class AddHomePhotoAdapter extends RecyclerView.Adapter<AddHomePhotoAdapter.MyViewHolder> {
 
-    private ArrayList<ChatData> locationList;
+    private ArrayList<Homegallery> locationList;
     Context mContext;
     Typeface materialdesignicons_font;
 
@@ -35,7 +36,7 @@ public class AddHomePhotoAdapter extends RecyclerView.Adapter<AddHomePhotoAdapte
     }
 
 
-    public AddHomePhotoAdapter(Context mContext, ArrayList<ChatData> list) {
+    public AddHomePhotoAdapter(Context mContext, ArrayList<Homegallery>  list) {
         this.locationList = list;
         this.mContext = mContext;
         materialdesignicons_font = FontManager.getFontTypefaceMaterialDesignIcons(mContext, "fonts/materialdesignicons-webfont.otf");
@@ -52,7 +53,7 @@ public class AddHomePhotoAdapter extends RecyclerView.Adapter<AddHomePhotoAdapte
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        Picasso.with(mContext).load(locationList.get(position).getImageFile()).into(holder.homeimage);
+        Picasso.with(mContext).load(locationList.get(position).getPhoto()).into(holder.homeimage);
 
     }
 

@@ -12,16 +12,17 @@ import android.widget.LinearLayout;
 
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.model.Features;
+import com.kredivation.switchland.model.Home_rules;
 import com.kredivation.switchland.model.House_rules;
 import com.kredivation.switchland.utilities.FontManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RulesAdapter extends RecyclerView.Adapter<RulesAdapter.MyViewHolder> {
 
-    List<House_rules> rulelist;
+    List<Home_rules> rulelist;
     Context mContext;
-    List<House_rules> saverulelist;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         LinearLayout locationLayout;
@@ -34,9 +35,8 @@ public class RulesAdapter extends RecyclerView.Adapter<RulesAdapter.MyViewHolder
     }
 
 
-    public RulesAdapter(Context mContext, List<House_rules> rulelist, List<House_rules> saverulelist) {
+    public RulesAdapter(Context mContext, ArrayList<Home_rules> rulelist) {
         this.rulelist = rulelist;
-        this.saverulelist = saverulelist;
         this.mContext = mContext;
     }
 

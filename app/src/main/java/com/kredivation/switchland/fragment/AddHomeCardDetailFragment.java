@@ -33,6 +33,7 @@ import com.kredivation.switchland.model.Bedrooms;
 import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.model.Family;
 import com.kredivation.switchland.model.Genderarray;
+import com.kredivation.switchland.model.HomeDetails;
 import com.kredivation.switchland.model.Home_style;
 import com.kredivation.switchland.model.Month;
 import com.kredivation.switchland.model.MyhomeArray;
@@ -108,7 +109,8 @@ public class AddHomeCardDetailFragment extends Fragment implements View.OnClickL
     EditText cvv, name, cardno;
     TextInputLayout input_layout_name, input_layout_cardno, input_layout_cvv;
     String cvvStr, nameStr, cardnoStr;
-    MyhomeArray MyHomedata;
+    HomeDetails MyHomedata;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -160,7 +162,7 @@ public class AddHomeCardDetailFragment extends Fragment implements View.OnClickL
             if (prefs.getBoolean("HomeEdit", false)) {
                 String Myhome = prefs.getString("HomeDetail", "");
                 if (Myhome != null && !Myhome.equals("")) {
-                    MyHomedata = new Gson().fromJson(Myhome, new TypeToken<MyhomeArray>() {
+                    MyHomedata = new Gson().fromJson(Myhome, new TypeToken<HomeDetails>() {
                     }.getType());
 
                    /* if (MyHomedata != null) {//for home edit
@@ -175,6 +177,7 @@ public class AddHomeCardDetailFragment extends Fragment implements View.OnClickL
             }
         }
     }
+
     private void getAllDataFromDB() {
         final ASTProgressBar dotDialog = new ASTProgressBar(getContext());
         dotDialog.show();
