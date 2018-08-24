@@ -27,8 +27,6 @@
         android:name="android.hardware.location.gps"
         android:required="false" />
 
-    <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -36,6 +34,7 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
+
 
     <application
         android:name=".framework.AppController"

@@ -24,6 +24,8 @@ import com.kredivation.switchland.R;
 import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
 import com.kredivation.switchland.framework.ServiceCaller;
+import com.kredivation.switchland.model.MychoiceArray;
+import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.ServiceContentData;
 import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.CompatibilityUtility;
@@ -42,6 +44,9 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
     private EditText user, password;
     private String login_user, login_password;
     private Toolbar toolbar;
+    ASTProgressBar dotDialog;
+    private int is_home_available;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +95,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         signup.setOnClickListener(this);
         TextView forgotPassword = findViewById(R.id.forgotPassword);
         forgotPassword.setOnClickListener(this);
+        dotDialog = new ASTProgressBar(SigninActivity.this);
     }
 
     @Override
@@ -163,7 +169,6 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
 
     private void login() {
         if (Utility.isOnline(SigninActivity.this)) {
-            final ASTProgressBar dotDialog = new ASTProgressBar(SigninActivity.this);
             dotDialog.show();
             JSONObject object = new JSONObject();
             try {
@@ -208,6 +213,8 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                                 SwitchDBHelper switchDBHelper = new SwitchDBHelper(SigninActivity.this);
                                 switchDBHelper.deleteAllRows("userInfo");
                                 switchDBHelper.upsertUserInfoData(serviceData.getData(), serviceData.getIs_home_available());
+                                is_home_available = serviceData.getIs_home_available();
+                                userId = serviceData.getData().getId();
                                 flag = true;
                                 return flag;
                             }
@@ -216,16 +223,83 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                             protected void onPostExecute(Boolean flag) {
                                 super.onPostExecute(flag);
                                 if (flag) {
-                                    Utility.showToast(SigninActivity.this, "Login Success");
-                                    Intent intent;
-                                    if (serviceData.getIs_home_available() == 1) {
-                                        intent = new Intent(SigninActivity.this, MainActivity.class);
-                                    } else {
-                                        intent = new Intent(SigninActivity.this, CreateFirstTimePostActivity.class);
-                                    }
+                                    getMsterData();
+                                }
+                            }
+                        }.execute();
+                    } else {
+                        Utility.showToast(SigninActivity.this, serviceData.getMsg());
+                    }
+                } else {
+                    Utility.showToast(SigninActivity.this, serviceData.getMsg());
+                    if (dotDialog.isShowing()) {
+                        dotDialog.dismiss();
+                    }
+                }
+            } else {
+                Utility.alertForErrorMessage(Contants.Error, SigninActivity.this);
+                if (dotDialog.isShowing()) {
+                    dotDialog.dismiss();
+                }
+            }
+        }
+    }
 
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
+    private void getMsterData() {
+        if (Utility.isOnline(SigninActivity.this)) {
+            String serviceURL = Contants.BASE_URL + Contants.Getdata;
+            JSONObject object = new JSONObject();
+            try {
+                object.put("api_key", Contants.API_KEY);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            ServiceCaller serviceCaller = new ServiceCaller(SigninActivity.this);
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "MasterData", new IAsyncWorkCompletedCallback() {
+                @Override
+                public void onDone(String result, boolean isComplete) {
+                    if (isComplete) {
+                        parseMasterServiceData(result);
+                    } else {
+                        if (dotDialog.isShowing()) {
+                            dotDialog.dismiss();
+                        }
+                        Utility.alertForErrorMessage(Contants.Error, SigninActivity.this);
+                    }
+                }
+            });
+        } else {
+            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, SigninActivity.this);//off line msg....
+        }
+    }
+
+    public void parseMasterServiceData(String result) {
+        if (result != null) {
+            final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
+            if (serviceData != null) {
+                if (serviceData.isSuccess()) {
+                    if (serviceData.getData() != null) {
+                        new AsyncTask<Void, Void, Boolean>() {
+                            @Override
+                            protected Boolean doInBackground(Void... voids) {
+                                Boolean flag = false;
+                                SwitchDBHelper switchDBHelper = new SwitchDBHelper(SigninActivity.this);
+                                switchDBHelper.deleteAllRows("MasterData");
+                                switchDBHelper.insertMasterData(serviceData);
+                                flag = true;
+                                return flag;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Boolean flag) {
+                                super.onPostExecute(flag);
+                                if (userId != null && !userId.equals("") && !userId.equals("")) {
+                                    getUserInfo();
+                                } else {
+                                    Utility.showToast(SigninActivity.this, "Login not Success");
+                                    if (dotDialog.isShowing()) {
+                                        dotDialog.dismiss();
+                                    }
                                 }
                             }
                         }.execute();
@@ -237,5 +311,155 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                 }
             }
         }
+    }
+
+
+    private void getUserInfo() {
+        if (Utility.isOnline(SigninActivity.this)) {
+            JSONObject object = new JSONObject();
+            try {
+                object.put("api_key", Contants.API_KEY);
+                object.put("user_id", userId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String serviceURL = Contants.BASE_URL + Contants.Userinfo;
+
+            ServiceCaller serviceCaller = new ServiceCaller(SigninActivity.this);
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "UserInfo", new IAsyncWorkCompletedCallback() {
+                @Override
+                public void onDone(String result, boolean isComplete) {
+                    if (isComplete) {
+                        parseUserServiceData(result);
+                    } else {
+                        if (dotDialog.isShowing()) {
+                            dotDialog.dismiss();
+                        }
+                        Utility.alertForErrorMessage(Contants.Error, SigninActivity.this);
+                    }
+                }
+            });
+        } else {
+            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, SigninActivity.this);//off line msg....
+        }
+    }
+
+    public void parseUserServiceData(String result) {
+        if (result != null) {
+            final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
+            if (serviceData != null) {
+                if (serviceData.isSuccess()) {
+                    if (serviceData.getData() != null) {
+                        new AsyncTask<Void, Void, Boolean>() {
+                            @Override
+                            protected Boolean doInBackground(Void... voids) {
+                                Boolean flag = false;
+                                SwitchDBHelper switchDBHelper = new SwitchDBHelper(SigninActivity.this);
+                                switchDBHelper.upsertUserInfoData(serviceData.getData(), serviceData.getIs_home_available());
+                                flag = true;
+                                return flag;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Boolean flag) {
+                                super.onPostExecute(flag);
+                                if (flag) {
+                                    getMyHome();
+                                }
+                            }
+                        }.execute();
+                    }
+                }
+            }
+        }
+    }
+
+    //get my home data
+    private void getMyHome() {
+        if (Utility.isOnline(SigninActivity.this)) {
+            JSONObject object = new JSONObject();
+            try {
+                object.put("api_key", Contants.API_KEY);
+                object.put("user_id", userId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String serviceURL = Contants.BASE_URL + Contants.MyHome;
+
+            ServiceCaller serviceCaller = new ServiceCaller(SigninActivity.this);
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "getMyHome", new IAsyncWorkCompletedCallback() {
+                @Override
+                public void onDone(String result, boolean isComplete) {
+                    if (isComplete) {
+                        parseHomeServiceData(result);
+                    } else {
+                        if (dotDialog.isShowing()) {
+                            dotDialog.dismiss();
+                        }
+                        Utility.alertForErrorMessage(Contants.Error, SigninActivity.this);
+                    }
+                }
+            });
+        } else {
+            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, SigninActivity.this);//off line msg....
+        }
+    }
+
+    public void parseHomeServiceData(String result) {
+        if (result != null) {
+            final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
+            if (serviceData != null) {
+                if (serviceData.isSuccess()) {
+                    if (serviceData.getData() != null) {
+                        new AsyncTask<Void, Void, Boolean>() {
+                            @Override
+                            protected Boolean doInBackground(Void... voids) {
+                                Boolean flag = false;
+                                SwitchDBHelper switchDBHelper = new SwitchDBHelper(SigninActivity.this);
+                                switchDBHelper.deleteAllRows("Myhomedata");
+                                switchDBHelper.deleteAllRows("MychoiceData");
+                                //  switchDBHelper.deleteAllRows("LikedmychoiceData");
+                                for (MyhomeArray myhomeArray : serviceData.getData().getMyhomeArray()) {
+                                    switchDBHelper.insertMyhomedata(myhomeArray);
+                                }
+                                for (MychoiceArray mychoiceArray : serviceData.getData().getMychoiceArray()) {
+                                    switchDBHelper.inserMychoiceData(mychoiceArray);
+                                }
+                                flag = true;
+                                return flag;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Boolean flag) {
+                                super.onPostExecute(flag);
+                                if (flag) {
+                                    moveScreen();
+                                }
+
+                            }
+                        }.execute();
+                    }
+                } else {
+                    moveScreen();
+                }
+            }
+        }
+    }
+
+    private void moveScreen() {
+        if (dotDialog.isShowing()) {
+            dotDialog.dismiss();
+        }
+        Utility.showToast(SigninActivity.this, "Login Success");
+        Intent intent;
+        if (is_home_available == 1) {
+            intent = new Intent(SigninActivity.this, MainActivity.class);
+        } else {
+            intent = new Intent(SigninActivity.this, CreateFirstTimePostActivity.class);
+        }
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

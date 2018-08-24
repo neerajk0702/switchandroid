@@ -102,7 +102,9 @@ public class TinderFragment extends Fragment {
     private View view;
     ASTProgressBar dotDialog;
     private String userId;
-    String startDate, endDate, countryId;
+    String startDate = "";
+    String endDate = "";
+    String countryId = "";
     ArrayList<Home_data> homeList;
 
     @Override
@@ -331,6 +333,8 @@ public class TinderFragment extends Fragment {
                             }
                         }.execute();
                     }
+                } else {
+                    Utility.alertForErrorMessage(serviceData.getMsg(), getContext());
                 }
                 if (dotDialog.isShowing()) {
                     dotDialog.dismiss();

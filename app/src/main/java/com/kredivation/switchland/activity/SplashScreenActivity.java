@@ -267,7 +267,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     //get my home data
     private void getMyHome() {
         if (Utility.isOnline(SplashScreenActivity.this)) {
-          //  homeDialog = new ASTProgressBar(SplashScreenActivity.this);
+            //  homeDialog = new ASTProgressBar(SplashScreenActivity.this);
             JSONObject object = new JSONObject();
             try {
                 object.put("api_key", Contants.API_KEY);
@@ -310,7 +310,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                                 SwitchDBHelper switchDBHelper = new SwitchDBHelper(SplashScreenActivity.this);
                                 switchDBHelper.deleteAllRows("Myhomedata");
                                 switchDBHelper.deleteAllRows("MychoiceData");
-                              //  switchDBHelper.deleteAllRows("LikedmychoiceData");
+                                //  switchDBHelper.deleteAllRows("LikedmychoiceData");
                                 for (MyhomeArray myhomeArray : serviceData.getData().getMyhomeArray()) {
                                     switchDBHelper.insertMyhomedata(myhomeArray);
                                 }
@@ -335,6 +335,10 @@ public class SplashScreenActivity extends AppCompatActivity {
                             }
                         }.execute();
                     }
+                } else {
+                    Intent intent = new Intent(SplashScreenActivity.this, AppTourActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 }
                 if (dotDialog.isShowing()) {
                     dotDialog.dismiss();
