@@ -9,6 +9,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kredivation.switchland.model.Data;
+import com.kredivation.switchland.model.HomeDetails;
+import com.kredivation.switchland.model.Home_features;
+import com.kredivation.switchland.model.Home_rules;
+import com.kredivation.switchland.model.Homegallery;
+import com.kredivation.switchland.model.LikedmychoiceArray;
 import com.kredivation.switchland.model.MychoiceArray;
 import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.ServiceContentData;
@@ -33,10 +38,15 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
 
         String CREATE_Myhomedata_TABLE = "CREATE TABLE Myhomedata(id TEXT,user_id TEXT,home_type TEXT,bedrooms TEXT,bathrooms TEXT,sleeps TEXT,property_type TEXT,pets TEXT,family_matters TEXT,title TEXT,sort_description TEXT,house_no TEXT,location TEXT,latitude TEXT,longitude TEXT,destinations TEXT,traveller_type TEXT,travelling_anywhere TEXT,profile_image TEXT,startdate TEXT,enddate TEXT,country_id TEXT,city_id TEXT,address1 TEXT,address2 TEXT,zipcode TEXT,gender TEXT,religion TEXT,landmarks TEXT,level_security TEXT,profile_completeness TEXT,status TEXT,added_date TEXT,updated_date TEXT)";
         db.execSQL(CREATE_Myhomedata_TABLE);
-        String CREATE_MychoiceData_TABLE = "CREATE TABLE MychoiceData(home_id TEXT,title TEXT,sort_description TEXT,location TEXT,destinations TEXT,home_image TEXT,startdate TEXT,enddate TEXT,zipcode TEXT,user_id TEXT,full_name TEXT,country_name TEXT,city_name TEXT)";
+        String CREATE_MychoiceData_TABLE = "CREATE TABLE MychoiceData(home_id TEXT,title TEXT,sort_description TEXT,location TEXT,destinations TEXT,home_image TEXT,startdate TEXT,enddate TEXT,zipcode TEXT,user_id TEXT,full_name TEXT,country_name TEXT,city_name TEXT,profile_image TEXT)";
         db.execSQL(CREATE_MychoiceData_TABLE);
-    }
 
+        String CREATE_LikedmychoiceData_TABLE = "CREATE TABLE LikedmychoiceData(home_id TEXT,title TEXT,sort_description TEXT,location TEXT,destinations TEXT,home_image TEXT,startdate TEXT,enddate TEXT,zipcode TEXT,user_id TEXT,full_name TEXT,country_name TEXT,city_name TEXT,profile_image TEXT)";
+        db.execSQL(CREATE_LikedmychoiceData_TABLE);
+
+        String CREATE_AddEditHomeData_TABLE = "CREATE TABLE AddEditHomeData(home_id TEXT,homestyle TEXT,security TEXT,gender TEXT,religion TEXT,family TEXT,pets TEXT,typeOfProperties TEXT,sleeps TEXT,bathrooms TEXT,bedrooms TEXT,title TEXT,about TEXT,savefeaturesList TEXT,saveRuleList,addressStr TEXT,hnoStr TEXT,landmarkStr TEXT,enterzipcodeStr TEXT,zipCodeStr TEXT,countryId TEXT,cityId TEXT,homeImageList TEXT,travleIdStr TEXT,profileImage TEXT,dreamStr TEXT,cardnoStr TEXT,nameStr TEXT,cvvStr TEXT,monthId TEXT,yearId EXT,latitude TEXT,longitude TEXT,startdate TEXT,enddate TEXT)";
+        db.execSQL(CREATE_AddEditHomeData_TABLE);
+    }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
@@ -44,7 +54,8 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS MasterData");
         db.execSQL("DROP TABLE IF EXISTS Myhomedata");
         db.execSQL("DROP TABLE IF EXISTS MychoiceData");
-        // db.execSQL("DROP TABLE IF EXISTS LikedmychoiceData");
+        db.execSQL("DROP TABLE IF EXISTS LikedmychoiceData");
+        db.execSQL("DROP TABLE IF EXISTS AddEditHomeData");
         onCreate(db);
     }
 
@@ -402,6 +413,7 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
         ob.setFull_name(cursor.getString(10));
         ob.setCountry_name(cursor.getString(11));
         ob.setCity_name(cursor.getString(12));
+        ob.setProfile_image(cursor.getString(13));
     }
 
     public MychoiceArray getMychoiceData() {
@@ -436,6 +448,7 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
         values.put("full_name", ob.getFull_name());
         values.put("country_name", ob.getCountry_name());
         values.put("city_name", ob.getCity_name());
+        values.put("profile_image", ob.getProfile_image());
     }
 
     public ArrayList<MychoiceArray> getAllMychoiceData() {
@@ -451,6 +464,370 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
             while (cursor.isAfterLast() == false) {
                 MychoiceArray ob = new MychoiceArray();
                 populateMychoiceData(cursor, ob);
+                list.add(ob);
+                cursor.moveToNext();
+            }
+        }
+        db.close();
+        return list;
+    }
+
+
+    //---------MychoiceData data----
+    public boolean inserLikedmychoiceData(LikedmychoiceArray mychoice) {
+        ContentValues values = new ContentValues();
+        populateLikedmychoiceDataValue(values, mychoice);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        long i = db.insert("LikedmychoiceData", null, values);
+        db.close();
+        return i > 0;
+    }
+
+    //populate LikedmychoiceData  list data
+    private void populateLikedmychoiceData(Cursor cursor, LikedmychoiceArray ob) {
+        ob.setHome_id(cursor.getString(0));
+        ob.setTitle(cursor.getString(1));
+        ob.setSort_description(cursor.getString(2));
+        ob.setLocation(cursor.getString(3));
+        ob.setDestinations(cursor.getString(4));
+        ob.setHome_image(cursor.getString(5));
+        ob.setStartdate(cursor.getString(6));
+        ob.setEnddate(cursor.getString(7));
+        ob.setZipcode(cursor.getString(8));
+        ob.setUser_id(cursor.getString(9));
+        ob.setFull_name(cursor.getString(10));
+        ob.setCountry_name(cursor.getString(11));
+        ob.setCity_name(cursor.getString(12));
+        ob.setProfile_image(cursor.getString(13));
+    }
+
+    public LikedmychoiceArray getLikedmychoiceData() {
+        String query = "Select * FROM LikedmychoiceData ";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        LikedmychoiceArray ob = new LikedmychoiceArray();
+
+        if (cursor.moveToFirst()) {
+            cursor.moveToFirst();
+            populateLikedmychoiceData(cursor, ob);
+            cursor.close();
+        } else {
+            ob = null;
+        }
+        db.close();
+        return ob;
+    }
+
+    public void populateLikedmychoiceDataValue(ContentValues values, LikedmychoiceArray ob) {
+        values.put("home_id", ob.getHome_id());
+        values.put("title", ob.getTitle());
+        values.put("sort_description", ob.getSort_description());
+        values.put("location", ob.getLocation());
+        values.put("destinations", ob.getDestinations());
+        values.put("home_image", ob.getHome_image());
+        values.put("startdate", ob.getStartdate());
+        values.put("enddate", ob.getEnddate());
+        values.put("zipcode", ob.getZipcode());
+        values.put("user_id", ob.getUser_id());
+        values.put("full_name", ob.getFull_name());
+        values.put("country_name", ob.getCountry_name());
+        values.put("city_name", ob.getCity_name());
+        values.put("profile_image", ob.getProfile_image());
+    }
+
+    public ArrayList<LikedmychoiceArray> getAllLikedmychoiceData() {
+        String query = "Select *  FROM LikedmychoiceData ";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        ArrayList<LikedmychoiceArray> list = new ArrayList<LikedmychoiceArray>();
+
+        if (cursor.moveToFirst()) {
+            while (cursor.isAfterLast() == false) {
+                LikedmychoiceArray ob = new LikedmychoiceArray();
+                populateLikedmychoiceData(cursor, ob);
+                list.add(ob);
+                cursor.moveToNext();
+            }
+        }
+        db.close();
+        return list;
+    }
+
+    public boolean upsertAddEditHomeData(HomeDetails ob) {
+        boolean done = false;
+        HomeDetails data = null;
+        if (ob.getId() != null && !ob.getId().equals("") && !ob.getId().equals("0")) {
+            data = getAddEditHomeDataById(ob.getId());
+            if (data == null) {
+                done = insertAddEditHomeData(ob);
+            } else {
+                done = updateAddEditHomeOverview(ob);
+            }
+        }
+        return done;
+    }
+
+    public HomeDetails getAddEditHomeDataById(String id) {
+        String query = "Select * FROM AddEditHomeData WHERE home_id = '" + id + "' ";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        HomeDetails ob = new HomeDetails();
+
+        if (cursor.moveToFirst()) {
+            cursor.moveToFirst();
+            populateAddEditHomeData(cursor, ob);
+            cursor.close();
+        } else {
+            ob = null;
+        }
+        db.close();
+        return ob;
+    }
+
+    private void populateAddEditHomeData(Cursor cursor, HomeDetails ob) {
+        ob.setId(cursor.getString(0));
+        ob.setHomestyle(cursor.getString(1));
+        ob.setLevel_security(cursor.getString(2));
+        ob.setGender(cursor.getString(3));
+        ob.setReligion(cursor.getString(4));
+        ob.setFamily_matters(cursor.getString(5));
+        ob.setPets(cursor.getString(6));
+        ob.setProperty_type(cursor.getString(7));
+        ob.setSleeps(cursor.getString(8));
+        ob.setBathrooms(cursor.getString(9));
+        ob.setBedrooms(cursor.getString(10));
+        ob.setTitle(cursor.getString(11));
+        ob.setSort_description(cursor.getString(12));
+        ArrayList<Home_features> featureList = new Gson().fromJson(cursor.getString(13), new TypeToken<ArrayList<Home_features>>() {
+        }.getType());
+        ob.setFeatureList(featureList);
+        ArrayList<Home_rules> houseRuleList = new Gson().fromJson(cursor.getString(14), new TypeToken<ArrayList<Home_rules>>() {
+        }.getType());
+        ob.setHouseRuleList(houseRuleList);
+        ob.setAddress1(cursor.getString(15));
+        ob.setHouse_no(cursor.getString(16));
+        ob.setLandmarks(cursor.getString(17));
+        ob.setZipcode(cursor.getString(18));
+        ob.setLocation(cursor.getString(19));
+        ob.setCountry_id(cursor.getString(20));
+        ob.setCity_id(cursor.getString(21));
+        ArrayList<Homegallery> homeImageList = new Gson().fromJson(cursor.getString(22), new TypeToken<ArrayList<Homegallery>>() {
+        }.getType());
+        ob.setHomeImageList(homeImageList);
+        ob.setTraveller_type(cursor.getString(23));
+        ob.setProfile_image(cursor.getString(24));
+        ob.setDestinations(cursor.getString(25));
+        ob.setCardnumber(cursor.getString(26));
+        ob.setNameoncard(cursor.getString(27));
+        ob.setCvv(cursor.getString(28));
+        ob.setMonth(cursor.getString(29));
+        ob.setYear(cursor.getString(30));
+
+        ob.setLatitude(cursor.getString(31));
+        ob.setLongitude(cursor.getString(32));
+        ob.setStartdate(cursor.getString(33));
+        ob.setEnddate(cursor.getString(34));
+    }
+
+    public boolean insertAddEditHomeData(HomeDetails ob) {
+        ContentValues values = new ContentValues();
+        populateAddEditHomeValueData(values, ob);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        long i = db.insert("AddEditHomeData", null, values);
+        db.close();
+        return i > 0;
+    }
+
+    public void populateAddEditHomeValueData(ContentValues values, HomeDetails ob) {
+        values.put("home_id", ob.getId());
+        values.put("homestyle", ob.getHomestyle());
+        values.put("security", ob.getLevel_security());
+        values.put("gender", ob.getGender());
+        values.put("religion", ob.getReligion());
+        values.put("family", ob.getFamily_matters());
+        values.put("pets", ob.getPets());//
+        values.put("typeOfProperties", ob.getProperty_type());
+        values.put("sleeps", ob.getSleeps());
+        values.put("bathrooms", ob.getBathrooms());
+        values.put("bedrooms", ob.getBedrooms());
+        values.put("title", ob.getTitle());
+        values.put("about", ob.getSort_description());
+        String featureStr = new Gson().toJson(ob.getFeatureList());
+        values.put("savefeaturesList", featureStr);
+        String ruleStr = new Gson().toJson(ob.getHouseRuleList());
+        values.put("saveRuleList", ruleStr);
+        values.put("addressStr", ob.getAddress1());
+        values.put("hnoStr", ob.getHouse_no());
+        values.put("landmarkStr", ob.getLandmarks());
+        values.put("enterzipcodeStr", ob.getZipcode());
+        values.put("zipCodeStr", ob.getLocation());
+        values.put("countryId", ob.getCountry_id());
+        values.put("cityId", ob.getCity_id());
+        String image = new Gson().toJson(ob.getHomeImageList());
+        values.put("homeImageList", image);
+        values.put("travleIdStr", ob.getTraveller_type());
+        values.put("profileImage", ob.getProfile_image());
+        values.put("dreamStr", ob.getDestinations());
+        values.put("cardnoStr", ob.getCardnumber());
+        values.put("nameStr", ob.getNameoncard());
+        values.put("cvvStr", ob.getCvv());
+        values.put("monthId", ob.getMonth());
+        values.put("yearId", ob.getYear());
+
+        values.put("latitude", ob.getLatitude());
+        values.put("longitude", ob.getLongitude());
+        values.put("startdate", ob.getStartdate());
+        values.put("enddate", ob.getEnddate());
+    }
+
+    public boolean updateAddEditHomeOverview(HomeDetails ob) {
+        ContentValues values = new ContentValues();
+        populateAddEditHomeValueDataOverview(values, ob);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        long i = 0;
+        i = db.update("AddEditHomeData", values, " home_id = '" + ob.getId() + "'", null);
+
+        db.close();
+        return i > 0;
+    }
+
+    public void populateAddEditHomeValueDataOverview(ContentValues values, HomeDetails ob) {
+        values.put("home_id", ob.getId());
+        values.put("homestyle", ob.getHomestyle());
+        values.put("security", ob.getLevel_security());
+        values.put("gender", ob.getGender());
+        values.put("religion", ob.getReligion());
+        values.put("family", ob.getFamily_matters());
+        values.put("pets", ob.getPets());//
+        values.put("typeOfProperties", ob.getProperty_type());
+        values.put("sleeps", ob.getSleeps());
+        values.put("bathrooms", ob.getBathrooms());
+        values.put("bedrooms", ob.getBedrooms());
+
+    }
+
+    public boolean updateAddEditHomeDetail(HomeDetails ob) {
+        ContentValues values = new ContentValues();
+        populateAddEditHomeValueDetail(values, ob);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        long i = 0;
+        i = db.update("AddEditHomeData", values, " home_id = '" + ob.getId() + "'", null);
+
+        db.close();
+        return i > 0;
+    }
+
+    public void populateAddEditHomeValueDetail(ContentValues values, HomeDetails ob) {
+        values.put("title", ob.getTitle());
+        values.put("about", ob.getSort_description());
+        String featureStr = new Gson().toJson(ob.getFeatureList());
+        values.put("savefeaturesList", featureStr);
+        String ruleStr = new Gson().toJson(ob.getHouseRuleList());
+        values.put("saveRuleList", ruleStr);
+    }
+
+    public boolean updateAddEditHomeLocation(HomeDetails ob) {
+        ContentValues values = new ContentValues();
+        populateAddEditHomeValueLocation(values, ob);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        long i = 0;
+        i = db.update("AddEditHomeData", values, " home_id = '" + ob.getId() + "'", null);
+
+        db.close();
+        return i > 0;
+    }
+
+    public void populateAddEditHomeValueLocation(ContentValues values, HomeDetails ob) {
+        values.put("addressStr", ob.getAddress1());
+        values.put("hnoStr", ob.getHouse_no());
+        values.put("landmarkStr", ob.getLandmarks());
+        values.put("enterzipcodeStr", ob.getZipcode());
+        values.put("zipCodeStr", ob.getLocation());
+        values.put("countryId", ob.getCountry_id());
+        values.put("cityId", ob.getCity_id());
+    }
+
+
+    public boolean updateAddEditHomeImage(HomeDetails ob) {
+        ContentValues values = new ContentValues();
+        populateAddEditHomeValueImage(values, ob);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        long i = 0;
+        i = db.update("AddEditHomeData", values, " home_id = '" + ob.getId() + "'", null);
+
+        db.close();
+        return i > 0;
+    }
+
+    public void populateAddEditHomeValueImage(ContentValues values, HomeDetails ob) {
+        String image = new Gson().toJson(ob.getHomeImageList());
+        values.put("homeImageList", image);
+    }
+
+    public boolean updateAddEditHomeProfile(HomeDetails ob) {
+        ContentValues values = new ContentValues();
+        populateAddEditHomeValueProfile(values, ob);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        long i = 0;
+        i = db.update("AddEditHomeData", values, " home_id = '" + ob.getId() + "'", null);
+
+        db.close();
+        return i > 0;
+    }
+
+    public void populateAddEditHomeValueProfile(ContentValues values, HomeDetails ob) {
+        values.put("travleIdStr", ob.getTraveller_type());
+        values.put("profileImage", ob.getProfile_image());
+        values.put("dreamStr", ob.getDestinations());
+    }
+
+    public boolean updateAddEditHomeCard(HomeDetails ob) {
+        ContentValues values = new ContentValues();
+        populateAddEditHomeValueCard(values, ob);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        long i = 0;
+        i = db.update("AddEditHomeData", values, " home_id = '" + ob.getId() + "'", null);
+
+        db.close();
+        return i > 0;
+    }
+
+    public void populateAddEditHomeValueCard(ContentValues values, HomeDetails ob) {
+        values.put("cardnoStr", ob.getCardnumber());
+        values.put("nameStr", ob.getNameoncard());
+        values.put("cvvStr", ob.getCvv());
+        values.put("monthId", ob.getMonth());
+        values.put("yearId", ob.getYear());
+    }
+
+    public ArrayList<HomeDetails> getAllAddEditHomeDataList() {
+        String query = "Select *  FROM AddEditHomeData ";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        ArrayList<HomeDetails> list = new ArrayList<HomeDetails>();
+
+        if (cursor.moveToFirst()) {
+            while (cursor.isAfterLast() == false) {
+                HomeDetails ob = new HomeDetails();
+                populateAddEditHomeData(cursor, ob);
                 list.add(ob);
                 cursor.moveToNext();
             }

@@ -2,6 +2,7 @@ package com.kredivation.switchland.activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -9,6 +10,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -46,6 +48,7 @@ public class AddHomeActivity extends AppCompatActivity {
     ViewPager mPager;
     private String homestyleStr, securitStr, genderStr, religionStr, familyStr, petsStr, typeOfPropertiesStr, sleepsStr, bathroomsStr, bedroomsStr;
     private String securitiesId, homestylefId, bedroomsId, bathroomsId, sleepsId, typeOfPropertiesId, petsAllowedId, familyId, genderId, religionId;
+    boolean isgoBack = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -242,4 +245,32 @@ public class AddHomeActivity extends AppCompatActivity {
         }.execute();
     }
 
+    @Override
+    public void onBackPressed() {
+        isGoBack();
+    }
+
+    private boolean isGoBack() {
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(AddHomeActivity.this);
+        alertDialog.setTitle("Warning");
+        alertDialog.setMessage("Are you Sure you want go to Back Screen");
+        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                isgoBack = true;
+                finish();
+                dialog.dismiss();
+            }
+        });
+
+        alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                isgoBack = false;
+                dialog.dismiss();
+
+            }
+        });
+        alertDialog.show();
+        return isgoBack;
+    }
 }

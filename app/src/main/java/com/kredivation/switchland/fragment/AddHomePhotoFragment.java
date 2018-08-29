@@ -40,6 +40,7 @@ import com.google.gson.reflect.TypeToken;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.adapters.AddHomePhotoAdapter;
 import com.kredivation.switchland.adapters.ChatListAdapter;
+import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.model.ChatData;
 import com.kredivation.switchland.model.Features;
 import com.kredivation.switchland.model.HomeDetails;
@@ -111,10 +112,11 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
     public final int SELECT_PHOTO = 102;
     private String userChoosenTask;
     ASTProgressBar astProgressBar;
-    ArrayList<Homegallery>  locationList;
+    ArrayList<Homegallery> locationList;
     AddHomePhotoAdapter mAdapter;
     RecyclerView recyclerView;
     HomeDetails MyHomedata;
+    String homeId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -127,7 +129,7 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
     }
 
     private void init() {
-        locationList = new ArrayList<Homegallery> ();
+        locationList = new ArrayList<Homegallery>();
         Typeface materialdesignicons_font = FontManager.getFontTypefaceMaterialDesignIcons(getActivity(), "fonts/materialdesignicons-webfont.otf");
         TextView nextIcon = (TextView) view.findViewById(R.id.nextIcon);
         nextIcon.setTypeface(materialdesignicons_font);
@@ -151,33 +153,45 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
 
     //get data from pre
     private void getSaveData() {
-       /* SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
+       /* SharedPreferences prefs = context.getSharedPreferences("HomeDetailPreferences", Context.MODE_PRIVATE);
         if (prefs != null) {
-            String homeStr = prefs.getString("HomeImage", "");
-            if (homeStr != null && !homeStr.equals("") && !homeStr.equals("[]")) {
-                locationList = new Gson().fromJson(homeStr, new TypeToken<ArrayList<ChatData>>() {
+            String Myhome = prefs.getString("HomeDetail", "");
+            if (Myhome != null && !Myhome.equals("")) {
+                MyHomedata = new Gson().fromJson(Myhome, new TypeToken<HomeDetails>() {
                 }.getType());
+
+                if (MyHomedata != null) {//for home edit
+                    homeId = MyHomedata.getId();
+                    locationList = new ArrayList<>();
+                    // locationList = MyHomedata.getHomeImageList();
+                    if (MyHomedata.getHomegallery() != null && MyHomedata.getHomegallery().length > 0) {
+                        for (Homegallery home : MyHomedata.getHomegallery()) {
+                            locationList.add(home);
+                        }
+                    }
+                }
             }
         }*/
 
-        SharedPreferences prefs = context.getSharedPreferences("HomeDetailPreferences", Context.MODE_PRIVATE);
-        if (prefs != null) {
-            if (prefs.getBoolean("HomeEdit", false)) {
-                String Myhome = prefs.getString("HomeDetail", "");
-                if (Myhome != null && !Myhome.equals("")) {
-                    MyHomedata = new Gson().fromJson(Myhome, new TypeToken<HomeDetails>() {
-                    }.getType());
-
-                    if (MyHomedata != null) {//for home edit
-                        locationList = MyHomedata.getHomeImageList();
+        SwitchDBHelper dbHelper = new SwitchDBHelper(getActivity());
+        ArrayList<HomeDetails> homeDetails = dbHelper.getAllAddEditHomeDataList();
+        if (homeDetails != null) {
+            for (HomeDetails details : homeDetails) {
+                MyHomedata = details;
+                if (MyHomedata != null) {//for home edit
+                    homeId = MyHomedata.getId();
+                    locationList = new ArrayList<>();
+                    // locationList = MyHomedata.getHomeImageList();
+                    if (MyHomedata.getHomegallery() != null && MyHomedata.getHomegallery().length > 0) {
+                        for (Homegallery home : MyHomedata.getHomegallery()) {
+                            locationList.add(home);
+                        }
                     }
                 }
             }
         }
-        if (locationList != null && locationList.size() > 0) {
-            mAdapter = new AddHomePhotoAdapter(context, locationList);
-            recyclerView.setAdapter(mAdapter);
-        }
+        mAdapter = new AddHomePhotoAdapter(context, locationList);
+        recyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -201,17 +215,16 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
 
     //save data
     private void saveData() {
-      /*  String homeList = new Gson().toJson(locationList);
-        SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("HomeImage", homeList);
-        editor.commit();
-*/
 
         if (MyHomedata != null) {
-            MyHomedata.setHomeImageList(locationList);
+           /* MyHomedata.setHomeImageList(locationList);
             String homeStr = new Gson().toJson(MyHomedata);
-            Utility.setHomeDetail(context, homeStr, true);
+            Utility.setHomeDetail(context, homeStr, true);*/
+            HomeDetails details = new HomeDetails();
+            details.setId(homeId);
+            details.setHomeImageList(locationList);
+            SwitchDBHelper dbHelper = new SwitchDBHelper(getActivity());
+            dbHelper.updateAddEditHomeImage(details);
         }
     }
 
@@ -359,7 +372,7 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
 
     //set image into list and notify adapter
     private void setImageIntoList(File imgFile) {
-        Homegallery homegallery=new Homegallery();
+        Homegallery homegallery = new Homegallery();
         homegallery.setPhoto(imgFile.getAbsolutePath());
         locationList.add(homegallery);
         mAdapter.notifyDataSetChanged();

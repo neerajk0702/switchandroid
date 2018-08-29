@@ -10,6 +10,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -21,14 +22,23 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.adapters.AppTourPagerAdapter;
 import com.kredivation.switchland.database.SwitchDBHelper;
+import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
+import com.kredivation.switchland.framework.ServiceCaller;
 import com.kredivation.switchland.model.Data;
+import com.kredivation.switchland.model.ServiceContentData;
 import com.kredivation.switchland.runtimepermission.PermissionResultCallback;
 import com.kredivation.switchland.runtimepermission.PermissionUtils;
+import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.CompatibilityUtility;
+import com.kredivation.switchland.utilities.Contants;
 import com.kredivation.switchland.utilities.Utility;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -46,6 +56,7 @@ public class AppTourActivity extends AppCompatActivity implements ViewPager.OnPa
     PermissionUtils permissionUtils;
     private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 1;
     private int REQUEST_CODE_GPS_PERMISSIONS = 2;
+    ASTProgressBar dotDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +69,7 @@ public class AppTourActivity extends AppCompatActivity implements ViewPager.OnPa
             CheckOrientation = false;
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
+        dotDialog = new ASTProgressBar(AppTourActivity.this);
        /* SharedPreferences prefs = getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
         prefs.edit().clear().commit();*/
         runTimePermission();
@@ -295,6 +307,54 @@ public class AppTourActivity extends AppCompatActivity implements ViewPager.OnPa
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void getHowItWorkData() {
+        if (Utility.isOnline(AppTourActivity.this)) {
+            String serviceURL = Contants.BASE_URL + Contants.Howitwork;
+            JSONObject object = new JSONObject();
+            try {
+                object.put("api_key", Contants.API_KEY);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            ServiceCaller serviceCaller = new ServiceCaller(AppTourActivity.this);
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "getHowItWorkData", new IAsyncWorkCompletedCallback() {
+                @Override
+                public void onDone(String result, boolean isComplete) {
+                    if (isComplete) {
+                        parseHowData(result);
+                    } else {
+                        if (dotDialog.isShowing()) {
+                            dotDialog.dismiss();
+                        }
+                        Utility.alertForErrorMessage(Contants.Error, AppTourActivity.this);
+                    }
+                }
+            });
+        } else {
+            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, AppTourActivity.this);//off line msg....
+        }
+    }
+
+    public void parseHowData(String result) {
+        if (result != null) {
+            final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
+            if (serviceData != null) {
+                if (serviceData.isSuccess()) {
+                    if (serviceData.getData() != null) {
+
+                    } else {
+                        Utility.showToast(AppTourActivity.this, serviceData.getMsg());
+                    }
+                } else {
+                    if (dotDialog.isShowing()) {
+                        dotDialog.dismiss();
+                    }
+                    Utility.showToast(AppTourActivity.this, serviceData.getMsg());
+                }
+            }
         }
     }
 }

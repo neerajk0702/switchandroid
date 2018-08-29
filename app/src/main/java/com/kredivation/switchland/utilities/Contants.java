@@ -29,4 +29,5 @@ public class Contants {
     public static String UpdateUserImage = "updateUserImage";
     public static String MyHome = "homes";
     public static String Homedetails = "homedetails";
+    public static String Howitwork = "howitwork";
 }

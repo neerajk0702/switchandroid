@@ -244,6 +244,7 @@ public class TinderFragment extends Fragment {
 
     private void getUserdata() {
         SwitchDBHelper switchDBHelper = new SwitchDBHelper(context);
+        //get post home details
         ArrayList<MyhomeArray> myHomeList = switchDBHelper.getAllMyhomedata();
         for (MyhomeArray myhomeArray : myHomeList) {
             startDate = myhomeArray.getStartdate();

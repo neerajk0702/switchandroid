@@ -114,9 +114,8 @@ public class AddHomeDetailFragment extends Fragment implements View.OnClickListe
     ArrayList<Home_rules> saveRuleList;
     ArrayList<Home_features> saveFeatureList;
     HomeDetails MyHomedata;
-
+    String homeId;
     @Override
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -256,33 +255,15 @@ public class AddHomeDetailFragment extends Fragment implements View.OnClickListe
 
     //get data from pre
     private void getSaveData() {
-       /* SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
+        /*SharedPreferences prefs = context.getSharedPreferences("HomeDetailPreferences", Context.MODE_PRIVATE);
         if (prefs != null) {
-            String titleStr = prefs.getString("Title", "");
-            String aboutHomeStr = prefs.getString("AboutHome", "");
-            title.setText(titleStr);
-            about.setText(aboutHomeStr);
-            String RuleStr = prefs.getString("RuleStr", "");
-            String FeatureStr = prefs.getString("FeatureStr", "");
-            if (RuleStr != null && !RuleStr.equals("")) {
-                saveRuleList = new Gson().fromJson(RuleStr, new TypeToken<List<House_rules>>() {
-                }.getType());
-            }
-            if (FeatureStr != null && !FeatureStr.equals("")) {
-                saveFeatureList = new Gson().fromJson(FeatureStr, new TypeToken<List<Features>>() {
-                }.getType());
-            }
-        }*/
-
-        SharedPreferences prefs = context.getSharedPreferences("HomeDetailPreferences", Context.MODE_PRIVATE);
-        if (prefs != null) {
-            if (prefs.getBoolean("HomeEdit", false)) {
                 String Myhome = prefs.getString("HomeDetail", "");
                 if (Myhome != null && !Myhome.equals("")) {
                     MyHomedata = new Gson().fromJson(Myhome, new TypeToken<HomeDetails>() {
                     }.getType());
 
                     if (MyHomedata != null) {//for home edit
+                        homeId = MyHomedata.getId();
                         String titleStr = MyHomedata.getTitle();
                         String aboutHomeStr = MyHomedata.getSort_description();
                         saveRuleList = MyHomedata.getHouseRuleList();
@@ -290,6 +271,21 @@ public class AddHomeDetailFragment extends Fragment implements View.OnClickListe
                         title.setText(titleStr);
                         about.setText(aboutHomeStr);
                     }
+                }
+        }*/
+        SwitchDBHelper dbHelper = new SwitchDBHelper(getActivity());
+        ArrayList<HomeDetails> homeDetails = dbHelper.getAllAddEditHomeDataList();
+        if (homeDetails != null) {
+            for (HomeDetails details : homeDetails) {
+                MyHomedata = details;
+                if (MyHomedata != null) {//for home edit
+                    homeId = MyHomedata.getId();
+                    String titleStr = MyHomedata.getTitle();
+                    String aboutHomeStr = MyHomedata.getSort_description();
+                    saveRuleList = MyHomedata.getHouseRuleList();
+                    saveFeatureList = MyHomedata.getFeatureList();
+                    title.setText(titleStr);
+                    about.setText(aboutHomeStr);
                 }
             }
         }
@@ -352,23 +348,35 @@ public class AddHomeDetailFragment extends Fragment implements View.OnClickListe
 
     //save data
     private void saveData() {
-      /*  String featureIdList = new Gson().toJson(Featurelist);
-        String ruleIdList = new Gson().toJson(ruleList);
-        SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("RuleStr", ruleIdList);
-        editor.putString("FeatureStr", featureIdList);
-        editor.putString("Title", titleStr);
-        editor.putString("AboutHome", aboutStr);
-        editor.commit();
-*/
         if (MyHomedata != null) {
-            MyHomedata.setTitle(titleStr);
+            ArrayList<Home_rules> saveRuleList = new ArrayList<>();
+            ArrayList<Home_features> savefeaturesList = new ArrayList<>();
+            for (Home_features features : Featurelist) {
+                if (features.isSelected()) {
+                    savefeaturesList.add(features);
+                }
+            }
+            for (Home_rules home_rules : ruleList) {
+                if (home_rules.isSelected()) {
+                    saveRuleList.add(home_rules);
+                }
+            }
+            /*MyHomedata.setTitle(titleStr);
             MyHomedata.setSort_description(aboutStr);
-            MyHomedata.setFeatureList(Featurelist);
-            MyHomedata.setHouseRuleList(ruleList);
+            MyHomedata.setFeatureList(savefeaturesList);
+            MyHomedata.setHouseRuleList(saveRuleList);
             String homeStr = new Gson().toJson(MyHomedata);
-            Utility.setHomeDetail(context, homeStr, true);
+            Utility.setHomeDetail(context, homeStr, true);*/
+
+
+            HomeDetails details = new HomeDetails();
+            details.setId(homeId);
+            details.setTitle(titleStr);
+            details.setSort_description(aboutStr);
+            details.setFeatureList(savefeaturesList);
+            details.setHouseRuleList(saveRuleList);
+            SwitchDBHelper dbHelper=new SwitchDBHelper(getActivity());
+            dbHelper.updateAddEditHomeDetail(details);
         }
     }
 }

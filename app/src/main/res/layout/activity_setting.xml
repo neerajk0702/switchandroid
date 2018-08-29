@@ -89,37 +89,6 @@
                         android:textSize="@dimen/_12dp" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="@dimen/dimValue_4"
-                app:cardElevation="@dimen/dimValue_5"
-                app:cardUseCompatPadding="true">
-
-                <LinearLayout
-                    android:id="@+id/filterLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center|left"
-                    android:orientation="horizontal"
-                    android:paddingBottom="@dimen/_5dp"
-                    android:paddingTop="@dimen/_5dp">
-
-                    <TextView
-                        android:layout_width="@dimen/size_30px"
-                        android:layout_height="@dimen/size_30px"
-                        android:layout_marginLeft="@dimen/_10dp"
-                        android:background="@drawable/ic_filter_search" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Filter"
-                        android:layout_marginLeft="@dimen/_10dp"
-                        android:textColor="@color/secondary_text"
-                        android:textSize="@dimen/_12dp" />
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"

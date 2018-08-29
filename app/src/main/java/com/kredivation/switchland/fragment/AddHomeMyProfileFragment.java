@@ -120,7 +120,7 @@ public class AddHomeMyProfileFragment extends Fragment implements View.OnClickLi
     Type_of_traveller[] travel;
     String travleIdStr = "";
     HomeDetails MyHomedata;
-
+    String homeId;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -206,28 +206,16 @@ public class AddHomeMyProfileFragment extends Fragment implements View.OnClickLi
 
     //get data from pre
     private void getSaveData() {
-       /* SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
-        if (prefs != null) {
-            imgStr = prefs.getString("ProfileImage", "");
-            travleIdStr = prefs.getString("TravleId", "");
-            dreamStr = prefs.getString("DreamDetail", "");
-            savetravelPos = prefs.getInt("savetravelPos", 0);
-            dream.setText(dreamStr);
-            if (imgStr != null && !imgStr.equals("")) {
-                File file = new File(imgStr);
-                Picasso.with(context).load(file).placeholder(R.drawable.userimage).into(profileImage);
-            }
-        }*/
 
-        SharedPreferences prefs = context.getSharedPreferences("HomeDetailPreferences", Context.MODE_PRIVATE);
+       /* SharedPreferences prefs = context.getSharedPreferences("HomeDetailPreferences", Context.MODE_PRIVATE);
         if (prefs != null) {
-            if (prefs.getBoolean("HomeEdit", false)) {
                 String Myhome = prefs.getString("HomeDetail", "");
                 if (Myhome != null && !Myhome.equals("")) {
                     MyHomedata = new Gson().fromJson(Myhome, new TypeToken<HomeDetails>() {
                     }.getType());
 
                     if (MyHomedata != null) {//for home editprofileImfLocal
+                        homeId = MyHomedata.getId();
                         dreamStr = MyHomedata.getDestinations();
                         dream.setText(dreamStr);
                         travleIdStr = MyHomedata.getTraveller_type();
@@ -239,6 +227,25 @@ public class AddHomeMyProfileFragment extends Fragment implements View.OnClickLi
                             Picasso.with(context).load(imgFileStr).placeholder(R.drawable.userimage).into(profileImage);
                         }
 
+                }
+            }
+        }*/
+        SwitchDBHelper dbHelper = new SwitchDBHelper(getActivity());
+        ArrayList<HomeDetails> homeDetails = dbHelper.getAllAddEditHomeDataList();
+        if (homeDetails != null) {
+            for (HomeDetails details : homeDetails) {
+                MyHomedata = details;
+                if (MyHomedata != null) {//for home edit
+                    homeId = MyHomedata.getId();
+                    dreamStr = MyHomedata.getDestinations();
+                    dream.setText(dreamStr);
+                    travleIdStr = MyHomedata.getTraveller_type();
+                    String imgFileStr = MyHomedata.getProfile_image();
+                    imgFile=new File(imgFileStr);
+                    if (imgFile != null && imgFile.exists()) {
+                        Picasso.with(context).load(imgFile).placeholder(R.drawable.userimage).into(profileImage);
+                    }else{
+                        Picasso.with(context).load(imgFileStr).placeholder(R.drawable.userimage).into(profileImage);
                     }
                 }
             }
@@ -293,21 +300,22 @@ public class AddHomeMyProfileFragment extends Fragment implements View.OnClickLi
 
     //save data
     private void saveData() {
-       /* SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("ProfileImage", imgStr);
-        editor.putString("TravleId", travleIdStr);
-        editor.putString("DreamDetail", dreamStr);
-        editor.putInt("savetravelPos", travelPos);
-        editor.commit();*/
         if (MyHomedata != null) {
-            MyHomedata.setTraveller_type(travleIdStr);
+           /* MyHomedata.setTraveller_type(travleIdStr);
             if (imgFile != null && imgFile.exists()) {
                 MyHomedata.setProfile_image(imgFile.getAbsolutePath());
             }
             MyHomedata.setDestinations(dreamStr);
             String homeStr = new Gson().toJson(MyHomedata);
             Utility.setHomeDetail(context, homeStr, true);
+*/
+            HomeDetails details = new HomeDetails();
+            details.setId(homeId);
+            details.setTraveller_type(travleIdStr);
+            details.setProfile_image(imgFile.getAbsolutePath());
+            details.setDestinations(dreamStr);
+            SwitchDBHelper dbHelper=new SwitchDBHelper(getActivity());
+            dbHelper.updateAddEditHomeProfile(details);
         }
     }
 

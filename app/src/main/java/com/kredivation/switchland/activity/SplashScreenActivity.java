@@ -21,6 +21,7 @@ import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
 import com.kredivation.switchland.framework.ServiceCaller;
 import com.kredivation.switchland.model.Data;
+import com.kredivation.switchland.model.LikedmychoiceArray;
 import com.kredivation.switchland.model.MychoiceArray;
 import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.ServiceContentData;
@@ -310,12 +311,15 @@ public class SplashScreenActivity extends AppCompatActivity {
                                 SwitchDBHelper switchDBHelper = new SwitchDBHelper(SplashScreenActivity.this);
                                 switchDBHelper.deleteAllRows("Myhomedata");
                                 switchDBHelper.deleteAllRows("MychoiceData");
-                                //  switchDBHelper.deleteAllRows("LikedmychoiceData");
+                                switchDBHelper.deleteAllRows("LikedmychoiceData");
                                 for (MyhomeArray myhomeArray : serviceData.getData().getMyhomeArray()) {
                                     switchDBHelper.insertMyhomedata(myhomeArray);
                                 }
                                 for (MychoiceArray mychoiceArray : serviceData.getData().getMychoiceArray()) {
                                     switchDBHelper.inserMychoiceData(mychoiceArray);
+                                }
+                                for (LikedmychoiceArray mychoiceArray : serviceData.getData().getLikedmychoiceArray()) {
+                                    switchDBHelper.inserLikedmychoiceData(mychoiceArray);
                                 }
                                 flag = true;
                                 return flag;

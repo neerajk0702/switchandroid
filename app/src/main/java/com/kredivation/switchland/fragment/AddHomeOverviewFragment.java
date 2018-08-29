@@ -44,6 +44,8 @@ import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.FontManager;
 import com.kredivation.switchland.utilities.Utility;
 
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link AddHomeOverviewFragment#newInstance} factory method to
@@ -99,6 +101,9 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
     Genderarray[] genderarray;
     Religion[] religion;
     HomeDetails MyHomedata;
+    String homeId;
+    String serverhomestyleStr, serversecuritStr, servergenderStr, serverreligionStr, serverfamilyStr, serverpetsStr, servertypeOfPropertiesStr;
+    int serversleepsStr, serverbathroomsStr, serverbedroomsStr;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -400,26 +405,8 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
 
     //save all data
     public void saveData() {
-       /* try {
-            SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString("homestyleStr", homestyleStr);
-            editor.putString("securitStr", securitStr);
-            editor.putString("genderStr", genderStr);
-            editor.putString("religionStr", religionStr);
-            editor.putString("familyStr", familyStr);
-            editor.putString("petsStr", petsStr);
-            editor.putString("typeOfPropertiesStr", typeOfPropertiesStr);
-            editor.putInt("sleepsStr", sleepsStr);
-            editor.putInt("bathroomsStr", bathroomsStr);
-            editor.putInt("bedroomsStr", bedroomsStr);
-            editor.commit();
-        } catch (Exception e) {
-            // should never happen
-            //   throw new RuntimeException("Could not get language: " + e);
-        }*/
         if (MyHomedata != null) {
-            MyHomedata.setHome_type(homestyleStr);
+           /* MyHomedata.setHome_type(homestyleStr);
             MyHomedata.setLevel_security(securitStr);
             MyHomedata.setGender(genderStr);
             MyHomedata.setReligion(religionStr);
@@ -430,111 +417,131 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
             MyHomedata.setBathrooms(String.valueOf(bathroomsStr));
             MyHomedata.setBedrooms(String.valueOf(bedroomsStr));
             String homeStr = new Gson().toJson(MyHomedata);
-            Utility.setHomeDetail(context, homeStr, true);
+            Utility.setHomeDetail(context, homeStr, true);*/
+
+            HomeDetails details = new HomeDetails();
+            details.setId(homeId);
+            details.setHomestyle(homestyleStr);
+            details.setLevel_security(securitStr);
+            details.setGender(genderStr);
+            details.setReligion(religionStr);
+            details.setFamily_matters(familyStr);
+            details.setPets(petsStr);
+            details.setProperty_type(typeOfPropertiesStr);
+            details.setSleeps(String.valueOf(sleepsStr));
+            details.setBathrooms(String.valueOf(bathroomsStr));
+            details.setBedrooms(String.valueOf(bedroomsStr));
+            SwitchDBHelper dbHelper = new SwitchDBHelper(getActivity());
+            dbHelper.updateAddEditHomeOverview(details);
         }
     }
 
     private void getSaveData() {
-        SharedPreferences prefs = context.getSharedPreferences("HomeDetailPreferences", Context.MODE_PRIVATE);
+       /* SharedPreferences prefs = context.getSharedPreferences("HomeDetailPreferences", Context.MODE_PRIVATE);
         if (prefs != null) {
-            if (prefs.getBoolean("HomeEdit", false)) {
-                String Myhome = prefs.getString("HomeDetail", "");
-                if (Myhome != null && !Myhome.equals("")) {
-                    MyHomedata = new Gson().fromJson(Myhome, new TypeToken<HomeDetails>() {
-                    }.getType());
+            String Myhome = prefs.getString("HomeDetail", "");
+            if (Myhome != null && !Myhome.equals("")) {
+                MyHomedata = new Gson().fromJson(Myhome, new TypeToken<HomeDetails>() {
+                }.getType());
 
-                    if (MyHomedata != null) {//for home edit
-                        homestyleStr = MyHomedata.getHome_type();
-                        securitStr = MyHomedata.getLevel_security();
-                        genderStr = MyHomedata.getGender();
-                        religionStr = MyHomedata.getReligion();
-                        familyStr = MyHomedata.getFamily_matters();
-                        petsStr = MyHomedata.getPets();
-                        typeOfPropertiesStr = MyHomedata.getProperty_type();
-                        sleepsStr = Integer.parseInt(MyHomedata.getSleeps());
-                        bathroomsStr = Integer.parseInt(MyHomedata.getBathrooms());
-                        bedroomsStr = Integer.parseInt(MyHomedata.getBedrooms());
-                        setDefaultValue();
-                    }
+                if (MyHomedata != null) {//for home edit
+                    homeId = MyHomedata.getId();
+                    serverhomestyleStr = MyHomedata.getHome_type();
+                    serversecuritStr = MyHomedata.getLevel_security();
+                    servergenderStr = MyHomedata.getGender();
+                    serverreligionStr = MyHomedata.getReligion();
+                    serverfamilyStr = MyHomedata.getFamily_matters();
+                    serverpetsStr = MyHomedata.getPets();
+                    servertypeOfPropertiesStr = MyHomedata.getProperty_type();
+                    serversleepsStr = Integer.parseInt(MyHomedata.getSleeps());
+                    serverbathroomsStr = Integer.parseInt(MyHomedata.getBathrooms());
+                    serverbedroomsStr = Integer.parseInt(MyHomedata.getBedrooms());
+                    setDefaultValue();
                 }
-            } else {
-                MyHomedata = new HomeDetails();
+            }
+        }*/
+
+        SwitchDBHelper dbHelper = new SwitchDBHelper(getActivity());
+        ArrayList<HomeDetails> homeDetails = dbHelper.getAllAddEditHomeDataList();
+        if (homeDetails != null) {
+            for (HomeDetails details : homeDetails) {
+                MyHomedata = details;
+                if (MyHomedata != null) {//for home edit
+                    homeId = MyHomedata.getId();
+                    serverhomestyleStr = MyHomedata.getHome_type();
+                    serversecuritStr = MyHomedata.getLevel_security();
+                    servergenderStr = MyHomedata.getGender();
+                    serverreligionStr = MyHomedata.getReligion();
+                    serverfamilyStr = MyHomedata.getFamily_matters();
+                    serverpetsStr = MyHomedata.getPets();
+                    servertypeOfPropertiesStr = MyHomedata.getProperty_type();
+                    serversleepsStr = Integer.parseInt(MyHomedata.getSleeps());
+                    serverbathroomsStr = Integer.parseInt(MyHomedata.getBathrooms());
+                    serverbedroomsStr = Integer.parseInt(MyHomedata.getBedrooms());
+                    setDefaultValue();
+                }
             }
         }
-       /* SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
-        if (prefs != null) {
-            homestyleStr = prefs.getString("homestyleStr", "");
-            securitStr = prefs.getString("securitStr", "");
-            genderStr = prefs.getString("genderStr", "");
-            religionStr = prefs.getString("religionStr", "");
-            familyStr = prefs.getString("familyStr", "");
-            petsStr = prefs.getString("petsStr", "");
-            typeOfPropertiesStr = prefs.getString("typeOfPropertiesStr", "");
-            sleepsStr = prefs.getInt("sleepsStr", 0);
-            bathroomsStr = prefs.getInt("bathroomsStr", 0);
-            bedroomsStr = prefs.getInt("bedroomsStr", 0);
-        }
-*/
     }
 
     //set if value exist
     private void setDefaultValue() {
         for (int i = 0; i < homestylefList.length; i++) {
-            if (homestyleStr.equals(home_stylef[i].getId())) {
+            if (serverhomestyleStr != null && serverhomestyleStr.equals(home_stylef[i].getId())) {
                 homeStyleSpinner.setSelection(i);
                 break;
             }
         }
         for (int i = 0; i < securitiesList.length; i++) {
-            if (securitStr.equals(securities[i].getId())) {
+            if (serversecuritStr!=null && serversecuritStr.equals(securities[i].getId())) {
                 levelofsecuritySpinner.setSelection(i);
                 break;
             }
         }
         for (int i = 0; i < genderList.length; i++) {
-            if (genderStr.equals(genderarray[i].getId())) {
+            if (servergenderStr!=null && servergenderStr.equals(genderarray[i].getId())) {
                 genderspinner.setSelection(i);
                 break;
             }
         }
         for (int i = 0; i < religionList.length; i++) {
-            if (religionStr.equals(religion[i].getId())) {
+            if (serverreligionStr!=null && serverreligionStr.equals(religion[i].getId())) {
                 Religionspinner.setSelection(i);
                 break;
             }
         }
         for (int i = 0; i < familyList.length; i++) {
-            if (familyStr.equals(family[i].getId())) {
+            if (serverfamilyStr!=null && serverfamilyStr.equals(family[i].getId())) {
                 Familymattersspinner.setSelection(i);
                 break;
             }
         }
         for (int i = 0; i < petsAllowedList.length; i++) {
-            if (petsStr.equals(pets_allowed[i].getId())) {
+            if (serverpetsStr!=null && serverpetsStr.equals(pets_allowed[i].getId())) {
                 PetAllowedspinner.setSelection(i);
                 break;
             }
         }
         for (int i = 0; i < typeOfPropertiesList.length; i++) {
-            if (typeOfPropertiesStr.equals(type_of_properties[i].getId())) {
+            if (servertypeOfPropertiesStr!=null && servertypeOfPropertiesStr.equals(type_of_properties[i].getId())) {
                 Typeofpropertyspinner.setSelection(i);
                 break;
             }
         }
         for (int i = 0; i < sleepsList.length; i++) {
-            if (sleepsStr == sleeps[i].getId()) {
+            if (serversleepsStr == sleeps[i].getId()) {
                 Sleepspinner.setSelection(i);
                 break;
             }
         }
         for (int i = 0; i < bathroomsList.length; i++) {
-            if (bathroomsStr == bathrooms[i].getId()) {
+            if (serverbathroomsStr == bathrooms[i].getId()) {
                 bathroomsspinner.setSelection(i);
                 break;
             }
         }
         for (int i = 0; i < bedroomsList.length; i++) {
-            if (bedroomsStr == bedrooms[i].getId()) {
+            if (serverbedroomsStr == bedrooms[i].getId()) {
                 bedroomspinner.setSelection(i);
                 break;
             }

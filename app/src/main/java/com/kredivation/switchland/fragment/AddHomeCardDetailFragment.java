@@ -49,6 +49,8 @@ import com.kredivation.switchland.utilities.FontManager;
 import com.kredivation.switchland.utilities.Utility;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link AddHomeCardDetailFragment#newInstance} factory method to
@@ -103,13 +105,12 @@ public class AddHomeCardDetailFragment extends Fragment implements View.OnClickL
     Month[] months;
     Year[] years;
     String monthId;
-    int monthPos = 0;
     String yearId;
-    int yearPos = 0;
     EditText cvv, name, cardno;
     TextInputLayout input_layout_name, input_layout_cardno, input_layout_cvv;
     String cvvStr, nameStr, cardnoStr;
     HomeDetails MyHomedata;
+    String homeId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -137,42 +138,70 @@ public class AddHomeCardDetailFragment extends Fragment implements View.OnClickL
         input_layout_name = view.findViewById(R.id.input_layout_name);
         input_layout_cardno = view.findViewById(R.id.input_layout_cardno);
         input_layout_cvv = view.findViewById(R.id.input_layout_cvv);
-        getSaveData();
         getAllDataFromDB();
     }
 
     //get data from pre
     private void getSaveData() {
-     /*   SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
+       /* SharedPreferences prefs = context.getSharedPreferences("HomeDetailPreferences", Context.MODE_PRIVATE);
         if (prefs != null) {
-            monthId = prefs.getString("monthId", "");
-            monthPos = prefs.getInt("monthPos", 0);
-            yearId = prefs.getString("yearId", "");
-            yearPos = prefs.getInt("yearPos", 0);
-            cvvStr = prefs.getString("CVV", "");
-            nameStr = prefs.getString("Name", "");
-            cardnoStr = prefs.getString("Cardno", "");
-            cvv.setText(cvvStr);
-            name.setText(nameStr);
-            cardno.setText(cardnoStr);
+            String Myhome = prefs.getString("HomeDetail", "");
+            if (Myhome != null && !Myhome.equals("")) {
+                MyHomedata = new Gson().fromJson(Myhome, new TypeToken<HomeDetails>() {
+                }.getType());
+                homeId = MyHomedata.getId();
+                monthId = MyHomedata.getMonth();
+                yearId = MyHomedata.getYear();
+                cardnoStr = MyHomedata.getCardnumber();
+                cvvStr = MyHomedata.getCvv();
+                nameStr = MyHomedata.getNameoncard();
+                cvv.setText(cvvStr);
+                name.setText(nameStr);
+                cardno.setText(cardnoStr);
+                getSelectedMonth();
+                getSelectedYear();
+            }
         }*/
 
-        SharedPreferences prefs = context.getSharedPreferences("HomeDetailPreferences", Context.MODE_PRIVATE);
-        if (prefs != null) {
-            if (prefs.getBoolean("HomeEdit", false)) {
-                String Myhome = prefs.getString("HomeDetail", "");
-                if (Myhome != null && !Myhome.equals("")) {
-                    MyHomedata = new Gson().fromJson(Myhome, new TypeToken<HomeDetails>() {
-                    }.getType());
+        SwitchDBHelper dbHelper = new SwitchDBHelper(getActivity());
+        ArrayList<HomeDetails> homeDetails = dbHelper.getAllAddEditHomeDataList();
+        if (homeDetails != null) {
+            for (HomeDetails details : homeDetails) {
+                MyHomedata = details;
+                if (MyHomedata != null) {//for home edit
+                    homeId = MyHomedata.getId();
+                    monthId = MyHomedata.getMonth();
+                    yearId = MyHomedata.getYear();
+                    cardnoStr = MyHomedata.getCardnumber();
+                    cvvStr = MyHomedata.getCvv();
+                    nameStr = MyHomedata.getNameoncard();
+                    cvv.setText(cvvStr);
+                    name.setText(nameStr);
+                    cardno.setText(cardnoStr);
+                    getSelectedMonth();
+                    getSelectedYear();
+                }
+            }
+        }
+    }
 
-                   /* if (MyHomedata != null) {//for home edit
-                        String titleStr = MyHomedata.getTitle();
-                        String aboutHomeStr = MyHomedata.getSort_description();
-                        saveRuleList = MyHomedata.getRuleList();
-                        saveFeatureList = MyHomedata.getFeaturelist();
-                        title.setText(titleStr);
-                        about.setText(aboutHomeStr);
-                    }*/
+    private void getSelectedYear() {
+        if (years != null) {
+            for (int i = 0; i < years.length; i++) {
+                if (yearId.equals(years[i].getId())) {
+                    yearspinner.setSelection(i);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void getSelectedMonth() {
+        if (months != null) {
+            for (int i = 0; i < months.length; i++) {
+                if (monthId.equals(months[i].getId())) {
+                    monthspinner.setSelection(i);
+                    break;
                 }
             }
         }
@@ -224,12 +253,10 @@ public class AddHomeCardDetailFragment extends Fragment implements View.OnClickL
     private void setSpinerValue() {
         ArrayAdapter<String> countryAdapter = new ArrayAdapter<String>(context, R.layout.spinner_row, monthList);
         monthspinner.setAdapter(countryAdapter);
-        monthspinner.setSelection(monthPos);
         monthspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 monthId = months[position].getId();
-                monthPos = position;
             }
 
             @Override
@@ -239,11 +266,9 @@ public class AddHomeCardDetailFragment extends Fragment implements View.OnClickL
         });
         ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(context, R.layout.spinner_row, yearList);
         yearspinner.setAdapter(yearAdapter);
-        yearspinner.setSelection(yearPos);
         yearspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                yearPos = position;
                 yearId = years[position].getId();
             }
 
@@ -252,6 +277,8 @@ public class AddHomeCardDetailFragment extends Fragment implements View.OnClickL
 
             }
         });
+
+        getSaveData();
     }
 
     @Override
@@ -320,24 +347,24 @@ public class AddHomeCardDetailFragment extends Fragment implements View.OnClickL
 
     //save data
     private void saveData() {
-       /* SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("monthId", monthId);
-        editor.putInt("monthPos", monthPos);
-        editor.putString("yearId", yearId);
-        editor.putInt("yearPos", yearPos);
-        editor.putString("CVV", cvvStr);
-        editor.putString("Name", nameStr);
-        editor.putString("Cardno", cardnoStr);
-        editor.commit();*/
-
-        /*if (MyHomedata != null) {
-            MyHomedata.setTitle(titleStr);
-            MyHomedata.setSort_description(aboutStr);
-            MyHomedata.setFeaturelist(Featurelist);
-            MyHomedata.setRuleList(ruleList);
+        if (MyHomedata != null) {
+           /* MyHomedata.setCardnumber(cardnoStr);
+            MyHomedata.setNameoncard(nameStr);
+            MyHomedata.setCvv(cvvStr);
+            MyHomedata.setMonth(monthId);
+            MyHomedata.setYear(yearId);
             String homeStr = new Gson().toJson(MyHomedata);
-            Utility.setHomeDetail(context, homeStr,true);
-        }*/
+            Utility.setHomeDetail(context, homeStr, true);*/
+
+            HomeDetails details = new HomeDetails();
+            details.setId(homeId);
+            details.setCardnumber(cardnoStr);
+            details.setNameoncard(nameStr);
+            details.setCvv(cvvStr);
+            details.setMonth(monthId);
+            details.setYear(yearId);
+            SwitchDBHelper dbHelper = new SwitchDBHelper(getActivity());
+            dbHelper.updateAddEditHomeCard(details);
+        }
     }
 }

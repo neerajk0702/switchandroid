@@ -2,6 +2,7 @@ package com.kredivation.switchland.activity;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.support.design.widget.TextInputLayout;
@@ -406,6 +407,7 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
                         if (serviceData != null) {
                             if (serviceData.isSuccess()) {
                                 Utility.showToast(CreateFirstTimePostActivity.this, serviceData.getMsg());
+                                startActivity(new Intent(CreateFirstTimePostActivity.this,SplashScreenActivity.class));
                             } else {
                                 Utility.showToast(CreateFirstTimePostActivity.this, serviceData.getMsg());
                             }

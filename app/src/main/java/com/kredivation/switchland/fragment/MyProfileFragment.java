@@ -25,6 +25,7 @@ import com.kredivation.switchland.activity.MainActivity;
 import com.kredivation.switchland.activity.MyChoicesActivity;
 import com.kredivation.switchland.activity.MyHomeActivity;
 import com.kredivation.switchland.activity.MyLikedChoicesActivity;
+import com.kredivation.switchland.activity.MyProfileFilterActivity;
 import com.kredivation.switchland.activity.SettingActivity;
 import com.kredivation.switchland.activity.SplashScreenActivity;
 import com.kredivation.switchland.activity.TravelRoutineActivity;
@@ -51,7 +52,7 @@ import java.util.ArrayList;
  * Use the {@link MyProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MyProfileFragment extends Fragment implements  View.OnClickListener {
+public class MyProfileFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -103,7 +104,8 @@ public class MyProfileFragment extends Fragment implements  View.OnClickListener
     String LikedmychoiceStr;
     String MychoiceStr;
     String MyhomeStr;
-TextView MyHome,Mychoices,Mylike;
+    TextView MyHome, Mychoices, Mylike;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -132,6 +134,8 @@ TextView MyHome,Mychoices,Mylike;
         Mychoices.setOnClickListener(this);
         Mylike = view.findViewById(R.id.Mylike);
         Mylike.setOnClickListener(this);
+        LinearLayout filterLayout = view.findViewById(R.id.filterLayout);
+        filterLayout.setOnClickListener(this);
         getUserdata();
     }
 
@@ -148,6 +152,7 @@ TextView MyHome,Mychoices,Mylike;
             }
         }
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -174,6 +179,10 @@ TextView MyHome,Mychoices,Mylike;
             case R.id.Mylike:
                 Intent likeintent = new Intent(getContext(), MyLikedChoicesActivity.class);
                 startActivity(likeintent);
+                break;
+            case R.id.filterLayout:
+                Intent filterintent = new Intent(getContext(), MyProfileFilterActivity.class);
+                startActivity(filterintent);
                 break;
         }
     }

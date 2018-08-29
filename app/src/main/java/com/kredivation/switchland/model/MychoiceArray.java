@@ -132,9 +132,18 @@ public class MychoiceArray {
         this.full_name = full_name;
     }
 
+    private String profile_image;
+
+    public String getProfile_image() {
+        return profile_image;
+    }
+
+    public void setProfile_image(String profile_image) {
+        this.profile_image = profile_image;
+    }
+
     @Override
-    public String toString()
-    {
-        return "ClassPojo [destinations = "+destinations+", city_name = "+city_name+", location = "+location+", home_image = "+home_image+", zipcode = "+zipcode+", country_name = "+country_name+", home_id = "+home_id+", sort_description = "+sort_description+", title = "+title+", startdate = "+startdate+", user_id = "+user_id+", enddate = "+enddate+", full_name = "+full_name+"]";
+    public String toString() {
+        return "ClassPojo [destinations = " + destinations + ", city_name = " + city_name + ", location = " + location + ", home_image = " + home_image + ", zipcode = " + zipcode + ", country_name = " + country_name + ", home_id = " + home_id + ", sort_description = " + sort_description + ", title = " + title + ", startdate = " + startdate + ", user_id = " + user_id + ", enddate = " + enddate + ", full_name = " + full_name + "]";
     }
 }

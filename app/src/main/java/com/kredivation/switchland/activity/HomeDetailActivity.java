@@ -210,6 +210,7 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
                             dotDialog.dismiss();
                         }
                         Utility.alertForErrorMessage(Contants.Error, HomeDetailActivity.this);
+                        finish();
                     }
                 }
             });
@@ -225,14 +226,6 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
                 @Override
                 protected Boolean doInBackground(Void... voids) {
                     Boolean flag = false;
-                               /* SwitchDBHelper switchDBHelper = new SwitchDBHelper(MyHomeActivity.this);
-                                switchDBHelper.deleteAllRows("MasterData");
-                                switchDBHelper.deleteAllRows("MychoiceData");
-                                switchDBHelper.deleteAllRows("LikedmychoiceData");
-                                switchDBHelper.insertMyhomedata(serviceData.getData());
-                                for (MychoiceArray mychoiceArray : serviceData.getData().getMychoiceArray()) {
-                                    switchDBHelper.inserMychoiceData(mychoiceArray);
-                                }*/
 
                     try {
 
@@ -323,63 +316,77 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
                                 details.setTravellertype(travellertype);
                                 String petsallowed = databject.optString("petsallowed").toString();
                                 details.setPetsallowed(petsallowed);
+                                String cardnumber = databject.optString("cardnumber").toString();
+                                details.setCardnumber(cardnumber);
+                                String nameoncard = databject.optString("nameoncard").toString();
+                                details.setNameoncard(nameoncard);
+                                String month = databject.optString("month").toString();
+                                details.setMonth(month);
+                                String year = databject.optString("year").toString();
+                                details.setYear(year);
+                                String cvv = databject.optString("cvv").toString();
+                                details.setCvv(cvv);
+
                                 JSONArray home_featuresAttay = databject.optJSONArray("home_features");
-
-                                featureName = new String[home_featuresAttay.length()];
-                                for (int i = 0; i < home_featuresAttay.length(); i++) {
-                                    JSONObject featureObject = home_featuresAttay.getJSONObject(i);
-                                    String featireid = featureObject.optString("id").toString();
-                                    String featurename = featureObject.optString("name").toString();
-                                    String featurestatus = featureObject.optString("status").toString();
-                                    Home_features home_features = new Home_features();
-                                    home_features.setId(featireid);
-                                    home_features.setName(featurename);
-                                    home_features.setStatus(featurestatus);
-                                    featureList.add(home_features);
-                                    featureName[i] = featurename;
+                                if (home_featuresAttay != null) {
+                                    featureName = new String[home_featuresAttay.length()];
+                                    for (int i = 0; i < home_featuresAttay.length(); i++) {
+                                        JSONObject featureObject = home_featuresAttay.getJSONObject(i);
+                                        String featireid = featureObject.optString("id").toString();
+                                        String featurename = featureObject.optString("name").toString();
+                                        String featurestatus = featureObject.optString("status").toString();
+                                        Home_features home_features = new Home_features();
+                                        home_features.setId(featireid);
+                                        home_features.setName(featurename);
+                                        home_features.setStatus(featurestatus);
+                                        featureList.add(home_features);
+                                        featureName[i] = featurename;
+                                    }
+                                    details.setFeatureList(featureList);
                                 }
 
-                                details.setFeatureList(featureList);
                                 JSONArray home_rulesAttay = databject.optJSONArray("home_rules");
-
-                                hRuleName = new String[home_rulesAttay.length()];
-                                for (int i = 0; i < home_rulesAttay.length(); i++) {
-                                    JSONObject ruleObject = home_rulesAttay.getJSONObject(i);
-                                    String featireid = ruleObject.optString("id").toString();
-                                    String featurename = ruleObject.optString("name").toString();
-                                    String featurestatus = ruleObject.optString("status").toString();
-                                    Home_rules home_rule = new Home_rules();
-                                    home_rule.setId(featireid);
-                                    home_rule.setName(featurename);
-                                    home_rule.setStatus(featurestatus);
-                                    hRuleList.add(home_rule);
-                                    hRuleName[i] = featurename;
+                                if (home_rulesAttay != null) {
+                                    hRuleName = new String[home_rulesAttay.length()];
+                                    for (int i = 0; i < home_rulesAttay.length(); i++) {
+                                        JSONObject ruleObject = home_rulesAttay.getJSONObject(i);
+                                        String featireid = ruleObject.optString("id").toString();
+                                        String featurename = ruleObject.optString("name").toString();
+                                        String featurestatus = ruleObject.optString("status").toString();
+                                        Home_rules home_rule = new Home_rules();
+                                        home_rule.setId(featireid);
+                                        home_rule.setName(featurename);
+                                        home_rule.setStatus(featurestatus);
+                                        hRuleList.add(home_rule);
+                                        hRuleName[i] = featurename;
+                                    }
+                                    details.setHouseRuleList(hRuleList);
                                 }
-                                details.setHouseRuleList(hRuleList);
                                 JSONArray homegalleryAttay = databject.optJSONArray("homegallery");
+                                if (homegalleryAttay != null) {
+                                    hImageName = new String[homegalleryAttay.length()];
+                                    for (int i = 0; i < homegalleryAttay.length(); i++) {
+                                        JSONObject homeObject = homegalleryAttay.getJSONObject(i);
+                                        String hid = homeObject.optString("id").toString();
+                                        String homeid = homeObject.optString("home_id").toString();
+                                        String photo = homeObject.optString("photo").toString();
 
-                                hImageName = new String[homegalleryAttay.length()];
-                                for (int i = 0; i < homegalleryAttay.length(); i++) {
-                                    JSONObject homeObject = homegalleryAttay.getJSONObject(i);
-                                    String hid = homeObject.optString("id").toString();
-                                    String homeid = homeObject.optString("home_id").toString();
-                                    String photo = homeObject.optString("photo").toString();
-
-                                    Homegallery home_image = new Homegallery();
-                                    home_image.setId(hid);
-                                    home_image.setHome_id(homeid);
-                                    home_image.setPhoto(photo);
-                                    hImagList.add(home_image);
-                                    hImageName[i] = photo;
+                                        Homegallery home_image = new Homegallery();
+                                        home_image.setId(hid);
+                                        home_image.setHome_id(homeid);
+                                        home_image.setPhoto(photo);
+                                        hImagList.add(home_image);
+                                        hImageName[i] = photo;
+                                    }
+                                    details.setHomeImageList(hImagList);
                                 }
-                                details.setHomeImageList(hImagList);
                             }
+                            flag = true;
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
-                    flag = true;
                     return flag;
                 }
 
@@ -388,6 +395,9 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
                     super.onPostExecute(flag);
                     if (flag) {
                         setvalue();
+                    } else {
+                        Utility.showToast(HomeDetailActivity.this, "Home Detail Not available!");
+                        finish();
                     }
                     if (dotDialog.isShowing()) {
                         dotDialog.dismiss();
@@ -456,27 +466,27 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
         //Set circle indicator radius
         indicator.setRadius(5 * density);*/
 
-        NUM_PAGES = hImagList.size();
+            NUM_PAGES = hImagList.size();
 
-        // Auto start of viewpager
-        final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
-            public void run() {
-                if (currentPage == NUM_PAGES) {
-                    currentPage = 0;
+            // Auto start of viewpager
+            final Handler handler = new Handler();
+            final Runnable Update = new Runnable() {
+                public void run() {
+                    if (currentPage == NUM_PAGES) {
+                        currentPage = 0;
+                    }
+                    mPager.setCurrentItem(currentPage++, true);
                 }
-                mPager.setCurrentItem(currentPage++, true);
-            }
-        };
-        Timer swipeTimer = new Timer();
-        swipeTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(Update);
-            }
-        }, 3000, 3000);
+            };
+            Timer swipeTimer = new Timer();
+            swipeTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    handler.post(Update);
+                }
+            }, 3000, 3000);
 
-        // Pager listener over indicator
+            // Pager listener over indicator
       /*  indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
@@ -505,8 +515,11 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
             case R.id.edit:
                 if (details != null) {
                     Intent homeintent = new Intent(HomeDetailActivity.this, AddHomeActivity.class);
-                    String homeStr = new Gson().toJson(details);
-                    Utility.setHomeDetail(HomeDetailActivity.this, homeStr, true);
+                   /* String homeStr = new Gson().toJson(details);
+                    Utility.setHomeDetail(HomeDetailActivity.this, homeStr, true);*/
+                    SwitchDBHelper dbHelper = new SwitchDBHelper(HomeDetailActivity.this);
+                    dbHelper.deleteAllRows("AddEditHomeData");
+                    dbHelper.insertAddEditHomeData(details);
                     startActivity(homeintent);
                 }
                 break;

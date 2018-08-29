@@ -17,6 +17,7 @@ import com.kredivation.switchland.model.Homegallery;
 import com.kredivation.switchland.utilities.FontManager;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class AddHomePhotoAdapter extends RecyclerView.Adapter<AddHomePhotoAdapter.MyViewHolder> {
@@ -36,7 +37,7 @@ public class AddHomePhotoAdapter extends RecyclerView.Adapter<AddHomePhotoAdapte
     }
 
 
-    public AddHomePhotoAdapter(Context mContext, ArrayList<Homegallery>  list) {
+    public AddHomePhotoAdapter(Context mContext, ArrayList<Homegallery> list) {
         this.locationList = list;
         this.mContext = mContext;
         materialdesignicons_font = FontManager.getFontTypefaceMaterialDesignIcons(mContext, "fonts/materialdesignicons-webfont.otf");
@@ -53,7 +54,13 @@ public class AddHomePhotoAdapter extends RecyclerView.Adapter<AddHomePhotoAdapte
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        Picasso.with(mContext).load(locationList.get(position).getPhoto()).into(holder.homeimage);
+
+        if (locationList.get(position).getPhoto().contains("http")) {
+            Picasso.with(mContext).load(locationList.get(position).getPhoto()).into(holder.homeimage);
+        } else {
+            File fileImage = new File(locationList.get(position).getPhoto());
+            Picasso.with(mContext).load(fileImage).into(holder.homeimage);
+        }
 
     }
 

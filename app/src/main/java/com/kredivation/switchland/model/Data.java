@@ -457,6 +457,167 @@ public class Data {
         this.home_liked_disliked = home_liked_disliked;
     }
 
+//--------------how its work--------------
+
+    private String title_two;
+
+    private String description_main_one;
+
+    private String image_main_two;
+
+    private String image_main_three;
+
+    private String title_main_one;
+
+    private String title_main_two;
+
+    private String title_one;
+
+    private String description_three;
+
+    private String title_main_three;
+
+    private String image_main_one;
+
+    private String description_main_two;
+
+    private String title_three;
+
+    private String main_title;
+
+    private String description_main_three;
+
+    private String description_one;
+
+    private String description_two;
+
+    public String getTitle_two() {
+        return title_two;
+    }
+
+    public void setTitle_two(String title_two) {
+        this.title_two = title_two;
+    }
+
+    public String getDescription_main_one() {
+        return description_main_one;
+    }
+
+    public void setDescription_main_one(String description_main_one) {
+        this.description_main_one = description_main_one;
+    }
+
+    public String getImage_main_two() {
+        return image_main_two;
+    }
+
+    public void setImage_main_two(String image_main_two) {
+        this.image_main_two = image_main_two;
+    }
+
+    public String getImage_main_three() {
+        return image_main_three;
+    }
+
+    public void setImage_main_three(String image_main_three) {
+        this.image_main_three = image_main_three;
+    }
+
+    public String getTitle_main_one() {
+        return title_main_one;
+    }
+
+    public void setTitle_main_one(String title_main_one) {
+        this.title_main_one = title_main_one;
+    }
+
+    public String getTitle_main_two() {
+        return title_main_two;
+    }
+
+    public void setTitle_main_two(String title_main_two) {
+        this.title_main_two = title_main_two;
+    }
+
+    public String getTitle_one() {
+        return title_one;
+    }
+
+    public void setTitle_one(String title_one) {
+        this.title_one = title_one;
+    }
+
+    public String getDescription_three() {
+        return description_three;
+    }
+
+    public void setDescription_three(String description_three) {
+        this.description_three = description_three;
+    }
+
+    public String getTitle_main_three() {
+        return title_main_three;
+    }
+
+    public void setTitle_main_three(String title_main_three) {
+        this.title_main_three = title_main_three;
+    }
+
+    public String getImage_main_one() {
+        return image_main_one;
+    }
+
+    public void setImage_main_one(String image_main_one) {
+        this.image_main_one = image_main_one;
+    }
+
+    public String getDescription_main_two() {
+        return description_main_two;
+    }
+
+    public void setDescription_main_two(String description_main_two) {
+        this.description_main_two = description_main_two;
+    }
+
+    public String getTitle_three() {
+        return title_three;
+    }
+
+    public void setTitle_three(String title_three) {
+        this.title_three = title_three;
+    }
+
+    public String getMain_title() {
+        return main_title;
+    }
+
+    public void setMain_title(String main_title) {
+        this.main_title = main_title;
+    }
+
+    public String getDescription_main_three() {
+        return description_main_three;
+    }
+
+    public void setDescription_main_three(String description_main_three) {
+        this.description_main_three = description_main_three;
+    }
+
+    public String getDescription_one() {
+        return description_one;
+    }
+
+    public void setDescription_one(String description_one) {
+        this.description_one = description_one;
+    }
+
+    public String getDescription_two() {
+        return description_two;
+    }
+
+    public void setDescription_two(String description_two) {
+        this.description_two = description_two;
+    }
 
     @Override
     public String toString() {

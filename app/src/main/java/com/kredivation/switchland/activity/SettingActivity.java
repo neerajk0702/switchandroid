@@ -38,8 +38,6 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     private void init() {
         LinearLayout changepassLayout = findViewById(R.id.changepassLayout);
         changepassLayout.setOnClickListener(this);
-        LinearLayout filterLayout = findViewById(R.id.filterLayout);
-        filterLayout.setOnClickListener(this);
         LinearLayout logoutLayout = findViewById(R.id.logoutLayout);
         logoutLayout.setOnClickListener(this);
         Typeface materialdesignicons_font = FontManager.getFontTypefaceMaterialDesignIcons(this, "fonts/materialdesignicons-webfont.otf");
@@ -64,10 +62,6 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 Intent intent = new Intent(SettingActivity.this, AppTourActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-                break;
-            case R.id.filterLayout:
-                Intent filterintent = new Intent(SettingActivity.this, MyProfileFilterActivity.class);
-                startActivity(filterintent);
                 break;
             case R.id.changepassLayout:
                 Intent passintent = new Intent(SettingActivity.this, ChangePasswordActivity.class);

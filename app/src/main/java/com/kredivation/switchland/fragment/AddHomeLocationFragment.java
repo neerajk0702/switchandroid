@@ -46,6 +46,7 @@ import com.kredivation.switchland.model.ServiceContentData;
 import com.kredivation.switchland.utilities.FontManager;
 import com.kredivation.switchland.utilities.Utility;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -117,7 +118,7 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
     String saveCityId;
     int cityPos = 0;
     HomeDetails MyHomedata;
-
+String homeId;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -235,32 +236,16 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
 
     //get data from pre
     private void getSaveData() {
-       /* SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
-        if (prefs != null) {
-            addressStr = prefs.getString("Address", "");
-            landmarkStr = prefs.getString("LandMark", "");
-            zipCodeStr = prefs.getString("ZipCode", "");
-            enterzipcodeStr = prefs.getString("EnterZipcode", "");
-            saveCountryId = prefs.getString("CountryId", "");
-            saveCityId = prefs.getString("CityId", "");
-            hnoStr = prefs.getString("Hno", "");
-            hno.setText(hnoStr);
-            zipCode.setText(zipCodeStr);
-            address.setText(addressStr);
-            enterzipcode.setText(enterzipcodeStr);
-            landmark.setText(landmarkStr);
 
-        }*/
-
-        SharedPreferences prefs = context.getSharedPreferences("HomeDetailPreferences", Context.MODE_PRIVATE);
+       /* SharedPreferences prefs = context.getSharedPreferences("HomeDetailPreferences", Context.MODE_PRIVATE);
         if (prefs != null) {
-            if (prefs.getBoolean("HomeEdit", false)) {
                 String Myhome = prefs.getString("HomeDetail", "");
                 if (Myhome != null && !Myhome.equals("")) {
                     MyHomedata = new Gson().fromJson(Myhome, new TypeToken<HomeDetails>() {
                     }.getType());
 
                     if (MyHomedata != null) {//for home edit
+                        homeId = MyHomedata.getId();
                         hnoStr = MyHomedata.getHouse_no();
                         addressStr = MyHomedata.getAddress1();
                         String address2 = MyHomedata.getAddress2();
@@ -275,6 +260,29 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
                         enterzipcode.setText(enterzipcodeStr);
                         landmark.setText(landmarkStr);
                     }
+            }
+        }*/
+
+        SwitchDBHelper dbHelper = new SwitchDBHelper(getActivity());
+        ArrayList<HomeDetails> homeDetails = dbHelper.getAllAddEditHomeDataList();
+        if (homeDetails != null) {
+            for (HomeDetails details : homeDetails) {
+                MyHomedata = details;
+                if (MyHomedata != null) {//for home edit
+                    homeId = MyHomedata.getId();
+                    hnoStr = MyHomedata.getHouse_no();
+                    addressStr = MyHomedata.getAddress1();
+                    String address2 = MyHomedata.getAddress2();
+                    landmarkStr = MyHomedata.getLandmarks();
+                    enterzipcodeStr = MyHomedata.getZipcode();
+                    zipCodeStr = MyHomedata.getLocation();
+                    saveCountryId = MyHomedata.getCountry_id();
+                    saveCityId = MyHomedata.getCity_id();
+                    hno.setText(hnoStr);
+                    zipCode.setText(zipCodeStr);
+                    address.setText(addressStr + "," + address2);
+                    enterzipcode.setText(enterzipcodeStr);
+                    landmark.setText(landmarkStr);
                 }
             }
         }
@@ -395,19 +403,9 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
 
     //save data
     private void saveData() {
-      /*  SharedPreferences prefs = context.getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("Address", addressStr);
-        editor.putString("LandMark", landmarkStr);
-        editor.putString("ZipCode", zipCodeStr);
-        editor.putString("EnterZipcode", enterzipcodeStr);
-        editor.putString("CountryId", countryId);
-        editor.putString("CityId", cityId);
-        editor.putString("Hno", hnoStr);
-        editor.commit();*/
 
         if (MyHomedata != null) {
-            MyHomedata.setAddress1(addressStr);
+           /* MyHomedata.setAddress1(addressStr);
             MyHomedata.setHouse_no(hnoStr);
             MyHomedata.setLandmarks(landmarkStr);
             MyHomedata.setZipcode(enterzipcodeStr);
@@ -415,7 +413,20 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
             MyHomedata.setCountry_id(countryId);
             MyHomedata.setCity_id(cityId);
             String homeStr = new Gson().toJson(MyHomedata);
-            Utility.setHomeDetail(context, homeStr, true);
+            Utility.setHomeDetail(context, homeStr, true);*/
+
+
+            HomeDetails details = new HomeDetails();
+            details.setId(homeId);
+            details.setAddress1(addressStr);
+            details.setHouse_no(hnoStr);
+            details.setLandmarks(landmarkStr);
+            details.setZipcode(enterzipcodeStr);
+            details.setLocation(zipCodeStr);
+            details.setCountry_id(countryId);
+            details.setCity_id(cityId);
+            SwitchDBHelper dbHelper=new SwitchDBHelper(getActivity());
+            dbHelper.updateAddEditHomeLocation(details);
         }
     }
 }

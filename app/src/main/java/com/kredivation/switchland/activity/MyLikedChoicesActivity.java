@@ -59,14 +59,8 @@ public class MyLikedChoicesActivity extends AppCompatActivity {
             }
         });
 
-        String Myhome = getIntent().getStringExtra("Likedmychoice");
-        if (Myhome != null && !Myhome.equals("")) {
-            LikedmychoiceArray[] data = new Gson().fromJson(Myhome, new TypeToken<LikedmychoiceArray[]>() {
-            }.getType());
-            if (data != null) {
-                myHomeList = new ArrayList<LikedmychoiceArray>(Arrays.asList(data));
-            }
-        }
+        SwitchDBHelper switchDBHelper = new SwitchDBHelper(MyLikedChoicesActivity.this);
+        myHomeList = switchDBHelper.getAllLikedmychoiceData();
         getUserData();
         recyclerView = findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(MyLikedChoicesActivity.this, LinearLayoutManager.VERTICAL, false);
