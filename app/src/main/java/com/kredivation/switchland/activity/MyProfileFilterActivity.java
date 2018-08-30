@@ -56,7 +56,7 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
     private Country[] country;
     Spinner cityspinner, countryspinner, bedroomspinner, Religionspinner, Typeoftravellerspinner, genderspinner, Sleepspinner;
     String[] countryList;
-    String[] cityList;
+    ArrayList<String> cityList;
     private String cityId = "";
     private String countryId = "";
     ImageView profileImage;
@@ -323,9 +323,7 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
                 cityspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if (countryId.equals(city[position].getCountry_id())) {
-                            cityId = city[position].getId();
-                        }
+                        cityId = city[position].getId();
                     }
 
                     @Override
@@ -341,13 +339,13 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
     private void setCityAdapter(String countryId) {
         city = MData.getCity();
         if (city != null) {
-            cityList = new String[city.length];
+            cityList = new ArrayList();
             for (int i = 0; i < city.length; i++) {
                 if (countryId.equals(city[i].getCountry_id())) {
-                    cityList[i] = String.valueOf(city[i].getName());
+                    cityList.add(String.valueOf(city[i].getName()));
                 }
             }
-            if (cityList != null && cityList.length > 0) {
+            if (cityList != null && cityList.size() > 0) {
                 ArrayAdapter<String> cityAdapter = new ArrayAdapter<String>(MyProfileFilterActivity.this, R.layout.spinner_row, cityList);
                 cityspinner.setAdapter(cityAdapter);
             }
@@ -448,7 +446,7 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
 
     private void getCitySelectPos() {
         int pos = 0;
-        for (int i = 0; i < cityList.length; i++) {
+        for (int i = 0; i < cityList.size() ; i++) {
             if (servercountryId.equals(city[i].getCountry_id()) && servercityId.equals(city[i].getId())) {
                 cityNameStr = String.valueOf(city[i].getName());
                 pos = i;

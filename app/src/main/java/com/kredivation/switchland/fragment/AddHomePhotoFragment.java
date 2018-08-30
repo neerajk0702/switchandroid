@@ -148,6 +148,11 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
         StaggeredGridLayoutManager gaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(gaggeredGridLayoutManager);
         getSaveData();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
     }
 
@@ -183,7 +188,12 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
                     locationList = new ArrayList<>();
                     // locationList = MyHomedata.getHomeImageList();
                     if (MyHomedata.getHomegallery() != null && MyHomedata.getHomegallery().length > 0) {
-                        for (Homegallery home : MyHomedata.getHomegallery()) {
+                        for (Homegallery home : MyHomedata.getHomegallery()) {//for server image
+                            locationList.add(home);
+                        }
+                    }
+                    if (MyHomedata.getHomeImageList() != null && MyHomedata.getHomeImageList().size() > 0) {
+                        for (Homegallery home : MyHomedata.getHomeImageList()) {//for local select images
                             locationList.add(home);
                         }
                     }

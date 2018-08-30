@@ -109,7 +109,7 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
     private String zipCodeStr, addressStr, enterzipcodeStr, landmarkStr, hnoStr;
     Button lookUp;
     String[] countryList;
-    String[] cityList;
+    ArrayList<String> cityList;
     private String cityId = "";
     private String countryId = "";
     private City[] city;
@@ -194,16 +194,16 @@ String homeId;
                             countryId = country[position].getId();
                             city = MData.getCity();
                             if (city != null) {
-                                cityList = new String[city.length];
+                                cityList = new ArrayList();
                                 for (int i = 0; i < city.length; i++) {
                                     if (countryId.equals(city[i].getCountry_id())) {
-                                        cityList[i] = String.valueOf(city[i].getName());
+                                        cityList.add(String.valueOf(city[i].getName()));
                                         if (saveCityId.equals(city[i].getId())) {
                                             cityPos = i;//save country pos for selected
                                         }
                                     }
                                 }
-                                if (cityList != null && cityList.length > 0) {
+                                if (cityList != null && cityList.size() > 0) {
                                     ArrayAdapter<String> cityAdapter = new ArrayAdapter<String>(context, R.layout.spinner_row, cityList);
                                     citySpinner.setSelection(cityPos);
                                     citySpinner.setAdapter(cityAdapter);
@@ -220,9 +220,7 @@ String homeId;
                 citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if (countryId.equals(city[position].getCountry_id())) {
-                            cityId = city[position].getId();
-                        }
+                        cityId = city[position].getId();
                     }
 
                     @Override
@@ -236,32 +234,6 @@ String homeId;
 
     //get data from pre
     private void getSaveData() {
-
-       /* SharedPreferences prefs = context.getSharedPreferences("HomeDetailPreferences", Context.MODE_PRIVATE);
-        if (prefs != null) {
-                String Myhome = prefs.getString("HomeDetail", "");
-                if (Myhome != null && !Myhome.equals("")) {
-                    MyHomedata = new Gson().fromJson(Myhome, new TypeToken<HomeDetails>() {
-                    }.getType());
-
-                    if (MyHomedata != null) {//for home edit
-                        homeId = MyHomedata.getId();
-                        hnoStr = MyHomedata.getHouse_no();
-                        addressStr = MyHomedata.getAddress1();
-                        String address2 = MyHomedata.getAddress2();
-                        landmarkStr = MyHomedata.getLandmarks();
-                        enterzipcodeStr = MyHomedata.getZipcode();
-                        zipCodeStr = MyHomedata.getLocation();
-                        saveCountryId = MyHomedata.getCountry_id();
-                        saveCityId = MyHomedata.getCity_id();
-                        hno.setText(hnoStr);
-                        zipCode.setText(zipCodeStr);
-                        address.setText(addressStr + "," + address2);
-                        enterzipcode.setText(enterzipcodeStr);
-                        landmark.setText(landmarkStr);
-                    }
-            }
-        }*/
 
         SwitchDBHelper dbHelper = new SwitchDBHelper(getActivity());
         ArrayList<HomeDetails> homeDetails = dbHelper.getAllAddEditHomeDataList();
@@ -317,18 +289,21 @@ String homeId;
 
                 if (lookUpFlag) {
                     if (isValidate()) {
-                        zipCodeStr = "";
+                       // zipCodeStr = "";
+                        Utility.showToast(context, "Location Save");
                     }
                 } else {
-                    enterzipcodeStr = "";
+                   // enterzipcodeStr = "";
                     zipCodeStr = zipCode.getText().toString();
                     if (zipCodeStr.length() == 0) {
                         input_layout_zip.setError("Please Enter Zipcode");
                         requestFocus(zipCode);
                     } else {
                         input_layout_zip.setError("");
+                        Utility.showToast(context, "Location Save");
                     }
                 }
+
                 break;
         }
     }

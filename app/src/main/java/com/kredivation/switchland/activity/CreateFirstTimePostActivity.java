@@ -70,7 +70,7 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
     String[] sleepsList;
     String[] bedList;
     String[] countryList;
-    String[] cityList;
+    ArrayList<String> cityList;
     private String cityID = "";
     private String countryID = "";
     private String userId;
@@ -204,13 +204,13 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
                             countryID = country[position].getId();
                             city = MData.getCity();
                             if (city != null) {
-                                cityList = new String[city.length];
+                                cityList = new ArrayList();
                                 for (int i = 0; i < city.length; i++) {
                                     if (countryID.equals(city[i].getCountry_id())) {
-                                        cityList[i] = String.valueOf(city[i].getName());
+                                        cityList.add(String.valueOf(city[i].getName()));
                                     }
                                 }
-                                if (cityList != null && cityList.length > 0) {
+                                if (cityList != null && cityList.size() > 0) {
                                     ArrayAdapter<String> cityAdapter = new ArrayAdapter<String>(CreateFirstTimePostActivity.this, R.layout.spinner_row, cityList);
                                     citySpinner.setAdapter(cityAdapter);
                                 }

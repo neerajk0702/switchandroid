@@ -68,7 +68,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private Toolbar toolbar;
     private Spinner citySpinner, countrySpinner;
     String[] countryList;
-    String[] cityList;
+    ArrayList<String> cityList;
     private String cityId = "";
     private String countryId = "";
     private String userId;
@@ -177,13 +177,13 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                             countryId = country[position].getId();
                             city = MData.getCity();
                             if (city != null) {
-                                cityList = new String[city.length];
+                                cityList = new ArrayList();
                                 for (int i = 0; i < city.length; i++) {
                                     if (countryId.equals(city[i].getCountry_id())) {
-                                        cityList[i] = String.valueOf(city[i].getName());
+                                        cityList.add(String.valueOf(city[i].getName()));
                                     }
                                 }
-                                if (cityList != null && cityList.length > 0) {
+                                if (cityList != null && cityList.size() > 0) {
                                     ArrayAdapter<String> cityAdapter = new ArrayAdapter<String>(EditProfileActivity.this, R.layout.spinner_row, cityList);
                                     citySpinner.setAdapter(cityAdapter);
                                 }
@@ -199,9 +199,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if (countryId.equals(city[position].getCountry_id())) {
-                            cityId = city[position].getId();
-                        }
+                        cityId = city[position].getId();
                     }
 
                     @Override

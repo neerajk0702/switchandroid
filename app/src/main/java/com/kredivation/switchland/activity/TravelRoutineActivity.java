@@ -68,7 +68,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
     private City[] city;
     private Country[] country;
     String[] countryList;
-    String[] cityList;
+    ArrayList<String> cityList;
     private String cityID = "";
     private String countryID = "";
     private String userId;
@@ -158,13 +158,13 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
                             countryID = country[position].getId();
                             city = MData.getCity();
                             if (city != null) {
-                                cityList = new String[city.length];
+                                cityList = new ArrayList();
                                 for (int i = 0; i < city.length; i++) {
                                     if (countryID.equals(city[i].getCountry_id())) {
-                                        cityList[i] = String.valueOf(city[i].getName());
+                                        cityList.add(String.valueOf(city[i].getName()));
                                     }
                                 }
-                                if (cityList != null && cityList.length > 0) {
+                                if (cityList != null && cityList.size() > 0) {
                                     ArrayAdapter<String> cityAdapter = new ArrayAdapter<String>(TravelRoutineActivity.this, R.layout.spinner_row, cityList);
                                     citySpinner.setAdapter(cityAdapter);
                                 }
@@ -182,9 +182,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
         citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (countryID.equals(city[position].getCountry_id())) {
-                    cityID = city[position].getId();
-                }
+                cityID = city[position].getId();
             }
 
             @Override
@@ -306,22 +304,6 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
 
     //get data from pre
     private void getSaveData() {
-        /*SharedPreferences prefs = getSharedPreferences("HomeDetailPreferences", Context.MODE_PRIVATE);
-        if (prefs != null) {
-            String Myhome = prefs.getString("HomeDetail", "");
-            if (Myhome != null && !Myhome.equals("")) {
-                MailMyHomedata = new Gson().fromJson(Myhome, new TypeToken<HomeDetails>() {
-                }.getType());
-                startDateStr = MailMyHomedata.getStartdate();
-                enddateStr = MailMyHomedata.getEnddate();
-                enddate.setText(enddateStr);
-                etYear.setText(startDateStr);
-                countryID = MailMyHomedata.getCountry_id();
-                cityID = MailMyHomedata.getCity_id();
-                getSelectedCity();
-                getSelectedCountry();
-            }
-        }*/
         SwitchDBHelper dbHelper = new SwitchDBHelper(TravelRoutineActivity.this);
         ArrayList<HomeDetails> homeDetails = dbHelper.getAllAddEditHomeDataList();
         if (homeDetails != null) {
@@ -333,16 +315,17 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
                     enddateStr = MyHomedata.getEnddate();
                     enddate.setText(enddateStr);
                     etYear.setText(startDateStr);
-                    countryID = MyHomedata.getCountry_id();
-                    cityID = MyHomedata.getCity_id();
-                    getSelectedCity();
-                    getSelectedCountry();
+                    String countryID = MyHomedata.getCountry_id();
+                    String cityID = MyHomedata.getCity_id();
+                    getSelectedCountry(countryID);
+                    getSelectedCity(cityID);
+
                 }
             }
         }
     }
 
-    private void getSelectedCountry() {
+    private void getSelectedCountry(String countryID) {
         if (country != null) {
             for (int i = 0; i < country.length; i++) {
                 if (countryID.equals(country[i].getId())) {
@@ -353,7 +336,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    private void getSelectedCity() {
+    private void getSelectedCity(String cityID) {
         if (city != null) {
             for (int i = 0; i < city.length; i++) {
                 if (cityID.equals(city[i].getId())) {
@@ -367,11 +350,11 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
     //get all save home data
     private void getAllHomeDataFromSharePre() {
         //SwitchDBHelper dbHelper = new SwitchDBHelper(TravelRoutineActivity.this);
-      //  MyHomedata = dbHelper.getAddEditHomeDataById(MainhomeId);
+        //  MyHomedata = dbHelper.getAddEditHomeDataById(MainhomeId);
 
         homeId = MyHomedata.getId();
         //------home Overview screen----------
-        homestyleId = MyHomedata.getHomestyle();
+        homestyleId = MyHomedata.getHome_type();
         securitId = MyHomedata.getLevel_security();
         genderId = MyHomedata.getGender();
         religionId = MyHomedata.getReligion();
@@ -420,47 +403,47 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
         payloadList.put("title", titleStr);
         payloadList.put("sort_description", aboutHomeStr);
         payloadList.put("house_no", Hno);
-        payloadList.put("home_type", homestyleId);//
+        payloadList.put("home_type", homestyleId);
         payloadList.put("bedrooms", bedroomsId);
-        payloadList.put("bathrooms", bathroomsId);//
+        payloadList.put("bathrooms", bathroomsId);
         payloadList.put("sleeps", sleepsid);
-        payloadList.put("property_type", typeOfPropertiesId);//
-        payloadList.put("pets", petsId);//
-        payloadList.put("family", familyId);//
-        payloadList.put("location", zipCodeStr);//
+        payloadList.put("property_type", typeOfPropertiesId);
+        payloadList.put("pets", petsId);
+        payloadList.put("family", familyId);
+        payloadList.put("location", zipCodeStr);
         payloadList.put("latitude", "20.7");
         payloadList.put("longitude", "30.7");
-        payloadList.put("destinations", dreamStr);//
-        payloadList.put("traveller_type", travleIdStr);//
+        payloadList.put("destinations", dreamStr);
+        payloadList.put("traveller_type", travleIdStr);
         payloadList.put("startdate", startDateStr);
         payloadList.put("enddate", enddateStr);
         payloadList.put("country", countryID);
         payloadList.put("city", cityID);
         payloadList.put("address1", Hno);
-        payloadList.put("address2", addressStr);//
-        payloadList.put("zipcode", enterzipcodeStr);//
+        payloadList.put("address2", addressStr);
+        payloadList.put("zipcode", enterzipcodeStr);
         payloadList.put("gender", genderId);
         payloadList.put("religion", religionId);
-        payloadList.put("landmark", landmarkStr);//
-        payloadList.put("level_of_security", securitId);//
+        payloadList.put("landmark", landmarkStr);
+        payloadList.put("level_of_security", securitId);
         payloadList.put("cardnumber", Cardno);
         payloadList.put("nameoncard", CardNameStr);
         payloadList.put("month", monthId);
-        payloadList.put("Year", yearId);
-        payloadList.put("Cvv", cvvStr);
+        payloadList.put("year", yearId);
+        payloadList.put("cvv", cvvStr);
     }
 
     //save add home data into server
     public void addHomeServer() {
         if (Utility.isOnline(TravelRoutineActivity.this)) {
             final ASTProgressBar progressBar = new ASTProgressBar(TravelRoutineActivity.this);
-            // progressBar.show();
+            progressBar.show();
 
             String serviceURL = Contants.BASE_URL + Contants.Addhome;
             getAllHomeDataFromSharePre();
             MultipartBody.Builder multipartBody = setMultipartBodyVaule();
 
-           /* FileUploaderHelper fileUploaderHelper = new FileUploaderHelper(TravelRoutineActivity.this, payloadList, multipartBody, serviceURL) {
+            FileUploaderHelper fileUploaderHelper = new FileUploaderHelper(TravelRoutineActivity.this, payloadList, multipartBody, serviceURL) {
                 @Override
                 public void receiveData(String result) {
                     final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
@@ -483,7 +466,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
                     }
                 }
             };
-            fileUploaderHelper.execute();*/
+            fileUploaderHelper.execute();
         } else {
             Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, TravelRoutineActivity.this);//off line msg....
         }

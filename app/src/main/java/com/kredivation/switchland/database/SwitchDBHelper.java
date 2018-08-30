@@ -649,7 +649,7 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
 
     public void populateAddEditHomeValueData(ContentValues values, HomeDetails ob) {
         values.put("home_id", ob.getId());
-        values.put("homestyle", ob.getHomestyle());
+        values.put("homestyle", ob.getHome_type());
         values.put("security", ob.getLevel_security());
         values.put("gender", ob.getGender());
         values.put("religion", ob.getReligion());
@@ -703,7 +703,7 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
 
     public void populateAddEditHomeValueDataOverview(ContentValues values, HomeDetails ob) {
         values.put("home_id", ob.getId());
-        values.put("homestyle", ob.getHomestyle());
+        values.put("homestyle", ob.getHome_type());
         values.put("security", ob.getLevel_security());
         values.put("gender", ob.getGender());
         values.put("religion", ob.getReligion());
