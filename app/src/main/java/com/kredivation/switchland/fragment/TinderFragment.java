@@ -16,8 +16,10 @@ import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.activity.HomeDetailActivity;
 import com.kredivation.switchland.activity.MyChoicesActivity;
@@ -30,6 +32,7 @@ import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
 import com.kredivation.switchland.framework.ServiceCaller;
 import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.model.Features;
+import com.kredivation.switchland.model.FilterHome;
 import com.kredivation.switchland.model.Home_data;
 import com.kredivation.switchland.model.Home_features;
 import com.kredivation.switchland.model.Home_liked_disliked;
@@ -60,7 +63,7 @@ public class TinderFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private String homeFilter;
     private String mParam2;
 
 
@@ -90,7 +93,7 @@ public class TinderFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            homeFilter = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
@@ -101,11 +104,19 @@ public class TinderFragment extends Fragment {
     Context context;
     private View view;
     ASTProgressBar dotDialog;
+    ASTProgressBar likeDialog;
     private String userId;
     String startDate = "";
     String endDate = "";
     String countryId = "";
+    String cityId = "";
     ArrayList<Home_data> homeList;
+    FilterHome filterHome;
+    String slieepId;
+    String bedroomId = "";
+    String genderId = "";
+    String religionId = "";
+    String travleId = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -118,6 +129,11 @@ public class TinderFragment extends Fragment {
     }
 
     private void initView() {
+        if (homeFilter != null && !homeFilter.equals("")) {
+            filterHome = new Gson().fromJson(homeFilter, new TypeToken<FilterHome>() {
+            }.getType());
+        }
+
         ((LinearLayout) view.findViewById(R.id.activityMain)).getViewTreeObserver().addOnGlobalLayoutListener((ViewTreeObserver.OnGlobalLayoutListener) (new ViewTreeObserver.OnGlobalLayoutListener() {
             @SuppressLint({"NewApi"})
             public void onGlobalLayout() {
@@ -132,7 +148,6 @@ public class TinderFragment extends Fragment {
             }
         }));
         this.initializeDeck();
-        this.fillData();
         this.setUpCLickListeners();
         getUserdata();
     }
@@ -153,9 +168,13 @@ public class TinderFragment extends Fragment {
             }
 
             public void onCardSwipedLeft(int position) {
+                //Toast.makeText(getActivity(), "onCardSwipedLeft="+position, Toast.LENGTH_LONG).show();
+                likeDislike("2", position);
             }
 
             public void onCardSwipedRight(int position) {
+                // Toast.makeText(getActivity(), "onCardSwipedRight="+position, Toast.LENGTH_LONG).show();
+                likeDislike("1", position);
             }
 
             public void onEmptyDeck() {
@@ -167,40 +186,32 @@ public class TinderFragment extends Fragment {
 
             public void onClickRight(int position) {
                 DefaultImpls.onClickRight(this, position);
+                //  Toast.makeText(getActivity(), "onClickRight=" + position, Toast.LENGTH_LONG).show();
+                likeDislike("1", position);
             }
 
             public void onClickLeft(int position) {
                 DefaultImpls.onClickLeft(this, position);
+                //Toast.makeText(getActivity(), "onClickLeft=" + position, Toast.LENGTH_LONG).show();
+                likeDislike("2", position);
             }
 
             public void onCardSingleTap(int position) {
                 DefaultImpls.onCardSingleTap(this, position);
+                // Toast.makeText(getActivity(), "onCardSingleTap="+position, Toast.LENGTH_LONG).show();
             }
 
             public void onCardDoubleTap(int position) {
                 DefaultImpls.onCardDoubleTap(this, position);
+                // Toast.makeText(getActivity(), "onCardDoubleTap="+position, Toast.LENGTH_LONG).show();
             }
 
             public void onCardLongPress(int position) {
                 DefaultImpls.onCardLongPress(this, position);
+                //Toast.makeText(getActivity(), "onCardLongPress="+position, Toast.LENGTH_LONG).show();
             }
-        }));
-    }
 
-    private void fillData() {
-        Integer[] data = new Integer[]{R.drawable.a,
-                R.drawable.b,
-                R.drawable.c,
-                R.drawable.d,
-                R.drawable.e,
-                R.drawable.a,
-                R.drawable.b,
-                R.drawable.c,
-                R.drawable.d,
-                R.drawable.e,
-                R.drawable.e,
-                R.drawable.b,
-                R.drawable.d};
+        }));
         setAdapterValue();
     }
 
@@ -216,20 +227,20 @@ public class TinderFragment extends Fragment {
     private void setUpCLickListeners() {
         ImageView dislike = view.findViewById(R.id.activityMain).findViewById(R.id.dislike);
         ImageView like = view.findViewById(R.id.activityMain).findViewById(R.id.like);
-        Button skip = view.findViewById(R.id.skip);
+        final Button skip = view.findViewById(R.id.skip);
         Utility.setBackgroundOval(context, skip, R.color.blue_color, Utility.getColor(context, R.color.gray), 0);
         Utility.setBackgroundRing(context, dislike, R.color.light_gray_color, Utility.getColor(context, R.color.light_gray_color), 0);
         Utility.setBackgroundRing(context, like, R.color.light_gray_color, Utility.getColor(context, R.color.light_gray_color), 0);
         dislike.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
             public void onClick(View it) {
                 ((KoldaMain) view.findViewById(R.id.koloda)).onClickLeft();
-                getAllHome();
+                //likeDislike("2",0);
             }
         }));
         like.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
             public void onClick(View it) {
                 ((KoldaMain) view.findViewById(R.id.koloda)).onClickRight();
-                getAllHome();
+                // likeDislike("1",0);
             }
         }));
 
@@ -237,21 +248,47 @@ public class TinderFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ((KoldaMain) view.findViewById(R.id.koloda)).onClickSkip();
-                getAllHome();
+               /* if (homeList != null && homeList.size() > 0) {
+                    homeList.remove(0);
+                } else {
+                    Toast.makeText(getActivity(), "No More Home Available", Toast.LENGTH_LONG).show();
+                }*/
             }
         });
     }
 
+    private void likeDislike(String status, int pos) {
+        if (homeList != null && homeList.size() > 0) {
+            Home_data homeData = homeList.get(pos);
+            if (homeData != null) {
+                getLikeDislikCard(homeData.getId(), homeData.getUser_id(), status);
+            }
+        } else {
+            Toast.makeText(getActivity(), "No More Home Available", Toast.LENGTH_LONG).show();
+        }
+    }
+
     private void getUserdata() {
         SwitchDBHelper switchDBHelper = new SwitchDBHelper(context);
-        //get post home details
-        ArrayList<MyhomeArray> myHomeList = switchDBHelper.getAllMyhomedata();
-        for (MyhomeArray myhomeArray : myHomeList) {
-            startDate = myhomeArray.getStartdate();
-            endDate = myhomeArray.getEnddate();
-            countryId = myhomeArray.getCountry_id();
+        if (filterHome != null && !filterHome.equals("")) {
+            startDate = filterHome.getStartDate();
+            endDate = filterHome.getEndDate();
+            cityId = filterHome.getCityId();
+            countryId = filterHome.getCountryId();
+            slieepId = filterHome.getSleepsId();
+            bedroomId = filterHome.getBedroomsId();
+            genderId = filterHome.getGenderId();
+            religionId = filterHome.getReligionId();
+            travleId = filterHome.getTravleId();
+        } else {
+            //get posted home details
+            ArrayList<MyhomeArray> myHomeList = switchDBHelper.getAllMyhomedata();
+            for (MyhomeArray myhomeArray : myHomeList) {
+                startDate = myhomeArray.getStartdate();
+                endDate = myhomeArray.getEnddate();
+                countryId = myhomeArray.getCountry_id();
+            }
         }
-
         ArrayList<Data> userData = switchDBHelper.getAllUserInfoList();
         if (userData != null && userData.size() > 0) {
             for (Data data : userData) {
@@ -279,7 +316,7 @@ public class TinderFragment extends Fragment {
             String serviceURL = Contants.BASE_URL + Contants.Getallhomes;
 
             ServiceCaller serviceCaller = new ServiceCaller(getContext());
-            serviceCaller.CallCommanServiceMethod(serviceURL, object, "getMyHome", new IAsyncWorkCompletedCallback() {
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "getAllHome", new IAsyncWorkCompletedCallback() {
                 @Override
                 public void onDone(String result, boolean isComplete) {
                     if (isComplete) {
@@ -310,11 +347,12 @@ public class TinderFragment extends Fragment {
                                 Home_data[] home_data = serviceData.getData().getHome_data();
                                 Home_liked_disliked[] home_liked_disliked = serviceData.getData().getHome_liked_disliked();
                                 if (home_data != null) {
+                                    homeList.clear();
                                     for (Home_data homeData : home_data) {
-                                       /* if (!checkedHomeLikeOrNot(home_liked_disliked, homeData.getId())) {
+                                        if (!checkedHomeLikeOrNot(home_liked_disliked, homeData.getId())) {
                                             homeList.add(homeData);
-                                        }*/
-                                        homeList.add(homeData);
+                                        }
+                                        //homeList.add(homeData);
                                     }
                                 }
                                 flag = true;
@@ -326,7 +364,8 @@ public class TinderFragment extends Fragment {
                                 super.onPostExecute(flag);
                                 if (flag) {
                                     cardAdapter.notifyDataSetChanged();
-                                    //setAdapterValue();
+                                    // initializeDeck();
+                                    // setUpCLickListeners();
                                 }
                                 if (dotDialog.isShowing()) {
                                     dotDialog.dismiss();
@@ -362,5 +401,58 @@ public class TinderFragment extends Fragment {
     public void onResume() {
         super.onResume();
         //cardAdapter.notifyDataSetChanged();
+        // initView();
+    }
+
+    private void getLikeDislikCard(String homeId, String likeUserId, String status) {
+        if (Utility.isOnline(getContext())) {
+            likeDialog = new ASTProgressBar(getContext());
+            likeDialog.show();
+            JSONObject object = new JSONObject();
+            try {
+                object.put("api_key", Contants.API_KEY);
+                object.put("user_id", likeUserId);
+                object.put("home_id", homeId);
+                object.put("sender_id", userId);
+                object.put("tender_status", status);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String serviceURL = Contants.BASE_URL + Contants.Likedislike;
+
+            ServiceCaller serviceCaller = new ServiceCaller(getContext());
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "getLikeDislikCard", new IAsyncWorkCompletedCallback() {
+                @Override
+                public void onDone(String result, boolean isComplete) {
+                    if (isComplete) {
+                        parseLikeDislikeServiceData(result);
+                    } else {
+                        if (likeDialog.isShowing()) {
+                            likeDialog.dismiss();
+                        }
+                        Utility.alertForErrorMessage(Contants.Error, getContext());
+                    }
+                }
+            });
+        } else {
+            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, getContext());//off line msg....
+        }
+    }
+
+    public void parseLikeDislikeServiceData(String result) {
+        if (result != null) {
+            final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
+            if (serviceData != null) {
+                if (serviceData.isSuccess()) {
+                    // getAllHome();
+                }
+            } else {
+                Utility.alertForErrorMessage(Contants.Error, getContext());
+            }
+        }
+        if (likeDialog.isShowing()) {
+            likeDialog.dismiss();
+        }
     }
 }

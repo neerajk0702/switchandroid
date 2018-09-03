@@ -44,7 +44,7 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
         String CREATE_LikedmychoiceData_TABLE = "CREATE TABLE LikedmychoiceData(home_id TEXT,title TEXT,sort_description TEXT,location TEXT,destinations TEXT,home_image TEXT,startdate TEXT,enddate TEXT,zipcode TEXT,user_id TEXT,full_name TEXT,country_name TEXT,city_name TEXT,profile_image TEXT)";
         db.execSQL(CREATE_LikedmychoiceData_TABLE);
 
-        String CREATE_AddEditHomeData_TABLE = "CREATE TABLE AddEditHomeData(home_id TEXT,homestyle TEXT,security TEXT,gender TEXT,religion TEXT,family TEXT,pets TEXT,typeOfProperties TEXT,sleeps TEXT,bathrooms TEXT,bedrooms TEXT,title TEXT,about TEXT,savefeaturesList TEXT,saveRuleList,addressStr TEXT,hnoStr TEXT,landmarkStr TEXT,enterzipcodeStr TEXT,zipCodeStr TEXT,countryId TEXT,cityId TEXT,homeImageList TEXT,travleIdStr TEXT,profileImage TEXT,dreamStr TEXT,cardnoStr TEXT,nameStr TEXT,cvvStr TEXT,monthId TEXT,yearId EXT,latitude TEXT,longitude TEXT,startdate TEXT,enddate TEXT)";
+        String CREATE_AddEditHomeData_TABLE = "CREATE TABLE AddEditHomeData(home_id TEXT,homestyle TEXT,security TEXT,gender TEXT,religion TEXT,family TEXT,pets TEXT,typeOfProperties TEXT,sleeps TEXT,bathrooms TEXT,bedrooms TEXT,title TEXT,about TEXT,savefeaturesList TEXT,saveRuleList TEXT,addressStr TEXT,hnoStr TEXT,landmarkStr TEXT,enterzipcodeStr TEXT,zipCodeStr TEXT,countryId TEXT,cityId TEXT,homeImageList TEXT,travleIdStr TEXT,profileImage TEXT,dreamStr TEXT,cardnoStr TEXT,nameStr TEXT,cvvStr TEXT,monthId TEXT,yearId EXT,latitude TEXT,longitude TEXT,startdate TEXT,enddate TEXT)";
         db.execSQL(CREATE_AddEditHomeData_TABLE);
     }
 

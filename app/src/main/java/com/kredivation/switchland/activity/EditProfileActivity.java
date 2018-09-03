@@ -135,8 +135,12 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         if (userData != null && userData.size() > 0) {
             for (Data data : userData) {
                 userId = data.getId();
-                firstName.setText(data.getFirst_name());
-                lastName.setText(data.getLast_name());
+                if (data.getFull_name() != null && !data.getFull_name().equals("")) {
+                    firstName.setText(data.getFull_name());
+                } else {
+                    firstName.setText(data.getFirst_name());
+                    lastName.setText(data.getLast_name());
+                }
                 email.setText(data.getEmail());
                 phone.setText(data.getMobile_number());
                 user.setText(data.getUsername());

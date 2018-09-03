@@ -18,8 +18,11 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.adapters.MainPagerAdapter;
+import com.kredivation.switchland.model.FilterHome;
 import com.kredivation.switchland.runtimepermission.PermissionResultCallback;
 import com.kredivation.switchland.runtimepermission.PermissionUtils;
 
@@ -34,15 +37,13 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 1;
     private int REQUEST_CODE_GPS_PERMISSIONS = 2;
     MainPagerAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         runTimePermission();
-        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        // setSupportActionBar(toolbar);
-
-        //Initializing the tablayout
+        String homeFilter = getIntent().getStringExtra("HomeFilter");//come from Myprofilefilter, Travelroutin screen
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
 
        /* tabLayout.addTab(tabLayout.newTab().setText("Tab1"));
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
-         adapter = new MainPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        adapter = new MainPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), homeFilter);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         //Adding onTabSelectedListener to swipe views

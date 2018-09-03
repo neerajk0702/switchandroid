@@ -431,7 +431,7 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
                 MyHomedata = details;
                 if (MyHomedata != null) {//for home edit
                     homeId = MyHomedata.getId();
-                    serverhomestyleStr = MyHomedata.getHome_type();
+                    serverhomestyleStr = MyHomedata.getHomestyle();
                     serversecuritStr = MyHomedata.getLevel_security();
                     servergenderStr = MyHomedata.getGender();
                     serverreligionStr = MyHomedata.getReligion();
@@ -456,19 +456,19 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
             }
         }
         for (int i = 0; i < securitiesList.length; i++) {
-            if (serversecuritStr != null && serversecuritStr.equals(securities[i].getId())) {
+            if (serversecuritStr != null && serversecuritStr.equals(securities[i].getName())) {
                 levelofsecuritySpinner.setSelection(i);
                 break;
             }
         }
         for (int i = 0; i < genderList.length; i++) {
-            if (servergenderStr != null && servergenderStr.equals(genderarray[i].getId())) {
+            if (servergenderStr != null && servergenderStr.equals(genderarray[i].getName())) {
                 genderspinner.setSelection(i);
                 break;
             }
         }
         for (int i = 0; i < religionList.length; i++) {
-            if (serverreligionStr != null && serverreligionStr.equals(religion[i].getId())) {
+            if (serverreligionStr != null && serverreligionStr.equals(religion[i].getName())) {
                 Religionspinner.setSelection(i);
                 break;
             }

@@ -13,12 +13,14 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 
     //integer to count number of tabs
     int tabCount;
+    private String homeFilter;
 
     //Constructor to the class
-    public MainPagerAdapter(FragmentManager fm, int tabCount) {
+    public MainPagerAdapter(FragmentManager fm, int tabCount, String homeFilter) {
         super(fm);
         //Initializing tab count
         this.tabCount = tabCount;
+        this.homeFilter = homeFilter;
     }
 
     //Overriding method getItem
@@ -31,7 +33,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
                 return tab1;
             case 1:
 
-                Fragment tab2 = TinderFragment.newInstance("", "");
+                Fragment tab2 = TinderFragment.newInstance(homeFilter, "");
                 return tab2;
             case 2:
                 Fragment tab3 = ChatListFragment.newInstance("", "");

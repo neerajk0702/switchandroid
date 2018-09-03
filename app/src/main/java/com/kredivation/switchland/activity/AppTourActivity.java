@@ -137,6 +137,7 @@ public class AppTourActivity extends AppCompatActivity implements ViewPager.OnPa
 
     //navigate to screen
     private void navigate() {
+        Utility.setHowItsWork(AppTourActivity.this, true);
         SwitchDBHelper switchDBHelper = new SwitchDBHelper(AppTourActivity.this);
         ArrayList<Data> userData = switchDBHelper.getAllUserInfoList();
         boolean sflag = false;

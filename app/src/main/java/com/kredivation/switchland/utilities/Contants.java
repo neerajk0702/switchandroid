@@ -30,4 +30,8 @@ public class Contants {
     public static String MyHome = "homes";
     public static String Homedetails = "homedetails";
     public static String Howitwork = "howitwork";
+    public static String Likedislike = "likedislike";
+    public static String Getchatmember = "getchatmember";
+    public static String insertMessages = "insertMessages";
+
 }

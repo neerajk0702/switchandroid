@@ -85,8 +85,8 @@ public class MyHomeAdapter extends RecyclerView.Adapter<MyHomeAdapter.MyViewHold
         holder.nobed.setText(myHomeList.get(position).getBedrooms() + " Beds");
         holder.nobath.setText(myHomeList.get(position).getBathrooms() + " Baths");
         holder.location.setText(myHomeList.get(position).getLocation());
-        holder.startdate.setText("From " + myHomeList.get(position).getStartdate());
-        holder.startdate.setText("To " + myHomeList.get(position).getEnddate());
+        holder.startdate.setText(myHomeList.get(position).getStartdate());
+        holder.enddate.setText(myHomeList.get(position).getEnddate());
         Picasso.with(mContext).load(myHomeList.get(position).getProfile_image()).placeholder(R.drawable.home_default).into(holder.homeimage);
         holder.travelRoutine.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,9 +98,6 @@ public class MyHomeAdapter extends RecyclerView.Adapter<MyHomeAdapter.MyViewHold
             @Override
             public void onClick(View v) {
                 Intent homeintent = new Intent(mContext, HomeDetailActivity.class);
-               /* MyhomeArray myHome = myHomeList.get(position);
-                String homeStr = new Gson().toJson(myHome);
-                Utility.setHomeDetail(mContext, homeStr, true);*/
                 homeintent.putExtra("HomeId", myHomeList.get(position).getId());
                 homeintent.putExtra("EditFlage", true);
                 mContext.startActivity(homeintent);

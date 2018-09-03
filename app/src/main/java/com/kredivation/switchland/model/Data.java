@@ -385,7 +385,8 @@ public class Data {
     public void setCity_id(String city_id) {
         this.city_id = city_id;
     }
-    private  Genderarray[] genderarray;
+
+    private Genderarray[] genderarray;
     private String gender;
 
     public Genderarray[] getGenderarray() {
@@ -433,27 +434,24 @@ public class Data {
     public void setMychoiceArray(MychoiceArray[] mychoiceArray) {
         this.mychoiceArray = mychoiceArray;
     }
+
     private Home_data[] home_data;
 
     private Home_liked_disliked[] home_liked_disliked;
 
-    public Home_data[] getHome_data ()
-    {
+    public Home_data[] getHome_data() {
         return home_data;
     }
 
-    public void setHome_data (Home_data[] home_data)
-    {
+    public void setHome_data(Home_data[] home_data) {
         this.home_data = home_data;
     }
 
-    public Home_liked_disliked[] getHome_liked_disliked ()
-    {
+    public Home_liked_disliked[] getHome_liked_disliked() {
         return home_liked_disliked;
     }
 
-    public void setHome_liked_disliked (Home_liked_disliked[] home_liked_disliked)
-    {
+    public void setHome_liked_disliked(Home_liked_disliked[] home_liked_disliked) {
         this.home_liked_disliked = home_liked_disliked;
     }
 
@@ -617,6 +615,43 @@ public class Data {
 
     public void setDescription_two(String description_two) {
         this.description_two = description_two;
+    }
+
+    private String city_name;
+    private String user_id;
+    private String country_name;
+    private String home_id;
+
+    public String getCity_name() {
+        return city_name;
+    }
+
+    public void setCity_name(String city_name) {
+        this.city_name = city_name;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getCountry_name() {
+        return country_name;
+    }
+
+    public void setCountry_name(String country_name) {
+        this.country_name = country_name;
+    }
+
+    public String getHome_id() {
+        return home_id;
+    }
+
+    public void setHome_id(String home_id) {
+        this.home_id = home_id;
     }
 
     @Override

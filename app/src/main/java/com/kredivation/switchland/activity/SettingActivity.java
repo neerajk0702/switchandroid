@@ -50,6 +50,8 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 finish();
             }
         });
+        TextView howitwork = findViewById(R.id.howitwork);
+        howitwork.setOnClickListener(this);
     }
 
     @Override
@@ -59,13 +61,17 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 Utility.showToast(SettingActivity.this, "Logout Successfully");
                 SwitchDBHelper switchDBHelper = new SwitchDBHelper(SettingActivity.this);
                 switchDBHelper.deleteAllRows("userInfo");
-                Intent intent = new Intent(SettingActivity.this, AppTourActivity.class);
+                Intent intent = new Intent(SettingActivity.this, SplashScreenActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 break;
             case R.id.changepassLayout:
                 Intent passintent = new Intent(SettingActivity.this, ChangePasswordActivity.class);
                 startActivity(passintent);
+                break;
+            case R.id.howitwork:
+                Intent appintent = new Intent(SettingActivity.this, AppTourActivity.class);
+                startActivity(appintent);
                 break;
         }
     }

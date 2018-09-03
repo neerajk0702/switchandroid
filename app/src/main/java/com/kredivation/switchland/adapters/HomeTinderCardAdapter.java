@@ -76,6 +76,7 @@ public class HomeTinderCardAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent homeintent = new Intent(context, HomeDetailActivity.class);
                 homeintent.putExtra("HomeId", homeList.get(position).getId());
+                homeintent.putExtra("SenderUserId", homeList.get(position).getUser_id());
                 homeintent.putExtra("EditFlage", false);
                 context.startActivity(homeintent);
             }

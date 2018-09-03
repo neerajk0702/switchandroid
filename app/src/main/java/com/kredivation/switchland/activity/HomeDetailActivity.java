@@ -82,6 +82,7 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
     ArrayList<Home_features> featureList;
     ArrayList<Home_rules> hRuleList;
     ArrayList<Homegallery> hImagList;
+    private String SenderUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +139,7 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
             edit.setVisibility(View.VISIBLE);
         } else {
             edit.setVisibility(View.GONE);
+            SenderUserId = getIntent().getStringExtra("SenderUserId");//get user id from HomeTinderCardAdapter for show only homedetail not for edit
         }
         details = new HomeDetails();
         hImagList = new ArrayList();
@@ -191,7 +193,11 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
             JSONObject object = new JSONObject();
             try {
                 object.put("api_key", Contants.API_KEY);
-                object.put("user_id", userId);
+                if (SenderUserId != null && !SenderUserId.equals("")) {
+                    object.put("user_id", SenderUserId);
+                } else {
+                    object.put("user_id", userId);
+                }
                 object.put("home_id", HomeId);
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="@dimen/dimValue_3"
@@ -43,7 +44,7 @@
                     android:id="@+id/userName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Name"
+                    android:text=""
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/dimTextSize_14" />
 
@@ -57,7 +58,7 @@
                         android:id="@+id/locationIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Name"
+                        android:text=""
                         android:textColor="@color/secondary_text"
                         android:textSize="@dimen/dimTextSize_18" />
 
@@ -66,7 +67,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dimValue_7"
-                        android:text="Name"
+                        android:text=""
                         android:textColor="@color/secondary_text"
                         android:textSize="@dimen/dimTextSize_12" />
                 </LinearLayout>

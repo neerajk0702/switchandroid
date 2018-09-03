@@ -973,5 +973,15 @@ public class Utility {
             //   throw new RuntimeException("Could not get language: " + e);
         }
     }
+    public static void setHowItsWork(Context context, boolean flag) {
+        try {
+            SharedPreferences prefs = context.getSharedPreferences("HowItsWorkPreferences", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("HowItsWork", flag);
+            editor.commit();
+        } catch (Exception e) {
+            // should never happen
+        }
+    }
 
 }

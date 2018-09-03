@@ -2,6 +2,7 @@ package com.kredivation.switchland.fragment;
 
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,9 +12,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.adapters.ChatListAdapter;
+import com.kredivation.switchland.database.SwitchDBHelper;
+import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
+import com.kredivation.switchland.framework.ServiceCaller;
 import com.kredivation.switchland.model.ChatData;
+import com.kredivation.switchland.model.ChatServiceContentData;
+import com.kredivation.switchland.model.Data;
+import com.kredivation.switchland.model.Home_data;
+import com.kredivation.switchland.model.Home_liked_disliked;
+import com.kredivation.switchland.model.MyhomeArray;
+import com.kredivation.switchland.model.ServiceContentData;
+import com.kredivation.switchland.utilities.ASTProgressBar;
+import com.kredivation.switchland.utilities.Contants;
+import com.kredivation.switchland.utilities.Utility;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -55,6 +72,8 @@ public class ChatListFragment extends Fragment {
         return fragment;
     }
 
+    ASTProgressBar dotDialog;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +85,10 @@ public class ChatListFragment extends Fragment {
 
     private View view;
     private Context context;
+    private String userId;
+    private ArrayList<Data> chatList;
+    RecyclerView recyclerView;
+    ChatListAdapter mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,19 +101,104 @@ public class ChatListFragment extends Fragment {
     }
 
     private void init() {
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-
+        recyclerView = view.findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        ArrayList<ChatData> locationList=new ArrayList<ChatData>();
-        for(int i=0;i<=15;i++){
-            ChatData chatData=new ChatData();
-            chatData.setLocation("Location "+i);
-            chatData.setUsername("Switch User "+i);
-            locationList.add(chatData);
-        }
-        ChatListAdapter mAdapter = new ChatListAdapter(context,locationList);
-        recyclerView.setAdapter(mAdapter);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getUserdata();
+    }
+
+    private void getUserdata() {
+        SwitchDBHelper switchDBHelper = new SwitchDBHelper(context);
+        ArrayList<Data> userData = switchDBHelper.getAllUserInfoList();
+        if (userData != null && userData.size() > 0) {
+            for (Data data : userData) {
+                userId = data.getId();
+            }
+            getChatMemberlist();
+        }
+    }
+
+    private void getChatMemberlist() {
+        if (Utility.isOnline(getContext())) {
+            dotDialog = new ASTProgressBar(getContext());
+            dotDialog.show();
+            JSONObject object = new JSONObject();
+            try {
+                object.put("api_key", Contants.API_KEY);
+                object.put("user_id", userId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String serviceURL = Contants.BASE_URL + Contants.Getchatmember;
+
+            ServiceCaller serviceCaller = new ServiceCaller(getContext());
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "getChatMemberlist", new IAsyncWorkCompletedCallback() {
+                @Override
+                public void onDone(String result, boolean isComplete) {
+                    if (isComplete) {
+                        parseChatListServiceData(result);
+                    } else {
+                        if (dotDialog.isShowing()) {
+                            dotDialog.dismiss();
+                        }
+                        Utility.alertForErrorMessage(Contants.Error, getContext());
+                    }
+                }
+            });
+        } else {
+            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, getContext());//off line msg....
+        }
+    }
+
+    public void parseChatListServiceData(String result) {
+        if (result != null) {
+            final ChatServiceContentData serviceData = new Gson().fromJson(result, ChatServiceContentData.class);
+            if (serviceData != null) {
+                if (serviceData.isSuccess()) {
+                    if (serviceData.getData() != null) {
+                        new AsyncTask<Void, Void, Boolean>() {
+                            @Override
+                            protected Boolean doInBackground(Void... voids) {
+                                Boolean flag = false;
+                                chatList = new ArrayList<>();
+                                Data[] chat_data = serviceData.getData();
+                                if (chat_data != null) {
+                                    for (Data data : chat_data) {
+                                        chatList.add(data);
+                                    }
+                                    flag = true;
+                                }
+                                return flag;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Boolean flag) {
+                                super.onPostExecute(flag);
+                                if (flag) {
+                                    mAdapter = new ChatListAdapter(context, chatList);
+                                    recyclerView.setAdapter(mAdapter);
+                                }
+                                if (dotDialog.isShowing()) {
+                                    dotDialog.dismiss();
+                                }
+                            }
+                        }.execute();
+                    }
+                } else {
+                    Utility.alertForErrorMessage(serviceData.getMsg(), getContext());
+                }
+                if (dotDialog.isShowing()) {
+                    dotDialog.dismiss();
+                }
+            }
+        }
+    }
+
 }

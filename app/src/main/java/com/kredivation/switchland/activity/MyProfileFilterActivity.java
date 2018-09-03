@@ -1,6 +1,7 @@
 package com.kredivation.switchland.activity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.support.design.widget.TextInputLayout;
@@ -21,6 +22,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.model.Bathrooms;
@@ -29,6 +32,7 @@ import com.kredivation.switchland.model.City;
 import com.kredivation.switchland.model.Country;
 import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.model.Family;
+import com.kredivation.switchland.model.FilterHome;
 import com.kredivation.switchland.model.Genderarray;
 import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.Pets_allowed;
@@ -180,7 +184,6 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
 */
         cityspinner = (Spinner) findViewById(R.id.cityspinner);
         countryspinner = (Spinner) findViewById(R.id.countryspinner);
-        getUserdata();
         getAllDataFromDB();
     }
 
@@ -210,7 +213,7 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
         bedroomspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //  bedroomsStr = bedrooms[position].getId();
+                bedroomsStr = String.valueOf(bedrooms[position].getId());
             }
 
             @Override
@@ -222,7 +225,7 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
         Sleepspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // sleepsStr = sleeps[position].getId();
+                sleepsStr = String.valueOf(sleeps[position].getId());
             }
 
             @Override
@@ -370,6 +373,12 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserdata();
+    }
+
     //get post home details
     private void getMyHomeDetail() {
         SwitchDBHelper switchDBHelper = new SwitchDBHelper(MyProfileFilterActivity.this);
@@ -446,7 +455,7 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
 
     private void getCitySelectPos() {
         int pos = 0;
-        for (int i = 0; i < cityList.size() ; i++) {
+        for (int i = 0; i < cityList.size(); i++) {
             if (servercountryId.equals(city[i].getCountry_id()) && servercityId.equals(city[i].getId())) {
                 cityNameStr = String.valueOf(city[i].getName());
                 pos = i;
@@ -468,7 +477,20 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
                 break;
             case R.id.submit:
                 if (isValidate()) {
-                    //addHomeServer();
+                    FilterHome filterHome = new FilterHome();
+                    filterHome.setStartDate(startDateStr);
+                    filterHome.setEndDate(enddateStr);
+                    filterHome.setBedroomsId(bedroomsStr);
+                    filterHome.setSleepsId(sleepsStr);
+                    filterHome.setGenderId(genderStr);
+                    filterHome.setReligionId(religionStr);
+                    filterHome.setTravleId(travleIdStr);
+                    filterHome.setCountryId(countryId);
+                    filterHome.setCityId(cityId);
+                    String homeFilter = new Gson().toJson(filterHome);
+                    Intent intent = new Intent(MyProfileFilterActivity.this, MainActivity.class);
+                    intent.putExtra("HomeFilter", homeFilter);
+                    startActivity(intent);
                 }
                 break;
             case R.id.showAllfilter:
@@ -551,6 +573,7 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
 
     // ----validation -----
     private boolean isValidate() {
+
         startDateStr = etYear.getText().toString();
         enddateStr = enddate.getText().toString();
         if (!isDateValid(startDateStr)) {

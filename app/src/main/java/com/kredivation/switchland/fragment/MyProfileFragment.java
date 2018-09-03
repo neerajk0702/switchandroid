@@ -136,7 +136,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
         Mylike.setOnClickListener(this);
         LinearLayout filterLayout = view.findViewById(R.id.filterLayout);
         filterLayout.setOnClickListener(this);
-        getUserdata();
+       // getUserdata();
     }
 
     private void getUserdata() {
@@ -145,14 +145,22 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
         if (userData != null && userData.size() > 0) {
             for (Data data : userData) {
                 userId = data.getId();
-                name.setText(data.getFirst_name() + " " + data.getLast_name());
+                if (data.getFull_name() != null && !data.getFirst_name().equals("")) {
+                    name.setText(data.getFull_name());
+                } else {
+                    name.setText(data.getFirst_name() + " " + data.getLast_name());
+                }
                 email.setText(data.getEmail());
                 phone.setText(data.getMobile_number());
                 Picasso.with(context).load(data.getProfile_image()).placeholder(R.drawable.userimage).resize(80, 80).into(proImage);
             }
         }
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        getUserdata();
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

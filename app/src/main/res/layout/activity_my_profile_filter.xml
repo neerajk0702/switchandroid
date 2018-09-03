@@ -100,7 +100,7 @@
                             android:id="@+id/uNeme"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Bill Willkinson"
+                            android:text=""
                             android:textColor="@color/brown_color"
                             android:textSize="@dimen/dimTextSize_18"
                             android:textStyle="bold" />
@@ -109,7 +109,7 @@
                             android:id="@+id/uemail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="billwillkinson@gmail.com"
+                            android:text=""
                             android:textColor="@color/secondary_text"
                             android:textSize="@dimen/dimTextSize_14"
 
@@ -120,7 +120,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dimTextSize_5"
-                            android:text="1234567890"
+                            android:text=""
                             android:textColor="@color/secondary_text"
                             android:textSize="@dimen/dimTextSize_14" />
                     </LinearLayout>

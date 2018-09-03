@@ -2,6 +2,7 @@ package com.kredivation.switchland.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Rect;
 import android.graphics.Typeface;
@@ -47,6 +48,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
     ASTProgressBar dotDialog;
     private int is_home_available;
     private String userId;
+    boolean howItsWork;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,8 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initView() {
+        SharedPreferences prefs = getSharedPreferences("HowItsWorkPreferences", Context.MODE_PRIVATE);
+        howItsWork = prefs.getBoolean("HowItsWork", false);
         Typeface materialdesignicons_font = FontManager.getFontTypefaceMaterialDesignIcons(this, "fonts/materialdesignicons-webfont.otf");
         //userIcon = (TextView) findViewById(R.id.userIcon);
         //userIcon.setTypeface(materialdesignicons_font);
@@ -454,12 +458,17 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         }
         Utility.showToast(SigninActivity.this, "Login Success");
         Intent intent;
-        if (is_home_available == 1) {
-            intent = new Intent(SigninActivity.this, MainActivity.class);
+        if (!howItsWork) {
+            intent = new Intent(SigninActivity.this, AppTourActivity.class);
         } else {
-            intent = new Intent(SigninActivity.this, CreateFirstTimePostActivity.class);
+            if (is_home_available == 1) {
+                intent = new Intent(SigninActivity.this, MainActivity.class);
+            } else {
+                intent = new Intent(SigninActivity.this, CreateFirstTimePostActivity.class);
+            }
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
+
 }

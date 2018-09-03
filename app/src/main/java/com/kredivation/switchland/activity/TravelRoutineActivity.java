@@ -29,6 +29,7 @@ import com.kredivation.switchland.model.City;
 import com.kredivation.switchland.model.Country;
 import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.model.Features;
+import com.kredivation.switchland.model.FilterHome;
 import com.kredivation.switchland.model.HomeDetails;
 import com.kredivation.switchland.model.Home_features;
 import com.kredivation.switchland.model.Home_rules;
@@ -449,10 +450,15 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
                     final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
                     if (serviceData != null) {
                         if (serviceData.isSuccess()) {
-                            SharedPreferences prefs = getSharedPreferences("AddHomePreferences", Context.MODE_PRIVATE);
-                            prefs.edit().clear().commit();
                             Utility.showToast(TravelRoutineActivity.this, serviceData.getMsg());
+                            FilterHome filterHome = new FilterHome();
+                            filterHome.setStartDate(startDateStr);
+                            filterHome.setEndDate(enddateStr);
+                            filterHome.setCountryId(countryID);
+                            filterHome.setCityId(cityID);
+                            String homeFilter = new Gson().toJson(filterHome);
                             Intent intent = new Intent(TravelRoutineActivity.this, MainActivity.class);
+                            intent.putExtra("HomeFilter", homeFilter);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         } else {

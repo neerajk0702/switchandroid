@@ -1,6 +1,8 @@
 package com.kredivation.switchland.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -43,6 +45,8 @@ public class SplashScreenActivity extends AppCompatActivity {
     private Boolean CheckOrientation = false;
     private String userId;
     ASTProgressBar dotDialog;
+    boolean howItsWork;
+    boolean postavaliableOrnot = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +58,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
         chechPortaitAndLandSacpe();//chech Portait And LandSacpe Orientation
         dotDialog = new ASTProgressBar(SplashScreenActivity.this);
+        SharedPreferences prefs = getSharedPreferences("HowItsWorkPreferences", Context.MODE_PRIVATE);
+        howItsWork = prefs.getBoolean("HowItsWork", false);
         getUserData();
-        getMsterData();
         // waitForLogin(); //wait for 3 seconds
 
     }
@@ -77,7 +82,16 @@ public class SplashScreenActivity extends AppCompatActivity {
         if (userData != null && userData.size() > 0) {
             for (Data data : userData) {
                 userId = data.getId();
+                if (data.getIs_home_available() == 1) {
+                    postavaliableOrnot = true;
+                } else {
+                    postavaliableOrnot = false;
+                }
             }
+            getMsterData();
+        } else {
+            Intent intent = new Intent(SplashScreenActivity.this, SigninActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -178,16 +192,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                             @Override
                             protected void onPostExecute(Boolean flag) {
                                 super.onPostExecute(flag);
-                                if (userId != null && !userId.equals("") && !userId.equals("")) {
-                                    getUserInfo();
-                                } else {
-                                    if (dotDialog.isShowing()) {
-                                        dotDialog.dismiss();
-                                    }
-                                    Intent intent = new Intent(SplashScreenActivity.this, AppTourActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                }
+                                getUserInfo();
                             }
                         }.execute();
                     } else {
@@ -329,9 +334,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                             protected void onPostExecute(Boolean flag) {
                                 super.onPostExecute(flag);
                                 if (flag) {
-                                    Intent intent = new Intent(SplashScreenActivity.this, AppTourActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
+                                    navigate();
                                 }
                                 if (dotDialog.isShowing()) {
                                     dotDialog.dismiss();
@@ -340,14 +343,27 @@ public class SplashScreenActivity extends AppCompatActivity {
                         }.execute();
                     }
                 } else {
-                    Intent intent = new Intent(SplashScreenActivity.this, AppTourActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
+                    navigate();
                 }
                 if (dotDialog.isShowing()) {
                     dotDialog.dismiss();
                 }
             }
         }
+    }
+
+    private void navigate() {
+        Intent intent;
+        if (!howItsWork) {
+            intent = new Intent(SplashScreenActivity.this, AppTourActivity.class);
+        } else {
+            if (postavaliableOrnot) {
+                intent = new Intent(SplashScreenActivity.this, MainActivity.class);
+            } else {
+                intent = new Intent(SplashScreenActivity.this, CreateFirstTimePostActivity.class);
+            }
+        }
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }
