@@ -381,6 +381,7 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
         }
     }
 
+
     public void addHomeServer() {
         if (Utility.isOnline(CreateFirstTimePostActivity.this)) {
             final ASTProgressBar progressBar = new ASTProgressBar(CreateFirstTimePostActivity.this);
@@ -407,7 +408,7 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
                         if (serviceData != null) {
                             if (serviceData.isSuccess()) {
                                 Utility.showToast(CreateFirstTimePostActivity.this, serviceData.getMsg());
-                                startActivity(new Intent(CreateFirstTimePostActivity.this,SplashScreenActivity.class));
+                                startActivity(new Intent(CreateFirstTimePostActivity.this, SplashScreenActivity.class));
                             } else {
                                 Utility.showToast(CreateFirstTimePostActivity.this, serviceData.getMsg());
                             }

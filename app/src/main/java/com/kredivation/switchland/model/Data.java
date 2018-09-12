@@ -654,6 +654,107 @@ public class Data {
         this.home_id = home_id;
     }
 
+    //---------------chat--------------
+    private String from_user_id;
+    private String password;
+    private String to_status;
+    private String to_user_id;
+    private String from_status;
+    private String message_image;
+    private String form_user_delete_id;
+    private String msg_add_date;
+    private String message_id;
+    private String message;
+    private String to_user_delete_id;
+
+    public String getFrom_user_id() {
+        return from_user_id;
+    }
+
+    public void setFrom_user_id(String from_user_id) {
+        this.from_user_id = from_user_id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getTo_status() {
+        return to_status;
+    }
+
+    public void setTo_status(String to_status) {
+        this.to_status = to_status;
+    }
+
+    public String getTo_user_id() {
+        return to_user_id;
+    }
+
+    public void setTo_user_id(String to_user_id) {
+        this.to_user_id = to_user_id;
+    }
+
+    public String getFrom_status() {
+        return from_status;
+    }
+
+    public void setFrom_status(String from_status) {
+        this.from_status = from_status;
+    }
+
+    public String getMessage_image() {
+        return message_image;
+    }
+
+    public void setMessage_image(String message_image) {
+        this.message_image = message_image;
+    }
+
+    public String getForm_user_delete_id() {
+        return form_user_delete_id;
+    }
+
+    public void setForm_user_delete_id(String form_user_delete_id) {
+        this.form_user_delete_id = form_user_delete_id;
+    }
+
+    public String getMsg_add_date() {
+        return msg_add_date;
+    }
+
+    public void setMsg_add_date(String msg_add_date) {
+        this.msg_add_date = msg_add_date;
+    }
+
+    public String getMessage_id() {
+        return message_id;
+    }
+
+    public void setMessage_id(String message_id) {
+        this.message_id = message_id;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getTo_user_delete_id() {
+        return to_user_delete_id;
+    }
+
+    public void setTo_user_delete_id(String to_user_delete_id) {
+        this.to_user_delete_id = to_user_delete_id;
+    }
+
     @Override
     public String toString() {
         return "ClassPojo [created_date = " + created_date + ", role_id = " + role_id + ", status = " + status + ", user_type = " + user_type + ", profile_image = " + profile_image + ", is_verify = " + is_verify + ", last_login = " + last_login + ", id = " + id + ", first_name = " + first_name + ", username = " + username + ", updated_date = " + updated_date + ", mobile_number = " + mobile_number + ", added_by = " + added_by + ", email = " + email + ", last_name = " + last_name + ", otp = " + otp + "]";

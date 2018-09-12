@@ -11,9 +11,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.kredivation.switchland.R;
+import com.kredivation.switchland.activity.MyHomeActivity;
 import com.kredivation.switchland.adapters.ChatListAdapter;
 import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
@@ -114,17 +116,25 @@ public class ChatListFragment extends Fragment {
     }
 
     private void getUserdata() {
+        String homeId = "";
         SwitchDBHelper switchDBHelper = new SwitchDBHelper(context);
         ArrayList<Data> userData = switchDBHelper.getAllUserInfoList();
         if (userData != null && userData.size() > 0) {
             for (Data data : userData) {
                 userId = data.getId();
             }
-            getChatMemberlist();
+            ArrayList<MyhomeArray> myHomeList = switchDBHelper.getAllMyhomedata();
+            if (myHomeList != null && myHomeList.size() > 0) {
+                for (MyhomeArray myhomeArray : myHomeList) {
+                    homeId = myhomeArray.getId();
+                    break;
+                }
+                getChatMemberlist(homeId);
+            }
         }
     }
 
-    private void getChatMemberlist() {
+    private void getChatMemberlist(String homeId) {
         if (Utility.isOnline(getContext())) {
             dotDialog = new ASTProgressBar(getContext());
             dotDialog.show();
@@ -132,6 +142,7 @@ public class ChatListFragment extends Fragment {
             try {
                 object.put("api_key", Contants.API_KEY);
                 object.put("user_id", userId);
+                object.put("home_id", homeId);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -192,7 +203,7 @@ public class ChatListFragment extends Fragment {
                         }.execute();
                     }
                 } else {
-                    Utility.alertForErrorMessage(serviceData.getMsg(), getContext());
+                    Toast.makeText(getActivity(), serviceData.getMsg(), Toast.LENGTH_LONG).show();
                 }
                 if (dotDialog.isShowing()) {
                     dotDialog.dismiss();

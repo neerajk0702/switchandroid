@@ -2,6 +2,7 @@ package com.kredivation.switchland.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kredivation.switchland.R;
+import com.kredivation.switchland.activity.ChatActivity;
 import com.kredivation.switchland.activity.EditProfileActivity;
 import com.kredivation.switchland.model.ChatData;
 import com.kredivation.switchland.model.Data;
@@ -59,7 +61,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.MyView
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.location.setText(chatList.get(position).getCity_name() + " ," + chatList.get(position).getCountry_name());
         String location = "";
         if (chatList.get(position).getCity_name() != null && !chatList.get(position).getCity_name().equals("")) {
@@ -77,7 +79,9 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.MyView
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //((Activity) mContext).finish();
+                Intent intent = new Intent(mContext, ChatActivity.class);
+                intent.putExtra("ChatUserId", chatList.get(position).getUser_id());
+                mContext.startActivity(intent);
             }
         });
     }

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/dimValue_3"
+    app:cardElevation="@dimen/dimValue_5"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/_10dp"
+        android:paddingRight="@dimen/_10dp">
+
+
+        <LinearLayout
+            android:id="@+id/rowContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/_55dp"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/_60dp"
+                android:layout_marginRight="@dimen/_60dp"
+                android:gravity="center"
+                android:padding="@dimen/_5dp"
+                android:textSize="@dimen/_12dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/rightTrangle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="@dimen/_52dp"
+                        android:layout_height="@dimen/_52dp"
+                        android:layout_gravity="center|top"
+                        app:cardBackgroundColor="@color/light_gray_color"
+                        app:cardCornerRadius="@dimen/_26dp"
+                        app:cardElevation="@dimen/_1dp">
+
+                        <com.kredivation.switchland.utilities.CircleImageView
+                            android:id="@+id/userImage"
+                            android:layout_width="@dimen/_45dp"
+                            android:layout_height="@dimen/_45dp"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/_3dp"
+                            android:src="@drawable/avter" />
+                    </android.support.v7.widget.CardView>
+
+
+                    <TextView
+                        android:id="@+id/leftArrowIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_2dp"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/_2dp"
+                        android:text=""
+                        android:textColor="@color/divider"
+                        android:textSize="@dimen/_26dp" />
+
+                </LinearLayout>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cardViewCommnet"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:minHeight="@dimen/_70dp"
+                    app:cardCornerRadius="@dimen/_3dp"
+                    app:cardElevation="@dimen/_5dp">
+
+
+                    <LinearLayout
+                        android:id="@+id/commentDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:minHeight="@dimen/_68dp"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_1dp">
+
+                        <TextView
+                            android:id="@+id/commentDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_5dp"
+                            android:layout_weight="0.8"
+                            android:gravity="left"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/_12dp" />
+
+
+                        <TextView
+                            android:id="@+id/timing"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_3dp"
+                            android:layout_marginRight="@dimen/_8dp"
+                            android:layout_weight="0.2"
+                            android:gravity="right"
+                            android:textSize="@dimen/_10dp" />
+
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+
+                <LinearLayout
+                    android:id="@+id/leftTrangle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/rightArrowIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="@dimen/_2dp"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@color/divider"
+                        android:textSize="@dimen/_24dp" />
+
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/cardViewLayout"
+                        android:layout_width="@dimen/_52dp"
+                        android:layout_height="@dimen/_52dp"
+                        android:layout_gravity="center|top"
+                        android:layout_marginBottom="@dimen/_3dp"
+                        android:layout_marginLeft="@dimen/_3dp"
+                        android:layout_marginRight="@dimen/_3dp"
+                        android:layout_marginTop="@dimen/_10dp"
+                        android:visibility="visible"
+                        app:cardBackgroundColor="@color/light_gray_color"
+                        app:cardCornerRadius="@dimen/_26dp"
+                        app:cardElevation="@dimen/_1dp">
+
+                        <com.kredivation.switchland.utilities.CircleImageView
+                            android:id="@+id/myImage"
+                            android:layout_width="@dimen/_45dp"
+                            android:layout_height="@dimen/_45dp"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/_3dp"
+                            android:src="@drawable/avter" />
+                    </android.support.v7.widget.CardView>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

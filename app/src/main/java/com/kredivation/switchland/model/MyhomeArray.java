@@ -347,7 +347,7 @@ public class MyhomeArray {
 
 
     //----------------local variable use---------
-   public List<Features> Featurelist;
+    public List<Features> Featurelist;
     public List<House_rules> ruleList;
 
     public List<Features> getFeaturelist() {
@@ -365,7 +365,8 @@ public class MyhomeArray {
     public void setRuleList(List<House_rules> ruleList) {
         this.ruleList = ruleList;
     }
-public ArrayList<ChatData> homePhotoList;
+
+    public ArrayList<ChatData> homePhotoList;
 
     public ArrayList<ChatData> getHomePhotoList() {
         return homePhotoList;
@@ -374,7 +375,8 @@ public ArrayList<ChatData> homePhotoList;
     public void setHomePhotoList(ArrayList<ChatData> homePhotoList) {
         this.homePhotoList = homePhotoList;
     }
-public File profileImfLocal;
+
+    public File profileImfLocal;
 
     public File getProfileImfLocal() {
         return profileImfLocal;
@@ -385,9 +387,8 @@ public File profileImfLocal;
     }
 
     @Override
-    public String toString()
-    {
-        return "ClassPojo [destinations = "+destinations+", profile_completeness = "+profile_completeness+", location = "+location+", bathrooms = "+bathrooms+", address1 = "+address1+", address2 = "+address2+", travelling_anywhere = "+travelling_anywhere+", religion = "+religion+", id = "+id+", city_id = "+city_id+", sort_description = "+sort_description+", title = "+title+", updated_date = "+updated_date+", pets = "+pets+", gender = "+gender+", user_id = "+user_id+", longitude = "+longitude+", added_date = "+added_date+", status = "+status+", profile_image = "+profile_image+", zipcode = "+zipcode+", country_id = "+country_id+", sleeps = "+sleeps+", bedrooms = "+bedrooms+", property_type = "+property_type+", family_matters = "+family_matters+", startdate = "+startdate+", landmarks = "+landmarks+", level_security = "+level_security+", traveller_type = "+traveller_type+", house_no = "+house_no+", home_type = "+home_type+", latitude = "+latitude+", enddate = "+enddate+"]";
+    public String toString() {
+        return "ClassPojo [destinations = " + destinations + ", profile_completeness = " + profile_completeness + ", location = " + location + ", bathrooms = " + bathrooms + ", address1 = " + address1 + ", address2 = " + address2 + ", travelling_anywhere = " + travelling_anywhere + ", religion = " + religion + ", id = " + id + ", city_id = " + city_id + ", sort_description = " + sort_description + ", title = " + title + ", updated_date = " + updated_date + ", pets = " + pets + ", gender = " + gender + ", user_id = " + user_id + ", longitude = " + longitude + ", added_date = " + added_date + ", status = " + status + ", profile_image = " + profile_image + ", zipcode = " + zipcode + ", country_id = " + country_id + ", sleeps = " + sleeps + ", bedrooms = " + bedrooms + ", property_type = " + property_type + ", family_matters = " + family_matters + ", startdate = " + startdate + ", landmarks = " + landmarks + ", level_security = " + level_security + ", traveller_type = " + traveller_type + ", house_no = " + house_no + ", home_type = " + home_type + ", latitude = " + latitude + ", enddate = " + enddate + "]";
     }
 
 }

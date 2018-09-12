@@ -86,6 +86,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
     String monthId, yearId, cvvStr, Cardno, CardNameStr;
     HashMap<String, String> payloadList;
     HomeDetails MyHomedata;
+    boolean MyHomeAdapterFlage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,7 +192,20 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
 
             }
         });
-        getSaveData();
+        MyHomeAdapterFlage = getIntent().getBooleanExtra("MyHomeAdapterFlage", false);
+        if (MyHomeAdapterFlage) {
+            startDateStr = getIntent().getStringExtra("StartDate");
+            enddateStr = getIntent().getStringExtra("EndDate");
+            String countryID = getIntent().getStringExtra("CountryId");
+            String cityID = getIntent().getStringExtra("CityId");
+            homeId = getIntent().getStringExtra("HomeId");
+            enddate.setText(enddateStr);
+            etYear.setText(startDateStr);
+            getSelectedCountry(countryID);
+            getSelectedCity(cityID);
+        } else {
+            getSaveData();//come from edit
+        }
     }
 
     public void setStartDate() {
@@ -296,8 +310,14 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
                 setEndDate();
                 break;
             case R.id.submit:
-                if (isValidate()) {
-                    addHomeServer();
+                if (MyHomeAdapterFlage) {
+                    if (isValidate()) {
+                        rePostHome();
+                    }
+                } else {
+                    if (isValidate()) {
+                        addHomeServer();
+                    }
                 }
                 break;
         }
@@ -434,7 +454,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
         payloadList.put("cvv", cvvStr);
     }
 
-    //save add home data into server
+    //save edit home data into server
     public void addHomeServer() {
         if (Utility.isOnline(TravelRoutineActivity.this)) {
             final ASTProgressBar progressBar = new ASTProgressBar(TravelRoutineActivity.this);
@@ -504,5 +524,61 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
         }
         return multipartBody;
     }
+
+    //----------------for direct Myhome adapter call--------------
+    public void rePostHome() {
+        if (Utility.isOnline(TravelRoutineActivity.this)) {
+            final ASTProgressBar progressBar = new ASTProgressBar(TravelRoutineActivity.this);
+            progressBar.show();
+            String serviceURL = Contants.BASE_URL + Contants.Addhome;
+            HashMap<String, String> payloadList = new HashMap<String, String>();
+            payloadList.put("api_key", Contants.API_KEY);
+            payloadList.put("home_id", homeId);
+            payloadList.put("user_id", userId);
+            payloadList.put("startdate", startDateStr);
+            payloadList.put("enddate", enddateStr);
+            payloadList.put("city", cityID);
+            payloadList.put("country", countryID);
+            final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/jpg");
+            MultipartBody.Builder multipartBody = new MultipartBody.Builder().setType(MultipartBody.FORM);
+            FileUploaderHelper fileUploaderHelper = new FileUploaderHelper(TravelRoutineActivity.this, payloadList, multipartBody, serviceURL) {
+                @Override
+                public void receiveData(String result) {
+                    if (result != null) {
+                        final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
+                        if (serviceData != null) {
+                            if (serviceData.isSuccess()) {
+                                Utility.showToast(TravelRoutineActivity.this, serviceData.getMsg());
+                                FilterHome filterHome = new FilterHome();
+                                filterHome.setStartDate(startDateStr);
+                                filterHome.setEndDate(enddateStr);
+                                filterHome.setCountryId(countryID);
+                                filterHome.setCityId(cityID);
+                                String homeFilter = new Gson().toJson(filterHome);
+                                Intent intent = new Intent(TravelRoutineActivity.this, MainActivity.class);
+                                intent.putExtra("HomeFilter", homeFilter);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            } else {
+                                Utility.showToast(TravelRoutineActivity.this, serviceData.getMsg());
+                            }
+                        } else {
+                            Utility.showToast(TravelRoutineActivity.this, "Server Side error!");
+                        }
+                    } else {
+                        Utility.showToast(TravelRoutineActivity.this, "Server Side error!");
+                    }
+                    if (progressBar.isShowing()) {
+                        progressBar.dismiss();
+                    }
+                }
+            };
+            fileUploaderHelper.execute();
+        } else {
+            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, TravelRoutineActivity.this);//off line msg....
+        }
+
+    }
+
 
 }
