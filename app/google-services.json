@@ -1,21 +1,29 @@
 {
   "project_info": {
-    "project_number": "311356489056",
-    "firebase_url": "https://switch-14162.firebaseio.com",
-    "project_id": "switch-14162",
-    "storage_bucket": "switch-14162.appspot.com"
+    "project_number": "291557127251",
+    "firebase_url": "https://switch-6f6cd.firebaseio.com",
+    "project_id": "switch-6f6cd",
+    "storage_bucket": "switch-6f6cd.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:311356489056:android:ab49f72e9784a54f",
+        "mobilesdk_app_id": "1:291557127251:android:ab49f72e9784a54f",
         "android_client_info": {
           "package_name": "com.kredivation.switchland"
         }
       },
       "oauth_client": [
         {
-          "client_id": "311356489056-msb3si6b23q8jtrtdusl4irs6asgokn5.apps.googleusercontent.com",
+          "client_id": "291557127251-asp7ma8csolfil1r1rgkcfborn7qhfdk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kredivation.switchland",
+            "certificate_hash": "b36cc174fe8236ce38bacc2a62ab6f5cae38cba6"
+          }
+        },
+        {
+          "client_id": "291557127251-6go00udehbm5e74391ba6f8jhsg5rovk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.kredivation.switchland",
@@ -23,13 +31,13 @@
           }
         },
         {
-          "client_id": "311356489056-82k5ea8tqa5vgor38kaf95kmgnijpsgd.apps.googleusercontent.com",
+          "client_id": "291557127251-hvuv9bnapfepvuslka1f2ctffqppss9i.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBhclv4J0zciXtJsaSSurR457aGj0hVm3o"
+          "current_key": "AIzaSyAlCl_Z8KDjHfF-reNPOQrBkKsbpJhIORo"
         }
       ],
       "services": {
@@ -40,7 +48,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "311356489056-82k5ea8tqa5vgor38kaf95kmgnijpsgd.apps.googleusercontent.com",
+              "client_id": "291557127251-hvuv9bnapfepvuslka1f2ctffqppss9i.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

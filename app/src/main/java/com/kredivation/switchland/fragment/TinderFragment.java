@@ -147,6 +147,7 @@ public class TinderFragment extends Fragment {
 
             }
         }));
+        homeList = new ArrayList();
         this.initializeDeck();
         this.setUpCLickListeners();
         getUserdata();
@@ -212,11 +213,11 @@ public class TinderFragment extends Fragment {
             }
 
         }));
-        setAdapterValue();
+       // setAdapterValue();
     }
 
     private void setAdapterValue() {
-        homeList = new ArrayList();
+
         // this.adapter = new TinderCardAdapter(getContext(), Arrays.asList(data));
         //((KoldaMain) view.findViewById(R.id.koloda)).setAdapter((Adapter) this.adapter);
         cardAdapter = new HomeTinderCardAdapter(context, homeList);
@@ -363,9 +364,9 @@ public class TinderFragment extends Fragment {
                             protected void onPostExecute(Boolean flag) {
                                 super.onPostExecute(flag);
                                 if (flag) {
-                                    cardAdapter.notifyDataSetChanged();
-                                    // initializeDeck();
-                                    // setUpCLickListeners();
+                                    // cardAdapter.notifyDataSetChanged();
+                                   // initializeDeck();
+                                    setAdapterValue();
                                 }
                                 if (dotDialog.isShowing()) {
                                     dotDialog.dismiss();

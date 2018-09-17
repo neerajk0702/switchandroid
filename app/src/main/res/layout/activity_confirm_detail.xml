@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".activity.ConfirmDetailActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.NoActionBar.AppBarOverlay"
+            android:visibility="visible">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="ic"
+                        android:textColor="#fff"
+                        android:textSize="@dimen/dimTextSize_18"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Confirm Detail"
+                        android:textColor="#fff"
+                        android:textSize="@dimen/dimTextSize_18" />
+
+                </LinearLayout>
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/app_bar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_3dp"
+                        app:cardCornerRadius="@dimen/dimValue_4"
+                        app:cardElevation="@dimen/dimValue_8"
+                        app:cardUseCompatPadding="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/_10dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="User Info"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimTextSize_18" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/dimValue_5"
+                                    android:layout_weight="0.3"
+                                    android:orientation="horizontal">
+
+                                    <com.kredivation.switchland.utilities.CircleImageView
+                                        android:id="@+id/userImage"
+                                        android:layout_width="@dimen/size_80px"
+                                        android:layout_height="@dimen/size_80px"
+                                        android:src="@mipmap/placeholder" />
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="@dimen/_10dp"
+                                    android:layout_weight="0.7"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/userName"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text=""
+                                        android:textColor="@color/primary_text"
+                                        android:textSize="@dimen/dimTextSize_16" />
+
+                                    <TextView
+                                        android:id="@+id/country"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text=""
+                                        android:textColor="@color/secondry_txt_color"
+                                        android:textSize="@dimen/dimTextSize_14" />
+
+                                    <TextView
+                                        android:id="@+id/city"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text=""
+                                        android:textColor="@color/secondry_txt_color"
+                                        android:textSize="@dimen/dimTextSize_14" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginBottom="@dimen/_5dp"
+                                android:layout_marginTop="@dimen/_5dp"
+                                android:background="@color/divider" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Booking Info"
+                                android:textColor="@color/primary_text"
+                                android:textSize="@dimen/dimTextSize_16" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_10dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.4"
+                                    android:text="Check In"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="@dimen/dimTextSize_14" />
+
+                                <TextView
+                                    android:id="@+id/startdate"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.6"
+                                    android:text=""
+                                    android:textColor="@color/secondry_txt_color"
+                                    android:textSize="@dimen/dimTextSize_14" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.4"
+                                    android:text="Check Out"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="@dimen/dimTextSize_14" />
+
+                                <TextView
+                                    android:id="@+id/enddate"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.6"
+                                    android:text=""
+                                    android:textColor="@color/secondry_txt_color"
+                                    android:textSize="@dimen/dimTextSize_14" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.4"
+                                    android:text="Max Accupancy"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="@dimen/dimTextSize_14" />
+
+                                <TextView
+                                    android:id="@+id/bed"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.6"
+                                    android:text=""
+                                    android:textColor="@color/secondry_txt_color"
+                                    android:textSize="@dimen/dimTextSize_14" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5dp">
+
+                                <ImageView
+                                    android:id="@+id/homeImage"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:scaleType="fitXY"
+                                    android:src="@drawable/noimage" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_10dp"
+                                android:layout_marginTop="@dimen/_5dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/title"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="@dimen/dimTextSize_16" />
+
+                                <TextView
+                                    android:id="@+id/descripction"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimTextSize_14" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_3dp"
+                        app:cardCornerRadius="@dimen/dimValue_4"
+                        app:cardElevation="@dimen/dimValue_8"
+                        app:cardUseCompatPadding="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/_10dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Hoster Info"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimTextSize_18" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/dimValue_5"
+                                    android:layout_weight="0.3"
+                                    android:orientation="horizontal">
+
+                                    <com.kredivation.switchland.utilities.CircleImageView
+                                        android:id="@+id/hosteruserImage"
+                                        android:layout_width="@dimen/size_80px"
+                                        android:layout_height="@dimen/size_80px"
+                                        android:src="@mipmap/placeholder" />
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="@dimen/_10dp"
+                                    android:layout_weight="0.7"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/hosteruseruserName"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text=""
+                                        android:textColor="@color/primary_text"
+                                        android:textSize="@dimen/dimTextSize_16" />
+
+                                    <TextView
+                                        android:id="@+id/hostercountry"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text=""
+                                        android:textColor="@color/secondry_txt_color"
+                                        android:textSize="@dimen/dimTextSize_14" />
+
+                                    <TextView
+                                        android:id="@+id/hostercity"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text=""
+                                        android:textColor="@color/secondry_txt_color"
+                                        android:textSize="@dimen/dimTextSize_14" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginBottom="@dimen/_5dp"
+                                android:layout_marginTop="@dimen/_5dp"
+                                android:background="@color/divider" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Booking Info"
+                                android:textColor="@color/primary_text"
+                                android:textSize="@dimen/dimTextSize_16" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_10dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.4"
+                                    android:text="Check In"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="@dimen/dimTextSize_14" />
+
+                                <TextView
+                                    android:id="@+id/hosterstartdate"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.6"
+                                    android:text=""
+                                    android:textColor="@color/secondry_txt_color"
+                                    android:textSize="@dimen/dimTextSize_14" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.4"
+                                    android:text="Check Out"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="@dimen/dimTextSize_14" />
+
+                                <TextView
+                                    android:id="@+id/hosterenddate"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.6"
+                                    android:text=""
+                                    android:textColor="@color/secondry_txt_color"
+                                    android:textSize="@dimen/dimTextSize_14" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.4"
+                                    android:text="Max Accupancy"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="@dimen/dimTextSize_14" />
+
+                                <TextView
+                                    android:id="@+id/hosterbed"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.6"
+                                    android:text=""
+                                    android:textColor="@color/secondry_txt_color"
+                                    android:textSize="@dimen/dimTextSize_14" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5dp">
+
+                                <ImageView
+                                    android:id="@+id/hosterhomeImage"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:scaleType="fitXY"
+                                    android:src="@drawable/noimage" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_10dp"
+                                android:layout_marginTop="@dimen/_5dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/hostertitle"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="@dimen/dimTextSize_16" />
+
+                                <TextView
+                                    android:id="@+id/hosterdescripction"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/dimTextSize_14" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimValue_5"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/continuetopay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/dimValue_10"
+                        android:background="@drawable/button_login"
+                        android:elevation="10dp"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/dimValue_16"
+                        android:paddingTop="@dimen/dimValue_16"
+                        android:text="Continue to pay"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimTextSize_14" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

@@ -93,7 +93,8 @@
         <activity android:name=".activity.MyChoicesActivity" />
         <activity android:name=".activity.MyLikedChoicesActivity" />
         <activity android:name=".activity.HomeDetailActivity" />
-        <activity android:name=".activity.ChatActivity"></activity>
+        <activity android:name=".activity.ChatActivity" />
+        <activity android:name=".activity.ConfirmDetailActivity"></activity>
     </application>
 
 </manifest>

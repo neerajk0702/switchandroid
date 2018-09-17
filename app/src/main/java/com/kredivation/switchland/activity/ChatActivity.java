@@ -1,5 +1,6 @@
 package com.kredivation.switchland.activity;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -12,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,7 +49,7 @@ import java.util.TimerTask;
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
     private Toolbar toolbar;
     private String userId;
-    String ChatUserId;
+    String ChatUserId, ProfileImg, FullName, HomeId;
     RecyclerView recyclerView;
     ChatMessageAdapter adapter;
     ASTProgressBar chatlistProgress;
@@ -86,6 +88,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         add_comment.setTypeface(materialdesignicons_font);
         add_comment.setText(Html.fromHtml("&#xf48a;"));
         add_comment.setOnClickListener(this);
+        Button switchbt = findViewById(R.id.switchbt);
+        switchbt.setOnClickListener(this);
         getUserdata();
         megList = new ArrayList<>();
         recyclerView = findViewById(R.id.recycler_view);
@@ -98,6 +102,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     private void getUserdata() {
         ChatUserId = getIntent().getStringExtra("ChatUserId");
+        ProfileImg = getIntent().getStringExtra("ProfileImg");
+        FullName = getIntent().getStringExtra("FullName");
+        HomeId = getIntent().getStringExtra("HomeId");
         SwitchDBHelper switchDBHelper = new SwitchDBHelper(ChatActivity.this);
         ArrayList<MyhomeArray> myHomeList = switchDBHelper.getAllMyhomedata();
         ArrayList<Data> userData = switchDBHelper.getAllUserInfoList();
@@ -276,6 +283,14 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     Toast.makeText(ChatActivity.this, "Please enter message!", Toast.LENGTH_LONG).show();
                 }
+                break;
+            case R.id.switchbt:
+                Intent intent = new Intent(ChatActivity.this, ConfirmDetailActivity.class);
+                intent.putExtra("ChatUserId", ChatUserId);
+                intent.putExtra("ProfileImg", ProfileImg);
+                intent.putExtra("FullName", FullName);
+                intent.putExtra("HomeId", HomeId);
+                startActivity(intent);
                 break;
         }
     }
