@@ -58,43 +58,74 @@
         </activity>
         <activity
             android:name=".activity.SigninActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.SignUpActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.DashboardActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.MyProfileFilterActivity" />
+        <activity
+            android:name=".activity.MyProfileFilterActivity"
+            android:screenOrientation="portrait" />
 
         <!-- Goolge API Key -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBhclv4J0zciXtJsaSSurR457aGj0hVm3o" />
+            android:value="AIzaSyAlCl_Z8KDjHfF-reNPOQrBkKsbpJhIORo" />
 
         <activity
             android:name=".activity.ForgotPasswordActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.AppTourActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.CreateFirstTimePostActivity"
-            android:label="Create Post" />
-        <activity android:name=".activity.SettingActivity" />
-        <activity android:name=".activity.ChangePasswordActivity" />
-        <activity android:name=".activity.EditProfileActivity" />
-        <activity android:name=".activity.AddHomeActivity" />
-        <activity android:name=".activity.TravelRoutineActivity" />
-        <activity android:name=".activity.MyHomeActivity" />
-        <activity android:name=".activity.MyChoicesActivity" />
-        <activity android:name=".activity.MyLikedChoicesActivity" />
-        <activity android:name=".activity.HomeDetailActivity" />
-        <activity android:name=".activity.ChatActivity" />
-        <activity android:name=".activity.ConfirmDetailActivity"></activity>
+            android:label="Create Post"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ChangePasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.EditProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AddHomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TravelRoutineActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyHomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyChoicesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyLikedChoicesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.HomeDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ChatActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ConfirmDetailActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

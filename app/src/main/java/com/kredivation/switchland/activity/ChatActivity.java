@@ -1,5 +1,6 @@
 package com.kredivation.switchland.activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
@@ -27,6 +28,7 @@ import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
 import com.kredivation.switchland.framework.ServiceCaller;
 import com.kredivation.switchland.model.ChatServiceContentData;
+import com.kredivation.switchland.model.CheckHomeContent;
 import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.model.Home_data;
 import com.kredivation.switchland.model.Home_liked_disliked;
@@ -48,7 +50,7 @@ import java.util.TimerTask;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
     private Toolbar toolbar;
-    private String userId;
+    private String userId, myhomeId;
     String ChatUserId, ProfileImg, FullName, HomeId;
     RecyclerView recyclerView;
     ChatMessageAdapter adapter;
@@ -107,6 +109,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         HomeId = getIntent().getStringExtra("HomeId");
         SwitchDBHelper switchDBHelper = new SwitchDBHelper(ChatActivity.this);
         ArrayList<MyhomeArray> myHomeList = switchDBHelper.getAllMyhomedata();
+        if (myHomeList != null && myHomeList.size() > 0) {
+            for (MyhomeArray data : myHomeList) {
+                myhomeId = data.getId();
+            }
+        }
         ArrayList<Data> userData = switchDBHelper.getAllUserInfoList();
         if (userData != null && userData.size() > 0) {
             for (Data data : userData) {
@@ -285,13 +292,86 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.switchbt:
-                Intent intent = new Intent(ChatActivity.this, ConfirmDetailActivity.class);
-                intent.putExtra("ChatUserId", ChatUserId);
-                intent.putExtra("ProfileImg", ProfileImg);
-                intent.putExtra("FullName", FullName);
-                intent.putExtra("HomeId", HomeId);
-                startActivity(intent);
+                checkHomeCompleteOrnot();
                 break;
         }
     }
+
+    //check your home complete or not
+    private void checkHomeCompleteOrnot() {
+        if (Utility.isOnline(ChatActivity.this)) {
+            final ASTProgressBar progress = new ASTProgressBar(ChatActivity.this);
+            progress.show();
+            JSONObject object = new JSONObject();
+            try {
+                object.put("api_key", Contants.API_KEY);
+                object.put("home_id", myhomeId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String serviceURL = Contants.BASE_URL + Contants.Homecompeleted;
+
+            ServiceCaller serviceCaller = new ServiceCaller(ChatActivity.this);
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "checkHomeCompleteOrnot", new IAsyncWorkCompletedCallback() {
+                @Override
+                public void onDone(String result, boolean isComplete) {
+                    if (isComplete) {
+                        parsecheckHomeCompleteOrnot(result);
+                    } else {
+                        Utility.alertForErrorMessage(Contants.Error, ChatActivity.this);
+                    }
+                    if (progress.isShowing()) {
+                        progress.dismiss();
+                    }
+                }
+            });
+        } else {
+            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, ChatActivity.this);//off line msg....
+        }
+    }
+
+    public void parsecheckHomeCompleteOrnot(String result) {
+        if (result != null) {
+            final CheckHomeContent serviceData = new Gson().fromJson(result, CheckHomeContent.class);
+            if (serviceData != null) {
+                if (serviceData.isSuccess()) {
+                    Intent intent = new Intent(ChatActivity.this, ConfirmDetailActivity.class);
+                    intent.putExtra("ChatUserId", ChatUserId);
+                    intent.putExtra("ProfileImg", ProfileImg);
+                    intent.putExtra("FullName", FullName);
+                    intent.putExtra("HomeId", HomeId);
+                    startActivity(intent);
+                } else {
+                    alertForNoHomeAvailable(serviceData.getMsg());
+                }
+            }
+        }
+    }
+
+    //no home available alert
+    public void alertForNoHomeAvailable(String msg) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(ChatActivity.this);
+        Typeface roboto_regular = Typeface.createFromAsset(getAssets(), "fonts/roboto.regular.ttf");
+        final AlertDialog alert = builder.create();
+        View view = alert.getLayoutInflater().inflate(R.layout.home_complete_popup, null);
+        TextView message = view.findViewById(R.id.message);
+        message.setTypeface(roboto_regular);
+        message.setText(msg);
+        Button ok = view.findViewById(R.id.ok);
+        ok.setTypeface(roboto_regular);
+        alert.setCustomTitle(view);
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+                Intent homeintent = new Intent(ChatActivity.this, HomeDetailActivity.class);
+                homeintent.putExtra("HomeId", myhomeId);
+                homeintent.putExtra("EditFlage", true);
+                startActivity(homeintent);
+            }
+        });
+        alert.show();
+    }
+
 }
