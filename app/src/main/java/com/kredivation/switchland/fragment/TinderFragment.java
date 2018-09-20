@@ -336,6 +336,9 @@ public class TinderFragment extends Fragment {
                         }
                         Utility.alertForErrorMessage(Contants.Error, getContext());
                     }
+                    if (dotDialog.isShowing()) {
+                        dotDialog.dismiss();
+                    }
                 }
             });
         } else {

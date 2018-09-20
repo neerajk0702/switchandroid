@@ -201,13 +201,25 @@ public class ChatListFragment extends Fragment {
                                 }
                             }
                         }.execute();
+                    } else {
+                        if (dotDialog.isShowing()) {
+                            dotDialog.dismiss();
+                        }
                     }
                 } else {
                     Toast.makeText(getActivity(), serviceData.getMsg(), Toast.LENGTH_LONG).show();
+                    if (dotDialog.isShowing()) {
+                        dotDialog.dismiss();
+                    }
                 }
+            } else {
                 if (dotDialog.isShowing()) {
                     dotDialog.dismiss();
                 }
+            }
+        } else {
+            if (dotDialog.isShowing()) {
+                dotDialog.dismiss();
             }
         }
     }
