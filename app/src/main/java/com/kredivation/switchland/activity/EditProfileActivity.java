@@ -83,6 +83,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     public final int SELECT_PHOTO = 102;
     private String userChoosenTask;
     File imgFile;
+    int citySelectPos = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,11 +140,13 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                     firstName.setText(data.getFull_name());
                 } else {
                     firstName.setText(data.getFirst_name());
-                    lastName.setText(data.getLast_name());
                 }
+                lastName.setText(data.getLast_name());
                 email.setText(data.getEmail());
                 phone.setText(data.getMobile_number());
                 user.setText(data.getUsername());
+                countryId = data.getCountry_id();
+                cityId = data.getCity_id();
                 if (data.getAddress_line_1() != null && !data.getAddress_line_1().equals("")) {
                     hno.setText(data.getAddress_line_1());
                 }
@@ -164,6 +167,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private void setcountry() {
         SwitchDBHelper switchDBHelper = new SwitchDBHelper(EditProfileActivity.this);
         ServiceContentData sData = switchDBHelper.getMasterData();
+        int countrySelectPos = 0;
+
         if (sData != null) {
             if (sData.getData() != null) {
                 final Data MData = sData.getData();
@@ -172,9 +177,13 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                     countryList = new String[country.length];
                     for (int i = 0; i < country.length; i++) {
                         countryList[i] = String.valueOf(country[i].getName());
+                        if (countryId.equals(country[i].getId())) {
+                            countrySelectPos = i;
+                        }
                     }
                     ArrayAdapter<String> countryAdapter = new ArrayAdapter<String>(EditProfileActivity.this, R.layout.spinner_row, countryList);
                     countrySpinner.setAdapter(countryAdapter);
+                    countrySpinner.setSelection(countrySelectPos);
                     countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -185,11 +194,15 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                                 for (int i = 0; i < city.length; i++) {
                                     if (countryId.equals(city[i].getCountry_id())) {
                                         cityList.add(String.valueOf(city[i].getName()));
+                                        if (cityId.equals(city[i].getId())) {
+                                            citySelectPos = i;
+                                        }
                                     }
                                 }
                                 if (cityList != null && cityList.size() > 0) {
                                     ArrayAdapter<String> cityAdapter = new ArrayAdapter<String>(EditProfileActivity.this, R.layout.spinner_row, cityList);
                                     citySpinner.setAdapter(cityAdapter);
+                                    citySpinner.setSelection(citySelectPos);
                                 }
                             }
                         }

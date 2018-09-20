@@ -70,7 +70,7 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
     private static int NUM_PAGES = 0;
     private RecyclerView amenitiesrecycler_view, houseRulesrecycler_view;
     TextView Title, description, gender, religion, securityLevel, Homestyle, Propertytype, PetAllowed, FamilyMatters, Bedrooms, Beds, Bathroom, HouseNo, uNeme, uemail, phone;
-    ImageView profileImage;
+    ImageView profileImage, homeProfileImage;
     Button edit;
     private GoogleMap mMap;
     String[] hImageName;
@@ -135,6 +135,7 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
         uNeme = findViewById(R.id.uNeme);
         uemail = findViewById(R.id.uemail);
         phone = findViewById(R.id.phone);
+        homeProfileImage = findViewById(R.id.homeProfileImage);
         if (EditFlage) {
             edit.setVisibility(View.VISIBLE);
         } else {
@@ -453,7 +454,7 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
             mMap.addMarker(new MarkerOptions().position(sy).title(details.getTitle()));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(sy));
         }
-
+        Picasso.with(HomeDetailActivity.this).load(details.getProfile_image()).placeholder(R.drawable.avter).into(homeProfileImage);
         slideimage();
 
     }
