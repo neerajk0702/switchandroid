@@ -456,10 +456,7 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
             }
         }
         for (int i = 0; i < securitiesList.length; i++) {
-            if (serversecuritStr != null && serversecuritStr.equals(securities[i].getName())) {
-                levelofsecuritySpinner.setSelection(i);
-                break;
-            }
+            levelofsecuritySpinner.setSelection(i);
         }
         for (int i = 0; i < genderList.length; i++) {
             if (servergenderStr != null && servergenderStr.equals(genderarray[i].getName())) {

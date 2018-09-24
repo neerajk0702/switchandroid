@@ -3,6 +3,8 @@ package com.kredivation.switchland.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Handler;
+import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +21,15 @@ import com.bumptech.glide.request.RequestOptions;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.activity.HomeDetailActivity;
 import com.kredivation.switchland.model.Home_data;
+import com.kredivation.switchland.model.Homegallery;
 import com.kredivation.switchland.utilities.FontManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class HomeTinderCardAdapter extends BaseAdapter {
     private ArrayList<Home_data> homeList;
@@ -69,8 +75,8 @@ public class HomeTinderCardAdapter extends BaseAdapter {
         viewHolder.location.setText(homeList.get(position).getCity_name() + "," + homeList.get(position).getCountry_name());
         viewHolder.date.setText(homeList.get(position).getStartdate());
         RequestOptions transforms = (new RequestOptions()).transforms(new Transformation[]{(Transformation) (new CenterCrop()), (Transformation) (new RoundedCorners(20))});
-        Glide.with(context).load(homeList.get(position).getProfile_image()).apply(transforms).into(viewHolder.kolodaImage);
-
+        //Glide.with(context).load(homeList.get(position).getProfile_image()).apply(transforms).into(viewHolder.kolodaImage);
+        slideimage(viewHolder.mPager, position);
         viewHolder.detailIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,10 +90,42 @@ public class HomeTinderCardAdapter extends BaseAdapter {
         return convertView;
     }
 
+    int NUM_PAGES = 0;
+    int currentPage = 0;
+
+    private void slideimage(final ViewPager mPager, int pos) {
+
+        if (homeList.get(pos).getHomegallery() != null && homeList.get(pos).getHomegallery().length > 0) {
+            ArrayList<Homegallery> hImagList = new ArrayList<Homegallery>(Arrays.asList(homeList.get(pos).getHomegallery()));
+            mPager.setAdapter(new SlidingImage_Adapter_For_ItemDetails(context, hImagList));
+
+            NUM_PAGES = hImagList.size();
+
+            // Auto start of viewpager
+            final Handler handler = new Handler();
+            final Runnable Update = new Runnable() {
+                public void run() {
+                    if (currentPage == NUM_PAGES) {
+                        currentPage = 0;
+                    }
+                    mPager.setCurrentItem(currentPage++, true);
+                }
+            };
+            Timer swipeTimer = new Timer();
+            swipeTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    handler.post(Update);
+                }
+            }, 3000, 3000);
+        }
+    }
+
     private class ViewHolder {
         TextView title, detailIcon, location, date;
         TextView itemDescription;
         ImageView kolodaImage;
+        private ViewPager mPager;
 
         public ViewHolder(View view) {
             kolodaImage = view.findViewById(R.id.kolodaImage);
@@ -95,6 +133,7 @@ public class HomeTinderCardAdapter extends BaseAdapter {
             detailIcon = view.findViewById(R.id.detailIcon);
             location = view.findViewById(R.id.location);
             date = view.findViewById(R.id.date);
+            mPager = view.findViewById(R.id.pager);
         }
     }
 }

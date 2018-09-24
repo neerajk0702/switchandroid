@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,6 +36,7 @@ import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
 import com.kredivation.switchland.framework.ServiceCaller;
 import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.model.MychoiceArray;
+import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.ServiceContentData;
 import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.Contants;
@@ -136,7 +138,9 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
         Mylike.setOnClickListener(this);
         LinearLayout filterLayout = view.findViewById(R.id.filterLayout);
         filterLayout.setOnClickListener(this);
-       // getUserdata();
+        Button travelRoutine = view.findViewById(R.id.travelRoutine);
+        travelRoutine.setOnClickListener(this);
+        // getUserdata();
     }
 
     private void getUserdata() {
@@ -156,11 +160,13 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
             }
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
         getUserdata();
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -192,7 +198,38 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
                 Intent filterintent = new Intent(getContext(), MyProfileFilterActivity.class);
                 startActivity(filterintent);
                 break;
+            case R.id.travelRoutine:
+                openTravelScreen();
+                break;
         }
     }
 
+    private void openTravelScreen() {
+        String StartDate = "";
+        String EndDate = "";
+        String CountryId = "";
+        String CityId = "";
+        String myhomeId = "";
+        SwitchDBHelper dbHelper = new SwitchDBHelper(getContext());
+        ArrayList<MyhomeArray> myHomeList = dbHelper.getAllMyhomedata();
+        if (myHomeList != null && myHomeList.size() > 0) {
+            for (MyhomeArray data : myHomeList) {
+                myhomeId = data.getId();
+                StartDate = data.getStartdate();
+                EndDate = data.getEnddate();
+                CountryId = data.getCountry_id();
+                CityId = data.getCity_id();
+            }
+
+            Intent trintent = new Intent(getContext(), TravelRoutineActivity.class);
+            dbHelper.deleteAllRows("AddEditHomeData");
+            trintent.putExtra("StartDate", StartDate);
+            trintent.putExtra("EndDate", EndDate);
+            trintent.putExtra("CountryId", CountryId);
+            trintent.putExtra("CityId", CityId);
+            trintent.putExtra("HomeId", myhomeId);
+            trintent.putExtra("MyHomeAdapterFlage", true);
+            startActivity(trintent);
+        }
+    }
 }

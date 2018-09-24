@@ -65,9 +65,9 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
     ASTProgressBar dotDialog;
     String HomeId;
     boolean EditFlage = false;
-    private static ViewPager mPager;
-    private static int currentPage = 0;
-    private static int NUM_PAGES = 0;
+    private ViewPager mPager;
+    private  int currentPage = 0;
+    private  int NUM_PAGES = 0;
     private RecyclerView amenitiesrecycler_view, houseRulesrecycler_view;
     TextView Title, description, gender, religion, securityLevel, Homestyle, Propertytype, PetAllowed, FamilyMatters, Bedrooms, Beds, Bathroom, HouseNo, uNeme, uemail, phone;
     ImageView profileImage, homeProfileImage;
@@ -141,6 +141,7 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
         } else {
             edit.setVisibility(View.GONE);
             SenderUserId = getIntent().getStringExtra("SenderUserId");//get user id from HomeTinderCardAdapter for show only homedetail not for edit
+            getSenderUserInfo();
         }
         details = new HomeDetails();
         hImagList = new ArrayList();
@@ -164,7 +165,9 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
                 }
                 emailStr = data.getEmail();
                 phoneStr = data.getMobile_number();
-                Picasso.with(HomeDetailActivity.this).load(data.getProfile_image()).placeholder(R.drawable.userimage).resize(100, 100).into(profileImage);
+                if (EditFlage) {
+                    Picasso.with(HomeDetailActivity.this).load(data.getProfile_image()).placeholder(R.drawable.userimage).resize(100, 100).into(profileImage);
+                }
             }
             getHomeDetail();
         }
@@ -265,8 +268,8 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
                                 details.setSort_description(sort_description);
                                 String house_no = databject.optString("house_no").toString();
                                 details.setHouse_no(house_no);
-                                String location = databject.optString("location").toString();
-                                details.setLocation(location);
+                               // String location = databject.optString("location").toString();
+                               // details.setLocation(location);
                                 String latitude = databject.optString("latitude").toString();
                                 details.setLatitude(latitude);
                                 String longitude = databject.optString("longitude").toString();
@@ -444,11 +447,11 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
         Beds.setText(details.getBedrooms());
         Bathroom.setText(details.getBathrooms());
         HouseNo.setText(details.getHouse_no());
-        uNeme.setText(username);
-        uemail.setText(emailStr);
-        phone.setText(phoneStr);
-        details.getLatitude();
-        details.getLongitude();
+        if (EditFlage) {
+            uNeme.setText(username);
+            uemail.setText(emailStr);
+            phone.setText(phoneStr);
+        }
         if (details.getLatitude() != null && !details.getLatitude().equals("") && details.getLongitude() != null && !details.getLongitude().equals("")) {
             LatLng sy = new LatLng(-Double.parseDouble(details.getLatitude()), Double.parseDouble(details.getLongitude()));
             mMap.addMarker(new MarkerOptions().position(sy).title(details.getTitle()));
@@ -530,6 +533,56 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
                     startActivity(homeintent);
                 }
                 break;
+        }
+    }
+
+    private void getSenderUserInfo() {
+        if (Utility.isOnline(HomeDetailActivity.this)) {
+            JSONObject object = new JSONObject();
+            try {
+                object.put("api_key", Contants.API_KEY);
+                object.put("user_id", SenderUserId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String serviceURL = Contants.BASE_URL + Contants.Userinfo;
+
+            ServiceCaller serviceCaller = new ServiceCaller(HomeDetailActivity.this);
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "getSenderUserInfo", new IAsyncWorkCompletedCallback() {
+                @Override
+                public void onDone(String result, boolean isComplete) {
+                    if (isComplete) {
+                        parseSenderUserServiceData(result);
+                    } else {
+                        if (dotDialog.isShowing()) {
+                            dotDialog.dismiss();
+                        }
+                        Utility.alertForErrorMessage(Contants.Error, HomeDetailActivity.this);
+                    }
+                }
+            });
+        } else {
+            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, HomeDetailActivity.this);//off line msg....
+        }
+    }
+
+    public void parseSenderUserServiceData(String result) {
+        if (result != null) {
+            final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
+            if (serviceData != null) {
+                if (serviceData.isSuccess()) {
+                    if (serviceData.getData() != null) {
+                        uNeme.setText(serviceData.getData().getFull_name());
+                        uemail.setText(serviceData.getData().getEmail());
+                        phone.setText(serviceData.getData().getMobile_number());
+                        Picasso.with(HomeDetailActivity.this).load(serviceData.getData().getProfile_image()).placeholder(R.drawable.userimage).resize(100, 100).into(profileImage);
+                    }
+                }
+                if (dotDialog.isShowing()) {
+                    dotDialog.dismiss();
+                }
+            }
         }
     }
 }

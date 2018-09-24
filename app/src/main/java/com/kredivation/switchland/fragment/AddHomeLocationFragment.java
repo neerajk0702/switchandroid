@@ -101,12 +101,11 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
     private GoogleMap mMap;
     private Spinner citySpinner, countrySpinner;
     private LinearLayout addressLayout;
-    boolean addFlag = false;
     boolean lookUpFlag = false;
 
     private TextInputLayout input_layout_zip, input_layout_enterZipcode, input_layout_Landmark, input_layout_Address, input_layout_hno;
     private EditText zipCode, address, enterzipcode, landmark, hno;
-    private String zipCodeStr, addressStr, enterzipcodeStr, landmarkStr, hnoStr;
+    private String addressStr, enterzipcodeStr, landmarkStr, hnoStr;
     Button lookUp;
     String[] countryList;
     ArrayList<String> cityList;
@@ -118,7 +117,8 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
     String saveCityId;
     int cityPos = 0;
     HomeDetails MyHomedata;
-String homeId;
+    String homeId;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -247,11 +247,11 @@ String homeId;
                     String address2 = MyHomedata.getAddress2();
                     landmarkStr = MyHomedata.getLandmarks();
                     enterzipcodeStr = MyHomedata.getZipcode();
-                    zipCodeStr = MyHomedata.getLocation();
+                    //zipCodeStr = MyHomedata.getLocation();
                     saveCountryId = MyHomedata.getCountry_id();
                     saveCityId = MyHomedata.getCity_id();
                     hno.setText(hnoStr);
-                    zipCode.setText(zipCodeStr);
+                    //zipCode.setText(zipCodeStr);
                     address.setText(addressStr + "," + address2);
                     enterzipcode.setText(enterzipcodeStr);
                     landmark.setText(landmarkStr);
@@ -263,47 +263,21 @@ String homeId;
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.enterAddress:
-                if (addFlag) {
-                    addFlag = false;
-                    lookUpFlag = true;
-                    addressLayout.setVisibility(View.VISIBLE);
-                } else {
-                    addFlag = true;
-                    lookUpFlag = false;
-                    addressLayout.setVisibility(View.GONE);
-                }
-                break;
             case R.id.nextLayout:
-                hnoStr = hno.getText().toString();
-                if (hnoStr.length() > 0) {
+                if (lookUpFlag) {
                     saveScreenData(true, false);
                 } else {
-                    Utility.showToast(context, "Please Enter House Number");
+                    Utility.showToast(context, "Please click LookUp!");
                 }
                 break;
             case R.id.previous:
                 saveScreenData(false, false);
                 break;
             case R.id.lookUp:
-
-                if (lookUpFlag) {
-                    if (isValidate()) {
-                       // zipCodeStr = "";
-                        Utility.showToast(context, "Location Save");
-                    }
-                } else {
-                   // enterzipcodeStr = "";
-                    zipCodeStr = zipCode.getText().toString();
-                    if (zipCodeStr.length() == 0) {
-                        input_layout_zip.setError("Please Enter Zipcode");
-                        requestFocus(zipCode);
-                    } else {
-                        input_layout_zip.setError("");
-                        Utility.showToast(context, "Location Save");
-                    }
+                if (isValidate()) {
+                    lookUpFlag = true;
+                    Utility.showToast(context, "Home Location Save");
                 }
-
                 break;
         }
     }
@@ -314,7 +288,12 @@ String homeId;
         addressStr = address.getText().toString();
         enterzipcodeStr = enterzipcode.getText().toString();
         landmarkStr = landmark.getText().toString();
-        if (addressStr.length() == 0) {
+        hnoStr = hno.getText().toString();
+        if (hnoStr.length() == 0) {
+            input_layout_hno.setError("Please Enter House Number!");
+            requestFocus(hno);
+            return false;
+        } else if (addressStr.length() == 0) {
             input_layout_Address.setError("Please Enter Address");
             requestFocus(address);
             return false;
@@ -380,16 +359,6 @@ String homeId;
     private void saveData() {
 
         if (MyHomedata != null) {
-           /* MyHomedata.setAddress1(addressStr);
-            MyHomedata.setHouse_no(hnoStr);
-            MyHomedata.setLandmarks(landmarkStr);
-            MyHomedata.setZipcode(enterzipcodeStr);
-            MyHomedata.setLocation(zipCodeStr);
-            MyHomedata.setCountry_id(countryId);
-            MyHomedata.setCity_id(cityId);
-            String homeStr = new Gson().toJson(MyHomedata);
-            Utility.setHomeDetail(context, homeStr, true);*/
-
 
             HomeDetails details = new HomeDetails();
             details.setId(homeId);
@@ -397,10 +366,10 @@ String homeId;
             details.setHouse_no(hnoStr);
             details.setLandmarks(landmarkStr);
             details.setZipcode(enterzipcodeStr);
-            details.setLocation(zipCodeStr);
+            details.setLocation("");
             details.setCountry_id(countryId);
             details.setCity_id(cityId);
-            SwitchDBHelper dbHelper=new SwitchDBHelper(getActivity());
+            SwitchDBHelper dbHelper = new SwitchDBHelper(getActivity());
             dbHelper.updateAddEditHomeLocation(details);
         }
     }

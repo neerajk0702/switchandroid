@@ -137,7 +137,7 @@ public class ChatListFragment extends Fragment {
     private void getChatMemberlist(String homeId) {
         if (Utility.isOnline(getContext())) {
             dotDialog = new ASTProgressBar(getContext());
-            dotDialog.show();
+            //dotDialog.show();
             JSONObject object = new JSONObject();
             try {
                 object.put("api_key", Contants.API_KEY);

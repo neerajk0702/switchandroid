@@ -55,7 +55,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimValue_20"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/input_layout_zip"
@@ -74,26 +75,6 @@
                         android:textSize="@dimen/dimTextSize_12" />
                 </android.support.design.widget.TextInputLayout>
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dimValue_10"
-                    android:layout_weight="0.3"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/lookUp"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/size_40px"
-                        android:background="@drawable/button_login"
-                        android:elevation="@dimen/dimValue_10"
-                        android:gravity="center"
-                        android:text="Look Up"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/dimTextSize_12" />
-
-                </LinearLayout>
 
             </LinearLayout>
 
@@ -110,14 +91,15 @@
                     android:paddingTop="@dimen/_10dp"
                     android:text="Enter address manually"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/dimTextSize_14" />
+                    android:textSize="@dimen/dimTextSize_14"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/addressLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -219,6 +201,28 @@
                             android:textColor="@color/primary_text"
                             android:textSize="@dimen/dimTextSize_12" />
                     </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimValue_20"
+                    android:layout_marginRight="@dimen/_20dp"
+                    android:layout_marginTop="@dimen/_10dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/lookUp"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_40px"
+                        android:background="@drawable/button_login"
+                        android:elevation="@dimen/dimValue_10"
+                        android:gravity="center"
+                        android:text="Look Up"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimTextSize_12" />
+
                 </LinearLayout>
             </LinearLayout>
 
