@@ -87,7 +87,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
     HashMap<String, String> payloadList;
     HomeDetails MyHomedata;
     boolean MyHomeAdapterFlage;
-
+    ArrayList<String> cityIdList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -161,9 +161,11 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
                             city = MData.getCity();
                             if (city != null) {
                                 cityList = new ArrayList();
+                                cityIdList = new ArrayList();
                                 for (int i = 0; i < city.length; i++) {
                                     if (countryID.equals(city[i].getCountry_id())) {
                                         cityList.add(String.valueOf(city[i].getName()));
+                                        cityIdList.add(String.valueOf(city[i].getId()));
                                     }
                                 }
                                 if (cityList != null && cityList.size() > 0) {
@@ -184,7 +186,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
         citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                cityID = city[position].getId();
+                cityID = cityIdList.get(position).toString();
             }
 
             @Override

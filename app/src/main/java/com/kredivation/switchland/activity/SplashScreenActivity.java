@@ -20,8 +20,11 @@ import android.view.WindowManager;
 import com.google.gson.Gson;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.database.SwitchDBHelper;
+import com.kredivation.switchland.firebase.MyFirebaseMessagingService;
 import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
 import com.kredivation.switchland.framework.ServiceCaller;
+import com.kredivation.switchland.model.ChatServiceContentData;
+import com.kredivation.switchland.model.ContentData;
 import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.model.LikedmychoiceArray;
 import com.kredivation.switchland.model.MychoiceArray;
@@ -93,6 +96,16 @@ public class SplashScreenActivity extends AppCompatActivity {
             Intent intent = new Intent(SplashScreenActivity.this, SigninActivity.class);
             startActivity(intent);
         }
+        getHSAKey();
+        SharedPreferences prefs = getSharedPreferences("FCMDeviceId", Context.MODE_PRIVATE);
+        if (prefs != null) {
+            boolean Sendflag = prefs.getBoolean("Sendflag", false);
+            if (Sendflag) {
+                String device_token = prefs.getString("device_token", null);
+                sendRegistrationToServer(device_token);
+            }
+        }
+
     }
 
     //wait for 3 seconds
@@ -365,5 +378,43 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    private void sendRegistrationToServer(String token) {
+
+        if (Utility.isOnline(SplashScreenActivity.this)) {
+
+            JSONObject object = new JSONObject();
+            try {
+                object.put("api_key", Contants.API_KEY);
+                object.put("user_id", userId);
+                object.put("device_token", token);
+                object.put("device_type", Utility.getDeviceName());
+                object.put("os_verion", Utility.getOsVersion());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String serviceURL = Contants.BASE_URL + Contants.updateDeviceToken;
+
+            ServiceCaller serviceCaller = new ServiceCaller(SplashScreenActivity.this);
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "sendRegistrationToServer", new IAsyncWorkCompletedCallback() {
+                @Override
+                public void onDone(String result, boolean isComplete) {
+                    if (isComplete) {
+                        final ContentData serviceData = new Gson().fromJson(result, ContentData.class);
+                        if (serviceData != null) {
+                            if (serviceData.isSuccess()) {
+                                SharedPreferences prefs = getSharedPreferences("FCMDeviceId", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putBoolean("Sendflag", false);
+                                editor.commit();
+                            }
+                        }
+
+                    }
+                }
+            });
+        }
     }
 }

@@ -483,10 +483,11 @@ public class Utility {
     }
 
     //set device id for  GCM
-    public static void setDeviceIDIntoSharedPreferences(Context context, String device_token) {
-        SharedPreferences prefs = context.getSharedPreferences("GCMDeviceId", Context.MODE_PRIVATE);
+    public static void setDeviceIDIntoSharedPreferences(Context context, String device_token, boolean sendflag) {
+        SharedPreferences prefs = context.getSharedPreferences("FCMDeviceId", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("device_token", device_token);
+        editor.putBoolean("Sendflag", sendflag);
         if (Contants.IS_DEBUG_LOG) {
             Log.d(Contants.LOG_TAG, "device_token set*********" + device_token);
         }
@@ -496,7 +497,7 @@ public class Utility {
     //get device id for  GCM
     public static String getDeviceIDFromSharedPreferences(Context context) {
         String device_token = null;
-        SharedPreferences prefs = context.getSharedPreferences("GCMDeviceId", Context.MODE_PRIVATE);
+        SharedPreferences prefs = context.getSharedPreferences("FCMDeviceId", Context.MODE_PRIVATE);
         if (prefs != null) {
             device_token = prefs.getString("device_token", null);
             if (Contants.IS_DEBUG_LOG) {
@@ -961,7 +962,7 @@ public class Utility {
         return fflag;
     }
 
-    public static void setHomeDetail(Context context, String home,boolean HomeEdit) {
+    public static void setHomeDetail(Context context, String home, boolean HomeEdit) {
         try {
             SharedPreferences prefs = context.getSharedPreferences("HomeDetailPreferences", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
@@ -973,6 +974,7 @@ public class Utility {
             //   throw new RuntimeException("Could not get language: " + e);
         }
     }
+
     public static void setHowItsWork(Context context, boolean flag) {
         try {
             SharedPreferences prefs = context.getSharedPreferences("HowItsWorkPreferences", Context.MODE_PRIVATE);
@@ -982,6 +984,11 @@ public class Utility {
         } catch (Exception e) {
             // should never happen
         }
+    }
+
+    public static String getOsVersion() {
+        int index = Build.VERSION.SDK_INT;
+        return String.valueOf(index);
     }
 
 }

@@ -151,7 +151,7 @@
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Select Country"
+                                    android:text="Travel Country"
                                     android:textColor="@color/primary_text"
                                     android:textSize="@dimen/dimTextSize_14" />
 
@@ -176,7 +176,7 @@
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Select City"
+                                    android:text="Travel City"
                                     android:textColor="@color/primary_text"
                                     android:textSize="@dimen/dimTextSize_14" />
 

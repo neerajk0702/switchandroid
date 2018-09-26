@@ -118,7 +118,7 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
     int cityPos = 0;
     HomeDetails MyHomedata;
     String homeId;
-
+    ArrayList<String> cityIdList;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -195,9 +195,11 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
                             city = MData.getCity();
                             if (city != null) {
                                 cityList = new ArrayList();
+                                cityIdList = new ArrayList();
                                 for (int i = 0; i < city.length; i++) {
                                     if (countryId.equals(city[i].getCountry_id())) {
                                         cityList.add(String.valueOf(city[i].getName()));
+                                        cityIdList.add(String.valueOf(city[i].getId()));
                                         if (saveCityId.equals(city[i].getId())) {
                                             cityPos = i;//save country pos for selected
                                         }
@@ -220,7 +222,7 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
                 citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        cityId = city[position].getId();
+                        cityId = cityIdList.get(position).toString();
                     }
 
                     @Override

@@ -25,6 +25,7 @@ import com.kredivation.switchland.R;
 import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
 import com.kredivation.switchland.framework.ServiceCaller;
+import com.kredivation.switchland.model.ContentData;
 import com.kredivation.switchland.model.MychoiceArray;
 import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.ServiceContentData;
@@ -227,6 +228,14 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                             protected void onPostExecute(Boolean flag) {
                                 super.onPostExecute(flag);
                                 if (flag) {
+                                    SharedPreferences prefs = getSharedPreferences("FCMDeviceId", Context.MODE_PRIVATE);
+                                    if (prefs != null) {
+                                        boolean Sendflag = prefs.getBoolean("Sendflag", false);
+                                        if (Sendflag) {
+                                            String device_token = prefs.getString("device_token", null);
+                                            sendRegistrationToServer(device_token);
+                                        }
+                                    }
                                     getMsterData();
                                 }
                             }
@@ -471,4 +480,40 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         startActivity(intent);
     }
 
+    private void sendRegistrationToServer(String token) {
+
+        if (Utility.isOnline(SigninActivity.this)) {
+
+            JSONObject object = new JSONObject();
+            try {
+                object.put("api_key", Contants.API_KEY);
+                object.put("user_id", userId);
+                object.put("device_token", token);
+                object.put("device_type", Utility.getDeviceName());
+                object.put("os_verion", Utility.getOsVersion());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String serviceURL = Contants.BASE_URL + Contants.updateDeviceToken;
+
+            ServiceCaller serviceCaller = new ServiceCaller(SigninActivity.this);
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "sendRegistrationToServer", new IAsyncWorkCompletedCallback() {
+                @Override
+                public void onDone(String result, boolean isComplete) {
+                    if (isComplete) {
+                        final ContentData serviceData = new Gson().fromJson(result, ContentData.class);
+                        if (serviceData != null) {
+                            if (serviceData.isSuccess()) {
+                                SharedPreferences prefs = getSharedPreferences("FCMDeviceId", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putBoolean("Sendflag", false);
+                                editor.commit();
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
 }

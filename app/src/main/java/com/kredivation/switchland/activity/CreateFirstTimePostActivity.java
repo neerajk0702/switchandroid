@@ -57,7 +57,7 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
     Typeface materialdesignicons_font;
     TextView etYear, enddate;
     LinearLayout dateLayout, endDateLayout;
-    private Spinner noOfBedSpinner, noOfGuestSpinner, citySpinner, countrySpinner;
+    private Spinner noOfBedSpinner, noOfGuestSpinner, citySpinner, countrySpinner, travelcountrySpinner, travelcitySpinner;
     private TextInputLayout des_layout, hno_layout, title_layout;
     private EditText description, hno, title;
     private String descriptionStr, hnoStr, titleStr, startDateStr, enddateStr;
@@ -71,12 +71,17 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
     String[] bedList;
     String[] countryList;
     ArrayList<String> cityList;
+    ArrayList<String> cityIdList;
     private String cityID = "";
     private String countryID = "";
+    private String travelcountryID = "";
+    private String travelcityID = "";
     private String userId;
     private int noBed = 0;
     private int nosleep = 0;
     private Toolbar toolbar;
+    private ArrayList<String> travelcityList;
+    private ArrayList<String> travelcityIdList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +116,8 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
         noOfGuestSpinner = findViewById(R.id.noOfGuestSpinner);
         citySpinner = findViewById(R.id.citySpinner);
         countrySpinner = findViewById(R.id.countrySpinner);
+        travelcitySpinner = findViewById(R.id.travelcitySpinner);
+        travelcountrySpinner = findViewById(R.id.travelcountrySpinner);
 
         des_layout = findViewById(R.id.des_layout);
         hno_layout = findViewById(R.id.hno_layout);
@@ -205,14 +212,46 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
                             city = MData.getCity();
                             if (city != null) {
                                 cityList = new ArrayList();
+                                cityIdList = new ArrayList();
                                 for (int i = 0; i < city.length; i++) {
                                     if (countryID.equals(city[i].getCountry_id())) {
                                         cityList.add(String.valueOf(city[i].getName()));
+                                        cityIdList.add(String.valueOf(city[i].getId()));
                                     }
                                 }
                                 if (cityList != null && cityList.size() > 0) {
                                     ArrayAdapter<String> cityAdapter = new ArrayAdapter<String>(CreateFirstTimePostActivity.this, R.layout.spinner_row, cityList);
                                     citySpinner.setAdapter(cityAdapter);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+
+
+                    ArrayAdapter<String> travelcountryAdapter = new ArrayAdapter<String>(CreateFirstTimePostActivity.this, R.layout.spinner_row, countryList);
+                    travelcountrySpinner.setAdapter(travelcountryAdapter);
+                    travelcountrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            travelcountryID = country[position].getId();
+                            city = MData.getCity();
+                            if (city != null) {
+                                travelcityList = new ArrayList();
+                                travelcityIdList = new ArrayList();
+                                for (int i = 0; i < city.length; i++) {
+                                    if (travelcountryID.equals(city[i].getCountry_id())) {
+                                        travelcityList.add(String.valueOf(city[i].getName()));
+                                        travelcityIdList.add(String.valueOf(city[i].getId()));
+                                    }
+                                }
+                                if (travelcityList != null && travelcityList.size() > 0) {
+                                    ArrayAdapter<String> cityAdapter = new ArrayAdapter<String>(CreateFirstTimePostActivity.this, R.layout.spinner_row, travelcityList);
+                                    travelcitySpinner.setAdapter(cityAdapter);
                                 }
                             }
                         }
@@ -228,9 +267,18 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
         citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (countryID.equals(city[position].getCountry_id())) {
-                    cityID = city[position].getId();
-                }
+                cityID = cityIdList.get(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        travelcitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                travelcityID = travelcityIdList.get(position).toString();
             }
 
             @Override
@@ -339,10 +387,16 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
             Utility.showToast(CreateFirstTimePostActivity.this, "Please select End Date!");
             return false;
         } else if (countryID.equals("") && countryID.equals("0")) {
-            Utility.showToast(CreateFirstTimePostActivity.this, "Please select County!");
+            Utility.showToast(CreateFirstTimePostActivity.this, "Please select Home County!");
             return false;
         } else if (cityID.equals("")) {
-            Utility.showToast(CreateFirstTimePostActivity.this, "Please select City!");
+            Utility.showToast(CreateFirstTimePostActivity.this, "Please select Home City!");
+            return false;
+        } else if (travelcountryID.equals("") && travelcountryID.equals("0")) {
+            Utility.showToast(CreateFirstTimePostActivity.this, "Please select Travel Country!");
+            return false;
+        } else if (travelcityID.equals("")) {
+            Utility.showToast(CreateFirstTimePostActivity.this, "Please select Travel City!");
             return false;
         } else if (noBed == 0) {
             Utility.showToast(CreateFirstTimePostActivity.this, "Please select No Of Beds!");
@@ -357,6 +411,7 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
         }
         return true;
     }
+
 
     private void requestFocus(View view) {
         if (view.requestFocus()) {
@@ -381,7 +436,6 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
         }
     }
 
-
     public void addHomeServer() {
         if (Utility.isOnline(CreateFirstTimePostActivity.this)) {
             final ASTProgressBar progressBar = new ASTProgressBar(CreateFirstTimePostActivity.this);
@@ -397,6 +451,8 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
             payloadList.put("enddate", enddateStr);
             payloadList.put("city", cityID);
             payloadList.put("country", countryID);
+            payloadList.put("travel_city", travelcityID);
+            payloadList.put("travel_country", travelcountryID);
             payloadList.put("sleeps", String.valueOf(nosleep));
             payloadList.put("bedrooms", String.valueOf(noBed));
             MultipartBody.Builder multipartBody = setMultipartBodyVaule();
