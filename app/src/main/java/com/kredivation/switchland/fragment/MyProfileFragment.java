@@ -217,8 +217,8 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
                 myhomeId = data.getId();
                 StartDate = data.getStartdate();
                 EndDate = data.getEnddate();
-                CountryId = data.getCountry_id();
-                CityId = data.getCity_id();
+                CountryId = data.getTravel_country();
+                CityId = data.getTravel_city();
             }
 
             Intent trintent = new Intent(getContext(), TravelRoutineActivity.class);

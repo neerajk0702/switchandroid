@@ -179,7 +179,7 @@
                             android:id="@+id/city"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="New york"
+                            android:text=""
                             android:textColor="@color/primary_text"
                             android:textSize="@dimen/dimTextSize_14"
                             android:textStyle="bold" />
@@ -189,7 +189,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dimTextSize_5"
-                            android:text="US"
+                            android:text=""
                             android:textColor="@color/secondary_text"
                             android:textSize="@dimen/dimTextSize_14" />
                     </LinearLayout>

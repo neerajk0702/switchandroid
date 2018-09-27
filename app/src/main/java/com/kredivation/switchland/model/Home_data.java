@@ -528,6 +528,42 @@ public class Home_data {
     {
         this.enddate = enddate;
     }
+    private String travel_country;
+    private String travel_city;
+    private String travel_country_name;
+    private String travel_city_name;
+
+    public String getTravel_country() {
+        return travel_country;
+    }
+
+    public void setTravel_country(String travel_country) {
+        this.travel_country = travel_country;
+    }
+
+    public String getTravel_city() {
+        return travel_city;
+    }
+
+    public void setTravel_city(String travel_city) {
+        this.travel_city = travel_city;
+    }
+
+    public String getTravel_country_name() {
+        return travel_country_name;
+    }
+
+    public void setTravel_country_name(String travel_country_name) {
+        this.travel_country_name = travel_country_name;
+    }
+
+    public String getTravel_city_name() {
+        return travel_city_name;
+    }
+
+    public void setTravel_city_name(String travel_city_name) {
+        this.travel_city_name = travel_city_name;
+    }
 
     @Override
     public String toString()

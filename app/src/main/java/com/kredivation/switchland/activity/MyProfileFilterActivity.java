@@ -67,8 +67,8 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
     TextView uNeme, uemail, phone, cityName, countryName, travlingDtae;
     String startDate = "";
     String endDate = "";
-    String countryNameStr = "";
-    String cityNameStr = "";
+    //String countryNameStr = "";
+    //String cityNameStr = "";
     Data MData;
     LinearLayout dateLayout, endDateLayout;
     TextView edateIcon;
@@ -387,8 +387,8 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
         for (MyhomeArray myhomeArray : myHomeList) {
             startDate = myhomeArray.getStartdate();
             endDate = myhomeArray.getEnddate();
-            servercountryId = myhomeArray.getCountry_id();
-            servercityId = myhomeArray.getCity_id();
+            servercountryId = myhomeArray.getTravel_country();
+            servercityId = myhomeArray.getTravel_city();
             sleepsStr = myhomeArray.getSleeps();
             bedroomsStr = myhomeArray.getBedrooms();
             travleTypeId = myhomeArray.getProperty_type();
@@ -398,6 +398,8 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
             etYear.setText(startDate);
             enddate.setText(endDate);
             homeTitle.setText(myhomeArray.getTitle());
+            countryName.setText(myhomeArray.getTravel_country_name());
+            cityName.setText(myhomeArray.getTravel_city_name());
         }
         setCityAdapter(servercountryId);
         setDefaultValue();
@@ -444,26 +446,25 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
         int pos = 0;
         for (int i = 0; i < country.length; i++) {
             if (servercountryId.equals(country[i].getId())) {
-                countryNameStr = String.valueOf(country[i].getName());
+               // countryNameStr = String.valueOf(country[i].getName());
                 pos = i;
                 break;
             }
         }
         countryspinner.setSelection(pos);
-        countryName.setText(countryNameStr);
+
     }
 
     private void getCitySelectPos() {
         int pos = 0;
         for (int i = 0; i < cityList.size(); i++) {
             if (servercountryId.equals(city[i].getCountry_id()) && servercityId.equals(city[i].getId())) {
-                cityNameStr = String.valueOf(city[i].getName());
+                //cityNameStr = String.valueOf(city[i].getName());
                 pos = i;
                 break;
             }
         }
         cityspinner.setSelection(pos);
-        cityName.setText(cityNameStr);
     }
 
     @Override

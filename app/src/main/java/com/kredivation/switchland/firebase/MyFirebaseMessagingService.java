@@ -73,7 +73,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-             sendNotification(remoteMessage.getData());
+            sendNotification(remoteMessage.getData());
 
         }
 
@@ -113,7 +113,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param token The new token.
      */
     private void sendRegistrationToServer(String token) {
-        Utility.setDeviceIDIntoSharedPreferences(MyFirebaseMessagingService.this, token,true);
+        Utility.setDeviceIDIntoSharedPreferences(MyFirebaseMessagingService.this, token, true);
     }
 
     /**
@@ -152,9 +152,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         new AsyncTask<String, Void, Notification>() {
             @Override
             protected Notification doInBackground(String... params) {
-                 String notificationMessage = dataMap.get("notificationMessage");
+                String notificationMessage = "";
+                String data = dataMap.get("data");
+                try {
+                    JSONObject object = new JSONObject(data);
+                    notificationMessage = object.opt("message").toString();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                // String customerID = dataMap.containsKey("customerID") ? dataMap.get("customerID") : "0";
+               /* Map.Entry<String,String> entry = dataMap.entrySet().iterator().next();
+                String key= entry.getKey();
+                String notificationMessage=entry.getValue();*/
+                //String notificationMessage = dataMap.containsKey("message") ? dataMap.get("message") : "";
                 //  String siteID = dataMap.containsKey("siteID") ? dataMap.get("siteID") : "0";
                 int requestCode = new Random().nextInt(1001);
                 SharedPreferences notifSharedPref = getSharedPreferences("NotificationPre", Context.MODE_PRIVATE);

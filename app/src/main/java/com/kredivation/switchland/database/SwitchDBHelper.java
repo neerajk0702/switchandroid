@@ -36,15 +36,16 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
         String CREATE_MasterData_TABLE = "CREATE TABLE MasterData(id INTEGER,masterData TEXT)";
         db.execSQL(CREATE_MasterData_TABLE);
 
-        String CREATE_Myhomedata_TABLE = "CREATE TABLE Myhomedata(id TEXT,user_id TEXT,home_type TEXT,bedrooms TEXT,bathrooms TEXT,sleeps TEXT,property_type TEXT,pets TEXT,family_matters TEXT,title TEXT,sort_description TEXT,house_no TEXT,location TEXT,latitude TEXT,longitude TEXT,destinations TEXT,traveller_type TEXT,travelling_anywhere TEXT,profile_image TEXT,startdate TEXT,enddate TEXT,country_id TEXT,city_id TEXT,address1 TEXT,address2 TEXT,zipcode TEXT,gender TEXT,religion TEXT,landmarks TEXT,level_security TEXT,profile_completeness TEXT,status TEXT,added_date TEXT,updated_date TEXT)";
+        String CREATE_Myhomedata_TABLE = "CREATE TABLE Myhomedata(id TEXT,user_id TEXT,home_type TEXT,bedrooms TEXT,bathrooms TEXT,sleeps TEXT,property_type TEXT,pets TEXT,family_matters TEXT,title TEXT,sort_description TEXT,house_no TEXT,location TEXT,latitude TEXT,longitude TEXT,destinations TEXT,traveller_type TEXT,travelling_anywhere TEXT,profile_image TEXT,startdate TEXT,enddate TEXT,country_id TEXT,city_id TEXT,address1 TEXT,address2 TEXT,zipcode TEXT,gender TEXT,religion TEXT,landmarks TEXT,level_security TEXT,profile_completeness TEXT,status TEXT,added_date TEXT,updated_date TEXT,travel_country TEXT,travel_city TEXT,country_name TEXT,city_name TEXT,travel_country_name TEXT,travel_city_name TEXT)";
         db.execSQL(CREATE_Myhomedata_TABLE);
+
         String CREATE_MychoiceData_TABLE = "CREATE TABLE MychoiceData(home_id TEXT,title TEXT,sort_description TEXT,location TEXT,destinations TEXT,home_image TEXT,startdate TEXT,enddate TEXT,zipcode TEXT,user_id TEXT,full_name TEXT,country_name TEXT,city_name TEXT,profile_image TEXT)";
         db.execSQL(CREATE_MychoiceData_TABLE);
 
         String CREATE_LikedmychoiceData_TABLE = "CREATE TABLE LikedmychoiceData(home_id TEXT,title TEXT,sort_description TEXT,location TEXT,destinations TEXT,home_image TEXT,startdate TEXT,enddate TEXT,zipcode TEXT,user_id TEXT,full_name TEXT,country_name TEXT,city_name TEXT,profile_image TEXT)";
         db.execSQL(CREATE_LikedmychoiceData_TABLE);
 
-        String CREATE_AddEditHomeData_TABLE = "CREATE TABLE AddEditHomeData(home_id TEXT,homestyle TEXT,security TEXT,gender TEXT,religion TEXT,family TEXT,pets TEXT,typeOfProperties TEXT,sleeps TEXT,bathrooms TEXT,bedrooms TEXT,title TEXT,about TEXT,savefeaturesList TEXT,saveRuleList TEXT,addressStr TEXT,hnoStr TEXT,landmarkStr TEXT,enterzipcodeStr TEXT,zipCodeStr TEXT,countryId TEXT,cityId TEXT,homeImageList TEXT,travleIdStr TEXT,profileImage TEXT,dreamStr TEXT,cardnoStr TEXT,nameStr TEXT,cvvStr TEXT,monthId TEXT,yearId EXT,latitude TEXT,longitude TEXT,startdate TEXT,enddate TEXT)";
+        String CREATE_AddEditHomeData_TABLE = "CREATE TABLE AddEditHomeData(home_id TEXT,homestyle TEXT,security TEXT,gender TEXT,religion TEXT,family TEXT,pets TEXT,typeOfProperties TEXT,sleeps TEXT,bathrooms TEXT,bedrooms TEXT,title TEXT,about TEXT,savefeaturesList TEXT,saveRuleList TEXT,addressStr TEXT,hnoStr TEXT,landmarkStr TEXT,enterzipcodeStr TEXT,zipCodeStr TEXT,countryId TEXT,cityId TEXT,homeImageList TEXT,travleIdStr TEXT,profileImage TEXT,dreamStr TEXT,cardnoStr TEXT,nameStr TEXT,cvvStr TEXT,monthId TEXT,yearId EXT,latitude TEXT,longitude TEXT,startdate TEXT,enddate TEXT,travel_country TEXT,travel_city TEXT,travel_country_name TEXT,travel_city_name TEXT)";
         db.execSQL(CREATE_AddEditHomeData_TABLE);
     }
 
@@ -308,6 +309,12 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
         ob.setStatus(cursor.getString(31));
         ob.setAdded_date(cursor.getString(32));
         ob.setUpdated_date(cursor.getString(33));
+        ob.setTravel_country(cursor.getString(34));
+        ob.setTravel_city(cursor.getString(35));
+        ob.setCountry_name(cursor.getString(36));
+        ob.setCity_name(cursor.getString(37));
+        ob.setTravel_country_name(cursor.getString(38));
+        ob.setTravel_city_name(cursor.getString(39));
     }
 
     public MyhomeArray getMyhomedata() {
@@ -363,6 +370,12 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
         values.put("status", ob.getStatus());
         values.put("added_date", ob.getAdded_date());
         values.put("updated_date", ob.getUpdated_date());
+        values.put("travel_country", ob.getTravel_country());
+        values.put("travel_city", ob.getTravel_city());
+        values.put("country_name", ob.getCountry_name());
+        values.put("city_name", ob.getCity_name());
+        values.put("travel_country_name", ob.getTravel_country_name());
+        values.put("travel_city_name", ob.getTravel_city_name());
     }
 
     public ArrayList<MyhomeArray> getAllMyhomedata() {
@@ -629,13 +642,15 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
         ob.setCvv(cursor.getString(28));
         ob.setMonth(cursor.getString(29));
         ob.setYear(cursor.getString(30));
-
         ob.setLatitude(cursor.getString(31));
         ob.setLongitude(cursor.getString(32));
         ob.setStartdate(cursor.getString(33));
         ob.setEnddate(cursor.getString(34));
+        ob.setTravel_country(cursor.getString(35));
+        ob.setTravel_city(cursor.getString(36));
+        ob.setTravel_country_name(cursor.getString(37));
+        ob.setTravel_city_name(cursor.getString(38));
     }
-
     public boolean insertAddEditHomeData(HomeDetails ob) {
         ContentValues values = new ContentValues();
         populateAddEditHomeValueData(values, ob);
@@ -682,11 +697,14 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
         values.put("cvvStr", ob.getCvv());
         values.put("monthId", ob.getMonth());
         values.put("yearId", ob.getYear());
-
         values.put("latitude", ob.getLatitude());
         values.put("longitude", ob.getLongitude());
         values.put("startdate", ob.getStartdate());
         values.put("enddate", ob.getEnddate());
+        values.put("travel_country", ob.getTravel_country());
+        values.put("travel_city", ob.getTravel_city());
+        values.put("travel_country_name", ob.getTravel_country_name());
+        values.put("travel_city_name", ob.getTravel_city_name());
     }
 
     public boolean updateAddEditHomeOverview(HomeDetails ob) {

@@ -295,7 +295,7 @@ public class TinderFragment extends Fragment {
         if (filterHome != null && !filterHome.equals("")) {//come from filter screen
             startDate = filterHome.getStartDate();
             endDate = filterHome.getEndDate();
-            cityId = filterHome.getCityId();
+            cityId = filterHome.getCityId();//its travel cityid
             countryId = filterHome.getCountryId();
             slieepId = filterHome.getSleepsId();
             bedroomId = filterHome.getBedroomsId();
@@ -308,8 +308,8 @@ public class TinderFragment extends Fragment {
             for (MyhomeArray myhomeArray : myHomeList) {
                 startDate = myhomeArray.getStartdate();
                 endDate = myhomeArray.getEnddate();
-                countryId = myhomeArray.getCountry_id();
-                cityId = myhomeArray.getCity_id();
+                countryId = myhomeArray.getTravel_country();
+                cityId = myhomeArray.getTravel_city();
             }
         }
         ArrayList<Data> userData = switchDBHelper.getAllUserInfoList();
@@ -429,7 +429,7 @@ public class TinderFragment extends Fragment {
         matchhomeList = new ArrayList<>();
         if (homeList != null && homeList.size() > 0) {
             for (Home_data homeData : homeList) {
-                if (homeData.getCity_id().equals(cityId)) {
+                if (homeData.getTravel_city().equals(cityId)) {
                     matchhomeList.add(homeData);
                 }
 

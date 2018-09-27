@@ -35,6 +35,7 @@ import com.kredivation.switchland.model.Home_features;
 import com.kredivation.switchland.model.Home_rules;
 import com.kredivation.switchland.model.Homegallery;
 import com.kredivation.switchland.model.House_rules;
+import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.ServiceContentData;
 import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.CompatibilityUtility;
@@ -70,8 +71,10 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
     private Country[] country;
     String[] countryList;
     ArrayList<String> cityList;
-    private String cityID = "";
-    private String countryID = "";
+    private String homeCityID = "";
+    private String homeCountryID = "";
+    private String travelcityID = "";
+    private String travelcountryID = "";
     private String userId;
 
 
@@ -88,6 +91,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
     HomeDetails MyHomedata;
     boolean MyHomeAdapterFlage;
     ArrayList<String> cityIdList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,6 +145,12 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
             for (Data data : userData) {
                 userId = data.getId();
             }
+            //get posted home details
+            ArrayList<MyhomeArray> myHomeList = switchDBHelper.getAllMyhomedata();
+            for (MyhomeArray myhomeArray : myHomeList) {
+                homeCountryID = myhomeArray.getCountry_id();
+                homeCityID = myhomeArray.getCity_id();
+            }
         }
         ServiceContentData sData = switchDBHelper.getMasterData();
         if (sData != null) {
@@ -157,13 +167,13 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
                     countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            countryID = country[position].getId();
+                            travelcountryID = country[position].getId();
                             city = MData.getCity();
                             if (city != null) {
                                 cityList = new ArrayList();
                                 cityIdList = new ArrayList();
                                 for (int i = 0; i < city.length; i++) {
-                                    if (countryID.equals(city[i].getCountry_id())) {
+                                    if (travelcountryID.equals(city[i].getCountry_id())) {
                                         cityList.add(String.valueOf(city[i].getName()));
                                         cityIdList.add(String.valueOf(city[i].getId()));
                                     }
@@ -186,7 +196,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
         citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                cityID = cityIdList.get(position).toString();
+                travelcityID = cityIdList.get(position).toString();
             }
 
             @Override
@@ -198,8 +208,8 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
         if (MyHomeAdapterFlage) {
             startDateStr = getIntent().getStringExtra("StartDate");
             enddateStr = getIntent().getStringExtra("EndDate");
-            String countryID = getIntent().getStringExtra("CountryId");
-            String cityID = getIntent().getStringExtra("CityId");
+            String countryID = getIntent().getStringExtra("CountryId");//travel country id
+            String cityID = getIntent().getStringExtra("CityId");//travel city id
             homeId = getIntent().getStringExtra("HomeId");
             enddate.setText(enddateStr);
             etYear.setText(startDateStr);
@@ -292,10 +302,10 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
         } else if (!isDateValid(enddateStr)) {
             Utility.showToast(TravelRoutineActivity.this, "Please select End Date!");
             return false;
-        } else if (countryID.equals("") && countryID.equals("0")) {
+        } else if (travelcountryID.equals("") && travelcountryID.equals("0")) {
             Utility.showToast(TravelRoutineActivity.this, "Please select County!");
             return false;
-        } else if (cityID.equals("")) {
+        } else if (travelcityID.equals("")) {
             Utility.showToast(TravelRoutineActivity.this, "Please select City!");
             return false;
         }
@@ -325,7 +335,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    //get data from pre
+    //get data from edit
     private void getSaveData() {
         SwitchDBHelper dbHelper = new SwitchDBHelper(TravelRoutineActivity.this);
         ArrayList<HomeDetails> homeDetails = dbHelper.getAllAddEditHomeDataList();
@@ -338,8 +348,8 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
                     enddateStr = MyHomedata.getEnddate();
                     enddate.setText(enddateStr);
                     etYear.setText(startDateStr);
-                    String countryID = MyHomedata.getCountry_id();
-                    String cityID = MyHomedata.getCity_id();
+                    String countryID = MyHomedata.getTravel_country();
+                    String cityID = MyHomedata.getTravel_city();
                     getSelectedCountry(countryID);
                     getSelectedCity(cityID);
 
@@ -440,8 +450,10 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
         payloadList.put("traveller_type", travleIdStr);
         payloadList.put("startdate", startDateStr);
         payloadList.put("enddate", enddateStr);
-        payloadList.put("country", countryID);
-        payloadList.put("city", cityID);
+        payloadList.put("country", homeCountryID);
+        payloadList.put("city", homeCityID);
+        payloadList.put("travel_city", travelcityID);
+        payloadList.put("travel_country", travelcountryID);
         payloadList.put("address1", Hno);
         payloadList.put("address2", addressStr);
         payloadList.put("zipcode", enterzipcodeStr);
@@ -476,8 +488,8 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
                             FilterHome filterHome = new FilterHome();
                             filterHome.setStartDate(startDateStr);
                             filterHome.setEndDate(enddateStr);
-                            filterHome.setCountryId(countryID);
-                            filterHome.setCityId(cityID);
+                            filterHome.setCountryId(travelcountryID);
+                            filterHome.setCityId(travelcityID);
                             String homeFilter = new Gson().toJson(filterHome);
                             Intent intent = new Intent(TravelRoutineActivity.this, MainActivity.class);
                             intent.putExtra("HomeFilter", homeFilter);
@@ -539,8 +551,10 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
             payloadList.put("user_id", userId);
             payloadList.put("startdate", startDateStr);
             payloadList.put("enddate", enddateStr);
-            payloadList.put("city", cityID);
-            payloadList.put("country", countryID);
+            payloadList.put("city", homeCityID);
+            payloadList.put("country", homeCountryID);
+            payloadList.put("travel_city", travelcityID);
+            payloadList.put("travel_country", travelcountryID);
             final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/jpg");
             MultipartBody.Builder multipartBody = new MultipartBody.Builder().setType(MultipartBody.FORM);
             FileUploaderHelper fileUploaderHelper = new FileUploaderHelper(TravelRoutineActivity.this, payloadList, multipartBody, serviceURL) {
@@ -554,8 +568,8 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
                                 FilterHome filterHome = new FilterHome();
                                 filterHome.setStartDate(startDateStr);
                                 filterHome.setEndDate(enddateStr);
-                                filterHome.setCountryId(countryID);
-                                filterHome.setCityId(cityID);
+                                filterHome.setCountryId(travelcountryID);
+                                filterHome.setCityId(travelcityID);
                                 String homeFilter = new Gson().toJson(filterHome);
                                 Intent intent = new Intent(TravelRoutineActivity.this, MainActivity.class);
                                 intent.putExtra("HomeFilter", homeFilter);

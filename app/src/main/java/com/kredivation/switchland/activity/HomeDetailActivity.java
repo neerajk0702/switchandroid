@@ -66,8 +66,8 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
     String HomeId;
     boolean EditFlage = false;
     private ViewPager mPager;
-    private  int currentPage = 0;
-    private  int NUM_PAGES = 0;
+    private int currentPage = 0;
+    private int NUM_PAGES = 0;
     private RecyclerView amenitiesrecycler_view, houseRulesrecycler_view;
     TextView Title, description, gender, religion, securityLevel, Homestyle, Propertytype, PetAllowed, FamilyMatters, Bedrooms, Beds, Bathroom, HouseNo, uNeme, uemail, phone;
     ImageView profileImage, homeProfileImage;
@@ -83,6 +83,7 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
     ArrayList<Home_rules> hRuleList;
     ArrayList<Homegallery> hImagList;
     private String SenderUserId;
+    private TextView address, citycountry, zipcode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +136,10 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
         uNeme = findViewById(R.id.uNeme);
         uemail = findViewById(R.id.uemail);
         phone = findViewById(R.id.phone);
+        address = findViewById(R.id.address);
+        citycountry = findViewById(R.id.citycountry);
+        zipcode = findViewById(R.id.zipcode);
+
         homeProfileImage = findViewById(R.id.homeProfileImage);
         if (EditFlage) {
             edit.setVisibility(View.VISIBLE);
@@ -268,8 +273,8 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
                                 details.setSort_description(sort_description);
                                 String house_no = databject.optString("house_no").toString();
                                 details.setHouse_no(house_no);
-                               // String location = databject.optString("location").toString();
-                               // details.setLocation(location);
+                                // String location = databject.optString("location").toString();
+                                // details.setLocation(location);
                                 String latitude = databject.optString("latitude").toString();
                                 details.setLatitude(latitude);
                                 String longitude = databject.optString("longitude").toString();
@@ -336,6 +341,15 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
                                 details.setYear(year);
                                 String cvv = databject.optString("cvv").toString();
                                 details.setCvv(cvv);
+                                String travel_country = databject.optString("travel_country").toString();
+                                details.setTravel_country(travel_country);
+                                String travel_city = databject.optString("travel_city").toString();
+                                details.setTravel_city(travel_city);
+                                String travel_city_name = databject.optString("travel_city_name").toString();
+                                details.setTravel_country_name(travel_city_name);
+                                String travel_country_name = databject.optString("travel_country_name").toString();
+                                details.setTravel_city_name(travel_country_name);
+
 
                                 JSONArray home_featuresAttay = databject.optJSONArray("home_features");
                                 if (home_featuresAttay != null) {
@@ -447,6 +461,11 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
         Beds.setText(details.getBedrooms());
         Bathroom.setText(details.getBathrooms());
         HouseNo.setText(details.getHouse_no());
+        //address, citycountry, zipcode;
+        address.setText(details.getAddress1() + ", " + details.getAddress2() + ", " + details.getLandmarks());
+        citycountry.setText(details.getCity_name() + ", " + details.getCountry_name());
+        zipcode.setText(details.getZipcode());
+
         if (EditFlage) {
             uNeme.setText(username);
             uemail.setText(emailStr);

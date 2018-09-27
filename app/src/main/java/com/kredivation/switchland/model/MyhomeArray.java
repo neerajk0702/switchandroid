@@ -386,6 +386,61 @@ public class MyhomeArray {
         this.profileImfLocal = profileImfLocal;
     }
 
+    private String travel_country;
+    private String travel_city;
+    private String country_name;
+    private String city_name;
+    private String travel_country_name;
+    private String travel_city_name;
+
+    public String getTravel_country() {
+        return travel_country;
+    }
+
+    public void setTravel_country(String travel_country) {
+        this.travel_country = travel_country;
+    }
+
+    public String getTravel_city() {
+        return travel_city;
+    }
+
+    public void setTravel_city(String travel_city) {
+        this.travel_city = travel_city;
+    }
+
+    public String getCountry_name() {
+        return country_name;
+    }
+
+    public void setCountry_name(String country_name) {
+        this.country_name = country_name;
+    }
+
+    public String getCity_name() {
+        return city_name;
+    }
+
+    public void setCity_name(String city_name) {
+        this.city_name = city_name;
+    }
+
+    public String getTravel_country_name() {
+        return travel_country_name;
+    }
+
+    public void setTravel_country_name(String travel_country_name) {
+        this.travel_country_name = travel_country_name;
+    }
+
+    public String getTravel_city_name() {
+        return travel_city_name;
+    }
+
+    public void setTravel_city_name(String travel_city_name) {
+        this.travel_city_name = travel_city_name;
+    }
+
     @Override
     public String toString() {
         return "ClassPojo [destinations = " + destinations + ", profile_completeness = " + profile_completeness + ", location = " + location + ", bathrooms = " + bathrooms + ", address1 = " + address1 + ", address2 = " + address2 + ", travelling_anywhere = " + travelling_anywhere + ", religion = " + religion + ", id = " + id + ", city_id = " + city_id + ", sort_description = " + sort_description + ", title = " + title + ", updated_date = " + updated_date + ", pets = " + pets + ", gender = " + gender + ", user_id = " + user_id + ", longitude = " + longitude + ", added_date = " + added_date + ", status = " + status + ", profile_image = " + profile_image + ", zipcode = " + zipcode + ", country_id = " + country_id + ", sleeps = " + sleeps + ", bedrooms = " + bedrooms + ", property_type = " + property_type + ", family_matters = " + family_matters + ", startdate = " + startdate + ", landmarks = " + landmarks + ", level_security = " + level_security + ", traveller_type = " + traveller_type + ", house_no = " + house_no + ", home_type = " + home_type + ", latitude = " + latitude + ", enddate = " + enddate + "]";
