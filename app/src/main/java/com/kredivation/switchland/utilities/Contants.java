@@ -36,6 +36,7 @@ public class Contants {
     public static String AllMessages = "getAllMessages";
     public static String Homecompeleted = "homecompeleted";
     public static String updateDeviceToken = "updateDeviceToken";
+    public static String getUserlikedlist = "getUserlikedlist";
 
 
 }

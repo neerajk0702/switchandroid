@@ -306,6 +306,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             try {
                 object.put("api_key", Contants.API_KEY);
                 object.put("home_id", myhomeId);
+                object.put("user_id", userId);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

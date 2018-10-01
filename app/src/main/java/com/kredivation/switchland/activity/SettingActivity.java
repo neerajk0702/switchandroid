@@ -3,6 +3,7 @@ package com.kredivation.switchland.activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -52,6 +53,8 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         });
         TextView howitwork = findViewById(R.id.howitwork);
         howitwork.setOnClickListener(this);
+        TextView invitefriend = findViewById(R.id.invitefriend);
+        invitefriend.setOnClickListener(this);
     }
 
     @Override
@@ -73,6 +76,26 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 Intent appintent = new Intent(SettingActivity.this, AppTourActivity.class);
                 startActivity(appintent);
                 break;
+            case R.id.invitefriend:
+                inviteFriend();
+                break;
+        }
+    }
+
+    private void inviteFriend() {
+        try {
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("text/plain");
+            i.putExtra(Intent.EXTRA_SUBJECT, "Switch");
+            String strShareMessage = "\nLet me recommend you this application\n\n";
+            strShareMessage = strShareMessage + "https://play.google.com/store/apps/details?id=" + getPackageName();
+            Uri screenshotUri = Uri.parse("android.resource://packagename/drawable/logo");
+            i.setType("image/png");
+            i.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+            i.putExtra(Intent.EXTRA_TEXT, strShareMessage);
+            startActivity(Intent.createChooser(i, "Share via"));
+        } catch (Exception e) {
+            //e.toString();
         }
     }
 }

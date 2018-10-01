@@ -67,9 +67,9 @@ public class MyChoicesAdapter extends RecyclerView.Adapter<MyChoicesAdapter.MyVi
         holder.title.setText(myHomeList.get(position).getTitle());
         holder.like.setTypeface(materialdesignicons_font);
         holder.like.setText(Html.fromHtml("&#xf2d1;"));
-        holder.location.setText(myHomeList.get(position).getLocation());
+        holder.location.setText(myHomeList.get(position).getCity_name() + ", " + myHomeList.get(position).getCountry_name());
         holder.startdate.setText("From " + myHomeList.get(position).getStartdate());
-        holder.startdate.setText("To " + myHomeList.get(position).getEnddate());
+        holder.enddate.setText("To " + myHomeList.get(position).getEnddate());
         Picasso.with(mContext).load(myHomeList.get(position).getHome_image()).placeholder(R.drawable.home_default).into(holder.homeimage);
     }
 

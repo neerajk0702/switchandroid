@@ -112,6 +112,16 @@
                         android:gravity="left|center"
                         android:textColor="@color/red"
                         android:textSize="@dimen/_18dp" />
+
+                    <TextView
+                        android:id="@+id/likedUser"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/_7dp"
+                        android:gravity="left|center"
+                        android:text="Liked Users"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/_12dp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

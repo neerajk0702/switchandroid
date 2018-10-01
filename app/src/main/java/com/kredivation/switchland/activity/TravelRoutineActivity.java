@@ -83,7 +83,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
     String titleStr, aboutHomeStr;
     List<Home_rules> saveRuleList;
     List<Home_features> saveFeatureList;
-    String addressStr, landmarkStr, zipCodeStr, enterzipcodeStr, saveCountryId, saveCityId, Hno;
+    String addressStr, landmarkStr, enterzipcodeStr, saveCountryId, saveCityId, Hno;
     ArrayList<Homegallery> homePhotoList;
     String profileimgStr, travleIdStr, dreamStr;
     String monthId, yearId, cvvStr, Cardno, CardNameStr;
@@ -407,7 +407,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
         //--------------home Location screen-------------
         addressStr = MyHomedata.getAddress1();
         landmarkStr = MyHomedata.getLandmarks();
-        zipCodeStr = MyHomedata.getLocation();
+        //zipCodeStr = MyHomedata.getLocation();
         enterzipcodeStr = MyHomedata.getZipcode();
         saveCountryId = MyHomedata.getCountry_id();
         saveCityId = MyHomedata.getCity_id();
@@ -443,7 +443,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
         payloadList.put("property_type", typeOfPropertiesId);
         payloadList.put("pets", petsId);
         payloadList.put("family", familyId);
-        payloadList.put("location", zipCodeStr);
+       // payloadList.put("location", zipCodeStr);
         payloadList.put("latitude", "20.7");
         payloadList.put("longitude", "30.7");
         payloadList.put("destinations", dreamStr);

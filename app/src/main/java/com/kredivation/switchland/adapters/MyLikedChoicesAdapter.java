@@ -1,6 +1,8 @@
 package com.kredivation.switchland.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -13,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kredivation.switchland.R;
+import com.kredivation.switchland.activity.LikedUserActivity;
 import com.kredivation.switchland.model.LikedmychoiceArray;
 import com.kredivation.switchland.model.MychoiceArray;
 import com.kredivation.switchland.utilities.FontManager;
@@ -29,7 +32,7 @@ public class MyLikedChoicesAdapter extends RecyclerView.Adapter<MyLikedChoicesAd
     public class MyViewHolder extends RecyclerView.ViewHolder {
         LinearLayout mainLayout;
         ImageView homeimage;
-        TextView title, like, locationIcon, location, startdate, enddate;
+        TextView title, like, locationIcon, location, startdate, enddate, likedUser;
         Button travelRoutine, viewInfo;
 
         public MyViewHolder(View view) {
@@ -42,6 +45,7 @@ public class MyLikedChoicesAdapter extends RecyclerView.Adapter<MyLikedChoicesAd
             location = view.findViewById(R.id.location);
             startdate = view.findViewById(R.id.startdate);
             enddate = view.findViewById(R.id.enddate);
+            likedUser = view.findViewById(R.id.likedUser);
         }
     }
 
@@ -55,22 +59,31 @@ public class MyLikedChoicesAdapter extends RecyclerView.Adapter<MyLikedChoicesAd
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.my_choices_row, parent, false);
+                .inflate(R.layout.liked_my_choices_item, parent, false);
 
         return new MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.locationIcon.setTypeface(materialdesignicons_font);
         holder.locationIcon.setText(Html.fromHtml("&#xf34e;"));
         holder.title.setText(myHomeList.get(position).getTitle());
         holder.like.setTypeface(materialdesignicons_font);
         holder.like.setText(Html.fromHtml("&#xf2d1;"));
-        holder.location.setText(myHomeList.get(position).getLocation());
+        holder.location.setText(myHomeList.get(position).getCity_name() + ", " + myHomeList.get(position).getCountry_name());
         holder.startdate.setText("From " + myHomeList.get(position).getStartdate());
-        holder.startdate.setText("To " + myHomeList.get(position).getEnddate());
+        holder.enddate.setText("To " + myHomeList.get(position).getEnddate());
+        holder.likedUser.setPaintFlags(holder.likedUser.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         Picasso.with(mContext).load(myHomeList.get(position).getHome_image()).placeholder(R.drawable.home_default).into(holder.homeimage);
+        holder.likedUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, LikedUserActivity.class);
+                intent.putExtra("HomeId", myHomeList.get(position).getHome_id());
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override

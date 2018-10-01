@@ -125,9 +125,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ConfirmDetailActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
 
-       <!-- <service
+        <!--
+        <service
             android:name="com.android.foundation.services.FNFirebaseMessagingService"
             android:exported="true">
             <intent-filter>
@@ -138,12 +139,15 @@
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
-        </service>-->
+        </service>
+        -->
         <service android:name=".firebase.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <activity android:name=".activity.LikedUserActivity"></activity>
     </application>
 
 </manifest>

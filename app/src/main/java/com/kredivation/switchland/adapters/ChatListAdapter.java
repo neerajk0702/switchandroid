@@ -63,14 +63,6 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.MyView
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.location.setText(chatList.get(position).getCity_name() + " ," + chatList.get(position).getCountry_name());
-        String location = "";
-        if (chatList.get(position).getCity_name() != null && !chatList.get(position).getCity_name().equals("")) {
-            location = chatList.get(position).getCity_name() + ", ";
-        }
-        if (chatList.get(position).getCountry_name() != null && !chatList.get(position).getCountry_name().equals("")) {
-            location.concat(chatList.get(position).getCountry_name());
-        }
-        holder.location.setText(location);
         holder.userName.setText(chatList.get(position).getFull_name());
         holder.locationIcon.setTypeface(materialdesignicons_font);
         holder.locationIcon.setText(Html.fromHtml("&#xf34e;"));
