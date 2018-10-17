@@ -12,10 +12,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
 import com.kredivation.switchland.framework.ServiceCaller;
+import com.kredivation.switchland.model.ChatServiceContentData;
 import com.kredivation.switchland.model.City;
 import com.kredivation.switchland.model.Country;
 import com.kredivation.switchland.model.Data;
@@ -56,6 +58,7 @@ public class ConfirmDetailActivity extends AppCompatActivity implements View.OnC
 
     ImageView hosteruserImage, hosterhomeImage;
     TextView hosteruseruserName, hostercountry, hostercity, hosterstartdate, hosterenddate, hosterbed, hostertitle, hosterdescripction;
+    String userHomeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +137,7 @@ public class ConfirmDetailActivity extends AppCompatActivity implements View.OnC
         }
         if (myHomeList != null && myHomeList.size() > 0) {
             for (MyhomeArray myhomeArray : myHomeList) {
+                userHomeId = myhomeArray.getId();
                 startdate.setText(myhomeArray.getStartdate());
                 enddate.setText(myhomeArray.getEnddate());
                 bed.setText(myhomeArray.getSleeps());
@@ -415,7 +419,53 @@ public class ConfirmDetailActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.continuetopay:
+                clickswitch();
                 break;
         }
     }
+
+    //check both user click or not into payment confirm screen
+    private void clickswitch() {
+        if (Utility.isOnline(ConfirmDetailActivity.this)) {
+            final ASTProgressBar dotDialog = new ASTProgressBar(ConfirmDetailActivity.this);
+            dotDialog.show();
+            JSONObject object = new JSONObject();
+            try {
+                object.put("api_key", Contants.API_KEY);
+                object.put("sender_id", userId);
+                object.put("reciever_id", ChatUserId);//other user
+                object.put("user_home_id", userHomeId);
+                object.put("hoster_home_id", HomeId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String serviceURL = Contants.BASE_URL + Contants.clickswitch;
+
+            ServiceCaller serviceCaller = new ServiceCaller(ConfirmDetailActivity.this);
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "clickswitch", new IAsyncWorkCompletedCallback() {
+                @Override
+                public void onDone(String result, boolean isComplete) {
+                    if (isComplete) {
+                        final ChatServiceContentData serviceData = new Gson().fromJson(result, ChatServiceContentData.class);
+                        if (serviceData != null) {
+                            if (serviceData.isSuccess()) {
+                                // Utility.showToast(ConfirmDetailActivity.this, "");
+                            } else {
+                                Utility.alertForErrorMessage(serviceData.getMsg(), ConfirmDetailActivity.this);
+                            }
+                        }
+                    } else {
+                        Utility.alertForErrorMessage(Contants.Error, ConfirmDetailActivity.this);
+                    }
+                    if (dotDialog.isShowing()) {
+                        dotDialog.dismiss();
+                    }
+                }
+            });
+        } else {
+            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, ConfirmDetailActivity.this);//off line msg....
+        }
+    }
+
 }

@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kredivation.switchland.R;
+import com.kredivation.switchland.activity.ChatActivity;
 import com.kredivation.switchland.activity.LikedUserActivity;
 import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.model.LikedmychoiceArray;
@@ -62,6 +63,17 @@ public class LikedUsersAdapter extends RecyclerView.Adapter<LikedUsersAdapter.My
         holder.chatIcon.setTypeface(materialdesignicons_font);
         holder.chatIcon.setText(Html.fromHtml("&#xf611;"));
         Picasso.with(mContext).load(myHomeList.get(position).getProfile_image()).placeholder(R.drawable.avter).into(holder.homeimage);
+        holder.chatIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, ChatActivity.class);
+                intent.putExtra("ChatUserId", myHomeList.get(position).getUser_id());
+                intent.putExtra("ProfileImg", myHomeList.get(position).getProfile_image());
+                intent.putExtra("FullName", myHomeList.get(position).getFull_name());
+                intent.putExtra("HomeId", myHomeList.get(position).getHome_id());
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override

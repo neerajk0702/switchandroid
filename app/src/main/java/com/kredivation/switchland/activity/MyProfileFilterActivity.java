@@ -61,6 +61,7 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
     Spinner cityspinner, countryspinner, bedroomspinner, Religionspinner, Typeoftravellerspinner, genderspinner, Sleepspinner;
     String[] countryList;
     ArrayList<String> cityList;
+    ArrayList<String> cityIdList;
     private String cityId = "";
     private String countryId = "";
     ImageView profileImage;
@@ -313,7 +314,7 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             countryId = country[position].getId();
-                            //setCityAdapter(countryId);
+                            setCityAdapter(countryId);
                         }
 
                         @Override
@@ -322,18 +323,6 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
                         }
                     });
                 }
-                // getCitySelectPos();
-                cityspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        cityId = city[position].getId();
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
             }
         }
         setSpinerValue();
@@ -341,11 +330,13 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
 
     private void setCityAdapter(String countryId) {
         city = MData.getCity();
+        cityList = new ArrayList();
+        cityIdList = new ArrayList();
         if (city != null) {
-            cityList = new ArrayList();
             for (int i = 0; i < city.length; i++) {
                 if (countryId.equals(city[i].getCountry_id())) {
                     cityList.add(String.valueOf(city[i].getName()));
+                    cityIdList.add(String.valueOf(city[i].getId()));
                 }
             }
             if (cityList != null && cityList.size() > 0) {
@@ -353,6 +344,19 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
                 cityspinner.setAdapter(cityAdapter);
             }
         }
+        cityspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                cityId = city[position].getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        getCitySelectPos();
     }
 
     private void getUserdata() {
@@ -401,7 +405,7 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
             countryName.setText(myhomeArray.getTravel_country_name());
             cityName.setText(myhomeArray.getTravel_city_name());
         }
-        setCityAdapter(servercountryId);
+        //setCityAdapter(servercountryId);
         setDefaultValue();
     }
 
@@ -439,14 +443,13 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
             }
         }
         getCountrySelectPos();
-        getCitySelectPos();
     }
 
     private void getCountrySelectPos() {
         int pos = 0;
         for (int i = 0; i < country.length; i++) {
             if (servercountryId.equals(country[i].getId())) {
-               // countryNameStr = String.valueOf(country[i].getName());
+                // countryNameStr = String.valueOf(country[i].getName());
                 pos = i;
                 break;
             }
@@ -457,9 +460,8 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
 
     private void getCitySelectPos() {
         int pos = 0;
-        for (int i = 0; i < cityList.size(); i++) {
-            if (servercountryId.equals(city[i].getCountry_id()) && servercityId.equals(city[i].getId())) {
-                //cityNameStr = String.valueOf(city[i].getName());
+        for (int i = 0; i < cityIdList.size(); i++) {
+            if (servercityId.equals(cityIdList.get(i))) {
                 pos = i;
                 break;
             }

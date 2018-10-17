@@ -207,7 +207,7 @@ public class ChatListFragment extends Fragment {
                         }
                     }
                 } else {
-                    Toast.makeText(getActivity(), serviceData.getMsg(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getContext(), serviceData.getMsg(), Toast.LENGTH_LONG).show();
                     if (dotDialog.isShowing()) {
                         dotDialog.dismiss();
                     }

@@ -6,12 +6,15 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,6 +23,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.gson.Gson;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.database.SwitchDBHelper;
@@ -39,8 +60,12 @@ import com.kredivation.switchland.utilities.Utility;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Arrays;
 
-public class SigninActivity extends AppCompatActivity implements View.OnClickListener {
+
+public class SigninActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
 
     private TextInputLayout email_layout, password_layout;
@@ -52,6 +77,25 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
     private String userId;
     boolean howItsWork;
 
+
+    SignInButton btn_gsign_in;
+    private static final int RC_SIGN_IN = 7;
+    private GoogleApiClient mGoogleApiClient;
+    CallbackManager callbackManager;
+    LoginButton facebooklogin;
+    private static final String EMAIL = "email";
+    private static final String USER_POSTS = "user_posts";
+    private static final String AUTH_TYPE = "rerequest";
+
+    private String oauth_uid = "";
+    private String name = "";
+    private String first_name = "";
+    private String last_name = "";
+    private String socialemail = "";
+    private String gender = "";
+    private String picture = "";
+    private String oauth_provider = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +103,8 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         chechPortaitAndLandSacpe();//chech Portait And LandSacpe Orientation
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
         initView();
     }
 
@@ -102,6 +148,20 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         TextView forgotPassword = findViewById(R.id.forgotPassword);
         forgotPassword.setOnClickListener(this);
         dotDialog = new ASTProgressBar(SigninActivity.this);
+        facebooklogin = findViewById(R.id.facebooklogin);
+        btn_gsign_in = findViewById(R.id.btn_gsign_in);
+        btn_gsign_in.setOnClickListener(this);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        signOut();
+        datatoView();
     }
 
     @Override
@@ -119,6 +179,9 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.forgotPassword:
                 Intent forgot = new Intent(SigninActivity.this, ForgotPasswordActivity.class);
                 startActivity(forgot);
+                break;
+            case R.id.btn_gsign_in:
+                signIn();
                 break;
         }
     }
@@ -519,6 +582,224 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 }
             });
+        }
+    }
+
+
+    //gmail logout
+    private void signOut() {
+        if (mGoogleApiClient.isConnected()) {
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+            mGoogleApiClient.disconnect();
+            mGoogleApiClient.connect();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
+    }
+
+    private void signIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void revokeAccess() {
+        Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                    }
+                });
+    }
+
+    private void handleSignInResult(GoogleSignInResult result) {
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount acct = result.getSignInAccount();
+            //oauth_uid = acct.getIdToken();
+            oauth_uid = acct.getId();
+            name = acct.getDisplayName();
+            Uri personPhotoUrl = null;
+            if (acct.getPhotoUrl() != null) {
+                personPhotoUrl = acct.getPhotoUrl();
+                picture = personPhotoUrl.toString();
+            }
+            socialemail = acct.getEmail();
+            oauth_provider = "GooglePlus";//Facebook/GooglePlus
+            socialsignIn();
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+        if (opr.isDone()) {
+            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+            // and the GoogleSignInResult will be available instantly.
+            GoogleSignInResult result = opr.get();
+            handleSignInResult(result);
+        } else {
+            //   showProgressDialog();
+            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+                @Override
+                public void onResult(GoogleSignInResult googleSignInResult) {
+                    //  hideProgressDialog();
+                    handleSignInResult(googleSignInResult);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    }
+
+
+    //get data from UI
+    public void datatoView() {
+        //LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("EMAIL","public_profile"));
+        facebooklogin.setReadPermissions(Arrays.asList(EMAIL, "public_profile"));
+        //  facebooklogin.setAuthType(AUTH_TYPE);
+        facebooklogin.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+
+                System.out.println("onSuccess");
+                String accessToken = loginResult.getAccessToken().getToken();
+                Log.i("accessToken", accessToken);
+                GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        // Get facebook data from login
+                        Bundle bFacebookData = getFacebookData(object);
+
+                        socialemail = bFacebookData.getString("email");
+                        first_name = bFacebookData.getString("first_name");
+                        last_name = bFacebookData.getString("last_name");
+                        if (bFacebookData.getString("profile_pic") != null && !bFacebookData.getString("profile_pic").equals("")) {
+                            picture = bFacebookData.getString("profile_pic");
+                        }
+                        oauth_uid = bFacebookData.getString("idFacebook");
+                        if (bFacebookData.getString("gender") != null && !bFacebookData.getString("gender").equals("")) {
+                            gender = bFacebookData.getString("gender");
+                        }
+                        oauth_provider = "Facebook";//Facebook/GooglePlus
+                        socialsignIn();
+                    }
+                });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id, first_name, last_name, email,gender, birthday, location"); // Parámetros que pedimos a facebook
+                request.setParameters(parameters);
+                request.executeAsync();
+            }
+
+            @Override
+            public void onCancel() {
+                System.out.println("onCancel");
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                System.out.println("onError");
+            }
+        });
+
+    }
+
+    private Bundle getFacebookData(JSONObject object) {
+        try {
+            Bundle bundle = new Bundle();
+            String id = object.getString("id");
+            try {
+                URL profile_pic = new URL("https://graph.facebook.com/" + id + "/picture?width=200&height=150");
+                Log.i("profile_pic", profile_pic + "");
+                bundle.putString("profile_pic", profile_pic.toString());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                return null;
+            }
+            bundle.putString("idFacebook", id);
+            if (object.has("first_name"))
+                bundle.putString("first_name", object.getString("first_name"));
+            if (object.has("last_name"))
+                bundle.putString("last_name", object.getString("last_name"));
+            if (object.has("email"))
+                bundle.putString("email", object.getString("email"));
+            if (object.has("gender"))
+                bundle.putString("gender", object.getString("gender"));
+            if (object.has("birthday"))
+                bundle.putString("birthday", object.getString("birthday"));
+            if (object.has("location"))
+                bundle.putString("location", object.getJSONObject("location").getString("name"));
+
+            return bundle;
+        } catch (JSONException e) {
+        }
+        return null;
+    }
+
+    private void socialsignIn() {
+        if (Utility.isOnline(SigninActivity.this)) {
+            dotDialog = new ASTProgressBar(SigninActivity.this);
+            dotDialog.show();
+            JSONObject object = new JSONObject();
+            try {
+
+                object.put("api_key", Contants.API_KEY);
+                object.put("oauth_uid", oauth_uid);
+                object.put("name", name);
+                object.put("first_name", first_name);
+                object.put("last_name", last_name);
+                object.put("email", socialemail);
+                object.put("gender", gender);
+                object.put("picture", picture);
+                object.put("oauth_provider", oauth_provider);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String serviceURL = Contants.BASE_URL + Contants.socialLogin;
+
+            ServiceCaller serviceCaller = new ServiceCaller(SigninActivity.this);
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "socialsignIn", new IAsyncWorkCompletedCallback() {
+                @Override
+                public void onDone(String result, boolean isComplete) {
+                    if (isComplete) {
+                        final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
+                        if (serviceData != null) {
+                            if (serviceData.isSuccess()) {
+                                Utility.showToast(SigninActivity.this, serviceData.getMsg());
+                                parseLoginServiceData(result);
+                            } else {
+                                Utility.showToast(SigninActivity.this, serviceData.getMsg());
+                                if (dotDialog.isShowing()) {
+                                    dotDialog.dismiss();
+                                }
+                            }
+                        } else {
+                            Utility.showToast(SigninActivity.this, Contants.Error);
+                            if (dotDialog.isShowing()) {
+                                dotDialog.dismiss();
+                            }
+                        }
+                    } else {
+                        Utility.alertForErrorMessage(Contants.Error, SigninActivity.this);
+                        if (dotDialog.isShowing()) {
+                            dotDialog.dismiss();
+                        }
+                    }
+                }
+            });
+        } else {
+            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, SigninActivity.this);//off line msg....
         }
     }
 }

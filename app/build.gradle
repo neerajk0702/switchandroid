@@ -25,6 +25,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     productFlavors {
     }
 }
@@ -54,5 +58,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.10.0'
     implementation 'com.google.firebase:firebase-messaging:17.3.2'
     implementation 'com.google.firebase:firebase-core:16.0.3'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.facebook.android:facebook-android-sdk:4.36.1'
 }
 apply plugin: 'com.google.gms.google-services'

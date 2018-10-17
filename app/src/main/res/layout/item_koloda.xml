@@ -36,7 +36,6 @@
             android:layout_height="@dimen/_380dp"
             android:layout_margin="@dimen/dimValue_5"
             android:layout_weight="1"
-            android:background="@drawable/koloda_card_view_background"
             android:padding="@dimen/_5dp"
             android:scaleType="centerCrop"
             android:visibility="gone" />

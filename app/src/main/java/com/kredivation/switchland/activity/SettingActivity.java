@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +13,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.utilities.CompatibilityUtility;
@@ -19,9 +25,9 @@ import com.kredivation.switchland.utilities.FontManager;
 import com.kredivation.switchland.utilities.SwitchViewPager;
 import com.kredivation.switchland.utilities.Utility;
 
-public class SettingActivity extends AppCompatActivity implements View.OnClickListener {
+public class SettingActivity extends AppCompatActivity implements View.OnClickListener ,GoogleApiClient.OnConnectionFailedListener{
     private Toolbar toolbar;
-
+    private GoogleApiClient mGoogleApiClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,12 +61,25 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         howitwork.setOnClickListener(this);
         TextView invitefriend = findViewById(R.id.invitefriend);
         invitefriend.setOnClickListener(this);
+        TextView notification = findViewById(R.id.notification);
+        notification.setOnClickListener(this);
+        //for gmail login
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.logoutLayout:
+                LoginManager.getInstance().logOut();
+                signOut();
                 Utility.showToast(SettingActivity.this, "Logout Successfully");
                 SwitchDBHelper switchDBHelper = new SwitchDBHelper(SettingActivity.this);
                 switchDBHelper.deleteAllRows("userInfo");
@@ -79,6 +98,10 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.invitefriend:
                 inviteFriend();
                 break;
+            case R.id.notification:
+                Intent notificationintent = new Intent(SettingActivity.this, NotificationActivity.class);
+                startActivity(notificationintent);
+                break;
         }
     }
 
@@ -96,6 +119,19 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             startActivity(Intent.createChooser(i, "Share via"));
         } catch (Exception e) {
             //e.toString();
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+    //gmail logout
+    private void signOut() {
+        if (mGoogleApiClient.isConnected()) {
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+            mGoogleApiClient.disconnect();
+            mGoogleApiClient.connect();
         }
     }
 }

@@ -33,7 +33,7 @@ import java.util.TimerTask;
 
 public class HomeTinderCardAdapter extends BaseAdapter {
     private ArrayList<Home_data> homeList;
-    private final Context context;
+    private Context context;
     Typeface materialdesignicons_font;
 
     public HomeTinderCardAdapter(Context context, ArrayList<Home_data> homeList) {
@@ -55,20 +55,22 @@ public class HomeTinderCardAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return (long) position;
+        return position;
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
 
-        if (convertView == null) {
+      /*  if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_koloda, parent, false);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
-        }
+        }*/
+        convertView = LayoutInflater.from(context).inflate(R.layout.item_koloda, parent, false);
+        viewHolder = new ViewHolder(convertView);
         viewHolder.detailIcon.setTypeface(materialdesignicons_font);
         viewHolder.detailIcon.setText(Html.fromHtml("&#xf2fd;"));
         viewHolder.title.setText(homeList.get(position).getTitle());

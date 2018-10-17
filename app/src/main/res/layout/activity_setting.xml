@@ -58,6 +58,7 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/app_bar"
             android:orientation="vertical">
+
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,8 +72,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center|left"
                     android:orientation="horizontal"
-                    android:paddingBottom="@dimen/_5dp"
-                    android:paddingTop="@dimen/_5dp">
+                    android:paddingTop="@dimen/_5dp"
+                    android:paddingBottom="@dimen/_5dp">
 
                     <TextView
                         android:layout_width="@dimen/size_30px"
@@ -83,8 +84,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Change Password"
                         android:layout_marginLeft="@dimen/_10dp"
+                        android:text="Change Password"
                         android:textColor="@color/secondary_text"
                         android:textSize="@dimen/_12dp" />
                 </LinearLayout>
@@ -103,9 +104,20 @@
                     android:layout_margin="@dimen/_5dp"
                     android:orientation="vertical">
 
-                    <TextView android:id="@+id/invitefriend"
+                    <TextView
+                        android:id="@+id/notification"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="Notification"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="@dimen/_12dp" />
+
+                    <TextView
+                        android:id="@+id/invitefriend"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:layout_marginBottom="@dimen/_5dp"
                         android:text="Invite Friends"
                         android:textColor="@color/secondary_text"
                         android:textSize="@dimen/_12dp" />
@@ -113,17 +125,18 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/_5dp"
                         android:layout_marginTop="@dimen/_5dp"
+                        android:layout_marginBottom="@dimen/_5dp"
                         android:text="Help and Support"
                         android:textColor="@color/secondary_text"
                         android:textSize="@dimen/_12dp" />
 
-                    <TextView android:id="@+id/howitwork"
+                    <TextView
+                        android:id="@+id/howitwork"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/_5dp"
                         android:layout_marginTop="@dimen/_5dp"
+                        android:layout_marginBottom="@dimen/_5dp"
                         android:text="How it works"
                         android:textColor="@color/secondary_text"
                         android:textSize="@dimen/_12dp" />
@@ -131,8 +144,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/_5dp"
                         android:layout_marginTop="@dimen/_5dp"
+                        android:layout_marginBottom="@dimen/_5dp"
                         android:text="Policies"
                         android:textColor="@color/secondary_text"
                         android:textSize="@dimen/_12dp" />
@@ -160,18 +173,20 @@
                     android:layout_height="wrap_content"
                     android:gravity="center|left"
                     android:orientation="horizontal"
-                    android:paddingBottom="@dimen/_5dp"
-                    android:paddingTop="@dimen/_5dp">
+                    android:paddingTop="@dimen/_5dp"
+                    android:paddingBottom="@dimen/_5dp">
+
                     <TextView
                         android:layout_width="@dimen/size_30px"
                         android:layout_height="@dimen/size_30px"
                         android:layout_marginLeft="@dimen/_10dp"
                         android:background="@drawable/ic_logout" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Logout"
                         android:layout_marginLeft="@dimen/_10dp"
+                        android:text="Logout"
                         android:textColor="@color/secondary_text"
                         android:textSize="@dimen/_12dp" />
 

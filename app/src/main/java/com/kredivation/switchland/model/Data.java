@@ -754,6 +754,15 @@ public class Data {
     public void setTo_user_delete_id(String to_user_delete_id) {
         this.to_user_delete_id = to_user_delete_id;
     }
+    private String added_date;
+
+    public String getAdded_date() {
+        return added_date;
+    }
+
+    public void setAdded_date(String added_date) {
+        this.added_date = added_date;
+    }
 
     @Override
     public String toString() {

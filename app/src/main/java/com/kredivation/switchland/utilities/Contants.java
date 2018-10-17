@@ -37,6 +37,9 @@ public class Contants {
     public static String Homecompeleted = "homecompeleted";
     public static String updateDeviceToken = "updateDeviceToken";
     public static String getUserlikedlist = "getUserlikedlist";
+    public static String clickswitch = "clickswitch";
+    public static String getNotificationMessage = "getNotificationMessage";
+    public static String socialLogin = "socialLogin";
 
 
 }

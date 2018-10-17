@@ -1,8 +1,10 @@
 package com.kredivation.switchland.fragment;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -21,7 +23,10 @@ import com.kredivation.switchland.R;
 import com.kredivation.switchland.activity.AddHomeActivity;
 import com.kredivation.switchland.activity.AppTourActivity;
 import com.kredivation.switchland.activity.ChangePasswordActivity;
+import com.kredivation.switchland.activity.ChatActivity;
+import com.kredivation.switchland.activity.ConfirmDetailActivity;
 import com.kredivation.switchland.activity.EditProfileActivity;
+import com.kredivation.switchland.activity.HomeDetailActivity;
 import com.kredivation.switchland.activity.MainActivity;
 import com.kredivation.switchland.activity.MyChoicesActivity;
 import com.kredivation.switchland.activity.MyHomeActivity;
@@ -34,6 +39,7 @@ import com.kredivation.switchland.adapters.MainPagerAdapter;
 import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
 import com.kredivation.switchland.framework.ServiceCaller;
+import com.kredivation.switchland.model.CheckHomeContent;
 import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.model.MychoiceArray;
 import com.kredivation.switchland.model.MyhomeArray;
@@ -100,6 +106,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
     private View view;
     LinearLayout settingLayout, editLayout, addHomeLayout;
     private String userId;
+    private String userHomeId = "";
     ImageView proImage;
     private TextView name, email, phone;
     ASTProgressBar dotDialog;
@@ -157,6 +164,15 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
                 email.setText(data.getEmail());
                 phone.setText(data.getMobile_number());
                 Picasso.with(context).load(data.getProfile_image()).placeholder(R.drawable.userimage).resize(80, 80).into(proImage);
+            }
+            ArrayList<MyhomeArray> myHomeList = switchDBHelper.getAllMyhomedata();
+            if (myHomeList != null && myHomeList.size() > 0) {
+                for (MyhomeArray myhomeArray : myHomeList) {
+                    userHomeId = myhomeArray.getId();
+                }
+            }
+            if (userHomeId != null && !userHomeId.equals("")) {
+                checkHomeCompleteOrnot();
             }
         }
     }
@@ -231,5 +247,73 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
             trintent.putExtra("MyHomeAdapterFlage", true);
             startActivity(trintent);
         }
+    }
+
+    //check your home complete or not
+    private void checkHomeCompleteOrnot() {
+        if (Utility.isOnline(getContext())) {
+            JSONObject object = new JSONObject();
+            try {
+                object.put("api_key", Contants.API_KEY);
+                object.put("home_id", userHomeId);
+                object.put("user_id", userId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String serviceURL = Contants.BASE_URL + Contants.Homecompeleted;
+
+            ServiceCaller serviceCaller = new ServiceCaller(getContext());
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "checkHomeCompleteOrnot", new IAsyncWorkCompletedCallback() {
+                @Override
+                public void onDone(String result, boolean isComplete) {
+                    if (isComplete) {
+                        parsecheckHomeCompleteOrnot(result);
+                    } else {
+                        Utility.alertForErrorMessage(Contants.Error, getContext());
+                    }
+                }
+            });
+        } else {
+            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, getContext());//off line msg....
+        }
+    }
+
+    public void parsecheckHomeCompleteOrnot(String result) {
+        if (result != null) {
+            final CheckHomeContent serviceData = new Gson().fromJson(result, CheckHomeContent.class);
+            if (serviceData != null) {
+                if (serviceData.isSuccess()) {
+
+                } else {
+                    alertForNoHomeAvailable(serviceData.getMsg());
+                }
+            }
+        }
+    }
+
+    //no home available alert
+    public void alertForNoHomeAvailable(String msg) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        Typeface roboto_regular = Typeface.createFromAsset(getContext().getAssets(), "fonts/roboto.regular.ttf");
+        final AlertDialog alert = builder.create();
+        View view = alert.getLayoutInflater().inflate(R.layout.home_complete_popup, null);
+        TextView message = view.findViewById(R.id.message);
+        message.setTypeface(roboto_regular);
+        message.setText(msg);
+        Button ok = view.findViewById(R.id.ok);
+        ok.setTypeface(roboto_regular);
+        alert.setCustomTitle(view);
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+                Intent homeintent = new Intent(getContext(), HomeDetailActivity.class);
+                homeintent.putExtra("HomeId", userHomeId);
+                homeintent.putExtra("EditFlage", true);
+                startActivity(homeintent);
+            }
+        });
+        alert.show();
     }
 }

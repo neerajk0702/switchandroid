@@ -149,8 +149,8 @@
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
-                                android:layout_marginBottom="@dimen/_5dp"
                                 android:layout_marginTop="@dimen/_5dp"
+                                android:layout_marginBottom="@dimen/_5dp"
                                 android:background="@color/divider" />
 
                             <TextView
@@ -234,7 +234,7 @@
 
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="@dimen/_100dp"
                                 android:layout_marginTop="@dimen/_5dp">
 
                                 <ImageView
@@ -248,8 +248,8 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="@dimen/_10dp"
                                 android:layout_marginTop="@dimen/_5dp"
+                                android:layout_marginBottom="@dimen/_10dp"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -350,8 +350,8 @@
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
-                                android:layout_marginBottom="@dimen/_5dp"
                                 android:layout_marginTop="@dimen/_5dp"
+                                android:layout_marginBottom="@dimen/_5dp"
                                 android:background="@color/divider" />
 
                             <TextView
@@ -435,7 +435,7 @@
 
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="@dimen/_100dp"
                                 android:layout_marginTop="@dimen/_5dp">
 
                                 <ImageView
@@ -449,8 +449,8 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="@dimen/_10dp"
                                 android:layout_marginTop="@dimen/_5dp"
+                                android:layout_marginBottom="@dimen/_10dp"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -487,8 +487,8 @@
                         android:background="@drawable/button_login"
                         android:elevation="10dp"
                         android:gravity="center"
-                        android:paddingBottom="@dimen/dimValue_16"
                         android:paddingTop="@dimen/dimValue_16"
+                        android:paddingBottom="@dimen/dimValue_16"
                         android:text="Continue to pay"
                         android:textAllCaps="false"
                         android:textColor="@color/white"

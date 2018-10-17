@@ -4,7 +4,6 @@ package com.kredivation.switchland.fragment;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -14,8 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.Adapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,8 +23,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kredivation.switchland.R;
-import com.kredivation.switchland.activity.HomeDetailActivity;
-import com.kredivation.switchland.activity.MyChoicesActivity;
 import com.kredivation.switchland.adapters.HomeTinderCardAdapter;
 import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.fragment.likepagelib.KoldaListnerJava;
@@ -34,24 +31,19 @@ import com.kredivation.switchland.fragment.likepagelib.TinderCardAdapter;
 import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
 import com.kredivation.switchland.framework.ServiceCaller;
 import com.kredivation.switchland.model.Data;
-import com.kredivation.switchland.model.Features;
 import com.kredivation.switchland.model.FilterHome;
 import com.kredivation.switchland.model.Home_data;
-import com.kredivation.switchland.model.Home_features;
 import com.kredivation.switchland.model.Home_liked_disliked;
-import com.kredivation.switchland.model.MychoiceArray;
 import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.ServiceContentData;
 import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.Contants;
 import com.kredivation.switchland.utilities.Utility;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -122,6 +114,7 @@ public class TinderFragment extends Fragment {
     String travleId = "";
     String likehomeId = "";
     String likedUserId = "";
+    KoldaMain frameLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -154,6 +147,7 @@ public class TinderFragment extends Fragment {
             }
         }));
         homeList = new ArrayList();
+        matchhomeList = new ArrayList<>();
         this.initializeDeck();
         this.setUpCLickListeners();
         getUserdata();
@@ -175,17 +169,22 @@ public class TinderFragment extends Fragment {
             }
 
             public void onCardSwipedLeft(int position) {
-                //Toast.makeText(getActivity(), "onCardSwipedLeft="+position, Toast.LENGTH_LONG).show();
+                removeMasterListData(position);
                 likeDislike("2", position);
+
             }
 
             public void onCardSwipedRight(int position) {
-                // Toast.makeText(getActivity(), "onCardSwipedRight="+position, Toast.LENGTH_LONG).show();
-                //likeDislike("1", position);
+                removeMasterListData(position);
+                likeDislike("1", position);
             }
 
             public void onEmptyDeck() {
-                alertForNoHomeAvailable();
+                /*if (homeList != null && homeList.size() > 0) {//show only when home exist in same country
+                    alertForNoHomeAvailable();
+                }*/
+                //show only when home exist in same country
+
             }
 
             public void onCardDrag(int position, View cardView, float progress) {
@@ -222,16 +221,20 @@ public class TinderFragment extends Fragment {
             }
 
         }));
-        // setAdapterValue();
+
+        frameLayout = view.findViewById(R.id.koloda);
+        frameLayout.setNeedCircleLoading(false);//for circle loading data after finish all card
+        setAdapterValue(matchhomeList);
+
     }
 
     private void setAdapterValue(ArrayList<Home_data> homes) {
-
-        // this.adapter = new TinderCardAdapter(getContext(), Arrays.asList(data));
+        //this.adapter = new TinderCardAdapter(getContext(), Arrays.asList(data));
         //((KoldaMain) view.findViewById(R.id.koloda)).setAdapter((Adapter) this.adapter);
         cardAdapter = new HomeTinderCardAdapter(context, homes);
-        ((KoldaMain) view.findViewById(R.id.koloda)).setAdapter(cardAdapter);
-        ((KoldaMain) view.findViewById(R.id.koloda)).setNeedCircleLoading(false);//for circle loading data after finish all card
+        frameLayout.setAdapter(cardAdapter);
+        //((KoldaMain) view.findViewById(R.id.koloda)).setAdapter(cardAdapter);
+
     }
 
     private void setUpCLickListeners() {
@@ -296,7 +299,7 @@ public class TinderFragment extends Fragment {
             startDate = filterHome.getStartDate();
             endDate = filterHome.getEndDate();
             cityId = filterHome.getCityId();//its travel cityid
-            countryId = filterHome.getCountryId();
+            countryId = filterHome.getCountryId();//its travel country
             slieepId = filterHome.getSleepsId();
             bedroomId = filterHome.getBedroomsId();
             genderId = filterHome.getGenderId();
@@ -371,6 +374,7 @@ public class TinderFragment extends Fragment {
                                 Home_liked_disliked[] home_liked_disliked = serviceData.getData().getHome_liked_disliked();
                                 if (home_data != null) {
                                     homeList.clear();
+                                    //  matchhomeList.clear();
                                     for (Home_data homeData : home_data) {
                                         if (!checkedHomeLikeOrNot(home_liked_disliked, homeData.getId())) {
                                             homeList.add(homeData);
@@ -408,6 +412,19 @@ public class TinderFragment extends Fragment {
                 homeList.remove(i);
             }
         }
+        matchhomeList.remove(pos);
+        boolean homeFlag = true;
+        if (homeList != null && homeList.size() > 0) {
+            for (Home_data homeData : homeList) {
+                if (homeData.getCity_id().equals(cityId)) {
+                    homeFlag = false;
+                }
+            }
+            if (homeFlag) {
+                alertForNoHomeAvailable();
+            }
+        }
+
     }
 
     //check home like dislike or not
@@ -426,15 +443,15 @@ public class TinderFragment extends Fragment {
 
     //show only same city home
     private void getCityWiseHome() {
-        matchhomeList = new ArrayList<>();
+
         if (homeList != null && homeList.size() > 0) {
             for (Home_data homeData : homeList) {
-                if (homeData.getTravel_city().equals(cityId)) {
+                if (homeData.getCity_id().equals(cityId)) {
                     matchhomeList.add(homeData);
                 }
-
             }
             setAdapterValue(matchhomeList);
+            //cardAdapter.notifyDataSetChanged();
         }
     }
 
@@ -443,19 +460,22 @@ public class TinderFragment extends Fragment {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         Typeface roboto_regular = Typeface.createFromAsset(getContext().getAssets(), "fonts/roboto.regular.ttf");
         final AlertDialog alert = builder.create();
-        View view = alert.getLayoutInflater().inflate(R.layout.no_home_available, null);
-        TextView title = view.findViewById(R.id.title);
+        View alertview = alert.getLayoutInflater().inflate(R.layout.no_home_available, null);
+        TextView title = alertview.findViewById(R.id.title);
         title.setTypeface(roboto_regular);
-        Button ok = view.findViewById(R.id.ok);
+        Button ok = alertview.findViewById(R.id.ok);
         ok.setTypeface(roboto_regular);
-        alert.setCustomTitle(view);
+        alert.setCustomTitle(alertview);
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alert.dismiss();
                 matchhomeList.addAll(homeList);
                 if (matchhomeList != null && matchhomeList.size() > 0) {
+                    //   ((KoldaMain) view.findViewById(R.id.koloda))._$_clearFindViewByIdCache();
+                    //((KoldaMain) view.findViewById(R.id.koloda)).removeAllViews();
                     setAdapterValue(matchhomeList);
+                    //cardAdapter.notifyDataSetChanged();
                 }
             }
         });
@@ -469,7 +489,7 @@ public class TinderFragment extends Fragment {
         // initView();
     }
 
-    private void getLikeDislikCard(final String homeId, final String likeUserId, String status) {
+    private void getLikeDislikCard(final String homeId, final String likeUserId, final String status) {
         if (Utility.isOnline(getContext())) {
             likeDialog = new ASTProgressBar(getContext());
             likeDialog.show();
@@ -493,7 +513,7 @@ public class TinderFragment extends Fragment {
                     if (isComplete) {
                         likehomeId = homeId;//store for rewind
                         likedUserId = likeUserId;
-                        parseLikeDislikeServiceData(result);
+                        parseLikeDislikeServiceData(result, status);
                     } else {
                         if (likeDialog.isShowing()) {
                             likeDialog.dismiss();
@@ -507,12 +527,18 @@ public class TinderFragment extends Fragment {
         }
     }
 
-    public void parseLikeDislikeServiceData(String result) {
+    public void parseLikeDislikeServiceData(String result, String status) {
         if (result != null) {
             final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
             if (serviceData != null) {
                 if (serviceData.isSuccess()) {
-                    getAllHome();
+                    if (status.equals("3")) {//call after rewind
+                        getAllHome();
+                    } else {
+                        if (homeList.size() == 0) {//call when no match home available
+                            getAllHome();
+                        }
+                    }
                 }
             } else {
                 Utility.alertForErrorMessage(Contants.Error, getContext());
