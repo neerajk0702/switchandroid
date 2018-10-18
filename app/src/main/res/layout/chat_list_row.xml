@@ -27,8 +27,8 @@
 
                 <com.kredivation.switchland.utilities.CircleImageView
                     android:id="@+id/userImage"
-                    android:layout_width="@dimen/size_80px"
-                    android:layout_height="@dimen/size_80px"
+                    android:layout_width="@dimen/size_70px"
+                    android:layout_height="@dimen/size_70px"
                     android:src="@mipmap/placeholder" />
 
             </LinearLayout>
