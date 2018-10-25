@@ -763,6 +763,15 @@ public class Data {
     public void setAdded_date(String added_date) {
         this.added_date = added_date;
     }
+private int chatuser;
+
+    public int getChatuser() {
+        return chatuser;
+    }
+
+    public void setChatuser(int chatuser) {
+        this.chatuser = chatuser;
+    }
 
     @Override
     public String toString() {

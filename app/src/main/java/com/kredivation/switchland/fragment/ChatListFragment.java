@@ -182,7 +182,9 @@ public class ChatListFragment extends Fragment {
                                 Data[] chat_data = serviceData.getData();
                                 if (chat_data != null) {
                                     for (Data data : chat_data) {
-                                        chatList.add(data);
+                                        if (data.getChatuser() == 1) {
+                                            chatList.add(data);
+                                        }
                                     }
                                     flag = true;
                                 }
