@@ -224,7 +224,7 @@ public class TinderFragment extends Fragment {
 
         frameLayout = view.findViewById(R.id.koloda);
         frameLayout.setNeedCircleLoading(false);//for circle loading data after finish all card
-        setAdapterValue(matchhomeList);
+       // setAdapterValue(matchhomeList);
 
     }
 
@@ -450,8 +450,12 @@ public class TinderFragment extends Fragment {
                     matchhomeList.add(homeData);
                 }
             }
-            setAdapterValue(matchhomeList);
-            //cardAdapter.notifyDataSetChanged();
+            if (matchhomeList.size() == 0 && homeList.size() > 0) {//check if not match available and other city home available then show popup
+                alertForNoHomeAvailable();
+            } else {
+                setAdapterValue(matchhomeList);
+                //cardAdapter.notifyDataSetChanged();
+            }
         }
     }
 

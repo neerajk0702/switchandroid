@@ -17,12 +17,23 @@ import com.google.gson.reflect.TypeToken;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.adapters.MyChoicesAdapter;
 import com.kredivation.switchland.adapters.MyHomeAdapter;
+import com.kredivation.switchland.adapters.MyLikedChoicesAdapter;
 import com.kredivation.switchland.database.SwitchDBHelper;
+import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
+import com.kredivation.switchland.framework.ServiceCaller;
 import com.kredivation.switchland.model.Data;
+import com.kredivation.switchland.model.LikedmychoiceArray;
 import com.kredivation.switchland.model.MychoiceArray;
 import com.kredivation.switchland.model.MyhomeArray;
+import com.kredivation.switchland.model.ServiceContentData;
+import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.CompatibilityUtility;
+import com.kredivation.switchland.utilities.Contants;
 import com.kredivation.switchland.utilities.FontManager;
+import com.kredivation.switchland.utilities.Utility;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +43,8 @@ public class MyChoicesActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     private String userId;
     private ArrayList<MychoiceArray> myHomeList;
+    ASTProgressBar dotDialog;
+    SwitchDBHelper switchDBHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +61,7 @@ public class MyChoicesActivity extends AppCompatActivity {
     }
 
     private void init() {
+        dotDialog = new ASTProgressBar(MyChoicesActivity.this);
         Typeface materialdesignicons_font = FontManager.getFontTypefaceMaterialDesignIcons(this, "fonts/materialdesignicons-webfont.otf");
         TextView back = toolbar.findViewById(R.id.back);
         back.setTypeface(materialdesignicons_font);
@@ -58,17 +72,12 @@ public class MyChoicesActivity extends AppCompatActivity {
                 finish();
             }
         });
-        SwitchDBHelper switchDBHelper = new SwitchDBHelper(MyChoicesActivity.this);
-        myHomeList = switchDBHelper.getAllMychoiceData();
-        getUserData();
+        switchDBHelper = new SwitchDBHelper(MyChoicesActivity.this);
         recyclerView = findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(MyChoicesActivity.this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        if (myHomeList != null && myHomeList.size() > 0) {
-            MyChoicesAdapter myHomeAdapter = new MyChoicesAdapter(MyChoicesActivity.this, myHomeList);
-            recyclerView.setAdapter(myHomeAdapter);
-        }
+        getUserData();
     }
 
     private void getUserData() {
@@ -79,5 +88,78 @@ public class MyChoicesActivity extends AppCompatActivity {
                 userId = data.getId();
             }
         }
+        getMyHome();
+    }
+
+
+    private void setAdapter() {
+        myHomeList = switchDBHelper.getAllMychoiceData();
+        if (myHomeList != null && myHomeList.size() > 0) {
+            MyChoicesAdapter myHomeAdapter = new MyChoicesAdapter(MyChoicesActivity.this, myHomeList);
+            recyclerView.setAdapter(myHomeAdapter);
+        }
+    }
+
+    //get my home data
+    private void getMyHome() {
+        if (Utility.isOnline(MyChoicesActivity.this)) {
+            //  homeDialog = new ASTProgressBar(SplashScreenActivity.this);
+            dotDialog.show();
+            JSONObject object = new JSONObject();
+            try {
+                object.put("api_key", Contants.API_KEY);
+                object.put("user_id", userId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String serviceURL = Contants.BASE_URL + Contants.MyHome;
+
+            ServiceCaller serviceCaller = new ServiceCaller(MyChoicesActivity.this);
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "getMyHome", new IAsyncWorkCompletedCallback() {
+                @Override
+                public void onDone(String result, boolean isComplete) {
+                    if (isComplete) {
+                        parseHomeServiceData(result);
+                    } else {
+                        if (dotDialog.isShowing()) {
+                            dotDialog.dismiss();
+                        }
+                        Utility.alertForErrorMessage(Contants.Error, MyChoicesActivity.this);
+                    }
+                }
+            });
+        } else {
+            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, MyChoicesActivity.this);//off line msg....
+        }
+    }
+
+    public void parseHomeServiceData(String result) {
+        if (result != null) {
+            final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
+            if (serviceData != null) {
+                if (serviceData.isSuccess()) {
+                    if (serviceData.getData() != null) {
+                        SwitchDBHelper switchDBHelper = new SwitchDBHelper(MyChoicesActivity.this);
+                        switchDBHelper.deleteAllRows("Myhomedata");
+                        switchDBHelper.deleteAllRows("MychoiceData");
+                        switchDBHelper.deleteAllRows("LikedmychoiceData");
+                        for (MyhomeArray myhomeArray : serviceData.getData().getMyhomeArray()) {
+                            switchDBHelper.insertMyhomedata(myhomeArray);
+                        }
+                        for (MychoiceArray mychoiceArray : serviceData.getData().getMychoiceArray()) {
+                            switchDBHelper.inserMychoiceData(mychoiceArray);
+                        }
+                        for (LikedmychoiceArray mychoiceArray : serviceData.getData().getLikedmychoiceArray()) {
+                            switchDBHelper.inserLikedmychoiceData(mychoiceArray);
+                        }
+                    }
+                }
+            }
+        }
+        if (dotDialog.isShowing()) {
+            dotDialog.dismiss();
+        }
+        setAdapter();
     }
 }
