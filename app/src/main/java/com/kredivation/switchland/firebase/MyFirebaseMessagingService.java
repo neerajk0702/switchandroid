@@ -20,6 +20,7 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.kredivation.switchland.R;
+import com.kredivation.switchland.activity.DashboardActivity;
 import com.kredivation.switchland.activity.MainActivity;
 import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
@@ -232,7 +233,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         bundle.putLong("siteID", siteID);
         bundle.putLong("customerID", customerID);
 
-        Intent intent = new Intent(context, MainActivity.class);
+        Intent intent = new Intent(context, DashboardActivity.class);
         intent.putExtra("bindValue", bundle);
         return intent;
     }

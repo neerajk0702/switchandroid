@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,10 +23,17 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.framework.FileUploaderHelper;
+import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
+import com.kredivation.switchland.framework.ServiceCaller;
 import com.kredivation.switchland.model.Bedrooms;
 import com.kredivation.switchland.model.City;
 import com.kredivation.switchland.model.Country;
@@ -51,7 +60,7 @@ import java.util.Locale;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 
-public class CreateFirstTimePostActivity extends AppCompatActivity implements View.OnClickListener {
+public class CreateFirstTimePostActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
 
     Typeface materialdesignicons_font;
@@ -82,6 +91,7 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
     private Toolbar toolbar;
     private ArrayList<String> travelcityList;
     private ArrayList<String> travelcityIdList;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +139,8 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
         dateLayout.setOnClickListener(this);
         edateIcon.setOnClickListener(this);
         submit.setOnClickListener(this);
+        TextView logout = findViewById(R.id.logout);
+        logout.setOnClickListener(this);
 
         TextView back = (TextView) toolbar.findViewById(R.id.back);
         back.setTypeface(materialdesignicons_font);
@@ -140,6 +152,15 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
             }
         });
         setValue();
+        //for gmail login
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
     }
 
     private void setValue() {
@@ -433,6 +454,25 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
                     addHomeServer();
                 }
                 break;
+            case R.id.logout:
+                LoginManager.getInstance().logOut();
+                signOut();
+                Utility.showToast(CreateFirstTimePostActivity.this, "Logout Successfully");
+                SwitchDBHelper switchDBHelper = new SwitchDBHelper(CreateFirstTimePostActivity.this);
+                switchDBHelper.deleteAllRows("userInfo");
+                Intent intent = new Intent(CreateFirstTimePostActivity.this, SplashScreenActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                break;
+        }
+    }
+
+    //gmail logout
+    private void signOut() {
+        if (mGoogleApiClient.isConnected()) {
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+            mGoogleApiClient.disconnect();
+            mGoogleApiClient.connect();
         }
     }
 
@@ -463,8 +503,7 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
                         final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
                         if (serviceData != null) {
                             if (serviceData.isSuccess()) {
-                                Utility.showToast(CreateFirstTimePostActivity.this, serviceData.getMsg());
-                                startActivity(new Intent(CreateFirstTimePostActivity.this, SplashScreenActivity.class));
+                                getUserInfo();
                             } else {
                                 Utility.showToast(CreateFirstTimePostActivity.this, serviceData.getMsg());
                             }
@@ -505,4 +544,55 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
 */
         return multipartBody;
     }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    private void getUserInfo() {
+        final ASTProgressBar progressBar = new ASTProgressBar(CreateFirstTimePostActivity.this);
+        progressBar.show();
+        JSONObject object = new JSONObject();
+        try {
+            object.put("api_key", Contants.API_KEY);
+            object.put("user_id", userId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String serviceURL = Contants.BASE_URL + Contants.Userinfo;
+
+        ServiceCaller serviceCaller = new ServiceCaller(CreateFirstTimePostActivity.this);
+        serviceCaller.CallCommanServiceMethod(serviceURL, object, "UserInfo", new IAsyncWorkCompletedCallback() {
+            @Override
+            public void onDone(String result, boolean isComplete) {
+                if (isComplete) {
+                    if (result != null) {
+                        final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
+                        if (serviceData != null) {
+                            if (serviceData.isSuccess()) {
+                                if (serviceData.getData() != null) {
+                                    SwitchDBHelper switchDBHelper = new SwitchDBHelper(CreateFirstTimePostActivity.this);
+                                    switchDBHelper.upsertUserInfoData(serviceData.getData(), serviceData.getIs_home_available());
+
+                                }
+                            }
+                        }
+                    }
+                    if (progressBar.isShowing()) {
+                        progressBar.dismiss();
+                    }
+                    Utility.showToast(CreateFirstTimePostActivity.this, "Home Added Successfully");
+                    startActivity(new Intent(CreateFirstTimePostActivity.this, SplashScreenActivity.class));
+                } else {
+                    if (progressBar.isShowing()) {
+                        progressBar.dismiss();
+                    }
+                    Utility.alertForErrorMessage(Contants.Error, CreateFirstTimePostActivity.this);
+                }
+            }
+        });
+    }
+
 }

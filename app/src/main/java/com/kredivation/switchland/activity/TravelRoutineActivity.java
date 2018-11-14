@@ -518,7 +518,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
                             filterHome.setCountryId(travelcountryID);
                             filterHome.setCityId(travelcityID);
                             String homeFilter = new Gson().toJson(filterHome);
-                            Intent intent = new Intent(TravelRoutineActivity.this, MainActivity.class);
+                            Intent intent = new Intent(TravelRoutineActivity.this, DashboardActivity.class);
                             intent.putExtra("HomeFilter", homeFilter);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
@@ -598,7 +598,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
                                 filterHome.setCountryId(travelcountryID);
                                 filterHome.setCityId(travelcityID);
                                 String homeFilter = new Gson().toJson(filterHome);
-                                Intent intent = new Intent(TravelRoutineActivity.this, MainActivity.class);
+                                Intent intent = new Intent(TravelRoutineActivity.this, DashboardActivity.class);
                                 intent.putExtra("HomeFilter", homeFilter);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);

@@ -52,7 +52,7 @@ public class ConfirmDetailActivity extends AppCompatActivity implements View.OnC
     String[] hImageName;
     String[] featureName;
     String[] hRuleName;
-    TextView userName, country, city, startdate, enddate, bed, title, descripction;
+    TextView userName, country, city, startdate, enddate, bed, title, descripction, securtyhoster, securtyuser;
     ImageView userImage, homeImage;
     SwitchDBHelper switchDBHelper;
 
@@ -98,6 +98,8 @@ public class ConfirmDetailActivity extends AppCompatActivity implements View.OnC
         descripction = findViewById(R.id.descripction);
         Button continuetopay = findViewById(R.id.continuetopay);
         continuetopay.setOnClickListener(this);
+        securtyhoster = findViewById(R.id.securtyhoster);
+        securtyuser = findViewById(R.id.securtyuser);
 
         hosteruserImage = findViewById(R.id.hosteruserImage);
         hosterhomeImage = findViewById(R.id.hosterhomeImage);
@@ -143,6 +145,7 @@ public class ConfirmDetailActivity extends AppCompatActivity implements View.OnC
                 bed.setText(myhomeArray.getSleeps());
                 title.setText(myhomeArray.getTitle());
                 descripction.setText(myhomeArray.getSort_description());
+                securtyuser.setText(myhomeArray.getLevel_security());
                 Picasso.with(ConfirmDetailActivity.this).load(myhomeArray.getProfile_image()).placeholder(R.drawable.noimage).into(homeImage);
                 setCityAndCountry(myhomeArray.getCountry_id(), myhomeArray.getCity_id());
             }
@@ -410,6 +413,7 @@ public class ConfirmDetailActivity extends AppCompatActivity implements View.OnC
             hosterbed.setText(details.getSleeps());
             hostertitle.setText(details.getTitle());
             hosterdescripction.setText(details.getSort_description());
+            securtyhoster.setText(details.getLevel_security());
             Picasso.with(ConfirmDetailActivity.this).load(details.getProfile_image()).placeholder(R.drawable.noimage).into(hosterhomeImage);
 
         }

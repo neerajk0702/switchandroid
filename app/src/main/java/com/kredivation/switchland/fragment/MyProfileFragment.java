@@ -27,7 +27,6 @@ import com.kredivation.switchland.activity.ChatActivity;
 import com.kredivation.switchland.activity.ConfirmDetailActivity;
 import com.kredivation.switchland.activity.EditProfileActivity;
 import com.kredivation.switchland.activity.HomeDetailActivity;
-import com.kredivation.switchland.activity.MainActivity;
 import com.kredivation.switchland.activity.MyChoicesActivity;
 import com.kredivation.switchland.activity.MyHomeActivity;
 import com.kredivation.switchland.activity.MyLikedChoicesActivity;
@@ -172,7 +171,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
                 }
             }
             if (userHomeId != null && !userHomeId.equals("")) {
-                checkHomeCompleteOrnot();
+                //checkHomeCompleteOrnot();
             }
         }
     }

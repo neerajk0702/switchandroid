@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Random;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.kredivation.switchland.activity.DashboardActivity;
 import com.kredivation.switchland.activity.MainActivity;
 
 import android.app.Notification;
@@ -117,7 +118,7 @@ public class FNFirebaseMessagingService extends FirebaseMessagingService {
 		bundle.putLong("siteID", siteID);
 		bundle.putLong("customerID", customerID);
 
-		Intent intent = new Intent(context, MainActivity.class);
+		Intent intent = new Intent(context, DashboardActivity.class);
 		intent.putExtra("bindValue", bundle);
 		return intent;
 	}

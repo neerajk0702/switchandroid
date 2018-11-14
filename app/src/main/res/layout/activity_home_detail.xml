@@ -37,8 +37,8 @@
                         android:layout_weight="0.2"
                         android:gravity="center"
                         android:text="ic"
-                        android:textColor="#fff"
-                        android:textSize="@dimen/dimTextSize_18"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/dimTextSize_20"
                         android:textStyle="bold"
                         android:visibility="visible" />
 
@@ -48,7 +48,7 @@
                         android:layout_weight="0.5"
                         android:gravity="center"
                         android:text="Home Detail"
-                        android:textColor="#fff"
+                        android:textColor="@color/colorAccent"
                         android:textSize="@dimen/dimTextSize_18" />
 
                     <Button
@@ -165,7 +165,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text=""
-                                android:textColor="@color/orange"
+                                android:textColor="@color/colorAccent"
                                 android:textSize="@dimen/dimTextSize_14" />
 
                             <TextView
@@ -194,7 +194,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text=""
-                                android:textColor="@color/orange"
+                                android:textColor="@color/colorAccent"
                                 android:textSize="@dimen/dimTextSize_14" />
 
                             <TextView
@@ -223,7 +223,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text=""
-                                android:textColor="@color/orange"
+                                android:textColor="@color/colorAccent"
                                 android:textSize="@dimen/dimTextSize_14" />
 
                             <TextView
@@ -279,7 +279,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.6"
                                 android:text="Gender:"
-                                android:textColor="@color/orange"
+                                android:textColor="@color/colorAccent"
                                 android:textSize="@dimen/dimTextSize_14" />
                         </LinearLayout>
 
@@ -303,7 +303,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.6"
                                 android:text="Religion:"
-                                android:textColor="@color/orange"
+                                android:textColor="@color/colorAccent"
                                 android:textSize="@dimen/dimTextSize_14" />
                         </LinearLayout>
 
@@ -327,7 +327,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.6"
                                 android:text="Security Level:"
-                                android:textColor="@color/orange"
+                                android:textColor="@color/colorAccent"
                                 android:textSize="@dimen/dimTextSize_14" />
                         </LinearLayout>
                     </LinearLayout>
@@ -375,7 +375,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.6"
                                 android:text=""
-                                android:textColor="@color/orange"
+                                android:textColor="@color/colorAccent"
                                 android:textSize="@dimen/dimTextSize_14" />
                         </LinearLayout>
 
@@ -399,7 +399,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.6"
                                 android:text=""
-                                android:textColor="@color/orange"
+                                android:textColor="@color/colorAccent"
                                 android:textSize="@dimen/dimTextSize_14" />
                         </LinearLayout>
 
@@ -423,7 +423,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.6"
                                 android:text=""
-                                android:textColor="@color/orange"
+                                android:textColor="@color/colorAccent"
                                 android:textSize="@dimen/dimTextSize_14" />
                         </LinearLayout>
 
@@ -447,7 +447,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.6"
                                 android:text=""
-                                android:textColor="@color/orange"
+                                android:textColor="@color/colorAccent"
                                 android:textSize="@dimen/dimTextSize_14" />
                         </LinearLayout>
 
@@ -471,7 +471,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.6"
                                 android:text=""
-                                android:textColor="@color/orange"
+                                android:textColor="@color/colorAccent"
                                 android:textSize="@dimen/dimTextSize_14" />
                         </LinearLayout>
                     </LinearLayout>

@@ -230,9 +230,9 @@
     <color name="blue_color_new">#4ac1ff</color>
     <color name="gray_new">#757b86</color>
     <color name="select_color">#3e4656</color>
-    <color name="colorPrimary">#096CCC</color>
-    <color name="colorPrimaryDark">#0968B6</color>
-    <color name="colorAccent">@color/orange</color>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="colorAccent">#F46F6C</color>
 
     <color name="yellow_light">#E7DA7E</color>
     <color name="yellow_dark">#DCCB49</color>

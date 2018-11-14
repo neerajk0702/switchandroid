@@ -29,24 +29,20 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
     private String userId;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        ImageView userImage, myImage;
-        TextView commentDescription, timing, userName;
-        TextView rightArrowIcon, leftArrowIcon;
-        CardView cardView;
-        LinearLayout rightTrangle, leftTrangle;
+        TextView servermsg, servertiming, serveruserName;
+        TextView mycomment, mytiming, myName;
+        LinearLayout myside, serverside;
 
         public MyViewHolder(View view) {
             super(view);
-            cardView = view.findViewById(R.id.cardView);
-            userImage = view.findViewById(R.id.userImage);
-            myImage = view.findViewById(R.id.myImage);
-            commentDescription = view.findViewById(R.id.commentDescription);
-            timing = view.findViewById(R.id.timing);
-            userName = view.findViewById(R.id.userName);
-            rightArrowIcon = view.findViewById(R.id.rightArrowIcon);
-            leftArrowIcon = view.findViewById(R.id.leftArrowIcon);
-            rightTrangle = view.findViewById(R.id.rightTrangle);
-            leftTrangle = view.findViewById(R.id.leftTrangle);
+            servermsg = view.findViewById(R.id.servermsg);
+            servertiming = view.findViewById(R.id.servertiming);
+            serveruserName = view.findViewById(R.id.serveruserName);
+            mycomment = view.findViewById(R.id.mycomment);
+            mytiming = view.findViewById(R.id.mytiming);
+            myName = view.findViewById(R.id.myName);
+            myside = view.findViewById(R.id.myside);
+            serverside = view.findViewById(R.id.serverside);
 
         }
     }
@@ -69,30 +65,27 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        holder.rightArrowIcon.setTypeface(materialdesignicons_font);
+       /* holder.rightArrowIcon.setTypeface(materialdesignicons_font);
         holder.rightArrowIcon.setText(Html.fromHtml("&#xf142;"));
         holder.leftArrowIcon.setTypeface(materialdesignicons_font);
-        holder.leftArrowIcon.setText(Html.fromHtml("&#xf141;"));
+        holder.leftArrowIcon.setText(Html.fromHtml("&#xf141;"));*/
         if (userId.equals(megList.get(position).getFrom_user_id())) {
-            holder.leftTrangle.setVisibility(View.VISIBLE);
-            holder.rightTrangle.setVisibility(View.GONE);
-            Picasso.with(mContext).load(megList.get(position).getProfile_image()).placeholder(R.drawable.avter).resize(45, 45).into(holder.myImage);
-            holder.userName.setText(megList.get(position).getFull_name());
+            holder.myside.setVisibility(View.VISIBLE);
+            holder.serverside.setVisibility(View.GONE);
+            // Picasso.with(mContext).load(megList.get(position).getProfile_image()).placeholder(R.drawable.avter).resize(45, 45).into(holder.myImage);
+            holder.myName.setText(megList.get(position).getFull_name());
+            holder.mycomment.setText(megList.get(position).getMessage());
+            holder.mytiming.setText(megList.get(position).getMsg_add_date());
         } else {
-            holder.leftTrangle.setVisibility(View.GONE);
-            holder.rightTrangle.setVisibility(View.VISIBLE);
-            Picasso.with(mContext).load(megList.get(position).getProfile_image()).placeholder(R.drawable.avter).resize(45, 45).into(holder.userImage);
-            holder.userName.setText(megList.get(position).getFull_name());
+            holder.myside.setVisibility(View.GONE);
+            holder.serverside.setVisibility(View.VISIBLE);
+            // Picasso.with(mContext).load(megList.get(position).getProfile_image()).placeholder(R.drawable.avter).resize(45, 45).into(holder.userImage);
+            holder.serveruserName.setText(megList.get(position).getFull_name());
+            holder.servermsg.setText(megList.get(position).getMessage());
+            holder.servertiming.setText(megList.get(position).getMsg_add_date());
         }
-        holder.commentDescription.setText(megList.get(position).getMessage());
-        holder.timing.setText(megList.get(position).getMsg_add_date());
 
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
     }
 
     @Override

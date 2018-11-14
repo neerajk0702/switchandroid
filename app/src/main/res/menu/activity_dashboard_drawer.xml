@@ -5,34 +5,33 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/home"
+            android:icon="@drawable/ic_home"
+            android:title="Home" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/notification"
+            android:icon="@drawable/ic_notification"
+            android:title="Notification" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/how"
+            android:icon="@drawable/ic_network"
+            android:title="How it works" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/invite"
+            android:icon="@drawable/ic_multi_user"
+            android:title="Invite Friends" />
+        <item
+            android:id="@+id/help"
+            android:icon="@drawable/ic_support"
+            android:title="Help and Support" />
+        <item
+            android:id="@+id/Policies"
+            android:icon="@drawable/ic_policy"
+            android:title="Policies" />
+        <item
+            android:id="@+id/Terms"
+            android:icon="@drawable/ic_agreement"
+            android:title="Terms and Condition" />
     </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
 
 </menu>

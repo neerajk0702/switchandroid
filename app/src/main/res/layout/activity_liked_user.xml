@@ -34,8 +34,8 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="ic"
-                        android:textColor="#fff"
-                        android:textSize="@dimen/dimTextSize_18"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/dimTextSize_20"
                         android:textStyle="bold"
                         android:visibility="visible" />
 
@@ -45,7 +45,7 @@
                         android:gravity="center"
                         android:text="Liked Users"
                         android:layout_marginRight="@dimen/_20dp"
-                        android:textColor="#fff"
+                        android:textColor="@color/colorAccent"
                         android:textSize="@dimen/dimTextSize_18" />
                 </LinearLayout>
             </android.support.v7.widget.Toolbar>

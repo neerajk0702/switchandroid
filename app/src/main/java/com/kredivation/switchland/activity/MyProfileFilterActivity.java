@@ -491,7 +491,7 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
                     filterHome.setCountryId(countryId);
                     filterHome.setCityId(cityId);
                     String homeFilter = new Gson().toJson(filterHome);
-                    Intent intent = new Intent(MyProfileFilterActivity.this, MainActivity.class);
+                    Intent intent = new Intent(MyProfileFilterActivity.this, DashboardActivity.class);
                     intent.putExtra("HomeFilter", homeFilter);
                     startActivity(intent);
                 }

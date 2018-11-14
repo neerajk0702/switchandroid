@@ -136,11 +136,12 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         if (userData != null && userData.size() > 0) {
             for (Data data : userData) {
                 userId = data.getId();
-                if (data.getFull_name() != null && !data.getFull_name().equals("")) {
+                /*if (data.getFull_name() != null && !data.getFull_name().equals("")) {
                     firstName.setText(data.getFull_name());
                 } else {
                     firstName.setText(data.getFirst_name());
-                }
+                }*/
+                firstName.setText(data.getFirst_name());
                 lastName.setText(data.getLast_name());
                 email.setText(data.getEmail());
                 phone.setText(data.getMobile_number());
@@ -326,7 +327,12 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 @Override
                 public void onDone(String result, boolean isComplete) {
                     if (isComplete) {
-                        parseUpdateServiceData(result);
+                       // parseUpdateServiceData(result);
+                        if (dotDialog.isShowing()) {
+                            dotDialog.dismiss();
+                        }
+                        getUserInfo();
+                        Utility.showToast(EditProfileActivity.this, "Profile Update Success");
                     } else {
                         Utility.alertForErrorMessage(Contants.Error, EditProfileActivity.this);
                     }
@@ -575,5 +581,46 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
         return multipartBody;
     }
+    private void getUserInfo() {
+        final ASTProgressBar progressBar = new ASTProgressBar(EditProfileActivity.this);
+        progressBar.show();
+        JSONObject object = new JSONObject();
+        try {
+            object.put("api_key", Contants.API_KEY);
+            object.put("user_id", userId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
+        String serviceURL = Contants.BASE_URL + Contants.Userinfo;
+
+        ServiceCaller serviceCaller = new ServiceCaller(EditProfileActivity.this);
+        serviceCaller.CallCommanServiceMethod(serviceURL, object, "UserInfo", new IAsyncWorkCompletedCallback() {
+            @Override
+            public void onDone(String result, boolean isComplete) {
+                if (isComplete) {
+                    if (result != null) {
+                        final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
+                        if (serviceData != null) {
+                            if (serviceData.isSuccess()) {
+                                if (serviceData.getData() != null) {
+                                    SwitchDBHelper switchDBHelper = new SwitchDBHelper(EditProfileActivity.this);
+                                    switchDBHelper.upsertUserInfoData(serviceData.getData(), serviceData.getIs_home_available());
+
+                                }
+                            }
+                        }
+                    }
+                    if (progressBar.isShowing()) {
+                        progressBar.dismiss();
+                    }
+                } else {
+                    if (progressBar.isShowing()) {
+                        progressBar.dismiss();
+                    }
+                    Utility.alertForErrorMessage(Contants.Error, EditProfileActivity.this);
+                }
+            }
+        });
+    }
 }

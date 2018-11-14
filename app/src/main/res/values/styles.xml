@@ -93,4 +93,6 @@
         <item name="android:windowEnterAnimation">@anim/bottom_up_screen</item>
         <item name="android:windowExitAnimation">@anim/right_to_left_slider</item>
     </style>
+
+
 </resources>

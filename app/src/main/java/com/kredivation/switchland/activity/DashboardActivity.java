@@ -33,6 +33,7 @@ import com.kredivation.switchland.R;
 import com.kredivation.switchland.fragment.AddHomeFragment;
 import com.kredivation.switchland.fragment.ChatListFragment;
 import com.kredivation.switchland.fragment.CreateFirstTimePostFragment;
+import com.kredivation.switchland.fragment.DashboardFragment;
 import com.kredivation.switchland.fragment.LikeDislikeFragment;
 import com.kredivation.switchland.fragment.TinderFragment;
 import com.kredivation.switchland.runtimepermission.PermissionResultCallback;
@@ -49,6 +50,7 @@ public class DashboardActivity extends AppCompatActivity
     PermissionUtils permissionUtils;
     private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 1;
     private int REQUEST_CODE_GPS_PERMISSIONS = 2;
+    String homeFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,16 +63,18 @@ public class DashboardActivity extends AppCompatActivity
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
+        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.Black_A));
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        homeFilter = getIntent().getStringExtra("HomeFilter");//come from Myprofilefilter, Travelroutin screen
         setUpDashboardFragment();
     }
 
     //open default fragment
     private void setUpDashboardFragment() {
-        Fragment fragment = AddHomeFragment.newInstance("", "");
+        Fragment fragment = DashboardFragment.newInstance(homeFilter, "");
         moveFragment(fragment);
     }
 
@@ -125,27 +129,44 @@ public class DashboardActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            Fragment fragment = TinderFragment.newInstance("", "");
-            moveFragment(fragment);
-        } else if (id == R.id.nav_gallery) {
-            Fragment fragment = LikeDislikeFragment.newInstance("", "");
-            moveFragment(fragment);
-        } else if (id == R.id.nav_slideshow) {
-            Fragment fragment = CreateFirstTimePostFragment.newInstance("", "");
-            moveFragment(fragment);
-        } else if (id == R.id.nav_manage) {
+        if (id == R.id.notification) {
+            startActivity(new Intent(DashboardActivity.this, NotificationActivity.class));
+        } else if (id == R.id.how) {
+            startActivity(new Intent(DashboardActivity.this, AppTourActivity.class));
+        } else if (id == R.id.invite) {
+            inviteFriend();
+        } else if (id == R.id.help) {
             Fragment fragment = ChatListFragment.newInstance("", "");
             moveFragment(fragment);
-        } else if (id == R.id.nav_share) {
-            startActivity(new Intent(DashboardActivity.this, MyProfileFilterActivity.class));
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.Policies) {
+            // startActivity(new Intent(DashboardActivity.this, MyProfileFilterActivity.class));
+        } else if (id == R.id.Terms) {
 
+        } else if (id == R.id.home) {
+            Intent intent = new Intent(DashboardActivity.this, DashboardActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void inviteFriend() {
+        try {
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("text/plain");
+            i.putExtra(Intent.EXTRA_SUBJECT, "Switch");
+            String strShareMessage = "\nLet me recommend you this application\n\n";
+            strShareMessage = strShareMessage + "https://play.google.com/store/apps/details?id=" + getPackageName();
+            Uri screenshotUri = Uri.parse("android.resource://packagename/drawable/ic_switchland_logo");
+            i.setType("image/png");
+            i.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+            i.putExtra(Intent.EXTRA_TEXT, strShareMessage);
+            startActivity(Intent.createChooser(i, "Share via"));
+        } catch (Exception e) {
+            //e.toString();
+        }
     }
 
     //for hid keyboard when tab outside edittext box

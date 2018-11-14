@@ -781,7 +781,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             intent = new Intent(SignUpActivity.this, AppTourActivity.class);
         } else {
             if (is_home_available == 1) {
-                intent = new Intent(SignUpActivity.this, MainActivity.class);
+                intent = new Intent(SignUpActivity.this, DashboardActivity.class);
             } else {
                 intent = new Intent(SignUpActivity.this, CreateFirstTimePostActivity.class);
             }

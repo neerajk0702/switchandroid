@@ -138,7 +138,7 @@
                 android:gravity="left|center"
                 android:padding="10dp"
                 android:text="Previous"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorAccent"
                 android:textSize="22sp" />
 
             <LinearLayout
@@ -157,7 +157,7 @@
                     android:paddingBottom="16dp"
                     android:paddingTop="16dp"
                     android:text="Next"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorAccent"
                     android:textSize="16sp" />
 
                 <TextView
@@ -167,7 +167,7 @@
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="Ne"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorAccent"
                     android:textSize="22sp" />
             </LinearLayout>
 
@@ -180,7 +180,7 @@
                 android:paddingRight="20dp"
                 android:paddingTop="16dp"
                 android:text="Confirm"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorAccent"
                 android:textSize="16sp"
                 android:visibility="gone" />
         </LinearLayout>

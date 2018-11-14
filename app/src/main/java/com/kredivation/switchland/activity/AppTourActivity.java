@@ -151,7 +151,7 @@ public class AppTourActivity extends AppCompatActivity implements ViewPager.OnPa
             }
             Intent intent;
             if (sflag) {
-                intent = new Intent(AppTourActivity.this, MainActivity.class);
+                intent = new Intent(AppTourActivity.this, DashboardActivity.class);
             } else {
                 intent = new Intent(AppTourActivity.this, CreateFirstTimePostActivity.class);
             }

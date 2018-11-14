@@ -159,7 +159,7 @@
                 android:gravity="left|center"
                 android:padding="10dp"
                 android:text="Previous"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorAccent"
                 android:textSize="22sp" />
 
             <TextView
@@ -171,7 +171,7 @@
                 android:paddingRight="20dp"
                 android:paddingTop="16dp"
                 android:text="Submit"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorAccent"
                 android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>

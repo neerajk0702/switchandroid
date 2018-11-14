@@ -36,8 +36,8 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="ic"
-                        android:textColor="#fff"
-                        android:textSize="@dimen/dimTextSize_18"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/dimTextSize_20"
                         android:textStyle="bold"
                         android:visibility="visible" />
 
@@ -46,7 +46,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="Confirm Detail"
-                        android:textColor="#fff"
+                        android:textColor="@color/colorAccent"
                         android:textSize="@dimen/dimTextSize_18" />
 
                 </LinearLayout>
@@ -231,7 +231,29 @@
                                     android:textColor="@color/secondry_txt_color"
                                     android:textSize="@dimen/dimTextSize_14" />
                             </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5dp"
+                                android:orientation="horizontal">
 
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.4"
+                                    android:text="Level of Security"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="@dimen/dimTextSize_14" />
+
+                                <TextView
+                                    android:id="@+id/securtyuser"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.6"
+                                    android:text=""
+                                    android:textColor="@color/secondry_txt_color"
+                                    android:textSize="@dimen/dimTextSize_14" />
+                            </LinearLayout>
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/_100dp"
@@ -432,7 +454,29 @@
                                     android:textColor="@color/secondry_txt_color"
                                     android:textSize="@dimen/dimTextSize_14" />
                             </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5dp"
+                                android:orientation="horizontal">
 
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.4"
+                                    android:text="Level of Security"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="@dimen/dimTextSize_14" />
+
+                                <TextView
+                                    android:id="@+id/securtyhoster"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.6"
+                                    android:text=""
+                                    android:textColor="@color/secondry_txt_color"
+                                    android:textSize="@dimen/dimTextSize_14" />
+                            </LinearLayout>
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/_100dp"

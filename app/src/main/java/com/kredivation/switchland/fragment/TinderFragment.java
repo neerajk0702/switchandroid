@@ -4,6 +4,7 @@ package com.kredivation.switchland.fragment;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kredivation.switchland.R;
+import com.kredivation.switchland.activity.DashboardActivity;
 import com.kredivation.switchland.adapters.HomeTinderCardAdapter;
 import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.fragment.likepagelib.KoldaListnerJava;
@@ -169,14 +171,13 @@ public class TinderFragment extends Fragment {
             }
 
             public void onCardSwipedLeft(int position) {
-                removeMasterListData(position);
                 likeDislike("2", position);
-
+                removeMasterListData(position);
             }
 
             public void onCardSwipedRight(int position) {
-                removeMasterListData(position);
                 likeDislike("1", position);
+                removeMasterListData(position);
             }
 
             public void onEmptyDeck() {
@@ -224,7 +225,7 @@ public class TinderFragment extends Fragment {
 
         frameLayout = view.findViewById(R.id.koloda);
         frameLayout.setNeedCircleLoading(false);//for circle loading data after finish all card
-       // setAdapterValue(matchhomeList);
+        // setAdapterValue(matchhomeList);
 
     }
 
@@ -242,9 +243,9 @@ public class TinderFragment extends Fragment {
         ImageView dislike = view.findViewById(R.id.activityMain).findViewById(R.id.dislike);
         ImageView like = view.findViewById(R.id.activityMain).findViewById(R.id.like);
         final Button skip = view.findViewById(R.id.skip);
-        Utility.setBackgroundOval(context, skip, R.color.blue_color, Utility.getColor(context, R.color.gray), 0);
-        Utility.setBackgroundRing(context, dislike, R.color.light_gray_color, Utility.getColor(context, R.color.light_gray_color), 0);
-        Utility.setBackgroundRing(context, like, R.color.light_gray_color, Utility.getColor(context, R.color.light_gray_color), 0);
+        // Utility.setBackgroundOval(context, skip, R.color.Black_A, Utility.getColor(context, R.color.gray), 0);
+        //  Utility.setBackgroundRing(context, dislike, R.color.light_gray_color, Utility.getColor(context, R.color.light_gray_color), 0);
+        // Utility.setBackgroundRing(context, like, R.color.light_gray_color, Utility.getColor(context, R.color.light_gray_color), 0);
         dislike.setOnClickListener((View.OnClickListener) (new View.OnClickListener() {
             public void onClick(View it) {
                 ((KoldaMain) view.findViewById(R.id.koloda)).onClickLeft();
@@ -420,8 +421,10 @@ public class TinderFragment extends Fragment {
                     homeFlag = false;
                 }
             }
-            if (homeFlag) {
-                alertForNoHomeAvailable();
+            if (matchhomeList.size() == 0) {
+                if (homeFlag) {
+                    alertForNoHomeAvailable();
+                }
             }
         }
 
@@ -473,7 +476,6 @@ public class TinderFragment extends Fragment {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alert.dismiss();
                 matchhomeList.addAll(homeList);
                 if (matchhomeList != null && matchhomeList.size() > 0) {
                     //   ((KoldaMain) view.findViewById(R.id.koloda))._$_clearFindViewByIdCache();
@@ -481,6 +483,7 @@ public class TinderFragment extends Fragment {
                     setAdapterValue(matchhomeList);
                     //cardAdapter.notifyDataSetChanged();
                 }
+                alert.dismiss();
             }
         });
         alert.show();
@@ -537,10 +540,16 @@ public class TinderFragment extends Fragment {
             if (serviceData != null) {
                 if (serviceData.isSuccess()) {
                     if (status.equals("3")) {//call after rewind
-                        getAllHome();
+                        // getAllHome();
+                        Intent intent = new Intent(getActivity(), DashboardActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
                     } else {
-                        if (homeList.size() == 0) {//call when no match home available
-                            getAllHome();
+                        if (homeList.size() == 0) {//call when no home available
+                            // getAllHome();
+                            Intent intent = new Intent(getActivity(), DashboardActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
                         }
                     }
                 }

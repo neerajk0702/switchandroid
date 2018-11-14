@@ -539,7 +539,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             intent = new Intent(SigninActivity.this, AppTourActivity.class);
         } else {
             if (is_home_available == 1) {
-                intent = new Intent(SigninActivity.this, MainActivity.class);
+                intent = new Intent(SigninActivity.this, DashboardActivity.class);
             } else {
                 intent = new Intent(SigninActivity.this, CreateFirstTimePostActivity.class);
             }

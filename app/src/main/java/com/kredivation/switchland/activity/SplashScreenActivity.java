@@ -371,7 +371,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             intent = new Intent(SplashScreenActivity.this, AppTourActivity.class);
         } else {
             if (postavaliableOrnot) {
-                intent = new Intent(SplashScreenActivity.this, MainActivity.class);
+                intent = new Intent(SplashScreenActivity.this, DashboardActivity.class);
             } else {
                 intent = new Intent(SplashScreenActivity.this, CreateFirstTimePostActivity.class);
             }

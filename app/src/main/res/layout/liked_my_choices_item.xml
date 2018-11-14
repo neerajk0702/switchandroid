@@ -120,7 +120,7 @@
                         android:layout_marginLeft="@dimen/_7dp"
                         android:gravity="left|center"
                         android:text="Liked Users"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor="@color/colorAccent"
                         android:textSize="@dimen/_12dp" />
                 </LinearLayout>
             </LinearLayout>

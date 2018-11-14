@@ -82,11 +82,9 @@
     <dimen name="dimValue_45">75.15dip</dimen>
     <dimen name="dimValue_50">83.5dip</dimen>
     <dimen name="dimValue_55">91.85dip</dimen>
-    <dimen name="dimValue_73">121.9dip</dimen>
     <dimen name="dimValue_80">133.6dip</dimen>
     <dimen name="dimValue_85">141.9dip</dimen>
     <dimen name="dimValue_90">150.3dip</dimen>
-    <dimen name="dimValue_100">167dip</dimen>
 
     <dimen name="dimValue_110">177dip</dimen>
     <dimen name="dimValue_111">178dip</dimen>
