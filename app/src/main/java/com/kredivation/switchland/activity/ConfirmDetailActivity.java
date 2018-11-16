@@ -55,6 +55,7 @@ public class ConfirmDetailActivity extends AppCompatActivity implements View.OnC
     TextView userName, country, city, startdate, enddate, bed, title, descripction, securtyhoster, securtyuser;
     ImageView userImage, homeImage;
     SwitchDBHelper switchDBHelper;
+    String userSecurity;
 
     ImageView hosteruserImage, hosterhomeImage;
     TextView hosteruseruserName, hostercountry, hostercity, hosterstartdate, hosterenddate, hosterbed, hostertitle, hosterdescripction;
@@ -146,6 +147,7 @@ public class ConfirmDetailActivity extends AppCompatActivity implements View.OnC
                 title.setText(myhomeArray.getTitle());
                 descripction.setText(myhomeArray.getSort_description());
                 securtyuser.setText(myhomeArray.getLevel_security());
+                userSecurity = myhomeArray.getLevel_security();
                 Picasso.with(ConfirmDetailActivity.this).load(myhomeArray.getProfile_image()).placeholder(R.drawable.noimage).into(homeImage);
                 setCityAndCountry(myhomeArray.getCountry_id(), myhomeArray.getCity_id());
             }
@@ -416,6 +418,11 @@ public class ConfirmDetailActivity extends AppCompatActivity implements View.OnC
             securtyhoster.setText(details.getLevel_security());
             Picasso.with(ConfirmDetailActivity.this).load(details.getProfile_image()).placeholder(R.drawable.noimage).into(hosterhomeImage);
 
+            if (Integer.parseInt(userSecurity) < Integer.parseInt(details.getLevel_security())) {
+                Utility.alertForErrorMessage("Hoster Security Level is high as compare to you!", ConfirmDetailActivity.this);
+            } else if (Integer.parseInt(userSecurity) > Integer.parseInt(details.getLevel_security())) {
+                Utility.alertForErrorMessage("Your Security Level is high as compare to Hoster!", ConfirmDetailActivity.this);
+            }
         }
     }
 
