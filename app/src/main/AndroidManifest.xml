@@ -148,11 +148,13 @@
         </service>
 
         <activity android:name=".activity.LikedUserActivity" />
-        <activity android:name=".activity.NotificationActivity"></activity>
+        <activity android:name=".activity.NotificationActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
+        <activity android:name=".activity.HelpActivity"></activity>
     </application>
 
 </manifest>

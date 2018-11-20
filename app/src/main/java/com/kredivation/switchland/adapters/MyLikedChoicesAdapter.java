@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kredivation.switchland.R;
+import com.kredivation.switchland.activity.HomeDetailActivity;
 import com.kredivation.switchland.activity.LikedUserActivity;
 import com.kredivation.switchland.model.LikedmychoiceArray;
 import com.kredivation.switchland.model.MychoiceArray;
@@ -76,12 +77,22 @@ public class MyLikedChoicesAdapter extends RecyclerView.Adapter<MyLikedChoicesAd
         holder.enddate.setText("To " + myHomeList.get(position).getEnddate());
         holder.likedUser.setPaintFlags(holder.likedUser.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         Picasso.with(mContext).load(myHomeList.get(position).getHome_image()).placeholder(R.drawable.home_default).into(holder.homeimage);
-        holder.likedUser.setOnClickListener(new View.OnClickListener() {
+      /*  holder.likedUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, LikedUserActivity.class);
                 intent.putExtra("HomeId", myHomeList.get(position).getHome_id());
                 mContext.startActivity(intent);
+            }
+        });*/
+        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent homeintent = new Intent(mContext, HomeDetailActivity.class);
+                homeintent.putExtra("HomeId", myHomeList.get(position).getHome_id());
+                homeintent.putExtra("SenderUserId", myHomeList.get(position).getUser_id());
+                homeintent.putExtra("EditFlage", false);
+                mContext.startActivity(homeintent);
             }
         });
     }

@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.kredivation.switchland.fragment.ChatListFragment;
 import com.kredivation.switchland.fragment.CreateFirstTimePostFragment;
+import com.kredivation.switchland.fragment.MyProfileFilterFragment;
 import com.kredivation.switchland.fragment.MyProfileFragment;
 import com.kredivation.switchland.fragment.TinderFragment;
 
@@ -29,7 +30,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
         //Returning the current tabs
         switch (position) {
             case 0:
-                Fragment tab1 = MyProfileFragment.newInstance("", "");
+                Fragment tab1 = MyProfileFilterFragment.newInstance("", "");
                 return tab1;
             case 1:
 

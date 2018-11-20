@@ -1,6 +1,7 @@
 package com.kredivation.switchland.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kredivation.switchland.R;
+import com.kredivation.switchland.activity.HomeDetailActivity;
 import com.kredivation.switchland.model.MychoiceArray;
 import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.utilities.FontManager;
@@ -71,6 +73,17 @@ public class MyChoicesAdapter extends RecyclerView.Adapter<MyChoicesAdapter.MyVi
         holder.startdate.setText("From " + myHomeList.get(position).getStartdate());
         holder.enddate.setText("To " + myHomeList.get(position).getEnddate());
         Picasso.with(mContext).load(myHomeList.get(position).getHome_image()).placeholder(R.drawable.home_default).into(holder.homeimage);
+
+        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent homeintent = new Intent(mContext, HomeDetailActivity.class);
+                homeintent.putExtra("HomeId", myHomeList.get(position).getHome_id());
+                homeintent.putExtra("SenderUserId", myHomeList.get(position).getUser_id());
+                homeintent.putExtra("EditFlage", false);
+                mContext.startActivity(homeintent);
+            }
+        });
     }
 
     @Override

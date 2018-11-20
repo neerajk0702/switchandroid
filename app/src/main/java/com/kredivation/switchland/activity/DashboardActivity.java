@@ -28,16 +28,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.kredivation.switchland.R;
+import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.fragment.AddHomeFragment;
 import com.kredivation.switchland.fragment.ChatListFragment;
 import com.kredivation.switchland.fragment.CreateFirstTimePostFragment;
 import com.kredivation.switchland.fragment.DashboardFragment;
 import com.kredivation.switchland.fragment.LikeDislikeFragment;
 import com.kredivation.switchland.fragment.TinderFragment;
+import com.kredivation.switchland.model.Data;
+import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.runtimepermission.PermissionResultCallback;
 import com.kredivation.switchland.runtimepermission.PermissionUtils;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -51,6 +57,8 @@ public class DashboardActivity extends AppCompatActivity
     private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 1;
     private int REQUEST_CODE_GPS_PERMISSIONS = 2;
     String homeFilter;
+    TextView loginUsrName,loginUserEmailId;
+    ImageView sliderProfileImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +77,34 @@ public class DashboardActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         homeFilter = getIntent().getStringExtra("HomeFilter");//come from Myprofilefilter, Travelroutin screen
+        View headerLayout = navigationView.getHeaderView(0);
+        loginUsrName = headerLayout.findViewById(R.id.loginUsrName);
+        loginUserEmailId = headerLayout.findViewById(R.id.loginUserEmailId);
+        sliderProfileImg = headerLayout.findViewById(R.id.proImage);
         setUpDashboardFragment();
+        // setProfileInfo();
+    }
+
+    private void setProfileInfo() {
+        SwitchDBHelper switchDBHelper = new SwitchDBHelper(DashboardActivity.this);
+        ArrayList<Data> userData = switchDBHelper.getAllUserInfoList();
+        if (userData != null && userData.size() > 0) {
+            for (Data data : userData) {
+                if (data.getFull_name() != null && !data.getFirst_name().equals("")) {
+                    loginUsrName.setText(data.getFull_name());
+                } else {
+                    loginUsrName.setText(data.getFirst_name() + " " + data.getLast_name());
+                }
+                 loginUserEmailId.setText(data.getEmail());
+                Picasso.with(DashboardActivity.this).load(data.getProfile_image()).resize(55, 55).placeholder(R.drawable.userimage).into(sliderProfileImg);
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setProfileInfo();
     }
 
     //open default fragment
@@ -136,8 +171,8 @@ public class DashboardActivity extends AppCompatActivity
         } else if (id == R.id.invite) {
             inviteFriend();
         } else if (id == R.id.help) {
-            Fragment fragment = ChatListFragment.newInstance("", "");
-            moveFragment(fragment);
+            Intent myintent = new Intent(DashboardActivity.this, HelpActivity.class);
+            startActivity(myintent);
         } else if (id == R.id.Policies) {
             // startActivity(new Intent(DashboardActivity.this, MyProfileFilterActivity.class));
         } else if (id == R.id.Terms) {
@@ -145,6 +180,21 @@ public class DashboardActivity extends AppCompatActivity
         } else if (id == R.id.home) {
             Intent intent = new Intent(DashboardActivity.this, DashboardActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } else if (id == R.id.myhome) {
+            Intent myintent = new Intent(DashboardActivity.this, MyHomeActivity.class);
+            startActivity(myintent);
+        } else if (id == R.id.Mychoices) {
+            Intent choicesintent = new Intent(DashboardActivity.this, MyChoicesActivity.class);
+            startActivity(choicesintent);
+        } else if (id == R.id.likedmychoice) {
+            Intent likeintent = new Intent(DashboardActivity.this, MyLikedChoicesActivity.class);
+            startActivity(likeintent);
+        } else if (id == R.id.Myprofile) {
+            Intent editintent = new Intent(DashboardActivity.this, EditProfileActivity.class);
+            startActivity(editintent);
+        } else if (id == R.id.setting) {
+            Intent intent = new Intent(DashboardActivity.this, SettingActivity.class);
             startActivity(intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

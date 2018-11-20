@@ -46,7 +46,6 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
     //chech Portait And LandSacpe Orientation
     public void chechPortaitAndLandSacpe() {
         if (CompatibilityUtility.isTablet(ForgotPasswordActivity.this)) {
-
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         } else {
 

@@ -7,14 +7,35 @@
         <item
             android:id="@+id/home"
             android:icon="@drawable/ic_home"
-            android:title="Home" />
+            android:title="Home Screen" />
+        <item
+            android:id="@+id/myhome"
+            android:icon="@drawable/ic_my_house"
+            android:title="My Home" />
+        <item
+            android:id="@+id/Mychoices"
+            android:icon="@drawable/ic_my_choice_home"
+            android:title="My Choices" />
+        <item
+            android:id="@+id/likedmychoice"
+            android:icon="@drawable/ic_my_home_liked"
+            android:title="Liked My Choices" />
         <item
             android:id="@+id/notification"
             android:icon="@drawable/ic_notification"
             android:title="Notification" />
         <item
+            android:id="@+id/Myprofile"
+            android:icon="@drawable/ic_user"
+            android:title="My Profile" />
+        <item
+            android:id="@+id/setting"
+            android:icon="@drawable/ic_setting_profile"
+            android:title="Setting" />
+        <item
             android:id="@+id/how"
             android:icon="@drawable/ic_network"
+            android:visible="false"
             android:title="How it works" />
         <item
             android:id="@+id/invite"
@@ -27,10 +48,12 @@
         <item
             android:id="@+id/Policies"
             android:icon="@drawable/ic_policy"
+            android:visible="false"
             android:title="Policies" />
         <item
             android:id="@+id/Terms"
             android:icon="@drawable/ic_agreement"
+            android:visible="false"
             android:title="Terms and Condition" />
     </group>
 

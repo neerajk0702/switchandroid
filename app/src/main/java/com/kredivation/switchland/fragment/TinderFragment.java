@@ -172,12 +172,12 @@ public class TinderFragment extends Fragment {
 
             public void onCardSwipedLeft(int position) {
                 likeDislike("2", position);
-                removeMasterListData(position);
+                // removeMasterListData(position);
             }
 
             public void onCardSwipedRight(int position) {
                 likeDislike("1", position);
-                removeMasterListData(position);
+                //removeMasterListData(position);
             }
 
             public void onEmptyDeck() {
@@ -196,14 +196,14 @@ public class TinderFragment extends Fragment {
                 DefaultImpls.onClickRight(this, position);
                 //  Toast.makeText(getActivity(), "onClickRight=" + position, Toast.LENGTH_LONG).show();
                 likeDislike("1", position);
-                removeMasterListData(position);
+                //removeMasterListData(position);
             }
 
             public void onClickLeft(int position) {
                 DefaultImpls.onClickLeft(this, position);
                 //Toast.makeText(getActivity(), "onClickLeft=" + position, Toast.LENGTH_LONG).show();
                 likeDislike("2", position);
-                removeMasterListData(position);
+                //removeMasterListData(position);
             }
 
             public void onCardSingleTap(int position) {
@@ -275,7 +275,7 @@ public class TinderFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (likehomeId != null && !likehomeId.equals("")) {
-                    getLikeDislikCard(likehomeId, likedUserId, "3");//3 for rewind
+                    getLikeDislikCard(likehomeId, likedUserId, "3", 0);//3 for rewind
                 } else {
                     Toast.makeText(getActivity(), "No Home Available for rewind!", Toast.LENGTH_LONG).show();
                 }
@@ -284,10 +284,11 @@ public class TinderFragment extends Fragment {
     }
 
     private void likeDislike(String status, int pos) {
+        // int position=pos-1;
         if (matchhomeList != null && matchhomeList.size() > 0) {
-            Home_data homeData = matchhomeList.get(pos);
+            Home_data homeData = matchhomeList.get(0);
             if (homeData != null) {
-                getLikeDislikCard(homeData.getId(), homeData.getUser_id(), status);
+                getLikeDislikCard(homeData.getId(), homeData.getUser_id(), status, 0);
             }
         } else {
             Toast.makeText(getActivity(), "No More Home Available", Toast.LENGTH_LONG).show();
@@ -496,7 +497,7 @@ public class TinderFragment extends Fragment {
         // initView();
     }
 
-    private void getLikeDislikCard(final String homeId, final String likeUserId, final String status) {
+    private void getLikeDislikCard(final String homeId, final String likeUserId, final String status, int pos) {
         if (Utility.isOnline(getContext())) {
             likeDialog = new ASTProgressBar(getContext());
             likeDialog.show();
@@ -520,7 +521,7 @@ public class TinderFragment extends Fragment {
                     if (isComplete) {
                         likehomeId = homeId;//store for rewind
                         likedUserId = likeUserId;
-                        parseLikeDislikeServiceData(result, status);
+                        parseLikeDislikeServiceData(result, status, pos);
                     } else {
                         if (likeDialog.isShowing()) {
                             likeDialog.dismiss();
@@ -534,7 +535,7 @@ public class TinderFragment extends Fragment {
         }
     }
 
-    public void parseLikeDislikeServiceData(String result, String status) {
+    public void parseLikeDislikeServiceData(String result, String status, int pos) {
         if (result != null) {
             final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
             if (serviceData != null) {
@@ -545,6 +546,7 @@ public class TinderFragment extends Fragment {
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     } else {
+                        removeMasterListData(pos);
                         if (homeList.size() == 0) {//call when no home available
                             // getAllHome();
                             Intent intent = new Intent(getActivity(), DashboardActivity.class);

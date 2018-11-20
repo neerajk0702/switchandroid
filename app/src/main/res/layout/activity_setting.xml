@@ -109,6 +109,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Notification"
+                        android:visibility="gone"
                         android:textColor="@color/secondary_text"
                         android:textSize="@dimen/_12dp" />
 
@@ -119,6 +120,7 @@
                         android:layout_marginTop="@dimen/_5dp"
                         android:layout_marginBottom="@dimen/_5dp"
                         android:text="Invite Friends"
+                        android:visibility="gone"
                         android:textColor="@color/secondary_text"
                         android:textSize="@dimen/_12dp" />
 
@@ -128,6 +130,7 @@
                         android:layout_marginTop="@dimen/_5dp"
                         android:layout_marginBottom="@dimen/_5dp"
                         android:text="Help and Support"
+                        android:visibility="gone"
                         android:textColor="@color/secondary_text"
                         android:textSize="@dimen/_12dp" />
 

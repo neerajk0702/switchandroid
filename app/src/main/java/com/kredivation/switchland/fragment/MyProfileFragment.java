@@ -162,7 +162,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
                 }
                 email.setText(data.getEmail());
                 phone.setText(data.getMobile_number());
-                Picasso.with(context).load(data.getProfile_image()).placeholder(R.drawable.userimage).resize(80, 80).into(proImage);
+               // Picasso.with(context).load(data.getProfile_image()).placeholder(R.drawable.userimage).resize(80, 80).into(proImage);
             }
             ArrayList<MyhomeArray> myHomeList = switchDBHelper.getAllMyhomedata();
             if (myHomeList != null && myHomeList.size() > 0) {
