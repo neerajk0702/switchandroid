@@ -393,11 +393,11 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
             title_layout.setError("Please Enter Title");
             requestFocus(title);
             return false;
-        } else if (hnoStr.length() == 0) {
+        }/* else if (hnoStr.length() == 0) {
             hno_layout.setError("Please Enter House No");
             requestFocus(hno);
             return false;
-        } else if (descriptionStr.length() == 0) {
+        }*/ else if (descriptionStr.length() == 0) {
             des_layout.setError("Please Enter Description");
             requestFocus(description);
             return false;
@@ -485,7 +485,7 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
             payloadList.put("api_key", Contants.API_KEY);
             payloadList.put("title", titleStr);
             payloadList.put("sort_description", descriptionStr);
-            payloadList.put("house_no", hnoStr);
+            //payloadList.put("house_no", hnoStr);
             payloadList.put("user_id", userId);
             payloadList.put("startdate", startDateStr);
             payloadList.put("enddate", enddateStr);

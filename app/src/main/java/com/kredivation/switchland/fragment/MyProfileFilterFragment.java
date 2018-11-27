@@ -389,7 +389,7 @@ public class MyProfileFilterFragment extends Fragment implements View.OnClickLis
         if (userData != null && userData.size() > 0) {
             for (Data data : userData) {
                 userId = data.getId();
-                if (data.getFull_name() != null && !data.getFirst_name().equals("")) {
+                if (data.getFull_name() != null && !data.getFull_name().equals("")) {
                     uNeme.setText(data.getFull_name());
                 } else {
                     uNeme.setText(data.getFirst_name() + " " + data.getLast_name());

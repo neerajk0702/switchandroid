@@ -131,7 +131,7 @@ public class ConfirmDetailActivity extends AppCompatActivity implements View.OnC
             for (Data data : userData) {
                 userId = data.getId();
                 Picasso.with(ConfirmDetailActivity.this).load(data.getProfile_image()).placeholder(R.drawable.userimage).resize(80, 80).into(userImage);
-                if (data.getFull_name() != null && !data.getFirst_name().equals("")) {
+                if (data.getFull_name() != null && !data.getFull_name().equals("")) {
                     userName.setText(data.getFull_name());
                 } else {
                     userName.setText(data.getFirst_name() + " " + data.getLast_name());

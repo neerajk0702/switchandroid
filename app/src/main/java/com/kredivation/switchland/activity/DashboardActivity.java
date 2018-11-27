@@ -90,7 +90,7 @@ public class DashboardActivity extends AppCompatActivity
         ArrayList<Data> userData = switchDBHelper.getAllUserInfoList();
         if (userData != null && userData.size() > 0) {
             for (Data data : userData) {
-                if (data.getFull_name() != null && !data.getFirst_name().equals("")) {
+                if (data.getFull_name() != null && !data.getFull_name().equals("")) {
                     loginUsrName.setText(data.getFull_name());
                 } else {
                     loginUsrName.setText(data.getFirst_name() + " " + data.getLast_name());
