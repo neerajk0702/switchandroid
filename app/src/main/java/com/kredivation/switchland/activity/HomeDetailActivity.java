@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
@@ -21,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -55,7 +58,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -193,6 +198,7 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
         }
         //mMap.setMyLocationEnabled(true);
     }
+
 
     //get home detail
     private void getHomeDetail() {
@@ -478,7 +484,7 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
         }
         Picasso.with(HomeDetailActivity.this).load(details.getProfile_image()).placeholder(R.drawable.avter).into(homeProfileImage);
         slideimage();
-
+        searchLocation();
     }
 
     private void slideimage() {
@@ -600,6 +606,39 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
                 }
                 if (dotDialog.isShowing()) {
                     dotDialog.dismiss();
+                }
+            }
+        }
+    }
+
+    public void searchLocation() {
+        if (details.getLatitude() != null && !details.getLatitude().equals("") && details.getLongitude() != null && !details.getLongitude().equals("")) {
+            LatLng sy = new LatLng(Double.parseDouble(details.getLatitude()), Double.parseDouble(details.getLongitude()));
+            mMap.addMarker(new MarkerOptions().position(sy).title(details.getTitle()));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(sy));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sy, 12));
+        } else {
+            List<Address> addressList = null;
+            if (details.getZipcode() != null && !details.getZipcode().equals("")) {
+                Geocoder geocoder = new Geocoder(HomeDetailActivity.this);
+                try {
+                    addressList = geocoder.getFromLocationName(details.getZipcode(), 1);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (addressList != null && addressList.size() > 0) {
+                    Address address = addressList.get(0);
+                    LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                    mMap.addMarker(new MarkerOptions().position(latLng).title(details.getZipcode()));
+                    // mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                    mMap.animateCamera(CameraUpdateFactory.zoomIn());
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
+
+                    // mMap.animateCamera(CameraUpdateFactory.zoomIn());
+                    // mMap.animateCamera(CameraUpdateFactory.zoomTo(20), 6000, null);
+                    Toast.makeText(HomeDetailActivity.this, address.getLatitude() + " " + address.getLongitude(), Toast.LENGTH_LONG).show();
                 }
             }
         }

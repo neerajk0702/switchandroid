@@ -651,6 +651,7 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
         ob.setTravel_country_name(cursor.getString(37));
         ob.setTravel_city_name(cursor.getString(38));
     }
+
     public boolean insertAddEditHomeData(HomeDetails ob) {
         ContentValues values = new ContentValues();
         populateAddEditHomeValueData(values, ob);
@@ -775,6 +776,8 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
         values.put("zipCodeStr", ob.getLocation());
         values.put("countryId", ob.getCountry_id());
         values.put("cityId", ob.getCity_id());
+        values.put("latitude", ob.getLatitude());
+        values.put("longitude", ob.getLongitude());
     }
 
 

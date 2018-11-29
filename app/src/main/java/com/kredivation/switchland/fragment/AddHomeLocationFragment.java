@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
@@ -23,6 +25,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -46,6 +49,7 @@ import com.kredivation.switchland.model.ServiceContentData;
 import com.kredivation.switchland.utilities.FontManager;
 import com.kredivation.switchland.utilities.Utility;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,6 +123,10 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
     HomeDetails MyHomedata;
     String homeId;
     ArrayList<String> cityIdList;
+    String lat = "";
+    String longt = "";
+    String title;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -257,6 +265,11 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
                     address.setText(addressStr + "," + address2);
                     enterzipcode.setText(enterzipcodeStr);
                     landmark.setText(landmarkStr);
+                    title = MyHomedata.getTitle();
+                    lat = MyHomedata.getLatitude();
+                    longt = MyHomedata.getLongitude();
+                    //searchLocation(enterzipcodeStr);
+
                 }
             }
         }
@@ -278,6 +291,10 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
             case R.id.lookUp:
                 if (isValidate()) {
                     lookUpFlag = true;
+                    if (mMap != null) {
+                        mMap.clear();//remove all marker
+                    }
+                    searchLocation(enterzipcodeStr);
                     Utility.showToast(context, "Home Location Save");
                 }
                 break;
@@ -351,17 +368,26 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        mMap.setMyLocationEnabled(true);
-        LatLng sy = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sy).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sy));
+        // mMap.setMyLocationEnabled(true);
+        // LatLng sy = new LatLng(-34, 151);
+        // mMap.addMarker(new MarkerOptions().position(sy).title("Marker in Sydney"));
+        // mMap.moveCamera(CameraUpdateFactory.newLatLng(sy));
+        if (MyHomedata != null) {
+            if (lat != null && !lat.equals("") && longt != null && !longt.equals("")) {
+                LatLng sy = new LatLng(Double.parseDouble(MyHomedata.getLatitude()), Double.parseDouble(MyHomedata.getLongitude()));
+                mMap.addMarker(new MarkerOptions().position(sy).title(MyHomedata.getTitle()));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(sy));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sy, 12));
+            } else {
+                searchLocation(enterzipcodeStr);
+            }
+        }
     }
 
     //save data
     private void saveData() {
 
         if (MyHomedata != null) {
-
             HomeDetails details = new HomeDetails();
             details.setId(homeId);
             details.setAddress1(addressStr);
@@ -371,8 +397,39 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
             details.setLocation("");
             details.setCountry_id(countryId);
             details.setCity_id(cityId);
+            details.setLatitude(lat);
+            details.setLongitude(longt);
             SwitchDBHelper dbHelper = new SwitchDBHelper(getActivity());
             dbHelper.updateAddEditHomeLocation(details);
+        }
+    }
+
+    public void searchLocation(String enterzipcodeStr) {
+        List<Address> addressList = null;
+
+        if (enterzipcodeStr != null && !enterzipcodeStr.equals("")) {
+            Geocoder geocoder = new Geocoder(getActivity());
+            try {
+                addressList = geocoder.getFromLocationName(enterzipcodeStr, 1);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (addressList != null && addressList.size() > 0) {
+                Address address = addressList.get(0);
+                LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                mMap.addMarker(new MarkerOptions().position(latLng).title(title));
+                // mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                mMap.animateCamera(CameraUpdateFactory.zoomIn());
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
+
+                // mMap.animateCamera(CameraUpdateFactory.zoomIn());
+                // mMap.animateCamera(CameraUpdateFactory.zoomTo(20), 6000, null);
+                lat = String.valueOf(address.getLatitude());
+                longt = String.valueOf(address.getLongitude());
+                Toast.makeText(getActivity(), address.getLatitude() + " " + address.getLongitude(), Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

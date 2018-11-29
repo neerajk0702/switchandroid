@@ -112,11 +112,11 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
 
     private String currentLongitude = "";
     private String currentLatitude = "";
-    private FusedLocationProviderClient mFusedLocationClient;
+    /*private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest mLocationRequest;
     private LocationCallback mLocationCallback;
-    private long UPDATE_INTERVAL = 10 * 1000;  /* 10 secs */
-    private long FASTEST_INTERVAL = 2000; /* 2 sec */
+    private long UPDATE_INTERVAL = 10 * 1000;  *//* 10 secs *//*
+    private long FASTEST_INTERVAL = 2000; *//* 2 sec */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +133,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
     }
 
     private void init() {
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(TravelRoutineActivity.this);
+        //mFusedLocationClient = LocationServices.getFusedLocationProviderClient(TravelRoutineActivity.this);
         TextView dateIcon = findViewById(R.id.dateIcon);
         materialdesignicons_font = FontManager.getFontTypefaceMaterialDesignIcons(TravelRoutineActivity.this, "fonts/materialdesignicons-webfont.otf");
         dateIcon.setTypeface(materialdesignicons_font);
@@ -439,6 +439,8 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
         saveCountryId = MyHomedata.getCountry_id();
         saveCityId = MyHomedata.getCity_id();
         Hno = MyHomedata.getHouse_no();
+        currentLatitude = MyHomedata.getLatitude();
+        currentLongitude = MyHomedata.getLongitude();
 
         //---------home photo screen-----
         homePhotoList = MyHomedata.getHomeImageList();
@@ -623,7 +625,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
 
     }
 
-    // Trigger new location updates at interval
+    /*// Trigger new location updates at interval
     protected void startLocationUpdates() {
 
         // Create the location request to start receiving updates
@@ -660,15 +662,15 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
                 if (locationResult == null) {
                     return;
                 }
-               /* for (Location location : locationResult.getLocations()) {
+               *//* for (Location location : locationResult.getLocations()) {
                     // Update UI with location data
                     // ...
-                }*/
+                }*//*
                 onLocationChanged(locationResult.getLastLocation());
             }
         };
         mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
-       /* mFusedLocationClient.requestLocationUpdates(mLocationRequest, new LocationCallback() {
+       *//* mFusedLocationClient.requestLocationUpdates(mLocationRequest, new LocationCallback() {
                     @Override
                     public void onLocationResult(LocationResult locationResult) {
                         if (locationResult == null) {
@@ -677,7 +679,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
                         onLocationChanged(locationResult.getLastLocation());
                     }
                 },
-                Looper.myLooper());*/
+                Looper.myLooper());*//*
     }
 
     //get location change
@@ -691,9 +693,9 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
                 Double.toString(location.getLongitude());
         Log.d(Contants.LOG_TAG, "Current Location*******" + msg);
 
-      /*  Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+      *//*  Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
         // You can now create a LatLng Object for use with maps
-         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());*/
+         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());*//*
     }
 
     //get last location
@@ -747,6 +749,6 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
         if (mFusedLocationClient != null) {
             mFusedLocationClient.removeLocationUpdates(mLocationCallback);
         }
-    }
+    }*/
 
 }
