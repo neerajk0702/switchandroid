@@ -137,12 +137,12 @@ public class MyLikedChoicesActivity extends AppCompatActivity {
         if (result != null) {
             final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
             if (serviceData != null) {
+                SwitchDBHelper switchDBHelper = new SwitchDBHelper(MyLikedChoicesActivity.this);
+                switchDBHelper.deleteAllRows("Myhomedata");
+                switchDBHelper.deleteAllRows("MychoiceData");
+                switchDBHelper.deleteAllRows("LikedmychoiceData");
                 if (serviceData.isSuccess()) {
                     if (serviceData.getData() != null) {
-                        SwitchDBHelper switchDBHelper = new SwitchDBHelper(MyLikedChoicesActivity.this);
-                        switchDBHelper.deleteAllRows("Myhomedata");
-                        switchDBHelper.deleteAllRows("MychoiceData");
-                        switchDBHelper.deleteAllRows("LikedmychoiceData");
                         for (MyhomeArray myhomeArray : serviceData.getData().getMyhomeArray()) {
                             switchDBHelper.insertMyhomedata(myhomeArray);
                         }

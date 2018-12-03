@@ -93,13 +93,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         Button switchbt = findViewById(R.id.switchbt);
         switchbt.setOnClickListener(this);
         getUserdata();
-        megList = new ArrayList<>();
-        recyclerView = findViewById(R.id.recycler_view);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(ChatActivity.this, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        adapter = new ChatMessageAdapter(ChatActivity.this, megList, userId);
-        recyclerView.setAdapter(adapter);
     }
 
     private void getUserdata() {
@@ -120,6 +113,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 userId = data.getId();
             }
         }
+        megList = new ArrayList<>();
+        recyclerView = findViewById(R.id.recycler_view);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(ChatActivity.this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        adapter = new ChatMessageAdapter(ChatActivity.this, megList, userId);
+        recyclerView.setAdapter(adapter);
         callGetMessageService();
     }
 
@@ -208,6 +208,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                                 super.onPostExecute(flag);
                                 if (flag) {
                                     Collections.reverse(megList);
+                                    int pos = recyclerView.getAdapter().getItemCount() - 1;
+                                    recyclerView.smoothScrollToPosition(pos);
                                     adapter.notifyDataSetChanged();
                                 }
                                 if (chatlistProgress.isShowing()) {

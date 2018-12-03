@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -114,8 +115,8 @@ public class TinderFragment extends Fragment {
     String genderId = "";
     String religionId = "";
     String travleId = "";
-    String likehomeId = "";
-    String likedUserId = "";
+    // String likehomeId = "";
+    // String likedUserId = "";
     KoldaMain frameLayout;
 
     @Override
@@ -274,11 +275,17 @@ public class TinderFragment extends Fragment {
         reminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (likehomeId != null && !likehomeId.equals("")) {
-                    getLikeDislikCard(likehomeId, likedUserId, "3", 0);//3 for rewind
-                } else {
-                    Toast.makeText(getActivity(), "No Home Available for rewind!", Toast.LENGTH_LONG).show();
+                SharedPreferences prefs = context.getSharedPreferences("RewindPreferences", Context.MODE_PRIVATE);
+                if (prefs != null) {
+                    String likehomeId = prefs.getString("LikehomeId", "");
+                    String likedUserId = prefs.getString("LikedUserId", "");
+                    if (likehomeId != null && !likehomeId.equals("")) {
+                        getLikeDislikCard(likehomeId, likedUserId, "3", 0);//3 for rewind
+                    } else {
+                        Toast.makeText(getActivity(), "No Home Available for rewind!", Toast.LENGTH_LONG).show();
+                    }
                 }
+
             }
         });
     }
@@ -519,8 +526,7 @@ public class TinderFragment extends Fragment {
                 @Override
                 public void onDone(String result, boolean isComplete) {
                     if (isComplete) {
-                        likehomeId = homeId;//store for rewind
-                        likedUserId = likeUserId;
+                        rewindValue(homeId, likeUserId);
                         parseLikeDislikeServiceData(result, status, pos);
                     } else {
                         if (likeDialog.isShowing()) {
@@ -564,5 +570,17 @@ public class TinderFragment extends Fragment {
         }
     }
 
+    //store for rewind
+    public void rewindValue(String likehomeId, String likedUserId) {
+        try {
+            SharedPreferences prefs = context.getSharedPreferences("RewindPreferences", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("LikehomeId", likehomeId);
+            editor.putString("LikedUserId", likedUserId);
+            editor.commit();
+        } catch (Exception e) {
+            // should never happen
+        }
+    }
 
 }

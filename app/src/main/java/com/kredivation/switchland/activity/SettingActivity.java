@@ -1,6 +1,8 @@
 package com.kredivation.switchland.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -25,9 +27,10 @@ import com.kredivation.switchland.utilities.FontManager;
 import com.kredivation.switchland.utilities.SwitchViewPager;
 import com.kredivation.switchland.utilities.Utility;
 
-public class SettingActivity extends AppCompatActivity implements View.OnClickListener ,GoogleApiClient.OnConnectionFailedListener{
+public class SettingActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
     private Toolbar toolbar;
     private GoogleApiClient mGoogleApiClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +81,10 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.logoutLayout:
+                SharedPreferences prefs = getSharedPreferences("FCMDeviceId", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("Sendflag", true);//for send device token to server
+                editor.commit();
                 LoginManager.getInstance().logOut();
                 signOut();
                 Utility.showToast(SettingActivity.this, "Logout Successfully");
@@ -126,6 +133,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
     //gmail logout
     private void signOut() {
         if (mGoogleApiClient.isConnected()) {

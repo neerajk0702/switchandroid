@@ -86,7 +86,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     ASTProgressBar dotDialog;
     private int is_home_available;
     private String userId;
-    boolean howItsWork;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,8 +107,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initView() {
-        SharedPreferences prefs = getSharedPreferences("HowItsWorkPreferences", Context.MODE_PRIVATE);
-        howItsWork = prefs.getBoolean("HowItsWork", false);
         TextView signIn = findViewById(R.id.signIn);
         signIn.setOnClickListener(this);
         Button signup = findViewById(R.id.signup);
@@ -730,16 +727,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         if (result != null) {
             final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
             if (serviceData != null) {
+                SwitchDBHelper switchDBHelper = new SwitchDBHelper(SignUpActivity.this);
+                switchDBHelper.deleteAllRows("Myhomedata");
+                switchDBHelper.deleteAllRows("MychoiceData");
+                switchDBHelper.deleteAllRows("LikedmychoiceData");
                 if (serviceData.isSuccess()) {
                     if (serviceData.getData() != null) {
                         new AsyncTask<Void, Void, Boolean>() {
                             @Override
                             protected Boolean doInBackground(Void... voids) {
                                 Boolean flag = false;
-                                SwitchDBHelper switchDBHelper = new SwitchDBHelper(SignUpActivity.this);
-                                switchDBHelper.deleteAllRows("Myhomedata");
-                                switchDBHelper.deleteAllRows("MychoiceData");
-                                switchDBHelper.deleteAllRows("LikedmychoiceData");
                                 //  switchDBHelper.deleteAllRows("LikedmychoiceData");
                                 for (MyhomeArray myhomeArray : serviceData.getData().getMyhomeArray()) {
                                     switchDBHelper.insertMyhomedata(myhomeArray);
@@ -777,14 +774,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
         Utility.showToast(SignUpActivity.this, "Login Success");
         Intent intent;
-        if (!howItsWork) {
-            intent = new Intent(SignUpActivity.this, AppTourActivity.class);
+        if (is_home_available == 1) {
+            intent = new Intent(SignUpActivity.this, DashboardActivity.class);
         } else {
-            if (is_home_available == 1) {
-                intent = new Intent(SignUpActivity.this, DashboardActivity.class);
-            } else {
-                intent = new Intent(SignUpActivity.this, CreateFirstTimePostActivity.class);
-            }
+            intent = new Intent(SignUpActivity.this, CreateFirstTimePostActivity.class);
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

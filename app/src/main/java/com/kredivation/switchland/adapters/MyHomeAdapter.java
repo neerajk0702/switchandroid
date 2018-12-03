@@ -1,9 +1,11 @@
 package com.kredivation.switchland.adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -18,12 +20,17 @@ import com.google.gson.Gson;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.activity.AddHomeActivity;
 import com.kredivation.switchland.activity.HomeDetailActivity;
+import com.kredivation.switchland.activity.SettingActivity;
+import com.kredivation.switchland.activity.SigninActivity;
+import com.kredivation.switchland.activity.SplashScreenActivity;
 import com.kredivation.switchland.activity.TravelRoutineActivity;
 import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
 import com.kredivation.switchland.framework.ServiceCaller;
 import com.kredivation.switchland.model.ChatData;
 import com.kredivation.switchland.model.HomeDetails;
+import com.kredivation.switchland.model.LikedmychoiceArray;
+import com.kredivation.switchland.model.MychoiceArray;
 import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.ServiceContentData;
 import com.kredivation.switchland.utilities.ASTProgressBar;
@@ -42,12 +49,14 @@ public class MyHomeAdapter extends RecyclerView.Adapter<MyHomeAdapter.MyViewHold
     private ArrayList<MyhomeArray> myHomeList;
     Context mContext;
     Typeface materialdesignicons_font;
+    ASTProgressBar homeDialog;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         LinearLayout mainLayout;
         ImageView homeimage;
         TextView title, nobed, nobath, locationIcon, location, startdate, enddate;
         Button travelRoutine, viewInfo;
+        ImageView homedelete;
 
         public MyViewHolder(View view) {
             super(view);
@@ -62,6 +71,7 @@ public class MyHomeAdapter extends RecyclerView.Adapter<MyHomeAdapter.MyViewHold
             enddate = view.findViewById(R.id.enddate);
             travelRoutine = view.findViewById(R.id.travelRoutine);
             viewInfo = view.findViewById(R.id.viewInfo);
+            homedelete = view.findViewById(R.id.homedelete);
         }
     }
 
@@ -119,6 +129,12 @@ public class MyHomeAdapter extends RecyclerView.Adapter<MyHomeAdapter.MyViewHold
                 mContext.startActivity(homeintent);
             }
         });
+        holder.homedelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deletePopup(position);
+            }
+        });
     }
 
     @Override
@@ -126,6 +142,146 @@ public class MyHomeAdapter extends RecyclerView.Adapter<MyHomeAdapter.MyViewHold
         return myHomeList.size();
     }
 
+    private void homeDelete(int postion) {
+        if (Utility.isOnline(mContext)) {
+            ASTProgressBar dotDialog = new ASTProgressBar(mContext);
+            dotDialog.show();
+            JSONObject object = new JSONObject();
+            try {
+                object.put("api_key", Contants.API_KEY);
+                object.put("home_id", myHomeList.get(postion).getId());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
+            String serviceURL = Contants.BASE_URL + Contants.deletehome;
+
+            ServiceCaller serviceCaller = new ServiceCaller(mContext);
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "homeDelete", new IAsyncWorkCompletedCallback() {
+                @Override
+                public void onDone(String result, boolean isComplete) {
+                    if (isComplete) {
+                        final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
+                        if (serviceData != null) {
+                            if (serviceData.isSuccess()) {
+                                Intent intent = new Intent(mContext, SplashScreenActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                mContext.startActivity(intent);
+                            }
+                        }
+                    } else {
+                        Utility.alertForErrorMessage(Contants.Error, mContext);
+                    }
+                    if (dotDialog.isShowing()) {
+                        dotDialog.dismiss();
+                    }
+                }
+            });
+        } else {
+            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, mContext);//off line msg....
+        }
+    }
+
+    private void deletePopup(int postion) {
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
+        alertDialog.setTitle("Warning");
+        alertDialog.setMessage("Are you Sure you want to detele this Home ?");
+        alertDialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                homeDelete(postion);
+                dialog.dismiss();
+            }
+        });
+
+        alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+            }
+        });
+        alertDialog.show();
+    }
+
+/*    //get my home data
+    private void getMyHome(int postion) {
+        if (Utility.isOnline(mContext)) {
+            homeDialog = new ASTProgressBar(mContext);
+            JSONObject object = new JSONObject();
+            try {
+                object.put("api_key", Contants.API_KEY);
+                object.put("user_id", myHomeList.remove(postion).getUser_id());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String serviceURL = Contants.BASE_URL + Contants.MyHome;
+
+            ServiceCaller serviceCaller = new ServiceCaller(mContext);
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "getMyHome", new IAsyncWorkCompletedCallback() {
+                @Override
+                public void onDone(String result, boolean isComplete) {
+                    if (isComplete) {
+                        parseHomeServiceData(result,postion);
+                    } else {
+                        if (homeDialog.isShowing()) {
+                            homeDialog.dismiss();
+                        }
+                        Utility.alertForErrorMessage(Contants.Error, mContext);
+                    }
+                }
+            });
+        } else {
+            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, mContext);//off line msg....
+        }
+    }
+
+    public void parseHomeServiceData(String result,int postion) {
+        if (result != null) {
+            final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
+            if (serviceData != null) {
+                SwitchDBHelper switchDBHelper = new SwitchDBHelper(mContext);
+                switchDBHelper.deleteAllRows("Myhomedata");
+                switchDBHelper.deleteAllRows("MychoiceData");
+                switchDBHelper.deleteAllRows("LikedmychoiceData");
+                if (serviceData.isSuccess()) {
+                    if (serviceData.getData() != null) {
+                        new AsyncTask<Void, Void, Boolean>() {
+                            @Override
+                            protected Boolean doInBackground(Void... voids) {
+                                Boolean flag = false;
+
+                                for (MyhomeArray myhomeArray : serviceData.getData().getMyhomeArray()) {
+                                    switchDBHelper.insertMyhomedata(myhomeArray);
+                                }
+                                for (MychoiceArray mychoiceArray : serviceData.getData().getMychoiceArray()) {
+                                    switchDBHelper.inserMychoiceData(mychoiceArray);
+                                }
+                                for (LikedmychoiceArray mychoiceArray : serviceData.getData().getLikedmychoiceArray()) {
+                                    switchDBHelper.inserLikedmychoiceData(mychoiceArray);
+                                }
+                                flag = true;
+                                return flag;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Boolean flag) {
+                                super.onPostExecute(flag);
+                                if (flag) {
+                                }
+
+                                if (homeDialog.isShowing()) {
+                                    homeDialog.dismiss();
+                                }
+                            }
+                        }.execute();
+                    }
+                }
+                if (homeDialog.isShowing()) {
+                    homeDialog.dismiss();
+                }
+            }
+        }
+    }*/
 }
 

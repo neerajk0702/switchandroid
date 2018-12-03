@@ -27,6 +27,7 @@ import com.kredivation.switchland.model.Home_data;
 import com.kredivation.switchland.model.Home_liked_disliked;
 import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.ServiceContentData;
+import com.kredivation.switchland.model.UserActivityContentData;
 import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.Contants;
 import com.kredivation.switchland.utilities.Utility;
@@ -129,14 +130,54 @@ public class ChatListFragment extends Fragment {
                     homeId = myhomeArray.getId();
                     break;
                 }
-                getChatMemberlist(homeId);
+                //  getChatMemberlist(homeId);
+                getUserActivity(homeId);
             }
         }
     }
 
-    private void getChatMemberlist(String homeId) {
+    private void getUserActivity(String homeId) {
         if (Utility.isOnline(getContext())) {
             dotDialog = new ASTProgressBar(getContext());
+            //  dotDialog.show();
+            JSONObject object = new JSONObject();
+            try {
+                object.put("api_key", Contants.API_KEY);
+                object.put("user_id", userId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String serviceURL = Contants.BASE_URL + Contants.user_activity;
+
+            ServiceCaller serviceCaller = new ServiceCaller(getContext());
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "getUserActivity", new IAsyncWorkCompletedCallback() {
+                @Override
+                public void onDone(String result, boolean isComplete) {
+                    if (isComplete) {
+                        final UserActivityContentData serviceData = new Gson().fromJson(result, UserActivityContentData.class);
+                        if (serviceData != null) {
+                            if (serviceData.isSuccess()) {
+                                getChatMemberlist(homeId);
+                            }
+                        }
+                    } else {
+                        if (dotDialog.isShowing()) {
+                            dotDialog.dismiss();
+                        }
+                        Utility.alertForErrorMessage(Contants.Error, getContext());
+                    }
+                }
+            });
+        } else {
+            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, getContext());//off line msg....
+        }
+    }
+
+
+    private void getChatMemberlist(String homeId) {
+        if (Utility.isOnline(getContext())) {
+            // dotDialog = new ASTProgressBar(getContext());
             //dotDialog.show();
             JSONObject object = new JSONObject();
             try {

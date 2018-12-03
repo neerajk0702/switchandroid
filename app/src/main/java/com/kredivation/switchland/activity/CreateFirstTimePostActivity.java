@@ -3,6 +3,7 @@ package com.kredivation.switchland.activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -455,6 +456,10 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
                 }
                 break;
             case R.id.logout:
+                SharedPreferences prefs = getSharedPreferences("FCMDeviceId", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("Sendflag", true);//for send device token to server
+                editor.commit();
                 LoginManager.getInstance().logOut();
                 signOut();
                 Utility.showToast(CreateFirstTimePostActivity.this, "Logout Successfully");

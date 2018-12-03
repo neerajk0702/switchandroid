@@ -17,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.database.SwitchDBHelper;
@@ -64,6 +65,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("HowItsWorkPreferences", Context.MODE_PRIVATE);
         howItsWork = prefs.getBoolean("HowItsWork", false);
         getUserData();
+        Utility.clearRewindValue(SplashScreenActivity.this);
         // waitForLogin(); //wait for 3 seconds
 
     }
@@ -93,7 +95,12 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
             getMsterData();
         } else {
-            Intent intent = new Intent(SplashScreenActivity.this, SigninActivity.class);
+            Intent intent;
+            if (!howItsWork) {
+                intent = new Intent(SplashScreenActivity.this, AppTourActivity.class);
+            } else {
+                intent = new Intent(SplashScreenActivity.this, SigninActivity.class);
+            }
             startActivity(intent);
         }
         getHSAKey();
@@ -320,16 +327,17 @@ public class SplashScreenActivity extends AppCompatActivity {
         if (result != null) {
             final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
             if (serviceData != null) {
+                SwitchDBHelper switchDBHelper = new SwitchDBHelper(SplashScreenActivity.this);
+                switchDBHelper.deleteAllRows("Myhomedata");
+                switchDBHelper.deleteAllRows("MychoiceData");
+                switchDBHelper.deleteAllRows("LikedmychoiceData");
                 if (serviceData.isSuccess()) {
                     if (serviceData.getData() != null) {
                         new AsyncTask<Void, Void, Boolean>() {
                             @Override
                             protected Boolean doInBackground(Void... voids) {
                                 Boolean flag = false;
-                                SwitchDBHelper switchDBHelper = new SwitchDBHelper(SplashScreenActivity.this);
-                                switchDBHelper.deleteAllRows("Myhomedata");
-                                switchDBHelper.deleteAllRows("MychoiceData");
-                                switchDBHelper.deleteAllRows("LikedmychoiceData");
+
                                 for (MyhomeArray myhomeArray : serviceData.getData().getMyhomeArray()) {
                                     switchDBHelper.insertMyhomedata(myhomeArray);
                                 }

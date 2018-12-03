@@ -40,6 +40,8 @@ public class Contants {
     public static String clickswitch = "clickswitch";
     public static String getNotificationMessage = "getNotificationMessage";
     public static String socialLogin = "socialLogin";
+    public static String user_activity = "user_activity";
+    public static String deletehome = "deletehome";
 
 
 }

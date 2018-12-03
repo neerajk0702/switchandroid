@@ -991,4 +991,10 @@ public class Utility {
         return String.valueOf(index);
     }
 
+    public static void clearRewindValue(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("RewindPreferences", Context.MODE_PRIVATE);
+        if (prefs != null) {
+            prefs.edit().clear().commit();
+        }
+    }
 }
