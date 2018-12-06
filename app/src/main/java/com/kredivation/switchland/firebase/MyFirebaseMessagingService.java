@@ -74,8 +74,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-            //sendNotification(remoteMessage.getData());
-            showNotification(remoteMessage.getData());
+            sendNotification(remoteMessage.getData());
+           //   showNotification(remoteMessage.getData());
 
         }
 
@@ -122,35 +122,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * Create and show a simple notification containing the received FCM message.
      */
     private void sendNotification(final Map<String, String> dataMap) {
-        /*Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 *//* Request code *//*, intent,
-                PendingIntent.FLAG_ONE_SHOT);
-
-        String channelId = getString(R.string.default_notification_channel_id);
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder =
-                new NotificationCompat.Builder(this, channelId)
-                        .setSmallIcon(R.drawable.ic_stat_ic_notification)
-                        .setContentTitle(getString(R.string.fcm_message))
-                        .setContentText(messageBody)
-                        .setAutoCancel(true)
-                        .setSound(defaultSoundUri)
-                        .setContentIntent(pendingIntent);
-
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        // Since android Oreo notification channel is needed.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(channelId,
-                    "Channel human readable title",
-                    NotificationManager.IMPORTANCE_DEFAULT);
-            notificationManager.createNotificationChannel(channel);
-        }
-
-        notificationManager.notify(0 *//* ID of notification *//*, notificationBuilder.build());*/
-
+        int requestCode = new Random().nextInt(1001);
         new AsyncTask<String, Void, Notification>() {
             @Override
             protected Notification doInBackground(String... params) {
@@ -168,7 +140,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 String notificationMessage=entry.getValue();*/
                 //String notificationMessage = dataMap.containsKey("message") ? dataMap.get("message") : "";
                 //  String siteID = dataMap.containsKey("siteID") ? dataMap.get("siteID") : "0";
-                int requestCode = new Random().nextInt(1001);
+
                 SharedPreferences notifSharedPref = getSharedPreferences("NotificationPre", Context.MODE_PRIVATE);
                 notifSharedPref.edit().putString("key" + notifSharedPref.getAll().size(), notificationMessage).apply();
                 Map<String, String> map = (Map<String, String>) notifSharedPref.getAll();
@@ -190,6 +162,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 mBuilder.setTicker(getString(R.string.app_name) + " " + "New Message Received");
                 mBuilder.setSmallIcon(R.drawable.logo);
                 mBuilder.setColor(Color.parseColor("#FF6600"));
+                mBuilder.setWhen(System.currentTimeMillis());
+                mBuilder.setChannelId(id);
                 mBuilder.setPriority(Notification.PRIORITY_MAX);
                 NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
                 // Sets a title for the Inbox style big view
@@ -218,8 +192,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 if (summaryNotification == null) {
                     return;
                 }
+                //cancelAllNotifications();
                 NotificationManagerCompat notificationManagernew = NotificationManagerCompat.from(MyFirebaseMessagingService.this);
-                notificationManagernew.notify(REQ_PAGE_COMMUNICATOR, summaryNotification);
+                notificationManagernew.notify(requestCode, summaryNotification);
             }
 
         }.execute("");
@@ -259,7 +234,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         int requestCode = new Random().nextInt(1001);
         String id = getApplication().getPackageName();
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-     //   mChannel = new NotificationChannel(id, getString(R.string.app_name), NotificationManager.IMPORTANCE_DEFAULT);
+        //   mChannel = new NotificationChannel(id, getString(R.string.app_name), NotificationManager.IMPORTANCE_DEFAULT);
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {

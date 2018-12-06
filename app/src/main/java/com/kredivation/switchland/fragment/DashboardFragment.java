@@ -1,7 +1,9 @@
 package com.kredivation.switchland.fragment;
 
 
+import android.app.NotificationManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -80,6 +82,7 @@ public class DashboardFragment extends Fragment implements TabLayout.OnTabSelect
     }
 
     private void init() {
+        cancelAllNotifications();
         tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
 
        /* tabLayout.addTab(tabLayout.newTab().setText("Tab1"));
@@ -147,5 +150,13 @@ public class DashboardFragment extends Fragment implements TabLayout.OnTabSelect
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
 
+    }
+
+    //clear all notification
+    public void cancelAllNotifications() {
+        SharedPreferences notifSharedPref = getActivity().getSharedPreferences("NotificationPre", Context.MODE_PRIVATE);
+        notifSharedPref.edit().clear().apply();
+        NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
     }
 }

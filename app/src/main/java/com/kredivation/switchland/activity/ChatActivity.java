@@ -344,6 +344,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     intent.putExtra("ProfileImg", ProfileImg);
                     intent.putExtra("FullName", FullName);
                     intent.putExtra("HomeId", HomeId);
+                    intent.putExtra("MyUserId", userId);
                     startActivity(intent);
                 } else {
                     alertForNoHomeAvailable(serviceData.getMsg());

@@ -25,6 +25,8 @@ import com.kredivation.switchland.model.HomeDetails;
 import com.kredivation.switchland.model.Home_features;
 import com.kredivation.switchland.model.Home_rules;
 import com.kredivation.switchland.model.Homegallery;
+import com.kredivation.switchland.model.LikedmychoiceArray;
+import com.kredivation.switchland.model.MychoiceArray;
 import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.ServiceContentData;
 import com.kredivation.switchland.utilities.ASTProgressBar;
@@ -56,7 +58,7 @@ public class ConfirmDetailActivity extends AppCompatActivity implements View.OnC
     ImageView userImage, homeImage;
     SwitchDBHelper switchDBHelper;
     String userSecurity;
-
+    ASTProgressBar myHomedotDialog;
     ImageView hosteruserImage, hosterhomeImage;
     TextView hosteruseruserName, hostercountry, hostercity, hosterstartdate, hosterenddate, hosterbed, hostertitle, hosterdescripction;
     String userHomeId;
@@ -113,17 +115,23 @@ public class ConfirmDetailActivity extends AppCompatActivity implements View.OnC
         hostertitle = findViewById(R.id.hostertitle);
         hosterdescripction = findViewById(R.id.hosterdescripction);
 
-        getUserdata();
-    }
-
-    private void getUserdata() {
         ChatUserId = getIntent().getStringExtra("ChatUserId");
         ProfileImg = getIntent().getStringExtra("ProfileImg");
         FullName = getIntent().getStringExtra("FullName");
         HomeId = getIntent().getStringExtra("HomeId");
+        userId = getIntent().getStringExtra("MyUserId");
         Picasso.with(ConfirmDetailActivity.this).load(ProfileImg).placeholder(R.drawable.userimage).resize(80, 80).into(hosteruserImage);
         hosteruseruserName.setText(FullName);
 
+        hImagList = new ArrayList();
+        featureList = new ArrayList();
+        hRuleList = new ArrayList();
+        details = new HomeDetails();
+        getSenderHomeDetail();
+
+    }
+
+    private void getUserdata() {
         switchDBHelper = new SwitchDBHelper(ConfirmDetailActivity.this);
         ArrayList<MyhomeArray> myHomeList = switchDBHelper.getAllMyhomedata();
         ArrayList<Data> userData = switchDBHelper.getAllUserInfoList();
@@ -152,12 +160,7 @@ public class ConfirmDetailActivity extends AppCompatActivity implements View.OnC
                 setCityAndCountry(myhomeArray.getCountry_id(), myhomeArray.getCity_id());
             }
         }
-
-        hImagList = new ArrayList();
-        featureList = new ArrayList();
-        hRuleList = new ArrayList();
-        details = new HomeDetails();
-        getSenderHomeDetail();
+        setvalue();
     }
 
     private void setCityAndCountry(String countryId, String cityId) {
@@ -393,7 +396,7 @@ public class ConfirmDetailActivity extends AppCompatActivity implements View.OnC
                 protected void onPostExecute(Boolean flag) {
                     super.onPostExecute(flag);
                     if (flag) {
-                        setvalue();
+                        getMyHome();
                     } else {
                         Utility.showToast(ConfirmDetailActivity.this, "Home Detail Not available!");
                         finish();
@@ -479,4 +482,83 @@ public class ConfirmDetailActivity extends AppCompatActivity implements View.OnC
         }
     }
 
+    //get my home data
+    private void getMyHome() {
+        if (Utility.isOnline(ConfirmDetailActivity.this)) {
+            myHomedotDialog = new ASTProgressBar(ConfirmDetailActivity.this);
+            myHomedotDialog.show();
+            JSONObject object = new JSONObject();
+            try {
+                object.put("api_key", Contants.API_KEY);
+                object.put("user_id", userId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String serviceURL = Contants.BASE_URL + Contants.MyHome;
+
+            ServiceCaller serviceCaller = new ServiceCaller(ConfirmDetailActivity.this);
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "getMyHome", new IAsyncWorkCompletedCallback() {
+                @Override
+                public void onDone(String result, boolean isComplete) {
+                    if (isComplete) {
+                        parseHomeServiceData(result);
+                    } else {
+                        if (myHomedotDialog.isShowing()) {
+                            myHomedotDialog.dismiss();
+                        }
+                        Utility.alertForErrorMessage(Contants.Error, ConfirmDetailActivity.this);
+                    }
+                }
+            });
+        } else {
+            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, ConfirmDetailActivity.this);//off line msg....
+        }
+    }
+
+    public void parseHomeServiceData(String result) {
+        if (result != null) {
+            final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
+            if (serviceData != null) {
+                SwitchDBHelper switchDBHelper = new SwitchDBHelper(ConfirmDetailActivity.this);
+                switchDBHelper.deleteAllRows("Myhomedata");
+                switchDBHelper.deleteAllRows("MychoiceData");
+                switchDBHelper.deleteAllRows("LikedmychoiceData");
+                if (serviceData.isSuccess()) {
+                    if (serviceData.getData() != null) {
+                        new AsyncTask<Void, Void, Boolean>() {
+                            @Override
+                            protected Boolean doInBackground(Void... voids) {
+                                Boolean flag = false;
+                                //  switchDBHelper.deleteAllRows("LikedmychoiceData");
+                                for (MyhomeArray myhomeArray : serviceData.getData().getMyhomeArray()) {
+                                    switchDBHelper.insertMyhomedata(myhomeArray);
+                                }
+                                for (MychoiceArray mychoiceArray : serviceData.getData().getMychoiceArray()) {
+                                    switchDBHelper.inserMychoiceData(mychoiceArray);
+                                }
+                                for (LikedmychoiceArray mychoiceArray : serviceData.getData().getLikedmychoiceArray()) {
+                                    switchDBHelper.inserLikedmychoiceData(mychoiceArray);
+                                }
+                                flag = true;
+                                return flag;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Boolean flag) {
+                                super.onPostExecute(flag);
+                                if (flag) {
+                                    getUserdata();
+                                }
+
+                            }
+                        }.execute();
+                    }
+                }
+            }
+        }
+        if (myHomedotDialog.isShowing()) {
+            myHomedotDialog.dismiss();
+        }
+    }
 }
