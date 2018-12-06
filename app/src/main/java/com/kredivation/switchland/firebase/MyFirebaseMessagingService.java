@@ -74,7 +74,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-            sendNotification(remoteMessage.getData());
+            //sendNotification(remoteMessage.getData());
+            showNotification(remoteMessage.getData());
 
         }
 
@@ -246,5 +247,37 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationManager.cancelAll();
     }
 
-
+    void showNotification(final Map<String, String> dataMap) {
+        String notificationMessage = "";
+        String data = dataMap.get("data");
+        try {
+            JSONObject object = new JSONObject(data);
+            notificationMessage = object.opt("message").toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        int requestCode = new Random().nextInt(1001);
+        String id = getApplication().getPackageName();
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+     //   mChannel = new NotificationChannel(id, getString(R.string.app_name), NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(id, "Switch", NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription("Switch cha");
+            mNotificationManager.createNotificationChannel(channel);
+        }
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), id)
+                .setSmallIcon(R.mipmap.ic_launcher) // notification icon
+                .setContentTitle("Switch") // title for notification
+                .setContentText(notificationMessage)// message for notification
+                .setWhen(System.currentTimeMillis())
+                .setSound(alarmSound) // set alarm sound for notification
+                .setChannelId(id)
+                .setAutoCancel(true); // clear notification after click
+        Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
+        PendingIntent pi = PendingIntent.getActivity(this, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(pi);
+        mNotificationManager.notify(requestCode, mBuilder.build());
+    }
 }

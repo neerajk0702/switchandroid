@@ -155,6 +155,8 @@
             android:value="@string/facebook_app_id" />
 
         <activity android:name=".activity.HelpActivity"></activity>
+
+
     </application>
 
 </manifest>
