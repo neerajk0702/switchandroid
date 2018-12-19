@@ -24,6 +24,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.DocumentsContract;
@@ -65,6 +66,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -996,5 +998,57 @@ public class Utility {
         if (prefs != null) {
             prefs.edit().clear().commit();
         }
+    }
+
+    public static long getRemainigTime(String Startdatetime) {
+        long finatime = 0;
+        try {
+            Date date = null;
+            //  String datetime = "2018-12-19 13:11:04";
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            date = df.parse(Startdatetime);
+            Date startdDate = new Date(date.getTime() + (48 * (3600 * 1000)));//add 48 hours in start time
+            long startFinalTime = startdDate.getTime();
+            long currentTime = System.currentTimeMillis();
+
+            if (startFinalTime > currentTime) {
+                finatime = startFinalTime - currentTime;
+            }
+        } catch (ParseException e) {
+        }
+        return finatime;
+    }
+
+   /* //Stop Countdown method
+    private void stopCountdown() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+            countDownTimer = null;
+        }
+    }*/
+
+    //Start Countodwn method
+    public static void startTimer(long noOfMinutes, TextView countdownTimerText) {
+        String timeStr = "";
+        new CountDownTimer(noOfMinutes, 1000) {
+            public void onTick(long millisUntilFinished) {
+                long millis = millisUntilFinished;
+                //Convert milliseconds into hour,minute and seconds
+                String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
+                        TimeUnit.MILLISECONDS.toMinutes(millis) -
+                                TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
+                        TimeUnit.MILLISECONDS.toSeconds(millis) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+
+                countdownTimerText.setText(hms);
+
+            }
+
+            public void onFinish() {
+                /*countdownTimerText.setText("TIME'S UP!!"); //On finish change timer text
+                countDownTimer = null;//set CountDownTimer to null
+                startTimer.setText(getString(R.string.start_timer));//Change button text*/
+            }
+        }.start();
     }
 }

@@ -32,6 +32,7 @@ import com.kredivation.switchland.model.CheckHomeContent;
 import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.model.Home_data;
 import com.kredivation.switchland.model.Home_liked_disliked;
+import com.kredivation.switchland.model.LikedmychoiceArray;
 import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.ServiceContentData;
 import com.kredivation.switchland.utilities.ASTProgressBar;
@@ -57,7 +58,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     ASTProgressBar chatlistProgress;
     ArrayList<Data> megList;
     private EditText et_comment;
-    private TextView add_comment;
+    private TextView add_comment, remainingTime;
     Timer timer;
 
     @Override
@@ -85,6 +86,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 finish();
             }
         });
+        remainingTime = findViewById(R.id.remainingTime);
         et_comment = findViewById(R.id.et_comment);
         add_comment = findViewById(R.id.add_comment);
         add_comment.setTypeface(materialdesignicons_font);
@@ -101,6 +103,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         FullName = getIntent().getStringExtra("FullName");
         HomeId = getIntent().getStringExtra("HomeId");
         SwitchDBHelper switchDBHelper = new SwitchDBHelper(ChatActivity.this);
+        LikedmychoiceArray likedmychoiceUserHome = switchDBHelper.getLikedmychoiceDataByUserId(ChatUserId, HomeId);
+        if (likedmychoiceUserHome != null) {
+            if (likedmychoiceUserHome.getTinder_date() != null && !likedmychoiceUserHome.getTinder_date().equals("")) {
+                long remaningTime = Utility.getRemainigTime(likedmychoiceUserHome.getTinder_date());
+                Utility.startTimer(remaningTime, remainingTime);
+            }
+        }
         ArrayList<MyhomeArray> myHomeList = switchDBHelper.getAllMyhomedata();
         if (myHomeList != null && myHomeList.size() > 0) {
             for (MyhomeArray data : myHomeList) {

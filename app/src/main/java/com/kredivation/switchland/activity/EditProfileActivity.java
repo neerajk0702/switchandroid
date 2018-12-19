@@ -157,7 +157,10 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 if (data.getZipcode() != null && !data.getZipcode().equals("")) {
                     zipcode.setText(data.getZipcode());
                 }
-                Picasso.with(EditProfileActivity.this).load(data.getProfile_image()).placeholder(R.drawable.userimage).resize(80, 80).into(proImage);
+                if (data.getProfile_image() != null) {
+                    Picasso.with(EditProfileActivity.this).load(data.getProfile_image()).placeholder(R.drawable.userimage).resize(80, 80).into(proImage);
+
+                }
             }
         }
         citySpinner = findViewById(R.id.citySpinner);
@@ -178,8 +181,10 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                     countryList = new String[country.length];
                     for (int i = 0; i < country.length; i++) {
                         countryList[i] = String.valueOf(country[i].getName());
-                        if (countryId.equals(country[i].getId())) {
-                            countrySelectPos = i;
+                        if (countryId != null) {
+                            if (countryId.equals(country[i].getId())) {
+                                countrySelectPos = i;
+                            }
                         }
                     }
                     ArrayAdapter<String> countryAdapter = new ArrayAdapter<String>(EditProfileActivity.this, R.layout.spinner_row, countryList);
@@ -195,8 +200,10 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                                 for (int i = 0; i < city.length; i++) {
                                     if (countryId.equals(city[i].getCountry_id())) {
                                         cityList.add(String.valueOf(city[i].getName()));
-                                        if (cityId.equals(city[i].getId())) {
-                                            citySelectPos = i;
+                                        if (cityId != null) {
+                                            if (cityId.equals(city[i].getId())) {
+                                                citySelectPos = i;
+                                            }
                                         }
                                     }
                                 }
@@ -327,7 +334,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 @Override
                 public void onDone(String result, boolean isComplete) {
                     if (isComplete) {
-                       // parseUpdateServiceData(result);
+                        // parseUpdateServiceData(result);
                         if (dotDialog.isShowing()) {
                             dotDialog.dismiss();
                         }
@@ -581,6 +588,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
         return multipartBody;
     }
+
     private void getUserInfo() {
         final ASTProgressBar progressBar = new ASTProgressBar(EditProfileActivity.this);
         progressBar.show();

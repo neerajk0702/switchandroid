@@ -141,6 +141,15 @@ public class MychoiceArray {
     public void setProfile_image(String profile_image) {
         this.profile_image = profile_image;
     }
+private String tinder_date;
+
+    public String getTinder_date() {
+        return tinder_date;
+    }
+
+    public void setTinder_date(String tinder_date) {
+        this.tinder_date = tinder_date;
+    }
 
     @Override
     public String toString() {

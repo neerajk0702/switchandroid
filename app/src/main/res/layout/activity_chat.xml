@@ -75,10 +75,38 @@
             android:layout_height="match_parent"
             android:layout_below="@id/app_bar">
 
+            <LinearLayout
+                android:id="@+id/remainingTimeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5dp"
+                android:layout_marginRight="@dimen/_5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.7"
+                    android:gravity="left|center"
+                    android:text="Liked homes stay for only 48 hours :"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12dp" />
+
+                <TextView
+                    android:id="@+id/remainingTime"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"
+                    android:gravity="center"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/_16dp" />
+            </LinearLayout>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_below="@+id/remainingTimeLayout"
                 android:layout_marginBottom="@dimen/_55dp" />
 
             <LinearLayout

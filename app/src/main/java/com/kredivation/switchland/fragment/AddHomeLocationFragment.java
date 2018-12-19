@@ -320,11 +320,11 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
             input_layout_enterZipcode.setError("Please Enter Zipcode");
             requestFocus(enterzipcode);
             return false;
-        } else if (landmarkStr.length() == 0) {
+        } /*else if (landmarkStr.length() == 0) {
             input_layout_Landmark.setError("Please Enter Landmark");
             requestFocus(landmark);
             return false;
-        } else if (countryId == null || countryId.equals("0") || countryId.equals("")) {
+        }*/ else if (countryId == null || countryId.equals("0") || countryId.equals("")) {
             Utility.showToast(context, "Please select country!");
             return false;
         } else if (cityId == null || cityId.equals("0") || cityId.equals("")) {

@@ -18,6 +18,7 @@ import com.kredivation.switchland.activity.HomeDetailActivity;
 import com.kredivation.switchland.model.MychoiceArray;
 import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.utilities.FontManager;
+import com.kredivation.switchland.utilities.Utility;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class MyChoicesAdapter extends RecyclerView.Adapter<MyChoicesAdapter.MyVi
     public class MyViewHolder extends RecyclerView.ViewHolder {
         LinearLayout mainLayout;
         ImageView homeimage;
-        TextView title, like, locationIcon, location, startdate, enddate;
+        TextView title, like, locationIcon, location, startdate, enddate, remainingTime;
         Button travelRoutine, viewInfo;
 
         public MyViewHolder(View view) {
@@ -44,6 +45,7 @@ public class MyChoicesAdapter extends RecyclerView.Adapter<MyChoicesAdapter.MyVi
             location = view.findViewById(R.id.location);
             startdate = view.findViewById(R.id.startdate);
             enddate = view.findViewById(R.id.enddate);
+            remainingTime = view.findViewById(R.id.remainingTime);
         }
     }
 
@@ -73,6 +75,11 @@ public class MyChoicesAdapter extends RecyclerView.Adapter<MyChoicesAdapter.MyVi
         holder.startdate.setText("From " + myHomeList.get(position).getStartdate());
         holder.enddate.setText("To " + myHomeList.get(position).getEnddate());
         Picasso.with(mContext).load(myHomeList.get(position).getHome_image()).placeholder(R.drawable.home_default).into(holder.homeimage);
+        if (myHomeList.get(position).getTinder_date() != null && !myHomeList.get(position).getTinder_date().equals("")) {
+            long remaningTime = Utility.getRemainigTime(myHomeList.get(position).getTinder_date());
+            Utility.startTimer(remaningTime, holder.remainingTime);
+        }
+
 
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override

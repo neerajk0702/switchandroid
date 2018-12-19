@@ -20,6 +20,7 @@ import com.kredivation.switchland.activity.LikedUserActivity;
 import com.kredivation.switchland.model.LikedmychoiceArray;
 import com.kredivation.switchland.model.MychoiceArray;
 import com.kredivation.switchland.utilities.FontManager;
+import com.kredivation.switchland.utilities.Utility;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class MyLikedChoicesAdapter extends RecyclerView.Adapter<MyLikedChoicesAd
     public class MyViewHolder extends RecyclerView.ViewHolder {
         LinearLayout mainLayout;
         ImageView homeimage;
-        TextView title, like, locationIcon, location, startdate, enddate, likedUser;
+        TextView title, like, locationIcon, location, startdate, enddate, likedUser,remainingTime;
         Button travelRoutine, viewInfo;
 
         public MyViewHolder(View view) {
@@ -47,6 +48,7 @@ public class MyLikedChoicesAdapter extends RecyclerView.Adapter<MyLikedChoicesAd
             startdate = view.findViewById(R.id.startdate);
             enddate = view.findViewById(R.id.enddate);
             likedUser = view.findViewById(R.id.likedUser);
+            remainingTime = view.findViewById(R.id.remainingTime);
         }
     }
 
@@ -77,6 +79,11 @@ public class MyLikedChoicesAdapter extends RecyclerView.Adapter<MyLikedChoicesAd
         holder.enddate.setText("To " + myHomeList.get(position).getEnddate());
         holder.likedUser.setPaintFlags(holder.likedUser.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         Picasso.with(mContext).load(myHomeList.get(position).getHome_image()).placeholder(R.drawable.home_default).into(holder.homeimage);
+
+        if (myHomeList.get(position).getTinder_date() != null && !myHomeList.get(position).getTinder_date().equals("")) {
+            long remaningTime = Utility.getRemainigTime(myHomeList.get(position).getTinder_date());
+            Utility.startTimer(remaningTime, holder.remainingTime);
+        }
       /*  holder.likedUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

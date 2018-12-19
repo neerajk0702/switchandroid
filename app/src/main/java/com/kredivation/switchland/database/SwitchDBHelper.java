@@ -39,10 +39,10 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
         String CREATE_Myhomedata_TABLE = "CREATE TABLE Myhomedata(id TEXT,user_id TEXT,home_type TEXT,bedrooms TEXT,bathrooms TEXT,sleeps TEXT,property_type TEXT,pets TEXT,family_matters TEXT,title TEXT,sort_description TEXT,house_no TEXT,location TEXT,latitude TEXT,longitude TEXT,destinations TEXT,traveller_type TEXT,travelling_anywhere TEXT,profile_image TEXT,startdate TEXT,enddate TEXT,country_id TEXT,city_id TEXT,address1 TEXT,address2 TEXT,zipcode TEXT,gender TEXT,religion TEXT,landmarks TEXT,level_security TEXT,profile_completeness TEXT,status TEXT,added_date TEXT,updated_date TEXT,travel_country TEXT,travel_city TEXT,country_name TEXT,city_name TEXT,travel_country_name TEXT,travel_city_name TEXT)";
         db.execSQL(CREATE_Myhomedata_TABLE);
 
-        String CREATE_MychoiceData_TABLE = "CREATE TABLE MychoiceData(home_id TEXT,title TEXT,sort_description TEXT,location TEXT,destinations TEXT,home_image TEXT,startdate TEXT,enddate TEXT,zipcode TEXT,user_id TEXT,full_name TEXT,country_name TEXT,city_name TEXT,profile_image TEXT)";
+        String CREATE_MychoiceData_TABLE = "CREATE TABLE MychoiceData(home_id TEXT,title TEXT,sort_description TEXT,location TEXT,destinations TEXT,home_image TEXT,startdate TEXT,enddate TEXT,zipcode TEXT,user_id TEXT,full_name TEXT,country_name TEXT,city_name TEXT,profile_image TEXT,tinder_date TEXT)";
         db.execSQL(CREATE_MychoiceData_TABLE);
 
-        String CREATE_LikedmychoiceData_TABLE = "CREATE TABLE LikedmychoiceData(home_id TEXT,title TEXT,sort_description TEXT,location TEXT,destinations TEXT,home_image TEXT,startdate TEXT,enddate TEXT,zipcode TEXT,user_id TEXT,full_name TEXT,country_name TEXT,city_name TEXT,profile_image TEXT)";
+        String CREATE_LikedmychoiceData_TABLE = "CREATE TABLE LikedmychoiceData(home_id TEXT,title TEXT,sort_description TEXT,location TEXT,destinations TEXT,home_image TEXT,startdate TEXT,enddate TEXT,zipcode TEXT,user_id TEXT,full_name TEXT,country_name TEXT,city_name TEXT,profile_image TEXT,tinder_date TEXT)";
         db.execSQL(CREATE_LikedmychoiceData_TABLE);
 
         String CREATE_AddEditHomeData_TABLE = "CREATE TABLE AddEditHomeData(home_id TEXT,homestyle TEXT,security TEXT,gender TEXT,religion TEXT,family TEXT,pets TEXT,typeOfProperties TEXT,sleeps TEXT,bathrooms TEXT,bedrooms TEXT,title TEXT,about TEXT,savefeaturesList TEXT,saveRuleList TEXT,addressStr TEXT,hnoStr TEXT,landmarkStr TEXT,enterzipcodeStr TEXT,zipCodeStr TEXT,countryId TEXT,cityId TEXT,homeImageList TEXT,travleIdStr TEXT,profileImage TEXT,dreamStr TEXT,cardnoStr TEXT,nameStr TEXT,cvvStr TEXT,monthId TEXT,yearId EXT,latitude TEXT,longitude TEXT,startdate TEXT,enddate TEXT,travel_country TEXT,travel_city TEXT,travel_country_name TEXT,travel_city_name TEXT)";
@@ -427,6 +427,7 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
         ob.setCountry_name(cursor.getString(11));
         ob.setCity_name(cursor.getString(12));
         ob.setProfile_image(cursor.getString(13));
+        ob.setTinder_date(cursor.getString(14));
     }
 
     public MychoiceArray getMychoiceData() {
@@ -462,6 +463,7 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
         values.put("country_name", ob.getCountry_name());
         values.put("city_name", ob.getCity_name());
         values.put("profile_image", ob.getProfile_image());
+        values.put("tinder_date", ob.getTinder_date());
     }
 
     public ArrayList<MychoiceArray> getAllMychoiceData() {
@@ -514,11 +516,29 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
         ob.setCountry_name(cursor.getString(11));
         ob.setCity_name(cursor.getString(12));
         ob.setProfile_image(cursor.getString(13));
+        ob.setTinder_date(cursor.getString(14));
     }
 
     public LikedmychoiceArray getLikedmychoiceData() {
         String query = "Select * FROM LikedmychoiceData ";
 
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        LikedmychoiceArray ob = new LikedmychoiceArray();
+
+        if (cursor.moveToFirst()) {
+            cursor.moveToFirst();
+            populateLikedmychoiceData(cursor, ob);
+            cursor.close();
+        } else {
+            ob = null;
+        }
+        db.close();
+        return ob;
+    }
+
+    public LikedmychoiceArray getLikedmychoiceDataByUserId(String ChatUserId, String HomeId) {
+        String query = "Select * FROM LikedmychoiceData WHERE user_id = '" + ChatUserId + "' AND home_id = '" + HomeId + "'";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         LikedmychoiceArray ob = new LikedmychoiceArray();
@@ -549,6 +569,7 @@ public class SwitchDBHelper extends SQLiteOpenHelper {
         values.put("country_name", ob.getCountry_name());
         values.put("city_name", ob.getCity_name());
         values.put("profile_image", ob.getProfile_image());
+        values.put("tinder_date", ob.getTinder_date());
     }
 
     public ArrayList<LikedmychoiceArray> getAllLikedmychoiceData() {
