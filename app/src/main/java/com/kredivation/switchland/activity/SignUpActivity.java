@@ -62,10 +62,10 @@ import java.util.Arrays;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
-    private TextInputLayout user_layout, email_layout, password_layout, cpassword_layout, first_layout, last_layout;
+  //  private TextInputLayout user_layout, email_layout, password_layout, cpassword_layout, first_layout, last_layout;
     private EditText user, email, password, cpassword, lastName, firstName;
     private String userStr, emailStr, passwordStr, cpasswordStr, firstNameStr, lastNameStr;
-    SignInButton btn_gsign_in;
+    //SignInButton btn_gsign_in;
     private static final int RC_SIGN_IN = 7;
     private GoogleApiClient mGoogleApiClient;
     CallbackManager callbackManager;
@@ -107,25 +107,19 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initView() {
-        TextView signIn = findViewById(R.id.signIn);
-        signIn.setOnClickListener(this);
+        //TextView signIn = findViewById(R.id.signIn);
+     //   signIn.setOnClickListener(this);
         Button signup = findViewById(R.id.signup);
         signup.setOnClickListener(this);
-        user_layout = findViewById(R.id.user_layout);
         user = findViewById(R.id.user);
-        email_layout = findViewById(R.id.email_layout);
         email = findViewById(R.id.email);
-        password_layout = findViewById(R.id.password_layout);
         password = findViewById(R.id.password);
-        cpassword_layout = findViewById(R.id.cpassword_layout);
         cpassword = findViewById(R.id.cpassword);
-        first_layout = findViewById(R.id.first_layout);
         firstName = findViewById(R.id.firstName);
-        last_layout = findViewById(R.id.last_layout);
         lastName = findViewById(R.id.lastName);
         facebooklogin = findViewById(R.id.facebooklogin);
-        btn_gsign_in = findViewById(R.id.btn_gsign_in);
-        btn_gsign_in.setOnClickListener(this);
+        //btn_gsign_in = findViewById(R.id.btn_gsign_in);
+        //btn_gsign_in.setOnClickListener(this);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -144,17 +138,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.signIn:
-                finish();
-                break;
             case R.id.signup:
                 if (isValidate()) {
                     signUp();
                 }
                 break;
-            case R.id.btn_gsign_in:
+           /* case R.id.btn_gsign_in:
                 signIn();
-                break;
+                break;*/
         }
     }
 
@@ -168,47 +159,40 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         passwordStr = password.getText().toString();
         cpasswordStr = cpassword.getText().toString();
         if (firstNameStr.length() == 0) {
-            first_layout.setError("Please Enter First Name");
+            Utility.showToast(SignUpActivity.this, "Please Enter First Name.");
             requestFocus(firstName);
             return false;
         } else if (lastNameStr.length() == 0) {
-            last_layout.setError("Please Enter Last Name");
+            Utility.showToast(SignUpActivity.this, "Please Enter Last Name.");
             requestFocus(lastName);
             return false;
         } else if (userStr.length() == 0) {
-            user_layout.setError("Please Enter User Name");
+            Utility.showToast(SignUpActivity.this, "Please Enter User Name.");
             requestFocus(user);
             return false;
         } else if (emailStr.length() == 0) {
-            email_layout.setError("Please Enter Email Id");
+            Utility.showToast(SignUpActivity.this, "Please Enter Email Id.");
             requestFocus(email);
             return false;
         } else if (emailStr.equals(" ")) {
-            email_layout.setError("No Spaces Allowed");
+            Utility.showToast(SignUpActivity.this, "No Spaces Allowed in Email Id.");
             requestFocus(email);
             return false;
         } else if (!emailStr.matches(emailRegex)) {
-            email_layout.setError("Please Enter Valid Email Id");
+            Utility.showToast(SignUpActivity.this, "Please Enter Valid Email Id.");
             requestFocus(email);
             return false;
         } else if (passwordStr.length() == 0) {
-            password_layout.setError("Please Enter Password");
+            Utility.showToast(SignUpActivity.this, "Please Enter Password.");
             requestFocus(password);
             return false;
         } else if (cpasswordStr.length() == 0) {
-            cpassword_layout.setError("Please Email Confirm Password");
+            Utility.showToast(SignUpActivity.this, "Please Email Confirm Password.");
             requestFocus(cpassword);
             return false;
         } else if (!passwordStr.equals(cpasswordStr)) {
             Utility.showToast(SignUpActivity.this, "Password and Confirm Password not Matched!");
             return false;
-        } else {
-            first_layout.setErrorEnabled(false);
-            last_layout.setErrorEnabled(false);
-            user_layout.setErrorEnabled(false);
-            email_layout.setErrorEnabled(false);
-            password_layout.setErrorEnabled(false);
-            cpassword_layout.setErrorEnabled(false);
         }
         return true;
     }

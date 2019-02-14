@@ -40,7 +40,6 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
     private Toolbar toolbar;
     private EditText password, newpassword, renewpassword;
     String passwordStr, newpasswordStr, renewpasswordStr;
-    private TextInputLayout password_layout, newpassword_layout, renewpassword_layout;
     private String userId;
 
     @Override
@@ -70,11 +69,8 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
         });
 
 
-        password_layout = findViewById(R.id.password_layout);
         password = findViewById(R.id.password);
-        newpassword_layout = findViewById(R.id.newpassword_layout);
         newpassword = findViewById(R.id.newpassword);
-        renewpassword_layout = findViewById(R.id.renewpassword_layout);
         renewpassword = findViewById(R.id.renewpassword);
         Button loginText = findViewById(R.id.loginText);
         loginText.setOnClickListener(this);
@@ -96,25 +92,21 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
         renewpasswordStr = renewpassword.getText().toString();
 
         if (passwordStr.length() == 0) {
-            password_layout.setError("Please Enter your Old Password");
+            Utility.showToast(ChangePasswordActivity.this, "Please Enter your Old Password.");
             requestFocus(password);
             return false;
         } else if (newpasswordStr.length() == 0) {
-            newpassword_layout.setError("Please Enter New Password");
+            Utility.showToast(ChangePasswordActivity.this, "Please Enter New Password.");
             requestFocus(newpassword);
             return false;
         } else if (renewpassword.length() == 0) {
-            renewpassword_layout.setError("Please Enter Confirm Password");
+            Utility.showToast(ChangePasswordActivity.this, "Please Enter Confirm Password.");
             requestFocus(renewpassword);
             return false;
         } else if (!renewpassword.equals(newpasswordStr)) {
-            renewpassword_layout.setError("New Password and Confirm password not matched!");
+            Utility.showToast(ChangePasswordActivity.this, "New Password and Confirm password not matched.");
             requestFocus(renewpassword);
             return false;
-        } else {
-            password_layout.setErrorEnabled(false);
-            newpassword_layout.setErrorEnabled(false);
-            renewpassword_layout.setErrorEnabled(false);
         }
         return true;
     }

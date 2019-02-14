@@ -68,7 +68,7 @@ import java.util.Arrays;
 public class SigninActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
 
-    private TextInputLayout email_layout, password_layout;
+    //private TextInputLayout email_layout, password_layout;
     private EditText user, password;
     private String login_user, login_password;
     private Toolbar toolbar;
@@ -120,9 +120,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         //userIcon = (TextView) findViewById(R.id.userIcon);
         //userIcon.setTypeface(materialdesignicons_font);
         // userIcon.setText(Html.fromHtml("&#xf1f0;"));
-        email_layout = (TextInputLayout) findViewById(R.id.email_layout);
         user = (EditText) findViewById(R.id.user);
-        password_layout = (TextInputLayout) findViewById(R.id.password_layout);
         password = (EditText) findViewById(R.id.password);
         Button loginText = (Button) findViewById(R.id.loginText);
         loginText.setOnClickListener(this);
@@ -138,14 +136,14 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                 finish();
             }
         });
-        TextView signup = this.findViewById(R.id.signup);
+        Button signup = this.findViewById(R.id.signup);
         signup.setOnClickListener(this);
         TextView forgotPassword = findViewById(R.id.forgotPassword);
         forgotPassword.setOnClickListener(this);
         dotDialog = new ASTProgressBar(SigninActivity.this);
         facebooklogin = findViewById(R.id.facebooklogin);
-        btn_gsign_in = findViewById(R.id.btn_gsign_in);
-        btn_gsign_in.setOnClickListener(this);
+        //btn_gsign_in = findViewById(R.id.btn_gsign_in);
+       // btn_gsign_in.setOnClickListener(this);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -175,9 +173,9 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                 Intent forgot = new Intent(SigninActivity.this, ForgotPasswordActivity.class);
                 startActivity(forgot);
                 break;
-            case R.id.btn_gsign_in:
+          /*  case R.id.btn_gsign_in:
                 signIn();
-                break;
+                break;*/
         }
     }
 
@@ -189,20 +187,17 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         login_password = password.getText().toString();
 
         if (login_user.length() == 0) {
-            email_layout.setError("Please Enter User Name");
+            Utility.showToast(SigninActivity.this, "Please Enter User Name.");
             requestFocus(user);
             return false;
         } else if (login_user.contains(" ")) {
-            email_layout.setError("No Spaces Allowed");
+            Utility.showToast(SigninActivity.this, "No Spaces Allowed.");
             requestFocus(user);
             return false;
         } else if (login_password.length() == 0) {
-            password_layout.setError("Please Enter Password");
+            Utility.showToast(SigninActivity.this, "Please Enter Password.");
             requestFocus(user);
             return false;
-        } else {
-            email_layout.setErrorEnabled(false);
-            password_layout.setErrorEnabled(false);
         }
         return true;
     }
