@@ -71,8 +71,8 @@ public class HomeTinderCardAdapter extends BaseAdapter {
         }*/
         convertView = LayoutInflater.from(context).inflate(R.layout.item_koloda, parent, false);
         viewHolder = new ViewHolder(convertView);
-        viewHolder.detailIcon.setTypeface(materialdesignicons_font);
-        viewHolder.detailIcon.setText(Html.fromHtml("&#xf2fd;"));
+        /*viewHolder.detailIcon.setTypeface(materialdesignicons_font);
+        viewHolder.detailIcon.setText(Html.fromHtml("&#xf2fd;"));*/
         viewHolder.title.setText(homeList.get(position).getTitle());
         viewHolder.location.setText(homeList.get(position).getCity_name() + "," + homeList.get(position).getCountry_name());
         viewHolder.date.setText(homeList.get(position).getStartdate());
