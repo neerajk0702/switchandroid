@@ -21,8 +21,6 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.activity.DashboardActivity;
-import com.kredivation.switchland.activity.MainActivity;
-import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
 import com.kredivation.switchland.framework.ServiceCaller;
 import com.kredivation.switchland.model.Data;

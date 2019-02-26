@@ -34,7 +34,6 @@ import com.kredivation.switchland.activity.MyProfileFilterActivity;
 import com.kredivation.switchland.activity.SettingActivity;
 import com.kredivation.switchland.activity.SplashScreenActivity;
 import com.kredivation.switchland.activity.TravelRoutineActivity;
-import com.kredivation.switchland.adapters.MainPagerAdapter;
 import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
 import com.kredivation.switchland.framework.ServiceCaller;

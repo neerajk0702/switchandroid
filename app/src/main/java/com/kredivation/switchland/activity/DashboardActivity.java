@@ -38,7 +38,7 @@ import com.kredivation.switchland.fragment.ChatListFragment;
 import com.kredivation.switchland.fragment.CreateFirstTimePostFragment;
 import com.kredivation.switchland.fragment.DashboardFragment;
 import com.kredivation.switchland.fragment.LikeDislikeFragment;
-import com.kredivation.switchland.fragment.TinderFragment;
+import com.kredivation.switchland.fragment.TinderMainFragment;
 import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.runtimepermission.PermissionResultCallback;
@@ -57,7 +57,7 @@ public class DashboardActivity extends AppCompatActivity
     private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 1;
     private int REQUEST_CODE_GPS_PERMISSIONS = 2;
     String homeFilter;
-    TextView loginUsrName,loginUserEmailId;
+    TextView loginUsrName, loginUserEmailId;
     ImageView sliderProfileImg;
 
     @Override
@@ -95,7 +95,7 @@ public class DashboardActivity extends AppCompatActivity
                 } else {
                     loginUsrName.setText(data.getFirst_name() + " " + data.getLast_name());
                 }
-                 loginUserEmailId.setText(data.getEmail());
+                loginUserEmailId.setText(data.getEmail());
                 Picasso.with(DashboardActivity.this).load(data.getProfile_image()).resize(55, 55).placeholder(R.drawable.userimage).into(sliderProfileImg);
             }
         }
@@ -109,7 +109,8 @@ public class DashboardActivity extends AppCompatActivity
 
     //open default fragment
     private void setUpDashboardFragment() {
-        Fragment fragment = DashboardFragment.newInstance(homeFilter, "");
+        // Fragment fragment = DashboardFragment.newInstance(homeFilter, "");
+        Fragment fragment = TinderMainFragment.newInstance(homeFilter, "");
         moveFragment(fragment);
     }
 
