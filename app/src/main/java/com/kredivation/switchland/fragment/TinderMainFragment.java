@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -116,6 +117,9 @@ public class TinderMainFragment extends Fragment {
     String religionId = "";
     String travleId = "";
     KoldaMain frameLayout;
+    LinearLayout chatlayout, filterlayout;
+    String travelCityName, travelCountryName;
+    TextView travelocationName;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -129,7 +133,24 @@ public class TinderMainFragment extends Fragment {
     }
 
     private void initView() {
+        filterlayout = view.findViewById(R.id.filterlayout);
+        chatlayout = view.findViewById(R.id.chatlayout);
+        travelocationName = view.findViewById(R.id.travelocationName);
 
+        chatlayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment tab3 = ChatListFragment.newInstance("", "");
+                moveFragment(tab3);
+            }
+        });
+        filterlayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment tab1 = MyProfileFilterFragment.newInstance("", "");
+                moveFragment(tab1);
+            }
+        });
         if (homeFilter != null && !homeFilter.equals("")) {
             filterHome = new Gson().fromJson(homeFilter, new TypeToken<FilterHome>() {
             }.getType());
@@ -153,6 +174,14 @@ public class TinderMainFragment extends Fragment {
         this.initializeDeck();
         this.setUpCLickListeners();
         getUserdata();
+    }
+
+    private void moveFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     private void initializeDeck() {
@@ -301,6 +330,7 @@ public class TinderMainFragment extends Fragment {
         }
     }
 
+
     private void getUserdata() {
         SwitchDBHelper switchDBHelper = new SwitchDBHelper(context);
         if (filterHome != null && !filterHome.equals("")) {//come from filter screen
@@ -313,6 +343,7 @@ public class TinderMainFragment extends Fragment {
             genderId = filterHome.getGenderId();
             religionId = filterHome.getReligionId();
             travleId = filterHome.getTravleId();
+            travelocationName.setText(filterHome.getTravelCityName() + "," + filterHome.getTravelCountryName());
         } else {
             //get posted home details
             ArrayList<MyhomeArray> myHomeList = switchDBHelper.getAllMyhomedata();
@@ -321,6 +352,7 @@ public class TinderMainFragment extends Fragment {
                 endDate = myhomeArray.getEnddate();
                 countryId = myhomeArray.getTravel_country();
                 cityId = myhomeArray.getTravel_city();
+                travelocationName.setText(myhomeArray.getTravel_city_name() + "," + myhomeArray.getTravel_country_name());
             }
         }
         ArrayList<Data> userData = switchDBHelper.getAllUserInfoList();

@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -65,14 +66,13 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
 
 
     Typeface materialdesignicons_font;
-    TextView etYear, enddate;
+    TextView enddate, startDate;
     LinearLayout dateLayout, endDateLayout;
-    private Spinner noOfBedSpinner, noOfGuestSpinner, citySpinner, countrySpinner, travelcountrySpinner, travelcitySpinner;
-    private TextInputLayout des_layout, hno_layout, title_layout;
+    private Spinner citySpinner, countrySpinner, travelcountrySpinner, travelcitySpinner;
+    private TextInputLayout hno_layout;
     private EditText description, hno, title;
     private String descriptionStr, hnoStr, titleStr, startDateStr, enddateStr;
     private Button submit;
-    TextView edateIcon;
     private City[] city;
     private Country[] country;
     private Bedrooms[] bedroom;
@@ -93,6 +93,10 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
     private ArrayList<String> travelcityList;
     private ArrayList<String> travelcityIdList;
     private GoogleApiClient mGoogleApiClient;
+    TextView bedView, guestview;
+    int bedminteger = 0;
+    int guestminteger = 0;
+    ImageView bedaddition, bedsubtraction, guestaddition, guestsubtraction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,35 +114,42 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
 
 
     private void init() {
-        TextView dateIcon = findViewById(R.id.dateIcon);
         materialdesignicons_font = FontManager.getFontTypefaceMaterialDesignIcons(CreateFirstTimePostActivity.this, "fonts/materialdesignicons-webfont.otf");
-        dateIcon.setTypeface(materialdesignicons_font);
-        dateIcon.setText(Html.fromHtml("&#xf0ed;"));
-        etYear = findViewById(R.id.etYear);
+
+        TextView starticon = (TextView) findViewById(R.id.starticon);
+        starticon.setTypeface(materialdesignicons_font);
+        starticon.setText(Html.fromHtml("&#xf0ed;"));
+        TextView endIcon = (TextView) findViewById(R.id.endIcon);
+        endIcon.setTypeface(materialdesignicons_font);
+        endIcon.setText(Html.fromHtml("&#xf0ed;"));
+        bedView = findViewById(R.id.qun);
+        guestview = findViewById(R.id.guestview);
+        bedaddition = findViewById(R.id.addition);
+        bedsubtraction = findViewById(R.id.subtraction);
+        bedaddition.setOnClickListener(this);
+        bedsubtraction.setOnClickListener(this);
+        guestaddition = findViewById(R.id.addition1);
+        guestsubtraction = findViewById(R.id.subtraction1);
+        guestaddition.setOnClickListener(this);
+        guestsubtraction.setOnClickListener(this);
+
         dateLayout = findViewById(R.id.dateLayout);
         dateLayout.setOnClickListener(this);
-
-        edateIcon = findViewById(R.id.edateIcon);
-        edateIcon.setTypeface(materialdesignicons_font);
-        edateIcon.setText(Html.fromHtml("&#xf0ed;"));
         enddate = findViewById(R.id.enddate);
-        endDateLayout = findViewById(R.id.dateLayout);
-        noOfBedSpinner = findViewById(R.id.noOfBedSpinner);
-        noOfGuestSpinner = findViewById(R.id.noOfGuestSpinner);
+        startDate = findViewById(R.id.startDate);
+        endDateLayout = findViewById(R.id.endDateLayout);
+        endDateLayout.setOnClickListener(this);
         citySpinner = findViewById(R.id.citySpinner);
         countrySpinner = findViewById(R.id.countrySpinner);
         travelcitySpinner = findViewById(R.id.travelcitySpinner);
         travelcountrySpinner = findViewById(R.id.travelcountrySpinner);
 
-        des_layout = findViewById(R.id.des_layout);
         hno_layout = findViewById(R.id.hno_layout);
-        title_layout = findViewById(R.id.title_layout);
         description = findViewById(R.id.description);
         hno = findViewById(R.id.hno);
         title = findViewById(R.id.title);
         submit = findViewById(R.id.submit);
         dateLayout.setOnClickListener(this);
-        edateIcon.setOnClickListener(this);
         submit.setOnClickListener(this);
         TextView logout = findViewById(R.id.logout);
         logout.setOnClickListener(this);
@@ -176,7 +187,7 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
         if (sData != null) {
             if (sData.getData() != null) {
                 final Data MData = sData.getData();
-                bedroom = MData.getBedrooms();
+               /* bedroom = MData.getBedrooms();
                 if (bedroom != null) {
                     bedList = new String[bedroom.length];
                     for (int i = 0; i < bedroom.length; i++) {
@@ -217,7 +228,7 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
                     public void onNothingSelected(AdapterView<?> parent) {
 
                     }
-                });
+                });*/
 
                 country = MData.getCountry();
                 if (country != null) {
@@ -323,7 +334,7 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                etYear.setText(sdf.format(myCalendar.getTime()));
+                startDate.setText(sdf.format(myCalendar.getTime()));
                 // datemilisec = myCalendar.getTimeInMillis();
             }
         };
@@ -331,13 +342,7 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH));
         pickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-        dateLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                pickerDialog.show();
-            }
-        });
+        pickerDialog.show();
     }
 
     public void setEndDate() {
@@ -361,13 +366,7 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH));
         pickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-        edateIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                pickerDialog.show();
-            }
-        });
+        pickerDialog.show();
     }
 
     public static boolean isDateValid(String date) {
@@ -387,11 +386,11 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
         String emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
         titleStr = title.getText().toString();
         hnoStr = hno.getText().toString();
-        startDateStr = etYear.getText().toString();
+        startDateStr = startDate.getText().toString();
         enddateStr = enddate.getText().toString();
         descriptionStr = description.getText().toString();
         if (titleStr.length() == 0) {
-            title_layout.setError("Please Enter Title");
+            Utility.showToast(CreateFirstTimePostActivity.this, "Please Enter Title!");
             requestFocus(title);
             return false;
         }/* else if (hnoStr.length() == 0) {
@@ -399,7 +398,7 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
             requestFocus(hno);
             return false;
         }*/ else if (descriptionStr.length() == 0) {
-            des_layout.setError("Please Enter Description");
+            Utility.showToast(CreateFirstTimePostActivity.this, "Please Enter Description!");
             requestFocus(description);
             return false;
         } else if (!isDateValid(startDateStr)) {
@@ -420,16 +419,14 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
         } else if (travelcityID.equals("")) {
             Utility.showToast(CreateFirstTimePostActivity.this, "Please select Travel City!");
             return false;
-        } else if (noBed == 0) {
+        } else if (bedminteger == 0) {
             Utility.showToast(CreateFirstTimePostActivity.this, "Please select No Of Beds!");
             return false;
-        } else if (nosleep == 0) {
+        } else if (guestminteger == 0) {
             Utility.showToast(CreateFirstTimePostActivity.this, "Please select No of Guests!");
             return false;
         } else {
-            title_layout.setErrorEnabled(false);
             hno_layout.setErrorEnabled(false);
-            des_layout.setErrorEnabled(false);
         }
         return true;
     }
@@ -447,7 +444,7 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
             case R.id.dateLayout:
                 setStartDate();
                 break;
-            case R.id.edateIcon:
+            case R.id.endDateLayout:
                 setEndDate();
                 break;
             case R.id.submit:
@@ -469,7 +466,43 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 break;
+            case R.id.addition:
+                increaseBed();
+                break;
+            case R.id.subtraction:
+                if (bedminteger > 0) {
+                    decreaseBed();
+                }
+                break;
+            case R.id.addition1:
+                increaseguestview();
+                break;
+            case R.id.subtraction1:
+                if (guestminteger > 0) {
+                    decreaseguestview();
+                }
+                break;
         }
+    }
+
+    public void increaseBed() {
+        bedminteger = bedminteger + 1;
+        bedView.setText("" + bedminteger);
+    }
+
+    public void decreaseBed() {
+        bedminteger = bedminteger - 1;
+        bedView.setText("" + bedminteger);
+    }
+
+    public void increaseguestview() {
+        guestminteger = guestminteger + 1;
+        guestview.setText("" + guestminteger);
+    }
+
+    public void decreaseguestview() {
+        guestminteger = guestminteger - 1;
+        guestview.setText("" + guestminteger);
     }
 
     //gmail logout
@@ -498,8 +531,8 @@ public class CreateFirstTimePostActivity extends AppCompatActivity implements Vi
             payloadList.put("country", countryID);
             payloadList.put("travel_city", travelcityID);
             payloadList.put("travel_country", travelcountryID);
-            payloadList.put("sleeps", String.valueOf(nosleep));
-            payloadList.put("bedrooms", String.valueOf(noBed));
+            payloadList.put("sleeps", String.valueOf(guestminteger));//nosleep
+            payloadList.put("bedrooms", String.valueOf(bedminteger));//noBed
             MultipartBody.Builder multipartBody = setMultipartBodyVaule();
             FileUploaderHelper fileUploaderHelper = new FileUploaderHelper(CreateFirstTimePostActivity.this, payloadList, multipartBody, serviceURL) {
                 @Override

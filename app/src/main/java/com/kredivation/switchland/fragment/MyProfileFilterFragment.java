@@ -23,7 +23,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.activity.DashboardActivity;
-import com.kredivation.switchland.activity.MyProfileFilterActivity;
 import com.kredivation.switchland.activity.TravelRoutineActivity;
 import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.model.Bedrooms;
@@ -98,14 +97,14 @@ public class MyProfileFilterFragment extends Fragment implements View.OnClickLis
     private String userId;
     private City[] city;
     private Country[] country;
-    Spinner cityspinner, countryspinner, bedroomspinner, Religionspinner, Typeoftravellerspinner, genderspinner, Sleepspinner;
+    Spinner cityspinner, countryspinner, Religionspinner, Typeoftravellerspinner, genderspinner;
     String[] countryList;
     ArrayList<String> cityList;
     ArrayList<String> cityIdList;
     private String cityId = "";
     private String countryId = "";
-    ImageView profileImage;
-    TextView uNeme, uemail, phone, cityName, countryName, travlingDtae;
+    // ImageView profileImage;
+    //  TextView uNeme, uemail, phone, cityName, countryName ,travlingDtae;
     String startDate = "";
     String endDate = "";
     //String countryNameStr = "";
@@ -113,7 +112,7 @@ public class MyProfileFilterFragment extends Fragment implements View.OnClickLis
     Data MData;
     LinearLayout dateLayout, endDateLayout;
     TextView edateIcon;
-    TextView etYear, enddate, homeTitle, showAllfilter;
+    TextView etYear, enddate, showAllfilter;
     LinearLayout moreFilterLayout;
     private String startDateStr, enddateStr, servercountryId, servercityId;
     Bedrooms[] bedrooms;
@@ -130,7 +129,11 @@ public class MyProfileFilterFragment extends Fragment implements View.OnClickLis
     boolean cityselect = false;
     View view;
     Context context;
-
+    TextView bedView, guestview;
+    int bedminteger = 0;
+    int guestminteger = 0;
+    ImageView bedaddition, bedsubtraction, guestaddition, guestsubtraction;
+    String travelCountryName, travelCityName;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -143,47 +146,56 @@ public class MyProfileFilterFragment extends Fragment implements View.OnClickLis
 
     private void initView() {
         Typeface materialdesignicons_font = FontManager.getFontTypefaceMaterialDesignIcons(context, "fonts/materialdesignicons-webfont.otf");
-        TextView locationIcon = (TextView) view.findViewById(R.id.locationIcon);
+  /*      TextView locationIcon = (TextView) view.findViewById(R.id.locationIcon);
         locationIcon.setTypeface(materialdesignicons_font);
         locationIcon.setText(Html.fromHtml("&#xf34e;"));
         TextView calIcon = (TextView) view.findViewById(R.id.calIcon);
         calIcon.setTypeface(materialdesignicons_font);
-        calIcon.setText(Html.fromHtml("&#xf0ed;"));
+        calIcon.setText(Html.fromHtml("&#xf0ed;"));*/
         TextView starticon = (TextView) view.findViewById(R.id.starticon);
         starticon.setTypeface(materialdesignicons_font);
         starticon.setText(Html.fromHtml("&#xf0ed;"));
         TextView endIcon = (TextView) view.findViewById(R.id.endIcon);
         endIcon.setTypeface(materialdesignicons_font);
         endIcon.setText(Html.fromHtml("&#xf0ed;"));
+        bedView = view.findViewById(R.id.qun);
+        guestview = view.findViewById(R.id.guestview);
+        bedaddition = view.findViewById(R.id.addition);
+        bedsubtraction = view.findViewById(R.id.subtraction);
+        bedaddition.setOnClickListener(this);
+        bedsubtraction.setOnClickListener(this);
+        guestaddition = view.findViewById(R.id.addition1);
+        guestsubtraction = view.findViewById(R.id.subtraction1);
+        guestaddition.setOnClickListener(this);
+        guestsubtraction.setOnClickListener(this);
 
-        profileImage = view.findViewById(R.id.profileImage);
-        uNeme = view.findViewById(R.id.uNeme);
+       /*
+         profileImage = view.findViewById(R.id.profileImage);
+       uNeme = view.findViewById(R.id.uNeme);
         uemail = view.findViewById(R.id.uemail);
         phone = view.findViewById(R.id.phone);
-
         cityName = view.findViewById(R.id.city);
-        countryName = view.findViewById(R.id.country);
-        travlingDtae = view.findViewById(R.id.travlingDtae);
+       countryName = view.findViewById(R.id.country);*/
         dateLayout = view.findViewById(R.id.startDateLayout);
         dateLayout.setOnClickListener(this);
         endDateLayout = view.findViewById(R.id.endDateLayout);
         endDateLayout.setOnClickListener(this);
         etYear = view.findViewById(R.id.startDate);
         enddate = view.findViewById(R.id.endDate);
-        homeTitle = view.findViewById(R.id.homeTitle);
-        bedroomspinner = view.findViewById(R.id.bedroomspinner);
+        //bedroomspinner = view.findViewById(R.id.bedroomspinner);
         Religionspinner = view.findViewById(R.id.Religionspinner);
         Typeoftravellerspinner = view.findViewById(R.id.Typeoftravellerspinner);
         genderspinner = view.findViewById(R.id.genderspinner);
-        Sleepspinner = view.findViewById(R.id.Sleepspinner);
+        //  Sleepspinner = view.findViewById(R.id.Sleepspinner);
         submit = view.findViewById(R.id.submit);
         submit.setOnClickListener(this);
 
         showAllfilter = view.findViewById(R.id.showAllfilter);
         showAllfilter.setOnClickListener(this);
         moreFilterLayout = view.findViewById(R.id.moreFilterLayout);
+       /* new
         Button travelRoutine = view.findViewById(R.id.travelRoutine);
-        travelRoutine.setOnClickListener(this);
+        travelRoutine.setOnClickListener(this);*/
         /*SeekBar seekBar = (SeekBar)findViewById(R.id.seekBar2);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
@@ -215,9 +227,9 @@ public class MyProfileFilterFragment extends Fragment implements View.OnClickLis
 
     private void setSpinerValue() {
         ArrayAdapter<String> bedroomadapter = new ArrayAdapter<String>(context, R.layout.spinner_row, bedroomsList);
-        bedroomspinner.setAdapter(bedroomadapter);
+        // bedroomspinner.setAdapter(bedroomadapter);
         ArrayAdapter<String> sleepadapter = new ArrayAdapter<String>(context, R.layout.spinner_row, sleepsList);
-        Sleepspinner.setAdapter(sleepadapter);
+        // Sleepspinner.setAdapter(sleepadapter);
         ArrayAdapter<String> reliadapter = new ArrayAdapter<String>(context, R.layout.spinner_row, religionList);
         Religionspinner.setAdapter(reliadapter);
         ArrayAdapter<String> genderadapter = new ArrayAdapter<String>(context, R.layout.spinner_row, genderList);
@@ -235,7 +247,7 @@ public class MyProfileFilterFragment extends Fragment implements View.OnClickLis
 
             }
         });
-        bedroomspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+       /* bedroomspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 bedroomsStr = String.valueOf(bedrooms[position].getId());
@@ -258,7 +270,7 @@ public class MyProfileFilterFragment extends Fragment implements View.OnClickLis
 
             }
         });
-
+*/
         Religionspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -338,6 +350,7 @@ public class MyProfileFilterFragment extends Fragment implements View.OnClickLis
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             countryId = country[position].getId();
+                            travelCountryName = countryList[position].toString();
                             setCityAdapter(countryId);
                         }
 
@@ -372,6 +385,7 @@ public class MyProfileFilterFragment extends Fragment implements View.OnClickLis
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 cityId = city[position].getId();
+                travelCityName = cityList.get(position).toString();
             }
 
             @Override
@@ -384,7 +398,7 @@ public class MyProfileFilterFragment extends Fragment implements View.OnClickLis
     }
 
     private void getUserdata() {
-        SwitchDBHelper switchDBHelper = new SwitchDBHelper(context);
+      /*  SwitchDBHelper switchDBHelper = new SwitchDBHelper(context);
         ArrayList<Data> userData = switchDBHelper.getAllUserInfoList();
         if (userData != null && userData.size() > 0) {
             for (Data data : userData) {
@@ -398,7 +412,7 @@ public class MyProfileFilterFragment extends Fragment implements View.OnClickLis
                 phone.setText(data.getMobile_number());
                 Picasso.with(context).load(data.getProfile_image()).placeholder(R.drawable.userimage).resize(100, 100).into(profileImage);
             }
-        }
+        }*/
     }
 
     @Override
@@ -422,12 +436,12 @@ public class MyProfileFilterFragment extends Fragment implements View.OnClickLis
             travleTypeId = myhomeArray.getProperty_type();
             genderStr = myhomeArray.getGender();
             religionStr = myhomeArray.getReligion();
-            travlingDtae.setText(startDate);
+            //  travlingDtae.setText(startDate);
             etYear.setText(startDate);
             enddate.setText(endDate);
-            homeTitle.setText(myhomeArray.getTitle());
-            countryName.setText(myhomeArray.getTravel_country_name());
-            cityName.setText(myhomeArray.getTravel_city_name());
+            //  homeTitle.setText(myhomeArray.getTitle());
+            //  countryName.setText(myhomeArray.getTravel_country_name());
+            //  cityName.setText(myhomeArray.getTravel_city_name());
         }
         //setCityAdapter(servercountryId);
         setDefaultValue();
@@ -448,7 +462,7 @@ public class MyProfileFilterFragment extends Fragment implements View.OnClickLis
             }
         }
 
-        for (int i = 0; i < sleepsList.length; i++) {
+      /*  for (int i = 0; i < sleepsList.length; i++) {
             if (sleepsStr.equals(sleeps[i].getId())) {
                 Sleepspinner.setSelection(i);
                 break;
@@ -459,7 +473,7 @@ public class MyProfileFilterFragment extends Fragment implements View.OnClickLis
                 bedroomspinner.setSelection(i);
                 break;
             }
-        }
+        }*/
         for (int i = 0; i < travleList.length; i++) {
             if (travleTypeId.equals(travel[i].getId())) {
                 Typeoftravellerspinner.setSelection(i);
@@ -507,13 +521,15 @@ public class MyProfileFilterFragment extends Fragment implements View.OnClickLis
                     FilterHome filterHome = new FilterHome();
                     filterHome.setStartDate(startDateStr);
                     filterHome.setEndDate(enddateStr);
-                    filterHome.setBedroomsId(bedroomsStr);
-                    filterHome.setSleepsId(sleepsStr);
+                    filterHome.setBedroomsId(String.valueOf(bedminteger));//bedroomsStr
+                    filterHome.setSleepsId(String.valueOf(guestminteger));//sleepsStr
                     filterHome.setGenderId(genderStr);
                     filterHome.setReligionId(religionStr);
                     filterHome.setTravleId(travleIdStr);
                     filterHome.setCountryId(countryId);
                     filterHome.setCityId(cityId);
+                    filterHome.setTravelCityName(travelCityName);
+                    filterHome.setTravelCountryName(travelCountryName);
                     String homeFilter = new Gson().toJson(filterHome);
                     Intent intent = new Intent(context, DashboardActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -526,6 +542,22 @@ public class MyProfileFilterFragment extends Fragment implements View.OnClickLis
                 break;
             case R.id.travelRoutine:
                 openTravelScreen();
+                break;
+            case R.id.addition:
+                increaseBed();
+                break;
+            case R.id.subtraction:
+                if (bedminteger > 0) {
+                    decreaseBed();
+                }
+                break;
+            case R.id.addition1:
+                increaseguestview();
+                break;
+            case R.id.subtraction1:
+                if (guestminteger > 0) {
+                    decreaseguestview();
+                }
                 break;
         }
     }
@@ -551,13 +583,7 @@ public class MyProfileFilterFragment extends Fragment implements View.OnClickLis
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH));
         pickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-        dateLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                pickerDialog.show();
-            }
-        });
+        pickerDialog.show();
     }
 
     public void setEndDate() {
@@ -581,13 +607,7 @@ public class MyProfileFilterFragment extends Fragment implements View.OnClickLis
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH));
         pickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-        endDateLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                pickerDialog.show();
-            }
-        });
+        pickerDialog.show();
     }
 
     public static boolean isDateValid(String date) {
@@ -600,6 +620,26 @@ public class MyProfileFilterFragment extends Fragment implements View.OnClickLis
         } catch (ParseException e) {
             return false;
         }
+    }
+
+    public void increaseBed() {
+        bedminteger = bedminteger + 1;
+        bedView.setText("" + bedminteger);
+    }
+
+    public void decreaseBed() {
+        bedminteger = bedminteger - 1;
+        bedView.setText("" + bedminteger);
+    }
+
+    public void increaseguestview() {
+        guestminteger = guestminteger + 1;
+        guestview.setText("" + guestminteger);
+    }
+
+    public void decreaseguestview() {
+        guestminteger = guestminteger - 1;
+        guestview.setText("" + guestminteger);
     }
 
     // ----validation -----

@@ -45,24 +45,12 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.5"
+                        android:layout_weight="0.8"
                         android:gravity="center"
+                        android:paddingRight="@dimen/_30dp"
                         android:text="Switch Chat"
                         android:textColor="@color/colorAccent"
                         android:textSize="@dimen/dimTextSize_18" />
-
-                    <Button
-                        android:id="@+id/switchbt"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/_25dp"
-                        android:layout_weight="0.3"
-                        android:background="@drawable/button_login"
-                        android:elevation="10dp"
-                        android:gravity="center"
-                        android:text="Switch"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/dimTextSize_12" />
 
 
                 </LinearLayout>
@@ -78,28 +66,59 @@
             <LinearLayout
                 android:id="@+id/remainingTimeLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_35dp"
                 android:layout_marginLeft="@dimen/_5dp"
+                android:layout_marginTop="@dimen/_5dp"
                 android:layout_marginRight="@dimen/_5dp"
                 android:orientation="horizontal">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.7"
-                    android:gravity="left|center"
-                    android:text="Liked homes stay for only 48 hours :"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12dp" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/remainingTime"
+                    <TextView
+                        android:id="@+id/username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center"
+                        android:text="sdcds"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/_12dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center"
+                        android:text="sdcdsc"
+                        android:textColor="@color/secondry_txt_color"
+                        android:textSize="@dimen/_12dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.3"
-                    android:gravity="center"
-                    android:textColor="@color/red"
-                    android:textSize="@dimen/_16dp" />
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/switchbt"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_25dp"
+                        android:background="@drawable/button_login_green"
+                        android:elevation="10dp"
+                        android:gravity="center"
+                        android:text="Switch"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimTextSize_12" />
+                </LinearLayout>
+
+
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
@@ -107,20 +126,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/remainingTimeLayout"
+                android:layout_marginTop="@dimen/_7dp"
                 android:layout_marginBottom="@dimen/_55dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:background="@color/greenLight">
+                android:background="@color/white">
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/cardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="@dimen/dimValue_3"
-                    app:cardElevation="@dimen/dimValue_5"
+                    app:cardCornerRadius="@dimen/dimValue_20"
+                    app:cardElevation="@dimen/dimValue_4"
                     app:cardUseCompatPadding="true">
 
                     <LinearLayout
@@ -145,7 +165,7 @@
                             android:backgroundTint="@android:color/darker_gray"
                             android:ems="10"
                             android:gravity="left|center"
-                            android:hint="Type a message..."
+                            android:hint="Type your message..."
                             android:maxLength="1000"
                             android:minWidth="@dimen/_100dp"
                             android:padding="@dimen/_5dp"

@@ -117,7 +117,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
     private LocationCallback mLocationCallback;
     private long UPDATE_INTERVAL = 10 * 1000;  *//* 10 secs *//*
     private long FASTEST_INTERVAL = 2000; *//* 2 sec */
-
+    String travelCountryName, travelCityName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -195,6 +195,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             travelcountryID = country[position].getId();
+                            travelCountryName=countryList[position].toString();
                             city = MData.getCity();
                             if (city != null) {
                                 cityList = new ArrayList();
@@ -224,6 +225,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 travelcityID = cityIdList.get(position).toString();
+                travelCityName=cityList.get(position).toString();
             }
 
             @Override
@@ -519,6 +521,8 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
                             filterHome.setEndDate(enddateStr);
                             filterHome.setCountryId(travelcountryID);
                             filterHome.setCityId(travelcityID);
+                            filterHome.setTravelCityName(travelCityName);
+                            filterHome.setTravelCountryName(travelCountryName);
                             String homeFilter = new Gson().toJson(filterHome);
                             Intent intent = new Intent(TravelRoutineActivity.this, DashboardActivity.class);
                             intent.putExtra("HomeFilter", homeFilter);
@@ -599,6 +603,8 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
                                 filterHome.setEndDate(enddateStr);
                                 filterHome.setCountryId(travelcountryID);
                                 filterHome.setCityId(travelcityID);
+                                filterHome.setTravelCityName(travelCityName);
+                                filterHome.setTravelCountryName(travelCountryName);
                                 String homeFilter = new Gson().toJson(filterHome);
                                 Intent intent = new Intent(TravelRoutineActivity.this, DashboardActivity.class);
                                 intent.putExtra("HomeFilter", homeFilter);

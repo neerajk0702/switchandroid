@@ -88,6 +88,7 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
     String sleepsStr, bedroomsStr, travleTypeId;
     Button submit;
     boolean cityselect = false;
+    String travelCountryName, travelCityName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -314,6 +315,7 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             countryId = country[position].getId();
+                            travelCountryName = countryList[position].toString();
                             setCityAdapter(countryId);
                         }
 
@@ -348,6 +350,7 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 cityId = city[position].getId();
+                travelCityName = cityList.get(position).toString();
             }
 
             @Override
@@ -490,6 +493,8 @@ public class MyProfileFilterActivity extends AppCompatActivity implements View.O
                     filterHome.setTravleId(travleIdStr);
                     filterHome.setCountryId(countryId);
                     filterHome.setCityId(cityId);
+                    filterHome.setTravelCityName(travelCityName);
+                    filterHome.setTravelCountryName(travelCountryName);
                     String homeFilter = new Gson().toJson(filterHome);
                     Intent intent = new Intent(MyProfileFilterActivity.this, DashboardActivity.class);
                     intent.putExtra("HomeFilter", homeFilter);

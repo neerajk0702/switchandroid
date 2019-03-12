@@ -58,7 +58,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     ASTProgressBar chatlistProgress;
     ArrayList<Data> megList;
     private EditText et_comment;
-    private TextView add_comment, remainingTime;
+    private TextView add_comment, username, location;
     Timer timer;
 
     @Override
@@ -86,7 +86,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 finish();
             }
         });
-        remainingTime = findViewById(R.id.remainingTime);
+        username = findViewById(R.id.username);
+        location = findViewById(R.id.location);
         et_comment = findViewById(R.id.et_comment);
         add_comment = findViewById(R.id.add_comment);
         add_comment.setTypeface(materialdesignicons_font);
@@ -102,14 +103,17 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         ProfileImg = getIntent().getStringExtra("ProfileImg");
         FullName = getIntent().getStringExtra("FullName");
         HomeId = getIntent().getStringExtra("HomeId");
+        String LocationStr = getIntent().getStringExtra("Location");
+        username.setText(FullName + "");
+        location.setText(LocationStr + "");
         SwitchDBHelper switchDBHelper = new SwitchDBHelper(ChatActivity.this);
-        LikedmychoiceArray likedmychoiceUserHome = switchDBHelper.getLikedmychoiceDataByUserId(ChatUserId, HomeId);
+       /* LikedmychoiceArray likedmychoiceUserHome = switchDBHelper.getLikedmychoiceDataByUserId(ChatUserId, HomeId);
         if (likedmychoiceUserHome != null) {
             if (likedmychoiceUserHome.getTinder_date() != null && !likedmychoiceUserHome.getTinder_date().equals("")) {
                 long remaningTime = Utility.getRemainigTime(likedmychoiceUserHome.getTinder_date());
                 Utility.startTimer(remaningTime, remainingTime);
             }
-        }
+        }*/
         ArrayList<MyhomeArray> myHomeList = switchDBHelper.getAllMyhomedata();
         if (myHomeList != null && myHomeList.size() > 0) {
             for (MyhomeArray data : myHomeList) {
@@ -170,7 +174,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 object.put("from_user_id", userId);
                 object.put("to_user_id", ChatUserId);
             } catch (JSONException e) {
-                e.printStackTrace();
+                // e.printStackTrace();
             }
 
             String serviceURL = Contants.BASE_URL + Contants.AllMessages;

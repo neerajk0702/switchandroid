@@ -17,7 +17,7 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <LinearLayout
+        <LinearLayout android:id="@+id/filterlayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -37,12 +37,12 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <TextView android:id="@+id/travelocationName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="France Paric"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_14dp"
+                    android:textSize="@dimen/_10dp"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -57,7 +57,7 @@
         </LinearLayout>
 
 
-        <LinearLayout
+        <LinearLayout android:id="@+id/chatlayout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -112,16 +112,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:padding="@dimen/_5dp"
-                android:visibility="gone">
+                android:gravity="center">
 
                 <ImageView
                     android:id="@+id/reminder"
-                    android:layout_width="@dimen/_38dp"
-                    android:layout_height="@dimen/_38dp"
+                    android:layout_width="@dimen/_35dp"
+                    android:layout_height="@dimen/_35dp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/_10dp"
                     android:background="@drawable/circle_btn"
                     android:gravity="center"
                     android:padding="@dimen/_5dp"
@@ -135,13 +132,12 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="@dimen/_5dp">
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/dislike"
-                    android:layout_width="@dimen/_40dp"
-                    android:layout_height="@dimen/_40dp"
+                    android:layout_width="@dimen/_35dp"
+                    android:layout_height="@dimen/_35dp"
                     android:gravity="center"
                     android:padding="@dimen/_10dp"
                     android:src="@drawable/ic_close" />
@@ -152,7 +148,8 @@
                     android:layout_marginLeft="@dimen/_5dp"
                     android:text="Dislike"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_14dp" />
+                    android:textSize="@dimen/_14dp"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
@@ -160,23 +157,20 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:padding="@dimen/_5dp"
-                android:visibility="gone">
+                android:gravity="center">
 
                 <Button
                     android:id="@+id/skip"
-                    android:layout_width="@dimen/_38dp"
-                    android:layout_height="@dimen/_38dp"
+                    android:layout_width="@dimen/_35dp"
+                    android:layout_height="@dimen/_35dp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/_15dp"
                     android:background="@drawable/circle_btn"
                     android:gravity="center"
                     android:padding="@dimen/_5dp"
                     android:text="Skip"
                     android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12dp" />
+                    android:textSize="@dimen/_10dp" />
             </LinearLayout>
 
 
@@ -191,19 +185,19 @@
 
                 <ImageView
                     android:id="@+id/like"
-                    android:layout_width="@dimen/_40dp"
-                    android:layout_height="@dimen/_40dp"
+                    android:layout_width="@dimen/_35dp"
+                    android:layout_height="@dimen/_35dp"
                     android:gravity="center"
-                    android:padding="@dimen/_10dp"
+                    android:padding="@dimen/_5dp"
                     android:src="@drawable/ic_hearts" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_5dp"
                     android:text="Like"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_14dp" />
+                    android:textSize="@dimen/_14dp"
+                    android:visibility="gone" />
             </LinearLayout>
 
         </LinearLayout>

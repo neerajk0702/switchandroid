@@ -32,6 +32,7 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
         TextView servermsg, servertiming, serveruserName;
         TextView mycomment, mytiming, myName;
         LinearLayout myside, serverside;
+        ImageView serveruserImage;
 
         public MyViewHolder(View view) {
             super(view);
@@ -43,6 +44,7 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
             myName = view.findViewById(R.id.myName);
             myside = view.findViewById(R.id.myside);
             serverside = view.findViewById(R.id.serverside);
+            serveruserImage = view.findViewById(R.id.serveruserImage);
 
         }
     }
@@ -79,7 +81,7 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
         } else {
             holder.myside.setVisibility(View.GONE);
             holder.serverside.setVisibility(View.VISIBLE);
-            // Picasso.with(mContext).load(megList.get(position).getProfile_image()).placeholder(R.drawable.avter).resize(45, 45).into(holder.userImage);
+            Picasso.with(mContext).load(megList.get(position).getProfile_image()).placeholder(R.drawable.avter).resize(40, 40).into(holder.serveruserImage);
             holder.serveruserName.setText(megList.get(position).getFull_name());
             holder.servermsg.setText(megList.get(position).getMessage());
             holder.servertiming.setText(megList.get(position).getMsg_add_date());

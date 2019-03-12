@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.kredivation.switchland.fragment.ChatListFragment;
-import com.kredivation.switchland.fragment.CreateFirstTimePostFragment;
 import com.kredivation.switchland.fragment.MyProfileFilterFragment;
 import com.kredivation.switchland.fragment.MyProfileFragment;
 import com.kredivation.switchland.fragment.TinderFragment;

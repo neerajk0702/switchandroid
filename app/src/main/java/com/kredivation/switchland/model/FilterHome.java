@@ -10,6 +10,24 @@ public class FilterHome {
     private String genderId;
     private String countryId;
     private String cityId;
+    private String travelCityName;
+    private String travelCountryName;
+
+    public String getTravelCityName() {
+        return travelCityName;
+    }
+
+    public void setTravelCityName(String travelCityName) {
+        this.travelCityName = travelCityName;
+    }
+
+    public String getTravelCountryName() {
+        return travelCountryName;
+    }
+
+    public void setTravelCountryName(String travelCountryName) {
+        this.travelCountryName = travelCountryName;
+    }
 
     public String getStartDate() {
         return startDate;
