@@ -117,17 +117,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
 
     private void initView() {
         Typeface materialdesignicons_font = FontManager.getFontTypefaceMaterialDesignIcons(this, "fonts/materialdesignicons-webfont.otf");
-        //userIcon = (TextView) findViewById(R.id.userIcon);
-        //userIcon.setTypeface(materialdesignicons_font);
-        // userIcon.setText(Html.fromHtml("&#xf1f0;"));
-        user = (EditText) findViewById(R.id.user);
-        password = (EditText) findViewById(R.id.password);
-        Button loginText = (Button) findViewById(R.id.loginText);
-        loginText.setOnClickListener(this);
-        //userIcon = (TextView) findViewById(R.id.userIcon);
-        //userIcon.setTypeface(materialdesignicons_font);
-        // userIcon.setText(Html.fromHtml("&#xf1f0;"));
-        TextView back = (TextView) toolbar.findViewById(R.id.back);
+        TextView back = toolbar.findViewById(R.id.back);
         back.setTypeface(materialdesignicons_font);
         back.setText(Html.fromHtml("&#xf30d;"));
         back.setOnClickListener(new View.OnClickListener() {
@@ -136,14 +126,24 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                 finish();
             }
         });
+        user = (EditText) findViewById(R.id.user);
+        password = (EditText) findViewById(R.id.password);
+        Button loginText = (Button) findViewById(R.id.loginText);
+        loginText.setOnClickListener(this);
+        //userIcon = (TextView) findViewById(R.id.userIcon);
+        //userIcon.setTypeface(materialdesignicons_font);
+        // userIcon.setText(Html.fromHtml("&#xf1f0;"));
         Button signup = this.findViewById(R.id.signup);
         signup.setOnClickListener(this);
         TextView forgotPassword = findViewById(R.id.forgotPassword);
         forgotPassword.setOnClickListener(this);
         dotDialog = new ASTProgressBar(SigninActivity.this);
         facebooklogin = findViewById(R.id.facebooklogin);
-        //btn_gsign_in = findViewById(R.id.btn_gsign_in);
-       // btn_gsign_in.setOnClickListener(this);
+        btn_gsign_in = findViewById(R.id.btn_gsign_in);
+        btn_gsign_in.setOnClickListener(this);
+        btn_gsign_in.setSize(SignInButton.SIZE_STANDARD);
+        TextView gmaillogin = findViewById(R.id.gmaillogin);
+        gmaillogin.setOnClickListener(this);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -173,9 +173,9 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                 Intent forgot = new Intent(SigninActivity.this, ForgotPasswordActivity.class);
                 startActivity(forgot);
                 break;
-          /*  case R.id.btn_gsign_in:
+            case R.id.gmaillogin:
                 signIn();
-                break;*/
+                break;
         }
     }
 

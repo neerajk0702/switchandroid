@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -51,6 +54,7 @@ import com.kredivation.switchland.model.ServiceContentData;
 import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.CompatibilityUtility;
 import com.kredivation.switchland.utilities.Contants;
+import com.kredivation.switchland.utilities.FontManager;
 import com.kredivation.switchland.utilities.Utility;
 
 import org.json.JSONException;
@@ -62,10 +66,10 @@ import java.util.Arrays;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
-  //  private TextInputLayout user_layout, email_layout, password_layout, cpassword_layout, first_layout, last_layout;
+    //  private TextInputLayout user_layout, email_layout, password_layout, cpassword_layout, first_layout, last_layout;
     private EditText user, email, password, cpassword, lastName, firstName;
     private String userStr, emailStr, passwordStr, cpasswordStr, firstNameStr, lastNameStr;
-    //SignInButton btn_gsign_in;
+    SignInButton btn_gsign_in;
     private static final int RC_SIGN_IN = 7;
     private GoogleApiClient mGoogleApiClient;
     CallbackManager callbackManager;
@@ -86,11 +90,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     ASTProgressBar dotDialog;
     private int is_home_available;
     private String userId;
-
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         chechPortaitAndLandSacpe();//chech Portait And LandSacpe Orientation
@@ -107,8 +113,18 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initView() {
+        Typeface materialdesignicons_font = FontManager.getFontTypefaceMaterialDesignIcons(this, "fonts/materialdesignicons-webfont.otf");
+        TextView back = toolbar.findViewById(R.id.back);
+        back.setTypeface(materialdesignicons_font);
+        back.setText(Html.fromHtml("&#xf30d;"));
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         //TextView signIn = findViewById(R.id.signIn);
-     //   signIn.setOnClickListener(this);
+        //   signIn.setOnClickListener(this);
         Button signup = findViewById(R.id.signup);
         signup.setOnClickListener(this);
         user = findViewById(R.id.user);
@@ -118,8 +134,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         firstName = findViewById(R.id.firstName);
         lastName = findViewById(R.id.lastName);
         facebooklogin = findViewById(R.id.facebooklogin);
-        //btn_gsign_in = findViewById(R.id.btn_gsign_in);
-        //btn_gsign_in.setOnClickListener(this);
+        btn_gsign_in = findViewById(R.id.btn_gsign_in);
+        btn_gsign_in.setOnClickListener(this);
+        TextView gmaillogin = findViewById(R.id.gmaillogin);
+        gmaillogin.setOnClickListener(this);
+        TextView loginButton = findViewById(R.id.loginButton);
+        loginButton.setOnClickListener(this);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -143,9 +163,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     signUp();
                 }
                 break;
-           /* case R.id.btn_gsign_in:
+            case R.id.gmaillogin:
                 signIn();
-                break;*/
+                break;
+            case R.id.loginButton:
+                Intent intent2 = new Intent(SignUpActivity.this, SigninActivity.class);
+                startActivity(intent2);
+                break;
         }
     }
 

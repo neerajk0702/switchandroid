@@ -14,8 +14,9 @@
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:elevation="0dp"
             android:theme="@style/AppTheme.NoActionBar.AppBarOverlay"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -35,18 +36,32 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="ic"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/dimTextSize_20"
+                        android:textColor="#000"
+                        android:textSize="@dimen/dimTextSize_22"
                         android:textStyle="bold"
-                        android:visibility="gone" />
+                        android:visibility="visible" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Sign Up"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/dimTextSize_18" />
+                        android:text="Signin"
+                        android:textColor="#fff"
+                        android:textSize="@dimen/dimTextSize_18"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/_120dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="@dimen/_40dp"
+                            android:src="@drawable/ic_switchland_logo" />
+                    </LinearLayout>
                 </LinearLayout>
             </android.support.v7.widget.Toolbar>
 
@@ -115,7 +130,7 @@
 
                         <android.support.v7.widget.CardView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/size_60px"
                             android:layout_marginLeft="@dimen/_10dp"
                             android:layout_marginRight="@dimen/_10dp"
                             android:minHeight="@dimen/_40dp"
@@ -130,7 +145,8 @@
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="@dimen/_5dp"
                                 android:backgroundTint="@color/white"
-                                android:hint="First Name"
+                                android:hint="First name"
+                                android:textSize="@dimen/_14dp"
                                 android:singleLine="true"
                                 android:textColorHint="#cccccc" />
                         </android.support.v7.widget.CardView>
@@ -138,7 +154,7 @@
 
                         <android.support.v7.widget.CardView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/size_60px"
                             android:layout_marginLeft="@dimen/_10dp"
                             android:layout_marginRight="@dimen/_10dp"
                             android:minHeight="@dimen/_40dp"
@@ -153,8 +169,9 @@
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="@dimen/_5dp"
                                 android:backgroundTint="@color/white"
-                                android:hint="Last Name"
+                                android:hint="Last name"
                                 android:singleLine="true"
+                                android:textSize="@dimen/_14dp"
                                 android:textColorHint="#cccccc" />
                         </android.support.v7.widget.CardView>
 
@@ -174,7 +191,7 @@
 
                         <android.support.v7.widget.CardView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/size_60px"
                             android:layout_marginLeft="@dimen/_10dp"
                             android:layout_marginRight="@dimen/_10dp"
                             android:minHeight="@dimen/_40dp"
@@ -189,15 +206,16 @@
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="@dimen/_5dp"
                                 android:backgroundTint="@color/white"
-                                android:hint="User Name"
+                                android:hint="User name"
                                 android:singleLine="true"
+                                android:textSize="@dimen/_14dp"
                                 android:textColorHint="#cccccc" />
                         </android.support.v7.widget.CardView>
 
 
                         <android.support.v7.widget.CardView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/size_60px"
                             android:layout_marginLeft="@dimen/_10dp"
                             android:layout_marginRight="@dimen/_10dp"
                             android:minHeight="@dimen/_40dp"
@@ -213,6 +231,7 @@
                                 android:layout_marginLeft="@dimen/_5dp"
                                 android:backgroundTint="@color/white"
                                 android:hint="Email"
+                                android:textSize="@dimen/_14dp"
                                 android:inputType="textEmailAddress"
                                 android:singleLine="true"
                                 android:textColorHint="#cccccc" />
@@ -221,7 +240,7 @@
 
                         <android.support.v7.widget.CardView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/size_60px"
                             android:layout_marginLeft="@dimen/_10dp"
                             android:layout_marginRight="@dimen/_10dp"
                             android:minHeight="@dimen/_40dp"
@@ -239,12 +258,13 @@
                                 android:hint="Password"
                                 android:inputType="textPassword"
                                 android:singleLine="true"
+                                android:textSize="@dimen/_14dp"
                                 android:textColorHint="#cccccc" />
                         </android.support.v7.widget.CardView>
 
                         <android.support.v7.widget.CardView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/size_60px"
                             android:layout_marginLeft="@dimen/_10dp"
                             android:layout_marginRight="@dimen/_10dp"
                             android:minHeight="@dimen/_40dp"
@@ -258,10 +278,11 @@
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="@dimen/_5dp"
-                                android:inputType="textPassword"
                                 android:backgroundTint="@color/white"
-                                android:hint="Confirm Password"
+                                android:hint="Confirm password"
+                                android:inputType="textPassword"
                                 android:singleLine="true"
+                                android:textSize="@dimen/_14dp"
                                 android:textColorHint="#cccccc" />
                         </android.support.v7.widget.CardView>
 
@@ -296,6 +317,16 @@
                         android:textColor="@color/white"
                         android:textSize="@dimen/_14dp" />
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center"
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:gravity="center"
+                        android:text="or"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimTextSize_14" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -313,16 +344,30 @@
                             android:background="@drawable/button_google"
                             android:elevation="@dimen/_5dp"
                             android:gravity="center"
+                            android:orientation="horizontal"
                             android:padding="@dimen/_5dp">
 
+                            <TextView
+                                android:id="@+id/gmaillogin"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="right|center"
+                                android:drawableLeft="@drawable/ic_gmail_login"
+                                android:gravity="center"
+                                android:padding="@dimen/_5dp"
+                                android:text="Sign in"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimTextSize_14" />
+
                             <com.google.android.gms.common.SignInButton
-                                android:id="@+id/googleLogin"
+                                android:id="@+id/btn_gsign_in"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:textColor="@color/red"
                                 android:textSize="@dimen/_14dp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                android:visibility="gone" />
 
                         </LinearLayout>
 
@@ -366,7 +411,7 @@
                     android:background="@drawable/edittext_top_bg"
                     android:elevation="@dimen/_5dp"
                     android:padding="@dimen/_5dp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:cardCornerRadius="@dimen/_10dp"
                     app:cardElevation="@dimen/_5dp"
                     app:cardUseCompatPadding="true">
@@ -384,14 +429,14 @@
                             android:layout_weight="1"
                             android:background="@color/white"
                             android:gravity="center"
-                            android:text="Sign in"
+                            android:text="Log in"
                             android:textAllCaps="false"
                             android:textColor="@color/black"
                             android:textSize="@dimen/dimTextSize_14" />
 
 
                         <Button
-                            android:id="@+id/signTxt"
+                            android:id="@+id/signuptext"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -399,7 +444,7 @@
                             android:gravity="center"
                             android:text="Register"
                             android:textAllCaps="false"
-                            android:textColor="@color/black"
+                            android:textColor="@color/lightgray"
                             android:textSize="@dimen/dimTextSize_14" />
                     </LinearLayout>
 

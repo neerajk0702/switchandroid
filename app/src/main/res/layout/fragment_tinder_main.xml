@@ -4,7 +4,7 @@
     android:id="@+id/activityMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/filtercolor"
+    android:background="@color/white"
     android:clipToPadding="false"
     android:orientation="vertical">
 
@@ -15,6 +15,7 @@
         android:layout_marginLeft="@dimen/_15dp"
         android:layout_marginRight="@dimen/_15dp"
         android:gravity="center"
+        android:background="@color/white"
         android:orientation="horizontal">
 
         <LinearLayout android:id="@+id/filterlayout"
@@ -22,13 +23,14 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:background="@color/white"
             android:gravity="bottom"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Filter Search Result"
+                android:text="Filter search result"
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/_12dp" />
 
@@ -42,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:text="France Paric"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_10dp"
+                    android:textSize="@dimen/_16dp"
                     android:textStyle="bold" />
 
                 <ImageView

@@ -14,6 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.NoActionBar.AppBarOverlay"
+            app:elevation="0dp"
             android:visibility="visible">
 
             <android.support.v7.widget.Toolbar
@@ -35,7 +36,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="ic"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/dimTextSize_20"
                         android:textStyle="bold"
                         android:visibility="visible" />
@@ -46,9 +47,20 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="Create Post"
-                        android:textColor="@color/colorAccent"
+                        android:visibility="gone"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/dimTextSize_18" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
+                        <ImageView
+                            android:layout_width="@dimen/_120dp"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_switchland_logo" />
+                    </LinearLayout>
                     <TextView
                         android:id="@+id/logout"
                         android:layout_width="wrap_content"
@@ -56,7 +68,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="Logout"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/dimTextSize_18" />
                 </LinearLayout>
             </android.support.v7.widget.Toolbar>
@@ -360,10 +372,10 @@
                                 android:id="@+id/title"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:hint="Title"
-                                android:singleLine="true"
-                                android:padding="@dimen/size_10px"
                                 android:background="@color/white"
+                                android:hint="Title"
+                                android:padding="@dimen/size_10px"
+                                android:singleLine="true"
                                 android:textColor="@color/primary_text"
                                 android:textSize="@dimen/dimTextSize_14" />
                         </android.support.design.card.MaterialCardView>
@@ -392,16 +404,15 @@
                             app:cardUseCompatPadding="true">
 
 
-
-                                <EditText
-                                    android:id="@+id/description"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:hint="Small description about house"
-                                    android:padding="@dimen/size_10px"
-                                    android:background="@color/white"
-                                    android:textColor="@color/primary_text"
-                                    android:textSize="@dimen/dimTextSize_14" />
+                            <EditText
+                                android:id="@+id/description"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/white"
+                                android:hint="Small description about house"
+                                android:padding="@dimen/size_10px"
+                                android:textColor="@color/primary_text"
+                                android:textSize="@dimen/dimTextSize_14" />
                         </android.support.design.card.MaterialCardView>
 
                         <android.support.design.card.MaterialCardView
@@ -415,9 +426,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/white"
-                                android:padding="@dimen/_5dp"
                                 android:orientation="vertical"
-                                >
+                                android:padding="@dimen/_5dp">
 
                                 <TextView
                                     android:layout_width="match_parent"
@@ -536,7 +546,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/_5dp"
-                            android:text="We will not revael exact adress"
+                            android:text="We will not reveal exact adress"
                             android:textColor="@color/primary_text"
                             android:textSize="@dimen/dimTextSize_14" />
 

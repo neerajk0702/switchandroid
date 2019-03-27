@@ -15,6 +15,7 @@
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:elevation="0dp"
             android:theme="@style/AppTheme.NoActionBar.AppBarOverlay"
             android:visibility="visible">
 
@@ -37,7 +38,7 @@
                         android:layout_weight="0.2"
                         android:gravity="center"
                         android:text=""
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/dimTextSize_20"
                         android:textStyle="bold"
                         android:visibility="visible" />
@@ -50,8 +51,20 @@
                         android:paddingRight="@dimen/_30dp"
                         android:text="Switch Chat"
                         android:textColor="@color/colorAccent"
+                        android:visibility="gone"
                         android:textSize="@dimen/dimTextSize_18" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
+                        <ImageView
+                            android:layout_width="@dimen/_120dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="@dimen/_40dp"
+                            android:src="@drawable/ic_switchland_logo" />
+                    </LinearLayout>
 
                 </LinearLayout>
             </android.support.v7.widget.Toolbar>

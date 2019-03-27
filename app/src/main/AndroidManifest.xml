@@ -59,11 +59,11 @@
         <activity
             android:name=".activity.SigninActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            />
         <activity
             android:name=".activity.SignUpActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+             />
         <activity
             android:name=".activity.DashboardActivity"
             android:screenOrientation="portrait"
@@ -80,7 +80,7 @@
         <activity
             android:name=".activity.ForgotPasswordActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            />
         <activity
             android:name=".activity.AppTourActivity"
             android:screenOrientation="portrait"

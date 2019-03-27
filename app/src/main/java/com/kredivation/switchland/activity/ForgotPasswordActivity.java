@@ -3,16 +3,19 @@ package com.kredivation.switchland.activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.kredivation.switchland.R;
@@ -22,13 +25,13 @@ import com.kredivation.switchland.model.ServiceContentData;
 import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.CompatibilityUtility;
 import com.kredivation.switchland.utilities.Contants;
+import com.kredivation.switchland.utilities.FontManager;
 import com.kredivation.switchland.utilities.Utility;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ForgotPasswordActivity extends AppCompatActivity implements View.OnClickListener {
-    private TextInputLayout email_layout;
     private EditText email;
     private String emailStr;
     private Toolbar toolbar;
@@ -54,7 +57,16 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
     }
 
     private void initView() {
-        email_layout = findViewById(R.id.email_layout);
+        Typeface materialdesignicons_font = FontManager.getFontTypefaceMaterialDesignIcons(this, "fonts/materialdesignicons-webfont.otf");
+        TextView back = toolbar.findViewById(R.id.back);
+        back.setTypeface(materialdesignicons_font);
+        back.setText(Html.fromHtml("&#xf30d;"));
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         email = findViewById(R.id.email);
         Button loginText = findViewById(R.id.loginText);
         loginText.setOnClickListener(this);
@@ -77,15 +89,13 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
         emailStr = email.getText().toString();
 
         if (emailStr.length() == 0) {
-            email_layout.setError("Please Enter your Register Email Id");
+            Utility.showToast(ForgotPasswordActivity.this, "Please Enter your Register Email Id.");
             requestFocus(email);
             return false;
         } else if (emailStr.matches(emailRegex)) {
-            email_layout.setError("Please Enter valid Email Id");
+            Utility.showToast(ForgotPasswordActivity.this, "Please Enter valid Email Id.");
             requestFocus(email);
             return false;
-        } else {
-            email_layout.setErrorEnabled(false);
         }
         return true;
     }
@@ -139,7 +149,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
                                 Utility.showToast(ForgotPasswordActivity.this, "Password sent to you register email id successfully.");
                                 finish();
                             } else {
-                                Utility.showToast(ForgotPasswordActivity.this,serviceData.getMsg());
+                                Utility.showToast(ForgotPasswordActivity.this, serviceData.getMsg());
                             }
                         } else {
                             Utility.showToast(ForgotPasswordActivity.this, Contants.Error);
