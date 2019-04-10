@@ -29,6 +29,7 @@ import com.kredivation.switchland.activity.EditProfileActivity;
 import com.kredivation.switchland.activity.HomeDetailActivity;
 import com.kredivation.switchland.activity.MyChoicesActivity;
 import com.kredivation.switchland.activity.MyHomeActivity;
+import com.kredivation.switchland.activity.MyHomeDetailActivity;
 import com.kredivation.switchland.activity.MyLikedChoicesActivity;
 import com.kredivation.switchland.activity.MyProfileFilterActivity;
 import com.kredivation.switchland.activity.SettingActivity;
@@ -306,7 +307,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
             @Override
             public void onClick(View v) {
                 alert.dismiss();
-                Intent homeintent = new Intent(getContext(), HomeDetailActivity.class);
+                Intent homeintent = new Intent(getContext(), MyHomeDetailActivity.class);
                 homeintent.putExtra("HomeId", userHomeId);
                 homeintent.putExtra("EditFlage", true);
                 startActivity(homeintent);

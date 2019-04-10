@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.activity.AddHomeActivity;
 import com.kredivation.switchland.activity.HomeDetailActivity;
+import com.kredivation.switchland.activity.MyHomeDetailActivity;
 import com.kredivation.switchland.activity.SettingActivity;
 import com.kredivation.switchland.activity.SigninActivity;
 import com.kredivation.switchland.activity.SplashScreenActivity;
@@ -123,7 +124,7 @@ public class MyHomeAdapter extends RecyclerView.Adapter<MyHomeAdapter.MyViewHold
         holder.viewInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent homeintent = new Intent(mContext, HomeDetailActivity.class);
+                Intent homeintent = new Intent(mContext, MyHomeDetailActivity.class);
                 homeintent.putExtra("HomeId", myHomeList.get(position).getId());
                 homeintent.putExtra("EditFlage", true);
                 mContext.startActivity(homeintent);

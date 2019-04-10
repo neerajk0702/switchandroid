@@ -14,6 +14,7 @@
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:elevation="0dp"
             android:theme="@style/AppTheme.NoActionBar.AppBarOverlay"
             android:visibility="visible">
 
@@ -44,7 +45,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Edit Profile"
+                        android:text="Profile"
                         android:textColor="@color/colorAccent"
                         android:textSize="@dimen/dimTextSize_18" />
                 </LinearLayout>
@@ -63,87 +64,43 @@
                 android:background="@color/white"
                 android:orientation="vertical">
 
-                <android.support.v7.widget.CardView
+                <LinearLayout
+                    android:id="@+id/viewA"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_10dp"
-                    android:layout_marginRight="@dimen/_10dp"
+                    android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_10dp"
-                    app:cardCornerRadius="@dimen/dimValue_4"
-                    app:cardElevation="@dimen/dimValue_5"
-                    app:cardUseCompatPadding="true">
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:id="@+id/viewA"
+                    <com.kredivation.switchland.utilities.CircleImageView
+                        android:id="@+id/proImage"
+                        android:layout_width="@dimen/size_130px"
+                        android:layout_height="@dimen/size_130px"
+                        android:src="@drawable/userimage" />
+
+                    <TextView
+                        android:id="@+id/user"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_10dp"
+                        android:layout_marginTop="@dimen/_10dp"
+                        android:layout_marginRight="@dimen/_10dp"
+                        android:gravity="center"
+                        android:text="User Name"
+                        android:textStyle="bold"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/_14dp" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:orientation="vertical">
 
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center">
+                </LinearLayout>
 
-                                <RelativeLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:gravity="center"
-                                    android:padding="20dp">
 
-                                    <com.kredivation.switchland.utilities.CircleImageView
-                                        android:id="@+id/proImage"
-                                        android:layout_width="@dimen/size_150px"
-                                        android:layout_height="@dimen/size_150px"
-                                        android:src="@drawable/userimage" />
-                                </RelativeLayout>
-
-                                <RelativeLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/size_80px"
-                                    android:layout_alignParentBottom="true"
-                                    android:layout_marginRight="@dimen/dimValue_20"
-                                    android:gravity="right">
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginRight="@dimen/dimValue_40"
-                                        android:gravity="right">
-
-                                        <TextView
-                                            android:id="@+id/editIcon"
-                                            android:layout_width="@dimen/size_56px"
-                                            android:layout_height="@dimen/size_56px"
-                                            android:layout_marginRight="@dimen/dimValue_16"
-                                            android:background="@drawable/circle_profile"
-                                            android:gravity="center"
-                                            android:padding="@dimen/dimValue_10"
-                                            android:text=""
-                                            android:textColor="@color/icons"
-                                            android:textSize="@dimen/dimTextSize_25"
-                                            app:layout_anchor="@+id/mainLayout"
-                                            app:layout_anchorGravity="center_vertical|right" />
-                                    </LinearLayout>
-                                </RelativeLayout>
-                            </RelativeLayout>
-                        </LinearLayout>
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_10dp"
-                    app:cardCornerRadius="@dimen/dimValue_4"
-                    app:cardElevation="@dimen/dimValue_5"
-                    app:cardUseCompatPadding="true">
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -155,8 +112,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_10dp"
-                            android:layout_marginRight="@dimen/_10dp"
-                            android:layout_marginTop="@dimen/_10dp">
+                            android:layout_marginTop="@dimen/_10dp"
+                            android:layout_marginRight="@dimen/_10dp">
 
                             <EditText
                                 android:id="@+id/firstName"
@@ -173,8 +130,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_10dp"
-                            android:layout_marginRight="@dimen/_10dp"
-                            android:layout_marginTop="@dimen/_10dp">
+                            android:layout_marginTop="@dimen/_10dp"
+                            android:layout_marginRight="@dimen/_10dp">
 
                             <EditText
                                 android:id="@+id/lastName"
@@ -185,206 +142,381 @@
                                 android:textColor="@color/primary_text"
                                 android:textSize="@dimen/dimTextSize_14" />
                         </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/_10dp"
+                        android:background="@color/gray" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10dp"
+                        android:layout_marginTop="@dimen/_15dp"
+                        android:text="Personal Information"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_16dp" />
+
+                    <TextView
+                        android:id="@+id/email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10dp"
+                        android:layout_marginTop="@dimen/_10dp"
+                        android:layout_marginRight="@dimen/_10dp"
+                        android:text="Email"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/_12dp" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/phone_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10dp"
+                        android:layout_marginTop="@dimen/_10dp"
+                        android:layout_marginRight="@dimen/_10dp"
+                        android:visibility="visible"
+                        app:passwordToggleEnabled="true">
+
+                        <EditText
+                            android:id="@+id/phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Mobile Number"
+                            android:imeActionLabel="Sign in"
+                            android:imeOptions="actionUnspecified"
+                            android:inputType="number"
+                            android:singleLine="true"
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/dimTextSize_14" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/hno_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10dp"
+                        android:layout_marginTop="@dimen/_10dp"
+                        android:layout_marginRight="@dimen/_10dp"
+                        android:visibility="visible"
+                        app:passwordToggleEnabled="true">
+
+                        <EditText
+                            android:id="@+id/hno"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="H.no,Building Name etc"
+                            android:imeActionLabel="Sign in"
+                            android:imeOptions="actionUnspecified"
+                            android:singleLine="true"
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/dimTextSize_14" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/area_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10dp"
+                        android:layout_marginTop="@dimen/_10dp"
+                        android:layout_marginRight="@dimen/_10dp"
+                        android:visibility="visible"
+                        app:passwordToggleEnabled="true">
+
+                        <EditText
+                            android:id="@+id/area"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Area,Locality,Street etc."
+                            android:imeActionLabel="Sign in"
+                            android:imeOptions="actionUnspecified"
+                            android:singleLine="true"
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/dimTextSize_14" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/zip_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10dp"
+                        android:layout_marginTop="@dimen/_10dp"
+                        android:layout_marginRight="@dimen/_10dp"
+                        android:visibility="visible"
+                        app:passwordToggleEnabled="true">
+
+                        <EditText
+                            android:id="@+id/zipcode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Zipcode of your area"
+                            android:imeActionLabel="Sign in"
+                            android:imeOptions="actionUnspecified"
+                            android:singleLine="true"
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/dimTextSize_14" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10dp"
+                        android:layout_marginTop="@dimen/_10dp"
+                        android:layout_marginRight="@dimen/_10dp"
+                        android:orientation="vertical">
+
+
+                        <android.support.design.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/size_80px"
+                            app:cardCornerRadius="@dimen/_12dp"
+                            app:cardElevation="@dimen/_4dp"
+                            app:cardUseCompatPadding="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/white"
+                                android:orientation="vertical"
+                                android:padding="@dimen/_5dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/_5dp"
+                                    android:text="Country"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="@dimen/dimTextSize_14" />
+
+                                <Spinner
+                                    android:id="@+id/countrySpinner"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:popupBackground="@color/white" />
+                            </LinearLayout>
+                        </android.support.design.card.MaterialCardView>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10dp"
+                        android:layout_marginRight="@dimen/_10dp"
+                        android:orientation="vertical">
+
+                        <android.support.design.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/size_80px"
+                            app:cardCornerRadius="@dimen/_12dp"
+                            app:cardElevation="@dimen/_4dp"
+                            app:cardUseCompatPadding="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/white"
+                                android:orientation="vertical"
+                                android:padding="@dimen/_5dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="City"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="@dimen/dimTextSize_14" />
+
+                                <Spinner
+                                    android:id="@+id/citySpinner"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:popupBackground="@color/white" />
+                            </LinearLayout>
+                        </android.support.design.card.MaterialCardView>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10dp"
+                        android:layout_marginTop="@dimen/_20dp"
+                        android:layout_marginRight="@dimen/_10dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/submit"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/_20dp"
+                            android:layout_marginRight="@dimen/_20dp"
+                            android:background="@drawable/button_login"
+                            android:elevation="@dimen/dimValue_10"
+                            android:gravity="center"
+                            android:paddingTop="@dimen/dimValue_16"
+                            android:paddingBottom="@dimen/dimValue_16"
+                            android:text="Save"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimTextSize_14" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/_20dp"
+                        android:background="@color/gray" />
+
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="@dimen/_20dp"
+                        android:layout_weight="1"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_5dp">
 
                         <TextView
-                            android:id="@+id/user"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text="Change Password"
+                            android:textStyle="bold"
                             android:layout_marginLeft="@dimen/_10dp"
-                            android:layout_marginRight="@dimen/_10dp"
-                            android:layout_marginTop="@dimen/_10dp"
-                            android:text="User Name"
-                            android:textSize="@dimen/_12dp" />
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_16dp" />
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/_1dp"
-                            android:layout_marginLeft="@dimen/_10dp"
-                            android:layout_marginRight="@dimen/_10dp"
-                            android:layout_marginTop="@dimen/_10dp"
-                            android:background="@color/divider" />
 
                         <TextView
-                            android:id="@+id/email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_6dp"
+                            android:text="Current Password"
+                            android:layout_marginLeft="@dimen/_10dp"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/_12dp" />
+
+                        <android.support.v7.widget.CardView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_10dp"
                             android:layout_marginRight="@dimen/_10dp"
-                            android:layout_marginTop="@dimen/_10dp"
-                            android:text="Email"
+                            android:minHeight="@dimen/_40dp"
+                            app:cardCornerRadius="@dimen/_12dp"
+                            app:cardElevation="@dimen/_5dp"
+                            app:cardUseCompatPadding="true">
+
+                            <EditText
+                                android:id="@+id/password"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/_5dp"
+                                android:backgroundTint="@color/white"
+                                android:hint="Password"
+                                android:singleLine="true"
+                                android:textColorHint="#cccccc" />
+                        </android.support.v7.widget.CardView>
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_6dp"
+                            android:text="New Password"
+                            android:layout_marginLeft="@dimen/_10dp"
+                            android:textColor="@color/text_color"
                             android:textSize="@dimen/_12dp" />
 
 
-                        <android.support.design.widget.TextInputLayout
-                            android:id="@+id/phone_layout"
+                        <android.support.v7.widget.CardView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_10dp"
                             android:layout_marginRight="@dimen/_10dp"
-                            android:layout_marginTop="@dimen/_10dp"
-                            android:visibility="visible"
-                            app:passwordToggleEnabled="true">
+                            android:minHeight="@dimen/_40dp"
+                            app:cardCornerRadius="@dimen/_12dp"
+                            app:cardElevation="@dimen/_5dp"
+                            app:cardUseCompatPadding="true">
 
                             <EditText
-                                android:id="@+id/phone"
+                                android:id="@+id/newpassword"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Mobile Number"
-                                android:imeActionLabel="Sign in"
-                                android:imeOptions="actionUnspecified"
-                                android:inputType="number"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/_5dp"
+                                android:backgroundTint="@color/white"
+                                android:hint="New Password"
+                                android:inputType="textPassword"
                                 android:singleLine="true"
-                                android:textColor="@color/primary_text"
-                                android:textSize="@dimen/dimTextSize_14" />
-                        </android.support.design.widget.TextInputLayout>
+                                android:textColorHint="#cccccc" />
+                        </android.support.v7.widget.CardView>
 
-                        <android.support.design.widget.TextInputLayout
-                            android:id="@+id/hno_layout"
+                        <android.support.v7.widget.CardView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_10dp"
                             android:layout_marginRight="@dimen/_10dp"
-                            android:layout_marginTop="@dimen/_10dp"
-                            android:visibility="visible"
-                            app:passwordToggleEnabled="true">
+                            android:minHeight="@dimen/_40dp"
+                            app:cardCornerRadius="@dimen/_12dp"
+                            app:cardElevation="@dimen/_5dp"
+                            app:cardUseCompatPadding="true">
 
                             <EditText
-                                android:id="@+id/hno"
+                                android:id="@+id/renewpassword"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="H.no,Building Name etc"
-                                android:imeActionLabel="Sign in"
-                                android:imeOptions="actionUnspecified"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/_5dp"
+                                android:backgroundTint="@color/white"
+                                android:hint="Re-Enter New Password"
+                                android:inputType="textPassword"
                                 android:singleLine="true"
-                                android:textColor="@color/primary_text"
-                                android:textSize="@dimen/dimTextSize_14" />
-                        </android.support.design.widget.TextInputLayout>
+                                android:textColorHint="#cccccc" />
+                        </android.support.v7.widget.CardView>
 
-                        <android.support.design.widget.TextInputLayout
-                            android:id="@+id/area_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_10dp"
-                            android:layout_marginRight="@dimen/_10dp"
-                            android:layout_marginTop="@dimen/_10dp"
-                            android:visibility="visible"
-                            app:passwordToggleEnabled="true">
-
-                            <EditText
-                                android:id="@+id/area"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Area,Locality,Street etc."
-                                android:imeActionLabel="Sign in"
-                                android:imeOptions="actionUnspecified"
-                                android:singleLine="true"
-                                android:textColor="@color/primary_text"
-                                android:textSize="@dimen/dimTextSize_14" />
-                        </android.support.design.widget.TextInputLayout>
-
-                        <android.support.design.widget.TextInputLayout
-                            android:id="@+id/zip_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_10dp"
-                            android:layout_marginRight="@dimen/_10dp"
-                            android:layout_marginTop="@dimen/_10dp"
-                            android:visibility="visible"
-                            app:passwordToggleEnabled="true">
-
-                            <EditText
-                                android:id="@+id/zipcode"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Zipcode of your area"
-                                android:imeActionLabel="Sign in"
-                                android:imeOptions="actionUnspecified"
-                                android:singleLine="true"
-                                android:textColor="@color/primary_text"
-                                android:textSize="@dimen/dimTextSize_14" />
-                        </android.support.design.widget.TextInputLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_10dp"
+                            android:layout_marginTop="@dimen/_20dp"
                             android:layout_marginRight="@dimen/_10dp"
-                            android:layout_marginTop="@dimen/_10dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Country"
-                                android:textColor="@color/primary_text"
-                                android:textSize="@dimen/dimTextSize_14" />
-
-                            <Spinner
-                                android:id="@+id/countrySpinner"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:popupBackground="@color/white" />
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="@color/divider" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_10dp"
-                            android:layout_marginRight="@dimen/_10dp"
-                            android:layout_marginTop="@dimen/_10dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="City"
-                                android:textColor="@color/primary_text"
-                                android:textSize="@dimen/dimTextSize_14" />
-
-                            <Spinner
-                                android:id="@+id/citySpinner"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:popupBackground="@color/white" />
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="@color/divider" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_10dp"
-                            android:layout_marginRight="@dimen/_10dp"
-                            android:layout_marginTop="@dimen/_30dp"
+                            android:layout_marginBottom="@dimen/_10dp"
                             android:orientation="horizontal">
 
                             <Button
-                                android:id="@+id/submit"
+                                android:id="@+id/save"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_margin="@dimen/dimValue_10"
+                                android:layout_marginLeft="@dimen/dimValue_20"
+                                android:layout_marginRight="@dimen/dimValue_20"
                                 android:background="@drawable/button_login"
                                 android:elevation="@dimen/dimValue_10"
                                 android:gravity="center"
-                                android:paddingBottom="@dimen/dimValue_16"
                                 android:paddingTop="@dimen/dimValue_16"
-                                android:text="Update Profile"
+                                android:paddingBottom="@dimen/dimValue_16"
+                                android:text="Save"
                                 android:textAllCaps="false"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/dimTextSize_14" />
 
                         </LinearLayout>
-
                     </LinearLayout>
-                </android.support.v7.widget.CardView>
+
+
+                </LinearLayout>
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>

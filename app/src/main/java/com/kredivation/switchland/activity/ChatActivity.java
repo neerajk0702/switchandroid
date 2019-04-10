@@ -382,7 +382,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 alert.dismiss();
-                Intent homeintent = new Intent(ChatActivity.this, HomeDetailActivity.class);
+                Intent homeintent = new Intent(ChatActivity.this, MyHomeDetailActivity.class);
                 homeintent.putExtra("HomeId", myhomeId);
                 homeintent.putExtra("EditFlage", true);
                 startActivity(homeintent);

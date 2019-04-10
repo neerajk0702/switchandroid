@@ -84,6 +84,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private String userChoosenTask;
     File imgFile;
     int citySelectPos = 0;
+    private EditText password, newpassword, renewpassword;
+    String passwordStr, newpasswordStr, renewpasswordStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,10 +112,10 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 finish();
             }
         });
-        TextView editIcon = findViewById(R.id.editIcon);
+        /*TextView editIcon = findViewById(R.id.editIcon);
         editIcon.setTypeface(materialdesignicons_font);
         editIcon.setText(Html.fromHtml("&#xf100;"));
-        editIcon.setOnClickListener(this);
+        editIcon.setOnClickListener(this);*/
         user = findViewById(R.id.user);
         email = findViewById(R.id.email);
         phone_layout = findViewById(R.id.phone_layout);
@@ -131,6 +133,14 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         Button submit = findViewById(R.id.submit);
         submit.setOnClickListener(this);
         proImage = findViewById(R.id.proImage);
+        proImage.setOnClickListener(this);
+
+        password = findViewById(R.id.password);
+        newpassword = findViewById(R.id.newpassword);
+        renewpassword = findViewById(R.id.renewpassword);
+        Button save = findViewById(R.id.save);
+        save.setOnClickListener(this);
+
         SwitchDBHelper switchDBHelper = new SwitchDBHelper(EditProfileActivity.this);
         ArrayList<Data> userData = switchDBHelper.getAllUserInfoList();
         if (userData != null && userData.size() > 0) {
@@ -251,8 +261,13 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                     updateProfile();
                 }
                 break;
-            case R.id.editIcon:
+            case R.id.proImage:
                 selectImage();
+                break;
+            case R.id.save:
+                if (isChangePassValidate()) {
+                    changePassword();
+                }
                 break;
         }
     }
@@ -631,4 +646,78 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             }
         });
     }
+
+    //------------password change code------------
+    // ----validation -----
+    private boolean isChangePassValidate() {
+        String emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+        passwordStr = password.getText().toString();
+        newpasswordStr = newpassword.getText().toString();
+        renewpasswordStr = renewpassword.getText().toString();
+
+        if (passwordStr.length() == 0) {
+            Utility.showToast(EditProfileActivity.this, "Please Enter your Old Password.");
+            requestFocus(password);
+            return false;
+        } else if (newpasswordStr.length() == 0) {
+            Utility.showToast(EditProfileActivity.this, "Please Enter New Password.");
+            requestFocus(newpassword);
+            return false;
+        } else if (renewpassword.length() == 0) {
+            Utility.showToast(EditProfileActivity.this, "Please Enter Confirm Password.");
+            requestFocus(renewpassword);
+            return false;
+        } else if (!renewpassword.equals(newpasswordStr)) {
+            Utility.showToast(EditProfileActivity.this, "New Password and Confirm password not matched.");
+            requestFocus(renewpassword);
+            return false;
+        }
+        return true;
+    }
+
+    private void changePassword() {
+        if (Utility.isOnline(EditProfileActivity.this)) {
+            final ASTProgressBar dotDialog = new ASTProgressBar(EditProfileActivity.this);
+            dotDialog.show();
+            JSONObject object = new JSONObject();
+            try {
+                object.put("api_key", Contants.API_KEY);
+                object.put("old_password", passwordStr);
+                object.put("new_password", newpasswordStr);
+                object.put("confirm_password", renewpasswordStr);
+                object.put("user_id", userId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String serviceURL = Contants.BASE_URL + Contants.ChangePassword;
+
+            ServiceCaller serviceCaller = new ServiceCaller(EditProfileActivity.this);
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "ChangePassword", new IAsyncWorkCompletedCallback() {
+                @Override
+                public void onDone(String result, boolean isComplete) {
+                    if (isComplete) {
+                        final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
+                        if (serviceData != null) {
+                            if (serviceData.isSuccess()) {
+                                Utility.showToast(EditProfileActivity.this, "Your Password changed successfully.");
+                            } else {
+                                Utility.showToast(EditProfileActivity.this, serviceData.getMsg());
+                            }
+                        } else {
+                            Utility.showToast(EditProfileActivity.this, Contants.Error);
+                        }
+                    } else {
+                        Utility.alertForErrorMessage(Contants.Error, EditProfileActivity.this);
+                    }
+                    if (dotDialog.isShowing()) {
+                        dotDialog.dismiss();
+                    }
+                }
+            });
+        } else {
+            Utility.alertForErrorMessage(Contants.OFFLINE_MESSAGE, EditProfileActivity.this);//off line msg....
+        }
+    }
+
 }
