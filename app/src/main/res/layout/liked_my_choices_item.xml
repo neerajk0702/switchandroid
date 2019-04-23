@@ -2,161 +2,172 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_layout"
-    android:layout_width="match_parent"
+    android:layout_width="@dimen/_240dp"
     android:layout_height="wrap_content">
 
-    <android.support.v7.widget.CardView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="@dimen/dimValue_4"
-        app:cardElevation="@dimen/dimValue_8"
-        app:cardUseCompatPadding="true">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/_5dp">
 
         <LinearLayout
+            android:id="@+id/mainLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="@dimen/_5dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/mainLayout"
+
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/_10dp">
+                android:layout_height="@dimen/_240dp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/_8dp"
+                app:cardCornerRadius="@dimen/_15dp"
+                app:cardElevation="@dimen/_8dp">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                     <ImageView
                         android:id="@+id/homeimage"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/size_120px"
+                        android:layout_height="match_parent"
                         android:scaleType="fitXY"
                         android:src="@drawable/home_default" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/_5dp"
-                    android:layout_weight="0.7"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="left|center"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_14dp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingTop="@dimen/_5dp"
-                        android:paddingBottom="@dimen/_5dp">
-
-                        <TextView
-                            android:id="@+id/startdate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textColor="@color/secondary_text"
-                            android:textSize="@dimen/_12dp" />
-
-                        <TextView
-                            android:id="@+id/enddate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textColor="@color/secondary_text"
-                            android:textSize="@dimen/_12dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingBottom="@dimen/_5dp">
-
-                        <TextView
-                            android:id="@+id/locationIcon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="left|center"
-                            android:text=""
-                            android:textColor="@color/secondary_text"
-                            android:textSize="@dimen/_12dp" />
-
-                        <TextView
-                            android:id="@+id/location"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_5dp"
-                            android:gravity="left|center"
-                            android:text=""
-                            android:textColor="@color/secondary_text"
-                            android:textSize="@dimen/_12dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingTop="@dimen/_5dp">
+                        android:layout_margin="@dimen/_8dp"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/like"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="left|center"
+                            android:text=""
                             android:textColor="@color/red"
                             android:textSize="@dimen/_18dp" />
-
-                        <TextView
-                            android:id="@+id/likedUser"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="@dimen/_7dp"
-                            android:gravity="left|center"
-                            android:text="Liked Users"
-                            android:textColor="@color/colorAccent"
-                            android:textSize="@dimen/_12dp"
-                            android:visibility="gone" />
                     </LinearLayout>
-                </LinearLayout>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:layout_marginTop="@dimen/_5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/remainingTime"
+                    android:layout_width="@dimen/size_130px"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/button_login"
+                    android:elevation="@dimen/dimValue_10"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/dimValue_8"
+                    android:paddingBottom="@dimen/dimValue_8"
+                    android:text="Remaining Time"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dimTextSize_14" />
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginLeft="@dimen/_10dp"
+                android:orientation="vertical"
+                android:padding="@dimen/_10dp">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.7"
-                    android:gravity="left|center"
-                    android:text="Liked homes stay for only 48 hours"
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="Pink House"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12dp" />
+                    android:textSize="@dimen/dimTextSize_18"
+                    android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/remainingTime"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5dp"
                     android:gravity="center"
-                    android:textColor="@color/red"
-                    android:textSize="@dimen/_16dp" />
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".1"
+                        android:src="@drawable/ic_map" />
+
+                    <TextView
+                        android:id="@+id/location"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        android:gravity="left"
+                        android:text=""
+                        android:textColor="@color/secondary_text"
+                        android:textSize="@dimen/dimTextSize_14" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_10dp"
+                    android:orientation="horizontal">
+
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".1"
+                        android:src="@drawable/ic_calendar" />
+
+                    <TextView
+                        android:id="@+id/startdate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".4"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/dimTextSize_14" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".1"
+                        android:src="@drawable/ic_compare_arrows_black_18dp" />
+
+                    <TextView
+                        android:id="@+id/enddate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/_10dp"
+                        android:layout_weight=".4"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/dimTextSize_14" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/size_120px"
+                    android:layout_height="@dimen/_2dp"
+                    android:layout_marginTop="@dimen/_8dp"
+                    android:background="@color/colorAccent" />
             </LinearLayout>
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
 </LinearLayout>

@@ -107,7 +107,6 @@ public class AddHomeCardDetailFragment extends Fragment implements View.OnClickL
     String monthId;
     String yearId;
     EditText cvv, name, cardno;
-    TextInputLayout input_layout_name, input_layout_cardno, input_layout_cvv;
     String cvvStr, nameStr, cardnoStr;
     HomeDetails MyHomedata;
     String homeId;
@@ -135,9 +134,6 @@ public class AddHomeCardDetailFragment extends Fragment implements View.OnClickL
         cvv = view.findViewById(R.id.cvv);
         name = view.findViewById(R.id.name);
         cardno = view.findViewById(R.id.cardno);
-        input_layout_name = view.findViewById(R.id.input_layout_name);
-        input_layout_cardno = view.findViewById(R.id.input_layout_cardno);
-        input_layout_cvv = view.findViewById(R.id.input_layout_cvv);
         getAllDataFromDB();
     }
 
@@ -199,7 +195,7 @@ public class AddHomeCardDetailFragment extends Fragment implements View.OnClickL
     private void getSelectedMonth() {
         if (months != null) {
             for (int i = 0; i < months.length; i++) {
-                if (monthId.equals(months[i].getId())) {
+                if (monthId != null && monthId.equals(months[i].getId())) {
                     monthspinner.setSelection(i);
                     break;
                 }
@@ -303,15 +299,15 @@ public class AddHomeCardDetailFragment extends Fragment implements View.OnClickL
         nameStr = name.getText().toString();
         cardnoStr = cardno.getText().toString();
         if (nameStr.length() == 0) {
-            input_layout_name.setError("Please Enter Card Holder Name");
+            Utility.showToast(context, "Please Enter Card Holder Name!");
             requestFocus(name);
             return false;
         } else if (cardnoStr.length() == 0) {
-            input_layout_cardno.setError("Please Enter Card Number");
+            Utility.showToast(context, "Please Enter Card Number!");
             requestFocus(cardno);
             return false;
         } else if (cvvStr.length() == 0) {
-            input_layout_cvv.setError("Please Enter CVV!");
+            Utility.showToast(context, "Please Enter CVV!");
             requestFocus(cvv);
             return false;
         } else if (yearId == null || yearId.equals("") || yearId.equals("0")) {
@@ -320,13 +316,6 @@ public class AddHomeCardDetailFragment extends Fragment implements View.OnClickL
         } else if (monthId == null || monthId.equals("") || monthId.equals("0")) {
             Utility.showToast(context, "Please Select Month!");
             return false;
-        } else {
-            input_layout_name.setErrorEnabled(false);
-            input_layout_cardno.setErrorEnabled(false);
-            input_layout_cvv.setErrorEnabled(false);
-            input_layout_name.setError("");
-            input_layout_cardno.setError("");
-            input_layout_cvv.setError("");
         }
         return true;
     }

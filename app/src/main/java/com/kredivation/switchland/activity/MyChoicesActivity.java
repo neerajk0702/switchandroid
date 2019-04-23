@@ -13,11 +13,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.adapters.MyChoicesAdapter;
-import com.kredivation.switchland.adapters.MyHomeAdapter;
-import com.kredivation.switchland.adapters.MyLikedChoicesAdapter;
 import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
 import com.kredivation.switchland.framework.ServiceCaller;
@@ -36,7 +33,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MyChoicesActivity extends AppCompatActivity {
     private Toolbar toolbar;
@@ -74,9 +70,10 @@ public class MyChoicesActivity extends AppCompatActivity {
         });
         switchDBHelper = new SwitchDBHelper(MyChoicesActivity.this);
         recyclerView = findViewById(R.id.recycler_view);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(MyChoicesActivity.this, LinearLayoutManager.VERTICAL, false);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(MyChoicesActivity.this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setHasFixedSize(false);
         getUserData();
     }
 

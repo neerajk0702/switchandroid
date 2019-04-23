@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -21,44 +22,49 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:text="Details"
+                android:textStyle="bold"
                 android:textColor="@color/primary_text"
                 android:textSize="@dimen/dimTextSize_18" />
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_title"
+            <android.support.design.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimValue_10">
+                android:layout_height="@dimen/size_60px"
+                app:cardCornerRadius="@dimen/_12dp"
+                app:cardElevation="@dimen/_4dp"
+                app:cardUseCompatPadding="true">
+
 
                 <EditText
                     android:id="@+id/title"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
                     android:hint="Title"
-                    android:imeOptions="actionNext"
+                    android:padding="@dimen/size_10px"
                     android:singleLine="true"
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/dimTextSize_14" />
-            </android.support.design.widget.TextInputLayout>
+            </android.support.design.card.MaterialCardView>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_des"
+            <android.support.design.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimValue_10">
+                android:layout_height="@dimen/size_150px"
+                app:cardCornerRadius="@dimen/_12dp"
+                app:cardElevation="@dimen/_4dp"
+                app:cardUseCompatPadding="true">
+
 
                 <EditText
                     android:id="@+id/about"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/white"
                     android:hint="Tell us about your home"
-                    android:imeOptions="actionNext"
-                    android:singleLine="true"
+                    android:padding="@dimen/size_10px"
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/dimTextSize_14" />
-            </android.support.design.widget.TextInputLayout>
+            </android.support.design.card.MaterialCardView>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -77,6 +83,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/features_recycler_view"
                         android:layout_width="match_parent"
@@ -154,8 +161,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="right|center"
-                    android:paddingBottom="16dp"
                     android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
                     android:text="Next"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp" />
@@ -176,9 +183,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:paddingBottom="16dp"
-                android:paddingRight="20dp"
                 android:paddingTop="16dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="16dp"
                 android:text="Confirm"
                 android:textColor="@color/colorAccent"
                 android:textSize="16sp"

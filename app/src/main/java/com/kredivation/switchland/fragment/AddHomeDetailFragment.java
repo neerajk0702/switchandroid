@@ -106,7 +106,6 @@ public class AddHomeDetailFragment extends Fragment implements View.OnClickListe
 
     private View view;
     private Context context;
-    private TextInputLayout input_layout_title, input_layout_des;
     private EditText title, about;
     private String titleStr, aboutStr;
     ArrayList<Home_features> Featurelist;
@@ -138,9 +137,7 @@ public class AddHomeDetailFragment extends Fragment implements View.OnClickListe
         LinearLayout nextLayout = (LinearLayout) view.findViewById(R.id.nextLayout);
         nextLayout.setOnClickListener(this);
 
-        input_layout_title = view.findViewById(R.id.input_layout_title);
         title = view.findViewById(R.id.title);
-        input_layout_des = view.findViewById(R.id.input_layout_des);
         about = view.findViewById(R.id.about);
 
         getSaveData();
@@ -312,11 +309,11 @@ public class AddHomeDetailFragment extends Fragment implements View.OnClickListe
         aboutStr = about.getText().toString();
 
         if (titleStr.length() == 0) {
-            input_layout_title.setError("Please Enter Title");
+            Utility.showToast(getActivity(), "Please Enter Title!");
             requestFocus(title);
             return false;
         } else if (aboutStr.length() == 0) {
-            input_layout_des.setError("Please Enter about your Home");
+            Utility.showToast(getActivity(), "Please Enter about your Home!");
             requestFocus(about);
             return false;
         } else if (Featurelist.size() == 0) {
@@ -325,9 +322,6 @@ public class AddHomeDetailFragment extends Fragment implements View.OnClickListe
         } else if (ruleList.size() == 0) {
             Utility.showToast(context, "Please Select House Rules");
             return false;
-        } else {
-            input_layout_title.setErrorEnabled(false);
-            input_layout_des.setErrorEnabled(false);
         }
         return true;
     }

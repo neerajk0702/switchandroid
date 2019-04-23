@@ -3,19 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/home"
             android:icon="@drawable/ic_home"
             android:title="Home Screen" />
+    </group>
+    <group
+        android:id="@+id/group2"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/myhome"
             android:icon="@drawable/ic_my_house"
             android:title="My Home" />
+    </group>
+    <group
+        android:id="@+id/group3"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/Mychoices"
             android:icon="@drawable/ic_my_choice_home"
             android:title="My Choices" />
+    </group>
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/likedmychoice"
             android:icon="@drawable/ic_my_home_liked"
@@ -35,8 +47,8 @@
         <item
             android:id="@+id/how"
             android:icon="@drawable/ic_network"
-            android:visible="false"
-            android:title="How it works" />
+            android:title="How it works"
+            android:visible="false" />
         <item
             android:id="@+id/invite"
             android:icon="@drawable/ic_multi_user"
@@ -48,13 +60,13 @@
         <item
             android:id="@+id/Policies"
             android:icon="@drawable/ic_policy"
-            android:visible="false"
-            android:title="Policies" />
+            android:title="Policies"
+            android:visible="false" />
         <item
             android:id="@+id/Terms"
             android:icon="@drawable/ic_agreement"
-            android:visible="false"
-            android:title="Terms and Condition" />
-    </group>
+            android:title="Terms and Condition"
+            android:visible="false" />
 
+    </group>
 </menu>

@@ -107,7 +107,6 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
     private LinearLayout addressLayout;
     boolean lookUpFlag = false;
 
-    private TextInputLayout input_layout_zip, input_layout_enterZipcode, input_layout_Landmark, input_layout_Address, input_layout_hno;
     private EditText zipCode, address, enterzipcode, landmark, hno;
     private String addressStr, enterzipcodeStr, landmarkStr, hnoStr;
     Button lookUp;
@@ -161,18 +160,13 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
         countrySpinner = view.findViewById(R.id.countrySpinner);
         addressLayout = view.findViewById(R.id.addressLayout);
 
-        input_layout_zip = view.findViewById(R.id.input_layout_zip);
-        input_layout_enterZipcode = view.findViewById(R.id.input_layout_enterZipcode);
-        input_layout_Landmark = view.findViewById(R.id.input_layout_Landmark);
         zipCode = view.findViewById(R.id.zipCode);
         address = view.findViewById(R.id.address);
         enterzipcode = view.findViewById(R.id.enterzipcode);
-        input_layout_Address = view.findViewById(R.id.input_layout_Address);
         landmark = view.findViewById(R.id.landmark);
         lookUp = view.findViewById(R.id.lookUp);
         lookUp.setOnClickListener(this);
         hno = view.findViewById(R.id.hno);
-        input_layout_hno = view.findViewById(R.id.input_layout_hno);
         getSaveData();
         setcountry();
     }
@@ -189,8 +183,10 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
                     int countryPos = 0;
                     for (int i = 0; i < country.length; i++) {
                         countryList[i] = String.valueOf(country[i].getName());
-                        if (saveCountryId.equals(country[i].getId())) {
-                            countryPos = i;//save country pos for selected
+                        if (saveCountryId != null) {
+                            if (saveCountryId.equals(country[i].getId())) {
+                                countryPos = i;//save country pos for selected
+                            }
                         }
                     }
                     ArrayAdapter<String> countryAdapter = new ArrayAdapter<String>(context, R.layout.spinner_row, countryList);
@@ -208,8 +204,10 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
                                     if (countryId.equals(city[i].getCountry_id())) {
                                         cityList.add(String.valueOf(city[i].getName()));
                                         cityIdList.add(String.valueOf(city[i].getId()));
-                                        if (saveCityId.equals(city[i].getId())) {
-                                            cityPos = i;//save country pos for selected
+                                        if (saveCityId != null) {
+                                            if (saveCityId.equals(city[i].getId())) {
+                                                cityPos = i;//save country pos for selected
+                                            }
                                         }
                                     }
                                 }
@@ -309,15 +307,15 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
         landmarkStr = landmark.getText().toString();
         hnoStr = hno.getText().toString();
         if (hnoStr.length() == 0) {
-            input_layout_hno.setError("Please Enter House Number!");
+            Utility.showToast(getActivity(), "Please Enter House Number!");
             requestFocus(hno);
             return false;
         } else if (addressStr.length() == 0) {
-            input_layout_Address.setError("Please Enter Address");
+            Utility.showToast(getActivity(), "Please Enter Address!");
             requestFocus(address);
             return false;
         } else if (enterzipcodeStr.length() == 0) {
-            input_layout_enterZipcode.setError("Please Enter Zipcode");
+            Utility.showToast(getActivity(), "Please Enter Zipcode!");
             requestFocus(enterzipcode);
             return false;
         } /*else if (landmarkStr.length() == 0) {
@@ -330,13 +328,6 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
         } else if (cityId == null || cityId.equals("0") || cityId.equals("")) {
             Utility.showToast(context, "Please select city!");
             return false;
-        } else {
-            input_layout_Landmark.setErrorEnabled(false);
-            input_layout_enterZipcode.setErrorEnabled(false);
-            input_layout_Address.setErrorEnabled(false);
-            input_layout_Address.setError("");
-            input_layout_enterZipcode.setError("");
-            input_layout_Landmark.setError("");
         }
         return true;
     }

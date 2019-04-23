@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kredivation.switchland.R;
+import com.kredivation.switchland.activity.CreateFirstTimePostActivity;
 import com.kredivation.switchland.activity.EditProfileActivity;
 import com.kredivation.switchland.activity.SigninActivity;
 import com.kredivation.switchland.adapters.AddHomePagerAdapter;
@@ -86,10 +88,9 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
 
     private View view;
     private Context context;
-    private Spinner homeStyleSpinner, bedroomspinner, bathroomsspinner, Sleepspinner, Typeofpropertyspinner, PetAllowedspinner, Familymattersspinner, Religionspinner, genderspinner, levelofsecuritySpinner;
+    private Spinner homeStyleSpinner, Typeofpropertyspinner, PetAllowedspinner, Familymattersspinner, Religionspinner, genderspinner, levelofsecuritySpinner;
     String securitiesList[], homestylefList[], bedroomsList[], bathroomsList[], sleepsList[], typeOfPropertiesList[], petsAllowedList[], familyList[], genderList[], religionList[];
     String homestyleStr, securitStr, genderStr, religionStr, familyStr, petsStr, typeOfPropertiesStr;
-    int sleepsStr, bathroomsStr, bedroomsStr;
     Security[] securities;
     Home_style[] home_stylef;
     Bedrooms[] bedrooms;
@@ -103,7 +104,10 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
     HomeDetails MyHomedata;
     String homeId;
     String serverhomestyleStr, serversecuritStr, servergenderStr, serverreligionStr, serverfamilyStr, serverpetsStr, servertypeOfPropertiesStr;
-    int serversleepsStr, serverbathroomsStr, serverbedroomsStr;
+    int serversleepsStr = 0, serverbathroomsStr = 0, serverbedroomsStr = 0;
+
+    TextView bedView, viewbath, viewsleeps;
+    ImageView bedaddition, bedsubtraction, subtractionbath, additionbath, subtractionsleeps, additionsleeps;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -129,10 +133,7 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
         Religionspinner = view.findViewById(R.id.Religionspinner);
         genderspinner = view.findViewById(R.id.genderspinner);
         homeStyleSpinner = view.findViewById(R.id.homeStyleSpinner);
-        bedroomspinner = view.findViewById(R.id.bedroomspinner);
-        bathroomsspinner = view.findViewById(R.id.bathroomsspinner);
         Typeofpropertyspinner = view.findViewById(R.id.Typeofpropertyspinner);
-        Sleepspinner = view.findViewById(R.id.Sleepspinner);
         PetAllowedspinner = view.findViewById(R.id.PetAllowedspinner);
         Familymattersspinner = view.findViewById(R.id.Familymattersspinner);
         Typeface materialdesignicons_font = FontManager.getFontTypefaceMaterialDesignIcons(getActivity(), "fonts/materialdesignicons-webfont.otf");
@@ -145,6 +146,26 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
         previous.setOnClickListener(this);
         LinearLayout nextLayout = (LinearLayout) view.findViewById(R.id.nextLayout);
         nextLayout.setOnClickListener(this);
+
+
+        bedView = view.findViewById(R.id.qun);
+        bedaddition = view.findViewById(R.id.addition);
+        bedsubtraction = view.findViewById(R.id.subtraction);
+        bedaddition.setOnClickListener(this);
+        bedsubtraction.setOnClickListener(this);
+
+        viewbath = view.findViewById(R.id.viewbath);
+        subtractionbath = view.findViewById(R.id.subtractionbath);
+        additionbath = view.findViewById(R.id.additionbath);
+        subtractionbath.setOnClickListener(this);
+        additionbath.setOnClickListener(this);
+
+        viewsleeps = view.findViewById(R.id.viewsleeps);
+        subtractionsleeps = view.findViewById(R.id.subtractionsleeps);
+        additionsleeps = view.findViewById(R.id.additionsleeps);
+        additionsleeps.setOnClickListener(this);
+        subtractionsleeps.setOnClickListener(this);
+
         getAllDataFromDB();
 
     }
@@ -153,11 +174,6 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
         ArrayAdapter<String> homeadapter = new ArrayAdapter<String>(context, R.layout.spinner_row, homestylefList);
         homeStyleSpinner.setAdapter(homeadapter);
         ArrayAdapter<String> bedroomadapter = new ArrayAdapter<String>(context, R.layout.spinner_row, bedroomsList);
-        bedroomspinner.setAdapter(bedroomadapter);
-        ArrayAdapter<String> bathroomadapter = new ArrayAdapter<String>(context, R.layout.spinner_row, bathroomsList);
-        bathroomsspinner.setAdapter(bathroomadapter);
-        ArrayAdapter<String> sleepadapter = new ArrayAdapter<String>(context, R.layout.spinner_row, sleepsList);
-        Sleepspinner.setAdapter(sleepadapter);
         ArrayAdapter<String> typedapter = new ArrayAdapter<String>(context, R.layout.spinner_row, typeOfPropertiesList);
         Typeofpropertyspinner.setAdapter(typedapter);
         ArrayAdapter<String> petadapter = new ArrayAdapter<String>(context, R.layout.spinner_row, petsAllowedList);
@@ -182,39 +198,7 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
 
             }
         });
-        bedroomspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bedroomsStr = bedrooms[position].getId();
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        bathroomsspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bathroomsStr = bathrooms[position].getId();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        Sleepspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                sleepsStr = sleeps[position].getId();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
         Typeofpropertyspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -387,12 +371,74 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nextLayout:
-                saveScreenData(true, false);
+                if (serverbedroomsStr == 0) {
+                    Utility.showToast(getActivity(), "Please select No Of Beds!");
+                } else if (serversleepsStr == 0) {
+                    Utility.showToast(getActivity(), "Please select No of Guests!");
+                } else if (serverbathroomsStr == 0) {
+                    Utility.showToast(getActivity(), "Please select No of Bathrooms!");
+                } else {
+                    saveScreenData(true, false);
+                }
                 break;
             case R.id.previous:
                 saveScreenData(false, false);
                 break;
+            case R.id.addition:
+                increaseBed();
+                break;
+            case R.id.subtraction:
+                if (serverbedroomsStr > 0) {
+                    decreaseBed();
+                }
+                break;
+            case R.id.additionbath:
+                increaseBath();
+                break;
+            case R.id.subtractionbath:
+                if (serverbathroomsStr > 0) {
+                    decreasBath();
+                }
+                break;
+            case R.id.additionsleeps:
+                increaSleep();
+                break;
+            case R.id.subtractionsleeps:
+                if (serversleepsStr > 0) {
+                    decreaseSleep();
+                }
+                break;
         }
+    }
+
+    public void increaseBed() {
+        serverbedroomsStr = serverbedroomsStr + 1;
+        bedView.setText("" + serverbedroomsStr);
+    }
+
+    public void decreaseBed() {
+        serverbedroomsStr = serverbedroomsStr - 1;
+        bedView.setText("" + serverbedroomsStr);
+    }
+
+    public void increaseBath() {
+        serverbathroomsStr = serverbathroomsStr + 1;
+        viewbath.setText("" + serverbathroomsStr);
+    }
+
+    public void decreasBath() {
+        serverbathroomsStr = serverbathroomsStr - 1;
+        viewbath.setText("" + serverbathroomsStr);
+    }
+
+    public void increaSleep() {
+        serversleepsStr = serversleepsStr + 1;
+        viewsleeps.setText("" + serversleepsStr);
+    }
+
+    public void decreaseSleep() {
+        serversleepsStr = serversleepsStr - 1;
+        viewsleeps.setText("" + serversleepsStr);
     }
 
     private void saveScreenData(boolean NextPreviousFlag, boolean DoneFlag) {
@@ -415,9 +461,9 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
             details.setFamily_matters(familyStr);
             details.setPets(petsStr);
             details.setProperty_type(typeOfPropertiesStr);
-            details.setSleeps(String.valueOf(sleepsStr));
-            details.setBathrooms(String.valueOf(bathroomsStr));
-            details.setBedrooms(String.valueOf(bedroomsStr));
+            details.setSleeps(String.valueOf(serversleepsStr));
+            details.setBathrooms(String.valueOf(serverbathroomsStr));
+            details.setBedrooms(String.valueOf(serverbedroomsStr));
             SwitchDBHelper dbHelper = new SwitchDBHelper(getActivity());
             dbHelper.updateAddEditHomeOverview(details);
         }
@@ -490,19 +536,19 @@ public class AddHomeOverviewFragment extends Fragment implements View.OnClickLis
         }
         for (int i = 0; i < sleepsList.length; i++) {
             if (serversleepsStr == sleeps[i].getId()) {
-                Sleepspinner.setSelection(i);
+                viewsleeps.setText(sleeps[i].getId() + "");
                 break;
             }
         }
         for (int i = 0; i < bathroomsList.length; i++) {
             if (serverbathroomsStr == bathrooms[i].getId()) {
-                bathroomsspinner.setSelection(i);
+                viewbath.setText(bathrooms[i].getId() + "");
                 break;
             }
         }
         for (int i = 0; i < bedroomsList.length; i++) {
             if (serverbedroomsStr == bedrooms[i].getId()) {
-                bedroomspinner.setSelection(i);
+                bedView.setText(bedrooms[i].getId() + "");
                 break;
             }
         }

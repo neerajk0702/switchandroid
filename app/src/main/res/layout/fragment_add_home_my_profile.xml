@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -20,10 +21,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:text="My Profile"
                 android:textColor="@color/primary_text"
-                android:textSize="@dimen/_16dp" />
+                android:textSize="@dimen/dimTextSize_18"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -33,31 +34,42 @@
                 android:textColor="@color/secondary_text"
                 android:textSize="@dimen/dimTextSize_14" />
 
-            <LinearLayout
+            <android.support.design.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20dp"
-                android:orientation="vertical">
+                android:layout_height="@dimen/size_80px"
+                app:cardCornerRadius="@dimen/_12dp"
+                app:cardElevation="@dimen/_4dp"
+                app:cardUseCompatPadding="true">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Type of traveller"
-                    android:textColor="@color/primary_text"
-                    android:textSize="@dimen/_14dp" />
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_5dp">
 
-                <Spinner
-                    android:id="@+id/Typeoftravellerspinner"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:popupBackground="@color/white" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Type of traveller"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/dimTextSize_14" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/_10dp"
-                    android:background="@color/divider" />
-            </LinearLayout>
+                    <Spinner
+                        android:id="@+id/Typeoftravellerspinner"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:popupBackground="@color/white" />
+
+                </LinearLayout>
+
+            </android.support.design.card.MaterialCardView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1dp"
+                android:layout_marginTop="@dimen/_10dp"
+                android:background="@color/gray2" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -65,7 +77,7 @@
                 android:layout_marginTop="@dimen/_20dp"
                 android:text="Dream destinations"
                 android:textColor="@color/primary_text"
-                android:textSize="@dimen/_14dp" />
+                android:textSize="@dimen/dimTextSize_18" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -75,39 +87,40 @@
                 android:textColor="@color/secondary_text"
                 android:textSize="@dimen/dimTextSize_14" />
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_dream"
+            <android.support.design.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10dp">
+                android:layout_height="@dimen/size_70px"
+                app:cardCornerRadius="@dimen/_12dp"
+                app:cardElevation="@dimen/_4dp"
+                app:cardUseCompatPadding="true">
 
                 <EditText
                     android:id="@+id/dream"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
                     android:hint="What dream destination would you like to visit?"
-                    android:imeOptions="actionNext"
-                    android:singleLine="true"
+                    android:padding="@dimen/size_10px"
                     android:textColor="@color/primary_text"
-                    android:textSize="@dimen/_14dp" />
-            </android.support.design.widget.TextInputLayout>
+                    android:textSize="@dimen/dimTextSize_14" />
+            </android.support.design.card.MaterialCardView>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20dp"
                 android:text="Profile image"
-                android:visibility="gone"
                 android:textColor="@color/primary_text"
-                android:textSize="@dimen/_14dp" />
+                android:textSize="@dimen/_14dp"
+                android:visibility="gone" />
 
             <com.kredivation.switchland.utilities.CircleImageView
                 android:id="@+id/profileImage"
                 android:layout_width="@dimen/_150dp"
                 android:layout_height="@dimen/_150dp"
                 android:layout_marginTop="@dimen/_15dp"
-                android:visibility="gone"
-                android:src="@drawable/userimage" />
+                android:src="@drawable/userimage"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/upload"
@@ -118,9 +131,9 @@
                 android:elevation="@dimen/_10dp"
                 android:gravity="center"
                 android:text="upload"
-                android:visibility="gone"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_12dp" />
+                android:textSize="@dimen/_12dp"
+                android:visibility="gone" />
 
             <View
                 android:layout_width="match_parent"
@@ -169,8 +182,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="right|center"
-                    android:paddingBottom="16dp"
                     android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
                     android:text="Next"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp" />
@@ -191,9 +204,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:paddingBottom="16dp"
-                android:paddingRight="20dp"
                 android:paddingTop="16dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="16dp"
                 android:text="Confirm"
                 android:textColor="@color/colorAccent"
                 android:textSize="16sp"

@@ -74,9 +74,10 @@ public class MyLikedChoicesActivity extends AppCompatActivity {
         });
         switchDBHelper = new SwitchDBHelper(MyLikedChoicesActivity.this);
         recyclerView = findViewById(R.id.recycler_view);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(MyLikedChoicesActivity.this, LinearLayoutManager.VERTICAL, false);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(MyLikedChoicesActivity.this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setHasFixedSize(false);
         getUserData();
     }
 

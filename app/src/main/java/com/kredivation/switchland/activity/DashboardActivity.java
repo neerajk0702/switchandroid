@@ -25,14 +25,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.kredivation.switchland.R;
+import com.kredivation.switchland.adapters.CustomDrawerAdapter;
 import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.fragment.TinderMainFragment;
 import com.kredivation.switchland.model.Data;
+import com.kredivation.switchland.model.DrawerItem;
 import com.kredivation.switchland.runtimepermission.PermissionResultCallback;
 import com.kredivation.switchland.runtimepermission.PermissionUtils;
 import com.squareup.picasso.Picasso;
@@ -51,6 +55,7 @@ public class DashboardActivity extends AppCompatActivity
     String homeFilter;
     TextView loginUsrName, loginUserEmailId;
     ImageView sliderProfileImg;
+    ListView menuList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +75,36 @@ public class DashboardActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         homeFilter = getIntent().getStringExtra("HomeFilter");//come from Myprofilefilter, Travelroutin screen
         View headerLayout = navigationView.getHeaderView(0);
-        loginUsrName = headerLayout.findViewById(R.id.loginUsrName);
-        loginUserEmailId = headerLayout.findViewById(R.id.loginUserEmailId);
-        sliderProfileImg = headerLayout.findViewById(R.id.proImage);
+        loginUsrName = findViewById(R.id.loginUsrName);
+        loginUserEmailId = findViewById(R.id.loginUserEmailId);
+        sliderProfileImg = findViewById(R.id.proImage);
+        menuList = findViewById(R.id.menuList);
         setUpDashboardFragment();
         // setProfileInfo();
+        setCoustomNavMenu();
     }
+
+    private void setCoustomNavMenu() {
+        ArrayList<DrawerItem> dataList = new ArrayList<DrawerItem>();
+        dataList.add(new DrawerItem("Home Screen", R.drawable.avter, 1));
+        dataList.add(new DrawerItem("My Home", R.drawable.avter, 2));
+        dataList.add(new DrawerItem("My Choices", R.drawable.avter, 3));
+        dataList.add(new DrawerItem("Liked My Choices", R.drawable.avter, 4));
+        dataList.add(new DrawerItem("Notification", R.drawable.avter, 5));
+        dataList.add(new DrawerItem("My Profile", R.drawable.avter, 6));
+        dataList.add(new DrawerItem("Setting", R.drawable.avter, 7));
+        dataList.add(new DrawerItem("How it works", R.drawable.avter, 8));
+        dataList.add(new DrawerItem("Invite Friends", R.drawable.avter, 9));
+        dataList.add(new DrawerItem("Help and Support", R.drawable.avter, 10));
+        dataList.add(new DrawerItem("Policies", R.drawable.avter, 11));
+        dataList.add(new DrawerItem("Terms and Condition", R.drawable.avter, 12));
+        menuList.setAdapter(new CustomDrawerAdapter(
+                DashboardActivity.this,
+                R.layout.custom_drawer_item,
+                dataList));
+    }
+
+
 
     private void setProfileInfo() {
         SwitchDBHelper switchDBHelper = new SwitchDBHelper(DashboardActivity.this);

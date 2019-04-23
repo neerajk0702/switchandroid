@@ -111,7 +111,6 @@ public class AddHomeMyProfileFragment extends Fragment implements View.OnClickLi
     private String userChoosenTask;
     ASTProgressBar astProgressBar;
     private Spinner Typeoftravellerspinner;
-    private TextInputLayout input_layout_dream;
     private EditText dream;
     private String dreamStr;
     ImageView profileImage;
@@ -121,6 +120,7 @@ public class AddHomeMyProfileFragment extends Fragment implements View.OnClickLi
     String travleIdStr = "";
     HomeDetails MyHomedata;
     String homeId;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -133,7 +133,6 @@ public class AddHomeMyProfileFragment extends Fragment implements View.OnClickLi
 
     private void init() {
         dream = view.findViewById(R.id.dream);
-        input_layout_dream = view.findViewById(R.id.input_layout_dream);
         profileImage = view.findViewById(R.id.profileImage);
         Typeface materialdesignicons_font = FontManager.getFontTypefaceMaterialDesignIcons(getActivity(), "fonts/materialdesignicons-webfont.otf");
         TextView previous = (TextView) view.findViewById(R.id.previous);
@@ -192,7 +191,7 @@ public class AddHomeMyProfileFragment extends Fragment implements View.OnClickLi
                 super.onPostExecute(flag);
                 ArrayAdapter<String> homeadapter = new ArrayAdapter<String>(context, R.layout.spinner_row, travleList);
                 for (int i = 0; i < travel.length; i++) {
-                    if (travleIdStr.equals(travel[i].getId())) {
+                    if (travleIdStr != null && travleIdStr.equals(travel[i].getId())) {
                         Typeoftravellerspinner.setSelection(i);
                     }
                 }
@@ -241,10 +240,10 @@ public class AddHomeMyProfileFragment extends Fragment implements View.OnClickLi
                     dream.setText(dreamStr);
                     travleIdStr = MyHomedata.getTraveller_type();
                     String imgFileStr = MyHomedata.getProfile_image();
-                    imgFile=new File(imgFileStr);
+                    imgFile = new File(imgFileStr);
                     if (imgFile != null && imgFile.exists()) {
                         Picasso.with(context).load(imgFile).placeholder(R.drawable.userimage).into(profileImage);
-                    }else{
+                    } else {
                         Picasso.with(context).load(imgFileStr).placeholder(R.drawable.userimage).into(profileImage);
                     }
                 }
@@ -274,12 +273,9 @@ public class AddHomeMyProfileFragment extends Fragment implements View.OnClickLi
     private boolean isValidate() {
         dreamStr = dream.getText().toString();
         if (dreamStr.length() == 0) {
-            input_layout_dream.setError("Please Enter Dream detail");
+            Utility.showToast(context, "Please Enter Dream detail!");
             requestFocus(dream);
             return false;
-        } else {
-            input_layout_dream.setErrorEnabled(false);
-            input_layout_dream.setError("");
         }
         return true;
     }
@@ -314,7 +310,7 @@ public class AddHomeMyProfileFragment extends Fragment implements View.OnClickLi
             details.setTraveller_type(travleIdStr);
             details.setProfile_image(imgFile.getAbsolutePath());
             details.setDestinations(dreamStr);
-            SwitchDBHelper dbHelper=new SwitchDBHelper(getActivity());
+            SwitchDBHelper dbHelper = new SwitchDBHelper(getActivity());
             dbHelper.updateAddEditHomeProfile(details);
         }
     }

@@ -32,7 +32,7 @@ public class MyChoicesAdapter extends RecyclerView.Adapter<MyChoicesAdapter.MyVi
     public class MyViewHolder extends RecyclerView.ViewHolder {
         LinearLayout mainLayout;
         ImageView homeimage;
-        TextView title, like, locationIcon, location, startdate, enddate, remainingTime;
+        TextView title, like, location, startdate, enddate, remainingTime;
         Button travelRoutine, viewInfo;
 
         public MyViewHolder(View view) {
@@ -41,7 +41,6 @@ public class MyChoicesAdapter extends RecyclerView.Adapter<MyChoicesAdapter.MyVi
             homeimage = view.findViewById(R.id.homeimage);
             title = view.findViewById(R.id.title);
             like = view.findViewById(R.id.like);
-            locationIcon = view.findViewById(R.id.locationIcon);
             location = view.findViewById(R.id.location);
             startdate = view.findViewById(R.id.startdate);
             enddate = view.findViewById(R.id.enddate);
@@ -66,14 +65,12 @@ public class MyChoicesAdapter extends RecyclerView.Adapter<MyChoicesAdapter.MyVi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.locationIcon.setTypeface(materialdesignicons_font);
-        holder.locationIcon.setText(Html.fromHtml("&#xf34e;"));
         holder.title.setText(myHomeList.get(position).getTitle());
         holder.like.setTypeface(materialdesignicons_font);
         holder.like.setText(Html.fromHtml("&#xf2d1;"));
         holder.location.setText(myHomeList.get(position).getCity_name() + ", " + myHomeList.get(position).getCountry_name());
-        holder.startdate.setText("From " + myHomeList.get(position).getStartdate());
-        holder.enddate.setText("To " + myHomeList.get(position).getEnddate());
+        holder.startdate.setText(myHomeList.get(position).getStartdate());
+        holder.enddate.setText(myHomeList.get(position).getEnddate());
         Picasso.with(mContext).load(myHomeList.get(position).getHome_image()).placeholder(R.drawable.home_default).into(holder.homeimage);
         if (myHomeList.get(position).getTinder_date() != null && !myHomeList.get(position).getTinder_date().equals("")) {
             long remaningTime = Utility.getRemainigTime(myHomeList.get(position).getTinder_date());

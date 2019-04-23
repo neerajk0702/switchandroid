@@ -5,6 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_10dp"
+        android:text="Your house photos"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/dimTextSize_18"
+        android:textStyle="bold" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addimg"
@@ -20,8 +29,9 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/dimValue_20"
+        android:layout_below="@+id/text"
         android:layout_marginTop="@dimen/dimValue_10"
+        android:layout_marginBottom="@dimen/dimValue_20"
         android:background="@color/white" />
 
     <View
@@ -69,8 +79,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="right|center"
-                    android:paddingBottom="16dp"
                     android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
                     android:text="Next"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp" />
@@ -91,9 +101,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:paddingBottom="16dp"
-                android:paddingRight="20dp"
                 android:paddingTop="16dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="16dp"
                 android:text="Confirm"
                 android:textColor="@color/colorAccent"
                 android:textSize="16sp"

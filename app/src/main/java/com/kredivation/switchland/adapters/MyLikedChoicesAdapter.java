@@ -34,7 +34,7 @@ public class MyLikedChoicesAdapter extends RecyclerView.Adapter<MyLikedChoicesAd
     public class MyViewHolder extends RecyclerView.ViewHolder {
         LinearLayout mainLayout;
         ImageView homeimage;
-        TextView title, like, locationIcon, location, startdate, enddate, likedUser,remainingTime;
+        TextView title, like, location, startdate, enddate, remainingTime;
         Button travelRoutine, viewInfo;
 
         public MyViewHolder(View view) {
@@ -43,11 +43,9 @@ public class MyLikedChoicesAdapter extends RecyclerView.Adapter<MyLikedChoicesAd
             homeimage = view.findViewById(R.id.homeimage);
             title = view.findViewById(R.id.title);
             like = view.findViewById(R.id.like);
-            locationIcon = view.findViewById(R.id.locationIcon);
             location = view.findViewById(R.id.location);
             startdate = view.findViewById(R.id.startdate);
             enddate = view.findViewById(R.id.enddate);
-            likedUser = view.findViewById(R.id.likedUser);
             remainingTime = view.findViewById(R.id.remainingTime);
         }
     }
@@ -69,15 +67,13 @@ public class MyLikedChoicesAdapter extends RecyclerView.Adapter<MyLikedChoicesAd
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        holder.locationIcon.setTypeface(materialdesignicons_font);
-        holder.locationIcon.setText(Html.fromHtml("&#xf34e;"));
         holder.title.setText(myHomeList.get(position).getTitle());
         holder.like.setTypeface(materialdesignicons_font);
         holder.like.setText(Html.fromHtml("&#xf2d1;"));
         holder.location.setText(myHomeList.get(position).getCity_name() + ", " + myHomeList.get(position).getCountry_name());
-        holder.startdate.setText("From " + myHomeList.get(position).getStartdate());
-        holder.enddate.setText("To " + myHomeList.get(position).getEnddate());
-        holder.likedUser.setPaintFlags(holder.likedUser.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        holder.startdate.setText(myHomeList.get(position).getStartdate());
+        holder.enddate.setText(myHomeList.get(position).getEnddate());
+       // holder.likedUser.setPaintFlags(holder.likedUser.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         Picasso.with(mContext).load(myHomeList.get(position).getHome_image()).placeholder(R.drawable.home_default).into(holder.homeimage);
 
         if (myHomeList.get(position).getTinder_date() != null && !myHomeList.get(position).getTinder_date().equals("")) {
