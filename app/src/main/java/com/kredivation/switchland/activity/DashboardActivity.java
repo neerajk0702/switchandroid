@@ -10,18 +10,23 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
 import com.google.android.material.navigation.NavigationView;
+
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
@@ -102,7 +107,6 @@ public class DashboardActivity extends AppCompatActivity
                 R.layout.custom_drawer_item,
                 dataList));
     }
-
 
 
     private void setProfileInfo() {
@@ -188,7 +192,9 @@ public class DashboardActivity extends AppCompatActivity
         if (id == R.id.notification) {
             startActivity(new Intent(DashboardActivity.this, NotificationActivity.class));
         } else if (id == R.id.how) {
-            startActivity(new Intent(DashboardActivity.this, AppTourActivity.class));
+            Intent intent = new Intent(DashboardActivity.this, AppTourActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         } else if (id == R.id.invite) {
             inviteFriend();
         } else if (id == R.id.help) {

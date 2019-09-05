@@ -78,8 +78,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AppTourActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Transparent" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
