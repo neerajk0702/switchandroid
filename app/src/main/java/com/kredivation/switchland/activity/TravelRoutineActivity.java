@@ -78,7 +78,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
     String titleStr, aboutHomeStr;
     List<Home_rules> saveRuleList;
     List<Home_features> saveFeatureList;
-    String addressStr, landmarkStr, enterzipcodeStr, saveCountryId, saveCityId, Hno;
+    String addressStr, landmarkStr, enterzipcodeStr, Hno;
     ArrayList<Homegallery> homePhotoList;
     String profileimgStr, travleIdStr, dreamStr;
     String monthId, yearId, cvvStr, Cardno, CardNameStr;
@@ -95,6 +95,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
     private long UPDATE_INTERVAL = 10 * 1000;  *//* 10 secs *//*
     private long FASTEST_INTERVAL = 2000; *//* 2 sec */
     String travelCountryName, travelCityName;
+    SwitchDBHelper switchDBHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,17 +144,11 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
     }
 
     private void setUiData() {
-        SwitchDBHelper switchDBHelper = new SwitchDBHelper(TravelRoutineActivity.this);
+         switchDBHelper = new SwitchDBHelper(TravelRoutineActivity.this);
         ArrayList<Data> userData = switchDBHelper.getAllUserInfoList();
         if (userData != null) {
             for (Data data : userData) {
                 userId = data.getId();
-            }
-            //get posted home details
-            ArrayList<MyhomeArray> myHomeList = switchDBHelper.getAllMyhomedata();
-            for (MyhomeArray myhomeArray : myHomeList) {
-                homeCountryID = myhomeArray.getCountry_id();
-                homeCityID = myhomeArray.getCity_id();
             }
         }
         ServiceContentData sData = switchDBHelper.getMasterData();
@@ -212,6 +207,12 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
         });
         MyHomeAdapterFlage = getIntent().getBooleanExtra("MyHomeAdapterFlage", false);
         if (MyHomeAdapterFlage) {
+            //get posted home details
+            ArrayList<MyhomeArray> myHomeList = switchDBHelper.getAllMyhomedata();
+            for (MyhomeArray myhomeArray : myHomeList) {
+                homeCountryID = myhomeArray.getCountry_id();
+                homeCityID = myhomeArray.getCity_id();
+            }
             startDateStr = getIntent().getStringExtra("StartDate");
             enddateStr = getIntent().getStringExtra("EndDate");
             String countryID = getIntent().getStringExtra("CountryId");//travel country id
@@ -415,8 +416,8 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
         landmarkStr = MyHomedata.getLandmarks();
         //zipCodeStr = MyHomedata.getLocation();
         enterzipcodeStr = MyHomedata.getZipcode();
-        saveCountryId = MyHomedata.getCountry_id();
-        saveCityId = MyHomedata.getCity_id();
+        homeCountryID = MyHomedata.getCountry_id();
+        homeCityID = MyHomedata.getCity_id();
         Hno = MyHomedata.getHouse_no();
         currentLatitude = MyHomedata.getLatitude();
         currentLongitude = MyHomedata.getLongitude();
