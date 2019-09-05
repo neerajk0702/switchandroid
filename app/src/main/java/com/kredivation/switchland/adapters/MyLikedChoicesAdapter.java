@@ -2,9 +2,8 @@ package com.kredivation.switchland.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +15,7 @@ import android.widget.TextView;
 
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.activity.HomeDetailActivity;
-import com.kredivation.switchland.activity.LikedUserActivity;
 import com.kredivation.switchland.model.LikedmychoiceArray;
-import com.kredivation.switchland.model.MychoiceArray;
 import com.kredivation.switchland.utilities.FontManager;
 import com.kredivation.switchland.utilities.Utility;
 import com.squareup.picasso.Picasso;

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/app_bar"
@@ -27,7 +27,7 @@
                 android:textSize="@dimen/dimTextSize_16"
                 android:textStyle="bold" />
 
-            <android.support.design.card.MaterialCardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_80px"
                 app:cardCornerRadius="@dimen/_12dp"
@@ -56,9 +56,9 @@
 
                 </LinearLayout>
 
-            </android.support.design.card.MaterialCardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <android.support.design.card.MaterialCardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_80px"
                 app:cardCornerRadius="@dimen/_12dp"
@@ -87,7 +87,7 @@
 
                 </LinearLayout>
 
-            </android.support.design.card.MaterialCardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -265,7 +265,7 @@
 
             </LinearLayout>
 
-            <android.support.design.card.MaterialCardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_80px"
                 app:cardCornerRadius="@dimen/_12dp"
@@ -294,9 +294,9 @@
 
                 </LinearLayout>
 
-            </android.support.design.card.MaterialCardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <android.support.design.card.MaterialCardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_80px"
                 app:cardCornerRadius="@dimen/_12dp"
@@ -325,9 +325,9 @@
 
                 </LinearLayout>
 
-            </android.support.design.card.MaterialCardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <android.support.design.card.MaterialCardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_80px"
                 app:cardCornerRadius="@dimen/_12dp"
@@ -356,9 +356,9 @@
 
                 </LinearLayout>
 
-            </android.support.design.card.MaterialCardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <android.support.design.card.MaterialCardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_80px"
                 app:cardCornerRadius="@dimen/_12dp"
@@ -387,9 +387,9 @@
 
                 </LinearLayout>
 
-            </android.support.design.card.MaterialCardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <android.support.design.card.MaterialCardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_80px"
                 app:cardCornerRadius="@dimen/_12dp"
@@ -418,14 +418,14 @@
 
                 </LinearLayout>
 
-            </android.support.design.card.MaterialCardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="@dimen/dimValue_10" />
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"

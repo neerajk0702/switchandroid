@@ -18,7 +18,6 @@ import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.StateListDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -29,20 +28,19 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.util.LruCache;
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.core.content.ContextCompat;
+import androidx.collection.LruCache;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.ScaleAnimation;
@@ -280,9 +278,9 @@ public class Utility {
     }
 
     public static void alertNative(Context mContext) {
-        android.support.v7.app.AlertDialog.Builder builder =
-                new android.support.v7.app.AlertDialog.Builder(mContext, R.style.AlertDialogTheme);
-        android.support.v7.app.AlertDialog dialog = builder.create();
+        androidx.appcompat.app.AlertDialog.Builder builder =
+                new androidx.appcompat.app.AlertDialog.Builder(mContext, R.style.AlertDialogTheme);
+        androidx.appcompat.app.AlertDialog dialog = builder.create();
         //dialog.getWindow().getAttributes().windowAnimations = R.style.alertAnimation;
         dialog.setMessage("hello");
         dialog.setTitle("hi");

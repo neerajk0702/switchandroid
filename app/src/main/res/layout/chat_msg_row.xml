@@ -32,7 +32,7 @@
         </LinearLayout>
 
 
-        <android.support.design.card.MaterialCardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -92,7 +92,7 @@
             </LinearLayout>
 
 
-        </android.support.design.card.MaterialCardView>
+        </com.google.android.material.card.MaterialCardView>
 
 
         <View
@@ -116,7 +116,7 @@
             android:background="#00000000" />
 
 
-        <android.support.design.card.MaterialCardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -173,7 +173,7 @@
                     android:textSize="@dimen/_12dp"
                     android:visibility="gone" />
             </LinearLayout>
-        </android.support.design.card.MaterialCardView>
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 </LinearLayout>

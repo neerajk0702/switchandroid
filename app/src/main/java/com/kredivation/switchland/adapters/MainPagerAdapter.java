@@ -1,12 +1,11 @@
 package com.kredivation.switchland.adapters;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.kredivation.switchland.fragment.ChatListFragment;
 import com.kredivation.switchland.fragment.MyProfileFilterFragment;
-import com.kredivation.switchland.fragment.MyProfileFragment;
 import com.kredivation.switchland.fragment.TinderFragment;
 
 public class MainPagerAdapter extends FragmentStatePagerAdapter {

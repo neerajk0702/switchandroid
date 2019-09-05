@@ -2,62 +2,43 @@ package com.kredivation.switchland.fragment;
 
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.media.ExifInterface;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.adapters.AddHomePhotoAdapter;
-import com.kredivation.switchland.adapters.ChatListAdapter;
 import com.kredivation.switchland.database.SwitchDBHelper;
-import com.kredivation.switchland.model.ChatData;
-import com.kredivation.switchland.model.Features;
 import com.kredivation.switchland.model.HomeDetails;
 import com.kredivation.switchland.model.Homegallery;
-import com.kredivation.switchland.model.House_rules;
-import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.Contants;
 import com.kredivation.switchland.utilities.FontManager;
 import com.kredivation.switchland.utilities.Utility;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.

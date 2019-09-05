@@ -1,7 +1,7 @@
 package com.kredivation.switchland.fragment.likepagelib;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +14,6 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.kredivation.switchland.R;
-import com.kredivation.switchland.model.Home_data;
 
 import java.util.ArrayList;
 import java.util.Collection;

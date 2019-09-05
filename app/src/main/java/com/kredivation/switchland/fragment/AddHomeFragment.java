@@ -6,33 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
 import com.kredivation.switchland.R;
-import com.kredivation.switchland.activity.ChangePasswordActivity;
 import com.kredivation.switchland.adapters.AddHomePagerAdapter;
-import com.kredivation.switchland.database.SwitchDBHelper;
-import com.kredivation.switchland.framework.FileUploaderHelper;
-import com.kredivation.switchland.model.ContentData;
-import com.kredivation.switchland.model.Data;
-import com.kredivation.switchland.model.ServiceContentData;
-import com.kredivation.switchland.utilities.ASTProgressBar;
-import com.kredivation.switchland.utilities.Contants;
-import com.kredivation.switchland.utilities.Utility;
-
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 
 /**
  * A simple {@link Fragment} subclass.

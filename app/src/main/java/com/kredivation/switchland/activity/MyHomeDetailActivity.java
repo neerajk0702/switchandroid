@@ -5,26 +5,19 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.adapters.SlidingImage_Adapter_For_ItemDetails;
 import com.kredivation.switchland.database.SwitchDBHelper;
-import com.kredivation.switchland.fragment.DetailFragment;
-import com.kredivation.switchland.fragment.FotosFragmnet;
-import com.kredivation.switchland.fragment.ReviewFragment;
 import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
 import com.kredivation.switchland.framework.ServiceCaller;
 import com.kredivation.switchland.model.Data;
@@ -37,14 +30,12 @@ import com.kredivation.switchland.utilities.CompatibilityUtility;
 import com.kredivation.switchland.utilities.Contants;
 import com.kredivation.switchland.utilities.FontManager;
 import com.kredivation.switchland.utilities.Utility;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 

@@ -6,7 +6,7 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.os.Handler;
-import android.support.v4.view.VelocityTrackerCompat;
+import androidx.core.view.VelocityTrackerCompat;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;

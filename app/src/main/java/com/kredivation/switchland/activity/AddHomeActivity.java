@@ -9,17 +9,15 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.adapters.AddHomePagerAdapter;
 import com.kredivation.switchland.database.SwitchDBHelper;
@@ -29,7 +27,6 @@ import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.model.Family;
 import com.kredivation.switchland.model.Genderarray;
 import com.kredivation.switchland.model.Home_style;
-import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.Pets_allowed;
 import com.kredivation.switchland.model.Religion;
 import com.kredivation.switchland.model.Security;
@@ -39,9 +36,6 @@ import com.kredivation.switchland.model.Type_of_property;
 import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.CompatibilityUtility;
 import com.kredivation.switchland.utilities.FontManager;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class AddHomeActivity extends AppCompatActivity {
     private Toolbar toolbar;

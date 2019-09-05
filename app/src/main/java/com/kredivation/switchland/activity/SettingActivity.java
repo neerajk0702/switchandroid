@@ -6,10 +6,10 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -24,7 +24,6 @@ import com.kredivation.switchland.R;
 import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.utilities.CompatibilityUtility;
 import com.kredivation.switchland.utilities.FontManager;
-import com.kredivation.switchland.utilities.SwitchViewPager;
 import com.kredivation.switchland.utilities.Utility;
 
 public class SettingActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {

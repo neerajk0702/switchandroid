@@ -1,13 +1,12 @@
 package com.kredivation.switchland.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +17,7 @@ import android.widget.TextView;
 
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.activity.ChatActivity;
-import com.kredivation.switchland.activity.EditProfileActivity;
 import com.kredivation.switchland.database.SwitchDBHelper;
-import com.kredivation.switchland.model.ChatData;
 import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.model.LikedmychoiceArray;
 import com.kredivation.switchland.utilities.FontManager;

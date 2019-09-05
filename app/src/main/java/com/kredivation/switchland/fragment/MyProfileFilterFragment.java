@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +38,6 @@ import com.kredivation.switchland.model.Sleeps;
 import com.kredivation.switchland.model.Type_of_traveller;
 import com.kredivation.switchland.utilities.FontManager;
 import com.kredivation.switchland.utilities.Utility;
-import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.ParseException;

@@ -10,21 +10,18 @@ import android.content.pm.Signature;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
 
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.database.SwitchDBHelper;
-import com.kredivation.switchland.firebase.MyFirebaseMessagingService;
 import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
 import com.kredivation.switchland.framework.ServiceCaller;
-import com.kredivation.switchland.model.ChatServiceContentData;
 import com.kredivation.switchland.model.ContentData;
 import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.model.LikedmychoiceArray;
@@ -35,7 +32,6 @@ import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.CompatibilityUtility;
 import com.kredivation.switchland.utilities.Contants;
 import com.kredivation.switchland.utilities.Utility;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;

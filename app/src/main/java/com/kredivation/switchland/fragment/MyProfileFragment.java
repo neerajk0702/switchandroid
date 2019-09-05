@@ -5,11 +5,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,37 +20,27 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.activity.AddHomeActivity;
-import com.kredivation.switchland.activity.AppTourActivity;
-import com.kredivation.switchland.activity.ChangePasswordActivity;
-import com.kredivation.switchland.activity.ChatActivity;
-import com.kredivation.switchland.activity.ConfirmDetailActivity;
 import com.kredivation.switchland.activity.EditProfileActivity;
-import com.kredivation.switchland.activity.HomeDetailActivity;
 import com.kredivation.switchland.activity.MyChoicesActivity;
 import com.kredivation.switchland.activity.MyHomeActivity;
 import com.kredivation.switchland.activity.MyHomeDetailActivity;
 import com.kredivation.switchland.activity.MyLikedChoicesActivity;
 import com.kredivation.switchland.activity.MyProfileFilterActivity;
 import com.kredivation.switchland.activity.SettingActivity;
-import com.kredivation.switchland.activity.SplashScreenActivity;
 import com.kredivation.switchland.activity.TravelRoutineActivity;
 import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
 import com.kredivation.switchland.framework.ServiceCaller;
 import com.kredivation.switchland.model.CheckHomeContent;
 import com.kredivation.switchland.model.Data;
-import com.kredivation.switchland.model.MychoiceArray;
 import com.kredivation.switchland.model.MyhomeArray;
-import com.kredivation.switchland.model.ServiceContentData;
 import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.Contants;
 import com.kredivation.switchland.utilities.Utility;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 
 /**

@@ -13,25 +13,19 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.activity.DashboardActivity;
-import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
-import com.kredivation.switchland.framework.ServiceCaller;
-import com.kredivation.switchland.model.Data;
-import com.kredivation.switchland.utilities.ASTProgressBar;
-import com.kredivation.switchland.utilities.Contants;
 import com.kredivation.switchland.utilities.Utility;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 

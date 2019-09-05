@@ -3,12 +3,11 @@ package com.kredivation.switchland.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.Fragment;
+
+import androidx.fragment.app.Fragment;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,38 +15,21 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.kredivation.switchland.R;
-import com.kredivation.switchland.activity.AppTourActivity;
-import com.kredivation.switchland.activity.SplashScreenActivity;
 import com.kredivation.switchland.activity.TravelRoutineActivity;
 import com.kredivation.switchland.database.SwitchDBHelper;
-import com.kredivation.switchland.model.Bathrooms;
-import com.kredivation.switchland.model.Bedrooms;
 import com.kredivation.switchland.model.Data;
-import com.kredivation.switchland.model.Family;
-import com.kredivation.switchland.model.Genderarray;
 import com.kredivation.switchland.model.HomeDetails;
-import com.kredivation.switchland.model.Home_style;
 import com.kredivation.switchland.model.Month;
-import com.kredivation.switchland.model.MyhomeArray;
-import com.kredivation.switchland.model.Pets_allowed;
-import com.kredivation.switchland.model.Religion;
-import com.kredivation.switchland.model.Security;
 import com.kredivation.switchland.model.ServiceContentData;
-import com.kredivation.switchland.model.Sleeps;
-import com.kredivation.switchland.model.Type_of_property;
 import com.kredivation.switchland.model.Year;
 import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.FontManager;
 import com.kredivation.switchland.utilities.Utility;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 

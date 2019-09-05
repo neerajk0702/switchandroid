@@ -1,42 +1,27 @@
 package com.kredivation.switchland.activity;
 
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.adapters.MyHomeAdapter;
 import com.kredivation.switchland.database.SwitchDBHelper;
-import com.kredivation.switchland.framework.IAsyncWorkCompletedCallback;
-import com.kredivation.switchland.framework.ServiceCaller;
 import com.kredivation.switchland.model.Data;
-import com.kredivation.switchland.model.MychoiceArray;
 import com.kredivation.switchland.model.MyhomeArray;
-import com.kredivation.switchland.model.ServiceContentData;
-import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.CompatibilityUtility;
-import com.kredivation.switchland.utilities.Contants;
 import com.kredivation.switchland.utilities.FontManager;
-import com.kredivation.switchland.utilities.Utility;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MyHomeActivity extends AppCompatActivity {
     private Toolbar toolbar;

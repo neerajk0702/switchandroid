@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/app_bar"
@@ -29,7 +29,7 @@
                 android:textSize="@dimen/dimTextSize_18"
                 android:textStyle="bold" />
 
-            <android.support.design.card.MaterialCardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_60px"
                 android:layout_marginTop="@dimen/_10dp"
@@ -48,9 +48,9 @@
                     android:singleLine="true"
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/dimTextSize_14" />
-            </android.support.design.card.MaterialCardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <android.support.design.card.MaterialCardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_60px"
                 app:cardCornerRadius="@dimen/_12dp"
@@ -68,7 +68,7 @@
                     android:singleLine="true"
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/dimTextSize_14" />
-            </android.support.design.card.MaterialCardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -96,7 +96,7 @@
                     android:layout_marginTop="@dimen/_15dp"
                     android:orientation="horizontal">
 
-                    <android.support.design.card.MaterialCardView
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="0dp"
                         android:layout_height="@dimen/size_60px"
                         android:layout_weight="0.5"
@@ -109,9 +109,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:popupBackground="@color/white" />
-                    </android.support.design.card.MaterialCardView>
+                    </com.google.android.material.card.MaterialCardView>
 
-                    <android.support.design.card.MaterialCardView
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="0dp"
                         android:layout_height="@dimen/size_60px"
                         android:layout_weight="0.5"
@@ -124,11 +124,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:popupBackground="@color/white" />
-                    </android.support.design.card.MaterialCardView>
+                    </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
 
 
-                <android.support.design.card.MaterialCardView
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/size_60px"
                     android:layout_marginTop="@dimen/_10dp"
@@ -147,10 +147,10 @@
                         android:singleLine="true"
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/dimTextSize_14" />
-                </android.support.design.card.MaterialCardView>
+                </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"

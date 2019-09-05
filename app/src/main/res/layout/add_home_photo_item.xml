@@ -4,7 +4,7 @@
     android:layout_width="@dimen/size_150px"
     android:layout_height="@dimen/size_150px">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardCornerRadius="@dimen/dimValue_4"
@@ -25,5 +25,5 @@
                 android:src="@mipmap/download" />
 
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

@@ -89,7 +89,7 @@
         app:koloda_card_layout="@layout/item_koloda" />
 
 
-    <android.support.design.card.MaterialCardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/buttonsLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_70dp"
@@ -203,6 +203,6 @@
             </LinearLayout>
 
         </LinearLayout>
-    </android.support.design.card.MaterialCardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

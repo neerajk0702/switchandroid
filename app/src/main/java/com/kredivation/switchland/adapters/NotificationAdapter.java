@@ -1,21 +1,17 @@
 package com.kredivation.switchland.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kredivation.switchland.R;
-import com.kredivation.switchland.activity.ChatActivity;
 import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.utilities.FontManager;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 

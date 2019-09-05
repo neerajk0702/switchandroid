@@ -24,7 +24,7 @@ import com.kredivation.switchland.R;
 /**
  * Created by Neeraj on 5/20/2016.
  */
-public class CircleImageView extends android.support.v7.widget.AppCompatImageView {
+public class CircleImageView extends androidx.appcompat.widget.AppCompatImageView {
 
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
 
