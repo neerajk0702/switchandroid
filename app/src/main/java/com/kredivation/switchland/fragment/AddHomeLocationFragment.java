@@ -260,7 +260,15 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
                     saveCityId = MyHomedata.getCity_id();
                     hno.setText(hnoStr);
                     //zipCode.setText(zipCodeStr);
-                    address.setText(addressStr + "," + address2);
+                    String completeAdd="";
+                    if (addressStr != null && addressStr.equalsIgnoreCase("null")){
+                        completeAdd=addressStr;
+                    } if (address2 != null && address2.equalsIgnoreCase("null")){
+                        completeAdd=completeAdd+address2;
+                    }
+                    if(completeAdd!=null){
+                        address.setText(completeAdd);
+                    }
                     enterzipcode.setText(enterzipcodeStr);
                     landmark.setText(landmarkStr);
                     title = MyHomedata.getTitle();

@@ -42,6 +42,7 @@
         android:roundIcon="@drawable/ic_switchland_logoold"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustPan">
         <activity android:name=".activity.MyHomeDetailActivity"></activity>

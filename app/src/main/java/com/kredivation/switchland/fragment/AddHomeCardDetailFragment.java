@@ -184,7 +184,7 @@ public class AddHomeCardDetailFragment extends Fragment implements View.OnClickL
     private void getSelectedYear() {
         if (years != null) {
             for (int i = 0; i < years.length; i++) {
-                if (yearId.equals(years[i].getId())) {
+                if (yearId!=null && yearId.equals(years[i].getId())) {
                     yearspinner.setSelection(i);
                     break;
                 }

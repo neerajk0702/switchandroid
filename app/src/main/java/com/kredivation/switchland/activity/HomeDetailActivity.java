@@ -254,7 +254,7 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
 
 
 
-                                /*String id = databject.optString("id").toString();
+                                String id = databject.optString("id").toString();
                                 details.setId(id);
                                 String user_id = databject.optString("user_id").toString();
                                 details.setUser_id(user_id);
@@ -341,7 +341,7 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
 
                                 JSONArray home_featuresAttay = databject.optJSONArray("home_features");
                                 if (home_featuresAttay != null) {
-                                    featureName = new String[home_featuresAttay.length()];
+                                    ArrayList<Home_features> featureList=new ArrayList<>();
                                     for (int i = 0; i < home_featuresAttay.length(); i++) {
                                         JSONObject featureObject = home_featuresAttay.getJSONObject(i);
                                         String featireid = featureObject.optString("id").toString();
@@ -352,14 +352,13 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
                                         home_features.setName(featurename);
                                         home_features.setStatus(featurestatus);
                                         featureList.add(home_features);
-                                        featureName[i] = featurename;
                                     }
                                     details.setFeatureList(featureList);
                                 }
 
                                 JSONArray home_rulesAttay = databject.optJSONArray("home_rules");
                                 if (home_rulesAttay != null) {
-                                    hRuleName = new String[home_rulesAttay.length()];
+                                    ArrayList<Home_rules> hRuleList=new ArrayList<>();
                                     for (int i = 0; i < home_rulesAttay.length(); i++) {
                                         JSONObject ruleObject = home_rulesAttay.getJSONObject(i);
                                         String featireid = ruleObject.optString("id").toString();
@@ -370,10 +369,9 @@ public class HomeDetailActivity extends AppCompatActivity implements View.OnClic
                                         home_rule.setName(featurename);
                                         home_rule.setStatus(featurestatus);
                                         hRuleList.add(home_rule);
-                                        hRuleName[i] = featurename;
                                     }
                                     details.setHouseRuleList(hRuleList);
-                                }*/
+                                }
                                 JSONArray homegalleryAttay = databject.optJSONArray("homegallery");
 
                                 if (homegalleryAttay != null) {
