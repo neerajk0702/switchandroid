@@ -4,10 +4,13 @@ package com.kredivation.switchland.fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,12 +39,12 @@ import java.util.ArrayList;
  * Use the {@link ChatListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ChatListFragment extends Fragment {
+public class ChatListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    SwipeRefreshLayout mSwipeRefreshLayout;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -107,7 +110,28 @@ public class ChatListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getUserdata();
+
+
+        mSwipeRefreshLayout = view.findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
+                android.R.color.holo_green_dark,
+                android.R.color.holo_orange_dark,
+                android.R.color.holo_blue_dark);
+        /**
+         * Showing Swipe Refresh animation on activity create
+         * As animation won't start on onCreate, post runnable is used
+         */
+        mSwipeRefreshLayout.post(new Runnable() {
+
+            @Override
+            public void run() {
+
+                mSwipeRefreshLayout.setRefreshing(true);
+                getUserdata();
+            }
+        });
+
     }
 
     private void getUserdata() {
@@ -159,6 +183,7 @@ public class ChatListFragment extends Fragment {
                         if (dotDialog.isShowing()) {
                             dotDialog.dismiss();
                         }
+                        mSwipeRefreshLayout.setRefreshing(false);
                         Utility.alertForErrorMessage(Contants.Error, getContext());
                     }
                 }
@@ -236,6 +261,7 @@ public class ChatListFragment extends Fragment {
                                 if (dotDialog.isShowing()) {
                                     dotDialog.dismiss();
                                 }
+                                mSwipeRefreshLayout.setRefreshing(false);
                             }
                         }.execute();
                     } else {
@@ -261,4 +287,9 @@ public class ChatListFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onRefresh() {
+        mSwipeRefreshLayout.setRefreshing(true);
+        getUserdata();
+    }
 }
