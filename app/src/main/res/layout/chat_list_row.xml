@@ -36,12 +36,16 @@
 
             </LinearLayout>
 
+
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="0.7"
                 android:orientation="vertical">
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -59,6 +63,9 @@
                         android:text="Narayan Semwal"
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/dimTextSize_14" />
+
+
+
 
 
                     <TextView
@@ -104,33 +111,37 @@
                         android:textSize="@dimen/dimTextSize_12" />
 
 
-                    <TextView
-                        android:id="@+id/count"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="@dimen/dimValue_7"
-                        android:layout_marginRight="@dimen/_5dp"
-                        android:layout_weight=".3"
-                        android:background="@color/green"
-                        android:text="50"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/dimTextSize_12"
-                        android:visibility="gone" />
+
 
                     <TextView
                         android:id="@+id/timeleft"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="@dimen/dimValue_7"
+                        android:layout_marginLeft="@dimen/dimValue_3"
                         android:layout_marginRight="@dimen/_5dp"
                         android:layout_weight=".4"
                         android:text=""
                         android:textAlignment="center"
                         android:textColor="@color/red"
                         android:textSize="@dimen/dimTextSize_12" />
+
+
+
+
+                    <TextView
+                        android:id="@+id/count"
+                        android:layout_width="@dimen/_20dp"
+                        android:layout_height="@dimen/_20dp"
+                        android:layout_gravity="right|center"
+                        android:background="@drawable/bg_round"
+                        android:text="50"
+                        android:padding="@dimen/_4dp"
+                        android:layout_marginRight="@dimen/_3dp"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimTextSize_12"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 

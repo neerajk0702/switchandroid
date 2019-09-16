@@ -1,6 +1,6 @@
 package com.kredivation.switchland.model;
 
-public class Data {
+public class Data implements Comparable<Data> {
     private String created_date;
 
     private String role_id;
@@ -667,6 +667,8 @@ public class Data {
     private String message;
     private String to_user_delete_id;
 
+    private  String unread_message;
+
     public String getFrom_user_id() {
         return from_user_id;
     }
@@ -773,10 +775,25 @@ private int chatuser;
         this.chatuser = chatuser;
     }
 
+    public String getUnread_message() {
+        return unread_message;
+    }
+
+    public void setUnread_message(String unread_message) {
+        this.unread_message = unread_message;
+    }
+
     @Override
     public String toString() {
         return "ClassPojo [created_date = " + created_date + ", role_id = " + role_id + ", status = " + status + ", user_type = " + user_type + ", profile_image = " + profile_image + ", is_verify = " + is_verify + ", last_login = " + last_login + ", id = " + id + ", first_name = " + first_name + ", username = " + username + ", updated_date = " + updated_date + ", mobile_number = " + mobile_number + ", added_by = " + added_by + ", email = " + email + ", last_name = " + last_name + ", otp = " + otp + "]";
     }
+
+    @Override
+    public int compareTo(Data o) {
+        return 0;
+    }
+
+
 }
 
 

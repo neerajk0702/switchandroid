@@ -1,5 +1,6 @@
 package com.kredivation.switchland.adapters;
 
+import android.app.Notification;
 import android.content.Context;
 import android.graphics.Typeface;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +14,12 @@ import com.kredivation.switchland.R;
 import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.utilities.FontManager;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.MyViewHolder> {
 
@@ -53,7 +59,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.date.setText(myHomeList.get(position).getAdded_date());
         holder.dateicon.setTypeface(materialdesignicons_font);
         holder.dateicon.setText(Html.fromHtml("&#xf0f5;"));
-
     }
 
     @Override

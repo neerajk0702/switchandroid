@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +41,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.MyView
         ImageView userImage;
         CardView cardView;
         LinearLayout main_layout;
+        TextView count;
 
         public MyViewHolder(View view) {
             super(view);
@@ -50,6 +53,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.MyView
             timeleft = view.findViewById(R.id.timeleft);
             main_layout = view.findViewById(R.id.main_layout);
             date = view.findViewById(R.id.date);
+            count = view.findViewById(R.id.count);
         }
     }
 
@@ -75,6 +79,14 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.MyView
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.location.setText(chatList.get(position).getCity_name() + " ," + chatList.get(position).getCountry_name());
         holder.userName.setText(chatList.get(position).getFull_name());
+
+        if (chatList.get(position).getUnread_message() != null && !chatList.get(position).getUnread_message().equals("0")) {
+            holder.count.setVisibility(View.VISIBLE);
+            holder.count.setText(chatList.get(position).getUnread_message());
+        } else {
+            holder.count.setVisibility(View.GONE);
+        }
+
         holder.locationIcon.setTypeface(materialdesignicons_font);
         holder.locationIcon.setText(Html.fromHtml("&#xf34e;"));
         Picasso.with(mContext).load(chatList.get(position).getProfile_image()).placeholder(R.drawable.userimage).resize(40, 40).into(holder.userImage);

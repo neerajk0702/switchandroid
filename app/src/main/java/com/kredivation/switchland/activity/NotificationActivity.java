@@ -1,5 +1,7 @@
 package com.kredivation.switchland.activity;
 
+import android.annotation.SuppressLint;
+import android.app.Notification;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,8 +31,15 @@ import com.kredivation.switchland.utilities.Utility;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Locale;
 
 public class NotificationActivity extends AppCompatActivity {
     private Toolbar toolbar;
@@ -63,7 +72,7 @@ public class NotificationActivity extends AppCompatActivity {
         });
 
         recyclerView = findViewById(R.id.recycler_view);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(NotificationActivity.this, LinearLayoutManager.VERTICAL, false);
+        @SuppressLint("WrongConstant") RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(NotificationActivity.this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         getUserData();
@@ -106,6 +115,34 @@ public class NotificationActivity extends AppCompatActivity {
                                     ArrayList<Data> datalist = new ArrayList<Data>(Arrays.asList(serviceData.getData()));
                                     if (datalist != null) {
                                         if (datalist != null && datalist.size() > 0) {
+
+
+                                            Collections.sort(datalist, new Comparator<Data>() {
+                                                //2016-07-08 12:06:30
+                                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+
+                                                public int compare(Data m1, Data m2) {
+                                                    Date date1 = null;
+                                                    Date date2 = null;
+                                                    int shortdate = 0;
+                                                    try {
+                                                        date1 = sdf.parse(m1.getAdded_date());
+                                                        date2 = sdf.parse(m2.getAdded_date());
+                                                        // Log.d(Contants.LOG_TAG, "date**********   " + date1 + "***" + date2);
+                                                        //Log.d(Contants.LOG_TAG, " output.format(date1);**********   " + output.format(date1));
+                                                        if (date1 != null && date2 != null) {
+                                                            shortdate = date1.getTime() > date2.getTime() ? -1 : 1;//descending
+                                                            //shortdate = date1.getTime() > date2.getTime() ? 1 : -1;     //ascending
+                                                        }
+                                                    } catch (ParseException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                    return shortdate;
+                                                }
+                                            });
+
+
+
                                             NotificationAdapter usersAdapter = new NotificationAdapter(NotificationActivity.this, datalist);
                                             recyclerView.setAdapter(usersAdapter);
                                         }
