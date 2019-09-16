@@ -410,12 +410,13 @@ public class AddHomeLocationFragment extends Fragment implements OnMapReadyCallb
             if (addressList != null && addressList.size() > 0) {
                 Address address = addressList.get(0);
                 LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(latLng).title(title));
-                // mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                mMap.animateCamera(CameraUpdateFactory.zoomIn());
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
-
+                if (mMap != null) {
+                    mMap.addMarker(new MarkerOptions().position(latLng).title(title));
+                    // mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                    mMap.animateCamera(CameraUpdateFactory.zoomIn());
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
+                }
                 // mMap.animateCamera(CameraUpdateFactory.zoomIn());
                 // mMap.animateCamera(CameraUpdateFactory.zoomTo(20), 6000, null);
                 lat = String.valueOf(address.getLatitude());

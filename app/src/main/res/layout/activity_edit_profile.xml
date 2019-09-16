@@ -119,7 +119,7 @@
                                 android:id="@+id/firstName"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="First Name"
+                                android:hint="Full Name"
                                 android:singleLine="true"
                                 android:textColor="@color/primary_text"
                                 android:textSize="@dimen/dimTextSize_14" />
@@ -139,6 +139,7 @@
                                 android:layout_height="wrap_content"
                                 android:hint="Last Name"
                                 android:singleLine="true"
+                                android:visibility="gone"
                                 android:textColor="@color/primary_text"
                                 android:textSize="@dimen/dimTextSize_14" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -148,7 +149,6 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="@dimen/_10dp"
                         android:background="@color/gray" />
 
 

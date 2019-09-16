@@ -70,7 +70,7 @@
             <com.kredivation.switchland.utilities.CircleImageView
                 android:layout_width="@dimen/_45dp"
                 android:layout_height="@dimen/_45dp"
-                android:background="@drawable/noimage" />
+                android:background="@drawable/ic_chat1" />
 
 
         </LinearLayout>

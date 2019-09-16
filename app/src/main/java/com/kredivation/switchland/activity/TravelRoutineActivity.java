@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -394,7 +395,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
 
         homeId = MyHomedata.getId();
         //------home Overview screen----------
-        homestyleId = MyHomedata.getHome_type();
+        homestyleId = MyHomedata.getHomestyle();//getHome_type()
         securitId = MyHomedata.getLevel_security();
         genderId = MyHomedata.getGender();
         religionId = MyHomedata.getReligion();
@@ -446,6 +447,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
         payloadList.put("sort_description", aboutHomeStr);
         payloadList.put("house_no", Hno);
         payloadList.put("home_type", homestyleId);
+        payloadList.put("home_style", homestyleId);
         payloadList.put("bedrooms", bedroomsId);
         payloadList.put("bathrooms", bathroomsId);
         payloadList.put("sleeps", sleepsid);
@@ -486,6 +488,10 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
             String serviceURL = Contants.BASE_URL + Contants.Addhome;
             getAllHomeDataFromSharePre();
             MultipartBody.Builder multipartBody = setMultipartBodyVaule();
+            Gson gson=new Gson();
+            String psyloadjson=gson.toJson(payloadList);
+
+            Log.e("psyloadjson",psyloadjson);
 
             FileUploaderHelper fileUploaderHelper = new FileUploaderHelper(TravelRoutineActivity.this, payloadList, multipartBody, serviceURL) {
                 @Override

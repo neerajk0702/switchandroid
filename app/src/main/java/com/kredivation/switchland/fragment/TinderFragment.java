@@ -412,7 +412,7 @@ public class TinderFragment extends Fragment {
         }
     }
 
-    //remove home from list aftre like dislike
+    //remove home from list after like dislike
     private void removeMasterListData(int pos) {
         String homeId = matchhomeList.get(pos).getId();
         for (int i = 0; i < homeList.size(); i++) {

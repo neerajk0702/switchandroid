@@ -73,7 +73,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private TextInputLayout phone_layout, hno_layout, first_layout, last_layout, area_layout, zip_layout;
     private EditText phone, hno, lastName, firstName, area, zipcode;
     TextView user, email;
-    private String phoneStr, hnoStr, lastNameStr, firstNameStr, areaStr, zipcodeStr;
+    private String phoneStr, hnoStr, firstNameStr, areaStr, zipcodeStr;
+    String lastNameStr="";
     ImageView proImage;
     public final int REQUEST_CAMERA = 101;
     public final int SELECT_PHOTO = 102;
@@ -142,13 +143,13 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         if (userData != null && userData.size() > 0) {
             for (Data data : userData) {
                 userId = data.getId();
-                /*if (data.getFull_name() != null && !data.getFull_name().equals("")) {
+                if (data.getFull_name() != null && !data.getFull_name().equals("")) {
                     firstName.setText(data.getFull_name());
                 } else {
-                    firstName.setText(data.getFirst_name());
-                }*/
-                firstName.setText(data.getFirst_name());
-                lastName.setText(data.getLast_name());
+                    firstName.setText(data.getFirst_name()+""+data.getLast_name());
+                }
+                //firstName.setText(data.getFirst_name());
+                //lastName.setText(data.getLast_name());
                 email.setText(data.getEmail());
                 phone.setText(data.getMobile_number());
                 user.setText(data.getUsername());
@@ -278,14 +279,14 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         areaStr = area.getText().toString();
         zipcodeStr = zipcode.getText().toString();
         if (firstNameStr.length() == 0) {
-            first_layout.setError("Please Enter First Name");
+            first_layout.setError("Please Enter Full Name");
             requestFocus(firstName);
             return false;
-        } else if (lastNameStr.length() == 0) {
+        } /*else if (lastNameStr.length() == 0) {
             last_layout.setError("Please Enter Last Name");
             requestFocus(lastName);
             return false;
-        } else if (phoneStr.length() == 0) {
+        }*/ else if (phoneStr.length() == 0) {
             phone_layout.setError("Please Enter Phone Number");
             requestFocus(phone);
             return false;
