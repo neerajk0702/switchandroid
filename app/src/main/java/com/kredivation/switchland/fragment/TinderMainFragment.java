@@ -27,6 +27,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.activity.DashboardActivity;
+import com.kredivation.switchland.activity.TravelRoutineActivity;
 import com.kredivation.switchland.adapters.HomeTinderCardAdapter;
 import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.fragment.likepagelib.KoldaListnerJava;
@@ -38,6 +39,8 @@ import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.model.FilterHome;
 import com.kredivation.switchland.model.Home_data;
 import com.kredivation.switchland.model.Home_liked_disliked;
+import com.kredivation.switchland.model.LikedmychoiceArray;
+import com.kredivation.switchland.model.MychoiceArray;
 import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.ServiceContentData;
 import com.kredivation.switchland.utilities.ASTProgressBar;
@@ -361,6 +364,7 @@ public class TinderMainFragment extends Fragment {
                 userId = data.getId();
             }
             getAllHome();
+            getMyHome();
         }
     }
 
@@ -521,6 +525,10 @@ public class TinderMainFragment extends Fragment {
                     //((KoldaMain) view.findViewById(R.id.koloda)).removeAllViews();
                     setAdapterValue(matchhomeList);
                     //cardAdapter.notifyDataSetChanged();
+                    Intent intent = new Intent(context, DashboardActivity.class);
+                    intent.putExtra("HomeFilter", homeFilter);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    //startActivity(intent);
                 }
                 alert.dismiss();
             }
@@ -620,5 +628,71 @@ public class TinderMainFragment extends Fragment {
         notifSharedPref.edit().clear().apply();
         NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
+    }
+    //get my home data
+    private void getMyHome() {
+        if (Utility.isOnline(context)) {
+            //  homeDialog = new ASTProgressBar(SplashScreenActivity.this);
+            JSONObject object = new JSONObject();
+            try {
+                object.put("api_key", Contants.API_KEY);
+                object.put("user_id", userId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String serviceURL = Contants.BASE_URL + Contants.MyHome;
+
+            ServiceCaller serviceCaller = new ServiceCaller(context);
+            serviceCaller.CallCommanServiceMethod(serviceURL, object, "getMyHome", new IAsyncWorkCompletedCallback() {
+                @Override
+                public void onDone(String result, boolean isComplete) {
+                    if (isComplete) {
+                        parseHomeServiceData(result);
+                    } else {
+                        Toast.makeText(context,Contants.Error, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
+
+    public void parseHomeServiceData(String result) {
+        if (result != null) {
+            final ServiceContentData serviceData = new Gson().fromJson(result, ServiceContentData.class);
+            if (serviceData != null) {
+                SwitchDBHelper switchDBHelper = new SwitchDBHelper(context);
+                switchDBHelper.deleteAllRows("Myhomedata");
+                switchDBHelper.deleteAllRows("MychoiceData");
+                switchDBHelper.deleteAllRows("LikedmychoiceData");
+                if (serviceData.isSuccess()) {
+                    if (serviceData.getData() != null) {
+                        new AsyncTask<Void, Void, Boolean>() {
+                            @Override
+                            protected Boolean doInBackground(Void... voids) {
+                                Boolean flag = false;
+
+                                for (MyhomeArray myhomeArray : serviceData.getData().getMyhomeArray()) {
+                                    switchDBHelper.insertMyhomedata(myhomeArray);
+                                }
+                                for (MychoiceArray mychoiceArray : serviceData.getData().getMychoiceArray()) {
+                                    switchDBHelper.inserMychoiceData(mychoiceArray);
+                                }
+                                for (LikedmychoiceArray mychoiceArray : serviceData.getData().getLikedmychoiceArray()) {
+                                    switchDBHelper.inserLikedmychoiceData(mychoiceArray);
+                                }
+                                flag = true;
+                                return flag;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Boolean flag) {
+                                super.onPostExecute(flag);
+                            }
+                        }.execute();
+                    }
+                }
+            }
+        }
     }
 }

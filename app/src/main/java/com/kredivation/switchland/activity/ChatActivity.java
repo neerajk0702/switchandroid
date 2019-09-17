@@ -183,7 +183,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                         if (chatlistProgress.isShowing()) {
                             chatlistProgress.dismiss();
                         }
-                        Utility.alertForErrorMessage(Contants.Error, ChatActivity.this);
+                        Toast.makeText(ChatActivity.this, Contants.Error, Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -264,7 +264,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                         if (chatlistProgress.isShowing()) {
                             chatlistProgress.dismiss();
                         }
-                        Utility.alertForErrorMessage(Contants.Error, ChatActivity.this);
+                        Toast.makeText(ChatActivity.this, Contants.Error, Toast.LENGTH_LONG).show();
                     }
                 }
             });

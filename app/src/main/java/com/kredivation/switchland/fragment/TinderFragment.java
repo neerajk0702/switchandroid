@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.activity.DashboardActivity;
+import com.kredivation.switchland.activity.SplashScreenActivity;
 import com.kredivation.switchland.adapters.HomeTinderCardAdapter;
 import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.fragment.likepagelib.KoldaListnerJava;
@@ -36,6 +37,8 @@ import com.kredivation.switchland.model.Data;
 import com.kredivation.switchland.model.FilterHome;
 import com.kredivation.switchland.model.Home_data;
 import com.kredivation.switchland.model.Home_liked_disliked;
+import com.kredivation.switchland.model.LikedmychoiceArray;
+import com.kredivation.switchland.model.MychoiceArray;
 import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.model.ServiceContentData;
 import com.kredivation.switchland.utilities.ASTProgressBar;
@@ -329,6 +332,7 @@ public class TinderFragment extends Fragment {
                 userId = data.getId();
             }
             getAllHome();
+
         }
     }
 

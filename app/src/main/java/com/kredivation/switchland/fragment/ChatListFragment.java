@@ -285,6 +285,7 @@ public class ChatListFragment extends Fragment implements SwipeRefreshLayout.OnR
                 dotDialog.dismiss();
             }
         }
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
