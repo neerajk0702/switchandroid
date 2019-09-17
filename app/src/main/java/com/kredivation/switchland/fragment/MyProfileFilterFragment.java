@@ -44,6 +44,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -565,6 +566,11 @@ public class MyProfileFilterFragment extends Fragment implements View.OnClickLis
         String myFormat = "yyyy-MM-dd"; //In which you need put here
         final SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         final Calendar myCalendar = Calendar.getInstance();
+        try {
+            Date sdate = sdf.parse(startDate);
+            myCalendar.setTime(sdate);
+        } catch (ParseException e) {
+        }
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -589,6 +595,11 @@ public class MyProfileFilterFragment extends Fragment implements View.OnClickLis
         String myFormat = "yyyy-MM-dd"; //In which you need put here
         final SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         final Calendar myCalendar = Calendar.getInstance();
+        try {
+            Date sdate = sdf.parse(endDate);
+            myCalendar.setTime(sdate);
+        } catch (ParseException e) {
+        }
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
             @Override

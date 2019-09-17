@@ -45,6 +45,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -229,9 +230,15 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
     }
 
     public void setStartDate() {
+
         String myFormat = "yyyy-MM-dd"; //In which you need put here
         final SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         final Calendar myCalendar = Calendar.getInstance();
+        try {
+            Date sdate = sdf.parse(startDateStr);
+            myCalendar.setTime(sdate);
+        } catch (ParseException e) {
+        }
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -262,6 +269,11 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
         String myFormat = "yyyy-MM-dd"; //In which you need put here
         final SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         final Calendar myCalendar = Calendar.getInstance();
+        try {
+           Date sdate = sdf.parse(enddateStr);
+            myCalendar.setTime(sdate);
+        } catch (ParseException e) {
+        }
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
             @Override

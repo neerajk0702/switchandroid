@@ -421,10 +421,10 @@ public class ConfirmDetailActivity extends AppCompatActivity implements View.OnC
             securtyhoster.setText(details.getLevel_security());
             Picasso.with(ConfirmDetailActivity.this).load(details.getProfile_image()).placeholder(R.drawable.noimage).into(hosterhomeImage);
 
-            if (Integer.parseInt(userSecurity) < Integer.parseInt(details.getLevel_security())) {
-                Utility.alertForErrorMessage("Hoster Security Level is high as compare to you!", ConfirmDetailActivity.this);
-            } else if (Integer.parseInt(userSecurity) > Integer.parseInt(details.getLevel_security())) {
+            if (Integer.parseInt(details.getLevel_security())>Integer.parseInt(userSecurity)) {
                 Utility.alertForErrorMessage("Your Security Level is high as compare to Hoster!", ConfirmDetailActivity.this);
+            } else {
+                Utility.alertForErrorMessage("Hoster Security Level is high as compare to you!", ConfirmDetailActivity.this);
             }
         }
     }
