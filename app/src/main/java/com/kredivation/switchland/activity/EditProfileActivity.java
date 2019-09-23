@@ -218,7 +218,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                                 if (cityList != null && cityList.size() > 0) {
                                     ArrayAdapter<String> cityAdapter = new ArrayAdapter<String>(EditProfileActivity.this, R.layout.spinner_row, cityList);
                                     citySpinner.setAdapter(cityAdapter);
-                                    citySpinner.setSelection(citySelectPos);
+                                    //citySpinner.setSelection(citySelectPos);
+                                    getSelectedCity(cityId);
                                 }
                             }
                         }
@@ -244,7 +245,16 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-
+    private void getSelectedCity(String cityID) {
+        if (city != null) {
+            for (int i = 0; i < city.length; i++) {
+                if (cityID.equals(city[i].getId())) {
+                    citySpinner.setSelection(i);
+                    break;
+                }
+            }
+        }
+    }
     private void requestFocus(View view) {
         if (view.requestFocus()) {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
