@@ -50,7 +50,7 @@
                             android:layout_height="match_parent"
                             android:gravity="left|center"
                             android:text=""
-                            android:textColor="@color/red"
+                            android:textColor="@color/white"
                             android:textSize="@dimen/_18dp" />
                     </LinearLayout>
                 </RelativeLayout>

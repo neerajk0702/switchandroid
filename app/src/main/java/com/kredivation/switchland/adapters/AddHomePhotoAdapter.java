@@ -2,6 +2,7 @@ package com.kredivation.switchland.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.kredivation.switchland.R;
 import com.kredivation.switchland.model.Homegallery;
@@ -27,10 +29,12 @@ public class AddHomePhotoAdapter extends RecyclerView.Adapter<AddHomePhotoAdapte
     public class MyViewHolder extends RecyclerView.ViewHolder {
         LinearLayout locationLayout;
         ImageView homeimage;
+        TextView textname;
 
         public MyViewHolder(View view) {
             super(view);
             homeimage = view.findViewById(R.id.homeimage);
+            textname = view.findViewById(R.id.textname);
         }
     }
 
@@ -51,8 +55,9 @@ public class AddHomePhotoAdapter extends RecyclerView.Adapter<AddHomePhotoAdapte
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        int count=position+1;
 
-
+        holder.textname.setText("Photo " + count);
         if (locationList.get(position).getPhoto().contains("http")) {
             Picasso.with(mContext).load(locationList.get(position).getPhoto()).into(holder.homeimage);
         } else {

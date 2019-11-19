@@ -25,6 +25,7 @@ import com.kredivation.switchland.model.HomeDetails;
 import com.kredivation.switchland.model.Home_features;
 import com.kredivation.switchland.model.Home_rules;
 import com.kredivation.switchland.model.Homegallery;
+import com.kredivation.switchland.model.MyhomeArray;
 import com.kredivation.switchland.utilities.ASTProgressBar;
 import com.kredivation.switchland.utilities.CompatibilityUtility;
 import com.kredivation.switchland.utilities.Contants;
@@ -73,7 +74,7 @@ public class MyHomeDetailActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void init() {
-        HomeId = getIntent().getStringExtra("HomeId");
+        //HomeId = getIntent().getStringExtra("HomeId");
         EditFlage = getIntent().getBooleanExtra("EditFlage", false);
         Typeface materialdesignicons_font = FontManager.getFontTypefaceMaterialDesignIcons(this, "fonts/materialdesignicons-webfont.otf");
         TextView back = toolbar.findViewById(R.id.back);
@@ -114,6 +115,12 @@ public class MyHomeDetailActivity extends AppCompatActivity implements View.OnCl
                 }
                 emailStr = data.getEmail();
                 phoneStr = data.getMobile_number();
+            }
+            ArrayList<MyhomeArray> myHomeList = switchDBHelper.getAllMyhomedata();
+            if (myHomeList != null && myHomeList.size() > 0) {
+                for (MyhomeArray data : myHomeList) {
+                    HomeId = data.getId();
+                }
             }
             getHomeDetail();
         }

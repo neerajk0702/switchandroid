@@ -20,6 +20,7 @@ import com.kredivation.switchland.activity.EditProfileActivity;
 import com.kredivation.switchland.activity.HelpActivity;
 import com.kredivation.switchland.activity.MyChoicesActivity;
 import com.kredivation.switchland.activity.MyHomeActivity;
+import com.kredivation.switchland.activity.MyHomeDetailActivity;
 import com.kredivation.switchland.activity.MyLikedChoicesActivity;
 import com.kredivation.switchland.activity.NotificationActivity;
 import com.kredivation.switchland.activity.SettingActivity;
@@ -110,7 +111,7 @@ public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } else if (id == 2) {
-            Intent myintent = new Intent(context, MyHomeActivity.class);
+            Intent myintent = new Intent(context, MyHomeDetailActivity.class);
             context.startActivity(myintent);
         } else if (id == 3) {
             Intent choicesintent = new Intent(context, MyChoicesActivity.class);

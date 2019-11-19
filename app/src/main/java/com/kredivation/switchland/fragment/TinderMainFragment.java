@@ -346,7 +346,7 @@ public class TinderMainFragment extends Fragment {
             genderId = filterHome.getGenderId();
             religionId = filterHome.getReligionId();
             travleId = filterHome.getTravleId();
-            travelocationName.setText(filterHome.getTravelCityName() + "," + filterHome.getTravelCountryName());
+            travelocationName.setText(filterHome.getTravelCityName() + ", " + filterHome.getTravelCountryName());
         } else {
             //get posted home details
             ArrayList<MyhomeArray> myHomeList = switchDBHelper.getAllMyhomedata();
@@ -355,7 +355,7 @@ public class TinderMainFragment extends Fragment {
                 endDate = myhomeArray.getEnddate();
                 countryId = myhomeArray.getTravel_country();
                 cityId = myhomeArray.getTravel_city();
-                travelocationName.setText(myhomeArray.getTravel_city_name() + "," + myhomeArray.getTravel_country_name());
+                travelocationName.setText(myhomeArray.getTravel_city_name() + ", " + myhomeArray.getTravel_country_name());
             }
         }
         ArrayList<Data> userData = switchDBHelper.getAllUserInfoList();

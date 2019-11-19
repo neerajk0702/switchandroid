@@ -1,29 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="@dimen/size_150px"
-    android:layout_height="@dimen/size_150px">
+    android:layout_width="@dimen/size_200px"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cardCornerRadius="@dimen/dimValue_4"
-        app:cardElevation="@dimen/dimValue_8"
-        app:cardUseCompatPadding="true">
+        android:layout_height="@dimen/size_250px"
+        android:orientation="vertical">
 
-        <RelativeLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:cardCornerRadius="@dimen/dimValue_4"
+            app:cardElevation="@dimen/dimValue_8"
+            app:cardUseCompatPadding="true">
 
-            <ImageView
-                android:id="@+id/homeimage"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:scaleType="fitXY"
-                android:src="@mipmap/download" />
+                android:layout_height="match_parent">
 
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+                <ImageView
+                    android:id="@+id/homeimage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/download" />
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_9dp"
+        android:layout_marginTop="@dimen/_9dp"
+        android:orientation="vertical">
+        <TextView android:id="@+id/textname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Photo 1"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/dimTextSize_16"/>
+
+        <View
+            android:layout_width="@dimen/size_80px"
+            android:layout_height="@dimen/size_3px"
+            android:layout_marginTop="@dimen/_9dp"
+            android:background="@color/colorAccent"/>
+    </LinearLayout>
 </LinearLayout>

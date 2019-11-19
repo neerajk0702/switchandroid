@@ -56,6 +56,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/_10dp"
             android:layout_below="@+id/app_bar">
 
             <LinearLayout
@@ -371,6 +372,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="@dimen/_20dp"
+                        android:visibility="gone"
                         android:background="@color/gray" />
 
 
@@ -385,6 +387,7 @@
                         android:focusable="true"
                         android:focusableInTouchMode="true"
                         android:gravity="center"
+                        android:visibility="gone"
                         android:orientation="vertical"
                         android:padding="@dimen/_5dp">
 
@@ -517,6 +520,9 @@
 
 
                 </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimValue_40"/>
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>

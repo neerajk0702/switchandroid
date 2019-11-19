@@ -73,7 +73,8 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
     private String travelcityID = "";
     private String travelcountryID = "";
     private String userId;
-
+    String selectedcountryID;
+    String selectedcityID;
 
     String homestyleId, securitId, genderId, religionId, familyId, petsId, typeOfPropertiesId, homeId;
     String sleepsid, bathroomsId, bedroomsId;
@@ -183,6 +184,7 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
                                 if (cityList != null && cityList.size() > 0) {
                                     ArrayAdapter<String> cityAdapter = new ArrayAdapter<String>(TravelRoutineActivity.this, R.layout.spinner_row, cityList);
                                     citySpinner.setAdapter(cityAdapter);
+                                    getSelectedCity(selectedcityID);
                                 }
                             }
                         }
@@ -217,13 +219,13 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
             }
             startDateStr = getIntent().getStringExtra("StartDate");
             enddateStr = getIntent().getStringExtra("EndDate");
-            String countryID = getIntent().getStringExtra("CountryId");//travel country id
-            String cityID = getIntent().getStringExtra("CityId");//travel city id
+             selectedcountryID = getIntent().getStringExtra("CountryId");//travel country id
+             selectedcityID = getIntent().getStringExtra("CityId");//travel city id
             homeId = getIntent().getStringExtra("HomeId");
             enddate.setText(enddateStr);
             etYear.setText(startDateStr);
-            getSelectedCountry(countryID);
-            getSelectedCity(cityID);
+            getSelectedCountry(selectedcountryID);
+            //getSelectedCity(selectedcityID);
         } else {
             getSaveData();//come from edit
         }
@@ -368,11 +370,9 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
                     enddateStr = MyHomedata.getEnddate();
                     enddate.setText(enddateStr);
                     etYear.setText(startDateStr);
-                    String countryID = MyHomedata.getTravel_country();
-                    String cityID = MyHomedata.getTravel_city();
-                    getSelectedCountry(countryID);
-                    getSelectedCity(cityID);
-
+                     selectedcountryID = MyHomedata.getTravel_country();
+                    selectedcityID = MyHomedata.getTravel_city();
+                    getSelectedCountry(selectedcountryID);
                 }
             }
         }
@@ -390,9 +390,9 @@ public class TravelRoutineActivity extends AppCompatActivity implements View.OnC
     }
 
     private void getSelectedCity(String cityID) {
-        if (city != null) {
-            for (int i = 0; i < city.length; i++) {
-                if (cityID.equals(city[i].getId())) {
+        if (cityIdList != null) {
+            for (int i = 0; i < cityIdList.size(); i++) {
+                if (cityID!=null && cityID.equals(cityIdList.get(i))) {
                     citySpinner.setSelection(i);
                     break;
                 }

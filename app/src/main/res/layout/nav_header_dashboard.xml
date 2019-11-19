@@ -55,6 +55,7 @@
             android:layout_marginTop="@dimen/_3dp"
             android:gravity="center_vertical"
             android:text="Welcome's You"
+            android:visibility="gone"
             android:textColor="@color/black"
             android:textSize="@dimen/_10dp" />
     </LinearLayout>

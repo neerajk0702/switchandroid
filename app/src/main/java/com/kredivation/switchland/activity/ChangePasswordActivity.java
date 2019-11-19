@@ -71,8 +71,8 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
         password = findViewById(R.id.password);
         newpassword = findViewById(R.id.newpassword);
         renewpassword = findViewById(R.id.renewpassword);
-        Button loginText = findViewById(R.id.loginText);
-        loginText.setOnClickListener(this);
+        Button save = findViewById(R.id.save);
+        save.setOnClickListener(this);
 
         SwitchDBHelper switchDBHelper = new SwitchDBHelper(ChangePasswordActivity.this);
         ArrayList<Data> userData = switchDBHelper.getAllUserInfoList();
@@ -102,7 +102,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
             Utility.showToast(ChangePasswordActivity.this, "Please Enter Confirm Password.");
             requestFocus(renewpassword);
             return false;
-        } else if (!renewpassword.equals(newpasswordStr)) {
+        } else if (!renewpasswordStr.equals(newpasswordStr)) {
             Utility.showToast(ChangePasswordActivity.this, "New Password and Confirm password not matched.");
             requestFocus(renewpassword);
             return false;
@@ -119,7 +119,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.loginText:
+            case R.id.save:
                 if (isValidate()) {
                     changePassword();
                 }

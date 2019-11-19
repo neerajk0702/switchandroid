@@ -23,10 +23,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kredivation.switchland.R;
+import com.kredivation.switchland.activity.MyChoicesActivity;
 import com.kredivation.switchland.adapters.AddHomePhotoAdapter;
 import com.kredivation.switchland.database.SwitchDBHelper;
 import com.kredivation.switchland.model.HomeDetails;
@@ -121,13 +123,15 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
         previous.setOnClickListener(this);
         LinearLayout nextLayout = (LinearLayout) view.findViewById(R.id.nextLayout);
         nextLayout.setOnClickListener(this);
-        FloatingActionButton addimg = view.findViewById(R.id.addimg);
+        ImageView addimg = view.findViewById(R.id.addimg);
         addimg.setOnClickListener(this);
 
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(false);
-        StaggeredGridLayoutManager gaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(gaggeredGridLayoutManager);
+        //StaggeredGridLayoutManager gaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
+        //recyclerView.setLayoutManager(gaggeredGridLayoutManager);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(mLayoutManager);
         getSaveData();
     }
 
@@ -366,7 +370,9 @@ public class AddHomePhotoFragment extends Fragment implements View.OnClickListen
         Homegallery homegallery = new Homegallery();
         homegallery.setPhoto(imgFile.getAbsolutePath());
         locationList.add(homegallery);
-        mAdapter.notifyDataSetChanged();
+        //mAdapter.notifyDataSetChanged();
+        mAdapter = new AddHomePhotoAdapter(context, locationList);
+        recyclerView.setAdapter(mAdapter);
 
         if (astProgressBar.isShowing()) {
             astProgressBar.dismiss();
