@@ -112,7 +112,7 @@ public class TinderMainFragment extends Fragment {
     String countryId = "";
     String cityId = "";
     ArrayList<Home_data> homeList;
-    ArrayList<Home_data> matchhomeList;
+    //ArrayList<Home_data> matchhomeList;
     FilterHome filterHome;
     String slieepId;
     String bedroomId = "";
@@ -123,6 +123,9 @@ public class TinderMainFragment extends Fragment {
     LinearLayout chatlayout, filterlayout;
     String travelCityName, travelCountryName;
     TextView travelocationName;
+    boolean allCountryHome=false;
+    int pageNo=1;
+    int total_homespage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -173,7 +176,7 @@ public class TinderMainFragment extends Fragment {
             }
         }));
         homeList = new ArrayList();
-        matchhomeList = new ArrayList<>();
+        //matchhomeList = new ArrayList<>();
         this.initializeDeck();
         this.setUpCLickListeners();
         getUserdata();
@@ -323,8 +326,8 @@ public class TinderMainFragment extends Fragment {
 
     private void likeDislike(String status, int pos) {
         // int position=pos-1;
-        if (matchhomeList != null && matchhomeList.size() > 0) {
-            Home_data homeData = matchhomeList.get(0);
+        if (homeList != null && homeList.size() > 0) {
+            Home_data homeData = homeList.get(0);
             if (homeData != null) {
                 getLikeDislikCard(homeData.getId(), homeData.getUser_id(), status, 0);
             }
@@ -379,6 +382,12 @@ public class TinderMainFragment extends Fragment {
                 object.put("startdate", startDate);
                 object.put("enddate", endDate);
                 object.put("country_id", countryId);
+                object.put("page", pageNo);
+                if(allCountryHome){
+                    object.put("city_exclude_id", cityId);
+                }else {
+                    object.put("city_id", cityId);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -413,17 +422,14 @@ public class TinderMainFragment extends Fragment {
                         new AsyncTask<Void, Void, Boolean>() {
                             @Override
                             protected Boolean doInBackground(Void... voids) {
+                                total_homespage=serviceData.getTotal_homes();
                                 Boolean flag = false;
                                 Home_data[] home_data = serviceData.getData().getHome_data();
                                 Home_liked_disliked[] home_liked_disliked = serviceData.getData().getHome_liked_disliked();
                                 if (home_data != null) {
-                                    homeList.clear();
-                                    //  matchhomeList.clear();
+                                    //homeList.clear();
                                     for (Home_data homeData : home_data) {
-                                        if (!checkedHomeLikeOrNot(home_liked_disliked, homeData.getId())) {
-                                            homeList.add(homeData);
-                                        }
-                                        //homeList.add(homeData);
+                                        homeList.add(homeData);
                                     }
                                 }
                                 flag = true;
@@ -450,27 +456,10 @@ public class TinderMainFragment extends Fragment {
 
     //remove home from list aftre like dislike
     private void removeMasterListData(int pos) {
-        String homeId = matchhomeList.get(pos).getId();
-        for (int i = 0; i < homeList.size(); i++) {
-            if (homeList.get(i).getId().equals(homeId)) {
-                homeList.remove(i);
-            }
+        homeList.remove(pos);
+        if (homeList != null && homeList.size() == 0) {
+            alertForNoHomeAvailable();
         }
-        matchhomeList.remove(pos);
-        boolean homeFlag = true;
-        if (homeList != null && homeList.size() > 0) {
-            for (Home_data homeData : homeList) {
-                if (homeData.getCity_id().equals(cityId)) {
-                    homeFlag = false;
-                }
-            }
-            if (matchhomeList.size() == 0) {
-                if (homeFlag) {
-                    alertForNoHomeAvailable();
-                }
-            }
-        }
-
     }
 
     //check home like dislike or not
@@ -489,19 +478,8 @@ public class TinderMainFragment extends Fragment {
 
     //show only same city home
     private void getCityWiseHome() {
-
         if (homeList != null && homeList.size() > 0) {
-            for (Home_data homeData : homeList) {
-                if (homeData.getCity_id().equals(cityId)) {
-                    matchhomeList.add(homeData);
-                }
-            }
-            if (matchhomeList.size() == 0 && homeList.size() > 0) {//check if not match available and other city home available then show popup
-                alertForNoHomeAvailable();
-            } else {
-                setAdapterValue(matchhomeList);
-                //cardAdapter.notifyDataSetChanged();
-            }
+            setAdapterValue(homeList);
         }
     }
 
@@ -519,17 +497,27 @@ public class TinderMainFragment extends Fragment {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                matchhomeList.addAll(homeList);
-                if (matchhomeList != null && matchhomeList.size() > 0) {
+               // matchhomeList.addAll(homeList);
+                if(pageNo==total_homespage){
+                    allCountryHome=true;
+                    pageNo=1;
+                    getAllHome();
+                }else {
+                    pageNo=pageNo+1;
+                    getAllHome();
+                }
+                /*if (matchhomeList != null && matchhomeList.size() > 0) {
                     //   ((KoldaMain) view.findViewById(R.id.koloda))._$_clearFindViewByIdCache();
                     //((KoldaMain) view.findViewById(R.id.koloda)).removeAllViews();
-                    setAdapterValue(matchhomeList);
+                   // setAdapterValue(matchhomeList);
                     //cardAdapter.notifyDataSetChanged();
                     Intent intent = new Intent(context, DashboardActivity.class);
                     intent.putExtra("HomeFilter", homeFilter);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     //startActivity(intent);
-                }
+
+
+                }*/
                 alert.dismiss();
             }
         });
@@ -596,7 +584,7 @@ public class TinderMainFragment extends Fragment {
                             // getAllHome();
                             Intent intent = new Intent(getActivity(), DashboardActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
+                            //startActivity(intent);
                         }
                     }
                 }

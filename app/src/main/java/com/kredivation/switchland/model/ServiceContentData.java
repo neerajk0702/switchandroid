@@ -77,6 +77,15 @@ public class ServiceContentData {
         this.id = id;
     }
 
+private int total_homes;
+
+    public int getTotal_homes() {
+        return total_homes;
+    }
+
+    public void setTotal_homes(int total_homes) {
+        this.total_homes = total_homes;
+    }
 
     @Override
     public String toString() {

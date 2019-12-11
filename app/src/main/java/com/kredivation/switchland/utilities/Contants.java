@@ -42,6 +42,8 @@ public class Contants {
     public static String socialLogin = "socialLogin";
     public static String user_activity = "user_activity";
     public static String deletehome = "deletehome";
+    public static String deletehomeimage = "deletehomeimage";
+
 
 
 }
